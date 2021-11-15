@@ -3,6 +3,7 @@
     "**/.env/**": true,
     "**/.git/**": true,
     "**/.tox/**": true,
-    "**/.mypy_cache/**": true
+    "**/.mypy_cache/**": true,
+    "**/docs/build/**": true
   }
 }
