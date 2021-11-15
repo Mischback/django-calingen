@@ -2,6 +2,7 @@ default_language_version:
   python: python3.9
 
 exclude: '^.*/migrations/.*$'
+fail_fast: true
 
 minimum_pre_commit_version: '1.14.0'
 
@@ -33,3 +34,15 @@ repos:
     rev: 1.7.0
     hooks:
       - id: bandit
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.5.0
+    hooks:
+       # let all files end with a single new line (this *should be ensured by
+       # .editorconf already)
+     - id: end-of-file-fixer
+       # remove all trailing whitespaces (this *should* be ensured by
+       # .editorconf already)
+     - id: trailing-whitespace
+       # provide uniform line endings for the project ('lf')
+     - id: mixed-line-ending
+       args: [--fix, lf]
