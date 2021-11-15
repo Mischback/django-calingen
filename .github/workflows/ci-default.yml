@@ -56,7 +56,7 @@ jobs:
       - name: Prepare coverage result
         run: |
           coverage combine --append
-          coveragepy-lcov
+          # coveragepy-lcov
       -name: Report to coveralls
         uses: coverallsapp/github-action@master
         with:
