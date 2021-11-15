@@ -1,0 +1,7 @@
+{
+  "files.watcherExclude": {
+    "**/.env/**": true,
+    "**/.git/**": true,
+    "**/.tox/**": true
+  }
+}
