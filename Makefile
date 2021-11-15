@@ -10,6 +10,17 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 
+test_command ?= ""
+dev/test :
+	tox -q -e testing -- $(test_command)
+.PHONY : dev/test
+
+test_tag ?= "current"
+dev/test/tag :
+	$(MAKE) dev/test test_command="-t $(test_tag)"
+.PHONY : dev/test/tag
+
+
 # ### Django management commands
 
 django_command ?= "version"

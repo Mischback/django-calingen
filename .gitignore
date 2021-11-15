@@ -10,3 +10,6 @@ tests/test.sqlite
 
 # ignore Sphinx's build directory
 docs/build
+
+# ignore coverage-temporary files
+.coverage.*

@@ -1,3 +1,22 @@
+[tool.coverage.run]
+branch = true
+source = [
+  "calingen",
+  "tests"
+]
+omit = [
+  "*/__init__.py",
+  "*/migrations/*",
+  "*/tests/util/*",
+  "*/tests/runtests.py"
+]
+
+[tool.coverage.report]
+precision = 1
+show_missing = true
+fail_under = 95
+
+
 [tool.isort]
 profile = "black"
 # include_trailing_comma = true # included in profile "black" & "django"
@@ -84,7 +103,7 @@ commands =
 [testenv:util]
 basepython = python3
 deps =
-  coverage
+  coverage[toml]
   pre-commit
 envdir = {toxworkdir}/util
 setenv =
@@ -116,4 +135,14 @@ setenv = {[testenv:sphinx]setenv}
 skip_install = {[testenv:sphinx]skip_install}
 commands =
   python -m http.server {posargs:8082}
+
+[testenv:testing]
+basepython = {[testenv:django]basepython}
+deps =
+  {[testenv:django]deps}
+  coverage[toml]
+envdir = {toxworkdir}/testing
+setenv = {[testenv:django]setenv}
+skip_install = {[testenv:django]skip_install}
+commands = coverage run --parallel tests/runtests.py {posargs}
 """
