@@ -52,6 +52,9 @@ warn_unused_ignores = true
 warn_return_any = true
 warn_unreachable = true
 
+[tool.django-stubs]
+django_settings_module = "tests.util.settings_dev"
+
 
 [tool.tox]
 legacy_tox_ini = """

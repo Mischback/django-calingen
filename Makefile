@@ -16,6 +16,10 @@ django :
 	tox -q -e django -- $(django_command)
 .PHONY : django
 
+django/check :
+	$(MAKE) django django_command="check"
+.PHONY : django/check
+
 # ### utility targets
 
 util/bandit :
