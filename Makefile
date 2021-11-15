@@ -9,6 +9,7 @@ MAKEFLAGS += --no-print-directory
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
+
 # ### Django management commands
 
 django_command ?= "version"
@@ -39,6 +40,7 @@ django/shell :
 	$(MAKE) django django_command="shell"
 .PHONY : django/shell
 
+
 # ### utility targets
 
 util/bandit :
@@ -65,3 +67,14 @@ pre-commit_id ?= ""
 util/pre-commit :
 	tox -q -e util -- pre-commit run $(pre-commit_id)
 .PHONY : util/pre-commit
+
+
+# ### Sphinx-related commands
+
+sphinx/build/html :
+	tox -q -e sphinx
+.PHONY : sphinx/build/html
+
+sphinx/serve/html : sphinx/build/html
+	tox -q -e sphinx-serve
+.PHONY : sphinx/serve/html

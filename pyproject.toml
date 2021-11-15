@@ -52,7 +52,11 @@ warn_unused_ignores = true
 warn_return_any = true
 warn_unreachable = true
 
+
 [tool.django-stubs]
+# django-stubs provide type information for Django
+# it is included as additional dependency for the pre-commit hook, but needs
+# this configuration value
 django_settings_module = "tests.util.settings_dev"
 
 
@@ -88,4 +92,28 @@ setenv =
 skip_install = true
 commands =
   {posargs:pre-commit run}
+
+[testenv:sphinx]
+basepython = {[testenv:util]basepython}
+changedir = {toxinidir}/docs
+deps =
+  -r {toxinidir}/requirements/documentation.txt
+envdir = {toxworkdir}/sphinx
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+skip_install = true
+whitelist_externals =
+  make
+commands =
+  {posargs:make html}
+
+[testenv:sphinx-serve]
+basepython = {[testenv:sphinx]basepython}
+changedir = {toxinidir}/docs/build/html
+deps = {[testenv:sphinx]deps}
+envdir = {[testenv:sphinx]envdir}
+setenv = {[testenv:sphinx]setenv}
+skip_install = {[testenv:sphinx]skip_install}
+commands =
+  python -m http.server {posargs:8082}
 """

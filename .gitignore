@@ -7,3 +7,6 @@
 # while runnning the app from the tox environment, data is stored in a sqlite
 # database stored in tests/test.sqlite
 tests/test.sqlite
+
+# ignore Sphinx's build directory
+docs/build
