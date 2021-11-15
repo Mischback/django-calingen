@@ -10,8 +10,9 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Run linters
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
@@ -38,16 +39,39 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-    - uses: actions/checkout@v2
-    - name: OS ${{ matrix.platform }} - Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install tox tox-gh-actions
-    - name: Run tests with tox
-      run: tox
-      env:
-        PLATFORM: ${{ matrix.platform }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup OS ${{ matrix.platform }} - Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install tox tox-gh-actions coveragepy-lcov
+      - name: Run tests with tox
+        run: tox
+        env:
+          PLATFORM: ${{ matrix.platform }}
+      - name: Prepare coverage result
+        run: |
+          coverage combine --append
+          coveragepy-lcov --output_file_path ./build/lcov.info
+      -name: Report to coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: OS-${{ matrix.os }}_Python-${{ matrix.python-version }}
+          path-to-lcov: ./build/lcov.info
+          parallel: true
+
+  reporting:
+    needs: testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finish coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./build/lcov.info
+          parallel-finished: true
