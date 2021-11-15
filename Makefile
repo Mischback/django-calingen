@@ -15,6 +15,10 @@ util/black :
 	$(MAKE) util/pre-commit pre-commit_id="black"
 .PHONY : util/black
 
+util/flake8 :
+	$(MAKE) util/pre-commit pre-commit_id="flake8"
+.PHONY : util/flake8
+
 util/isort :
 	$(MAKE) util/pre-commit pre-commit_id="isort"
 .PHONY : util/isort
