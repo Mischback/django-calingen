@@ -56,13 +56,13 @@ jobs:
       - name: Prepare coverage result
         run: |
           coverage combine --append
-          coveragepy-lcov --output_file_path build/lcov.info
+          coveragepy-lcov
       -name: Report to coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: OS-${{ matrix.os }}_Python-${{ matrix.python-version }}
-          path-to-lcov: build/lcov.info
+          path-to-lcov: lcov.info
           parallel: true
 
   reporting:
@@ -73,5 +73,5 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: build/lcov.info
+          path-to-lcov: lcov.info
           parallel-finished: true
