@@ -53,7 +53,7 @@ jobs:
         run: tox
         env:
           PLATFORM: ${{ matrix.platform }}
-      - name: Prepare coverage result
+      - name: Prepare coverage[toml] result
         run: |
           coverage combine --append
           coveralls
