@@ -13,3 +13,4 @@ docs/build
 
 # ignore coverage-temporary files
 .coverage.*
+.coverage

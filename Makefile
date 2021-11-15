@@ -10,6 +10,19 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 
+clean :
+	- tox -q -e util -- coverage erase
+	rm -rf docs/build/*
+	find . -iname "*.pyc" -delete
+	find . -iname "__pycache__" -delete
+	find . -iname ".coverage.*" -delete
+.PHONY : clean
+
+dev/coverage : clean dev/test
+	- tox -q -e util -- coverage combine
+	tox -q -e util -- coverage report
+.PHONY : dev/coverage
+
 test_command ?= ""
 dev/test :
 	tox -q -e testing -- $(test_command)
