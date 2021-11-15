@@ -3,3 +3,7 @@
 
 # tox's virtual environments
 .tox
+
+# while runnning the app from the tox environment, data is stored in a sqlite
+# database stored in tests/test.sqlite
+tests/test.sqlite

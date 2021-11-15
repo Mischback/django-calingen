@@ -20,6 +20,15 @@ django/check :
 	$(MAKE) django django_command="check"
 .PHONY : django/check
 
+django/migrate :
+	$(MAKE) django django_command="migrate"
+.PHONY : django/migrate
+
+host_port ?= "0:8000"
+django/runserver : django/migrate
+	$(MAKE) django django_command="runserver $(host_port)"
+.PHONY : django/runserver
+
 # ### utility targets
 
 util/bandit :
