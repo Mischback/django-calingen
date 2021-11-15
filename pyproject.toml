@@ -1,0 +1,23 @@
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist =
+  util
+
+skipsdist = true
+skip_missing_interpreters = true
+minversion = 3.24.0
+
+[testenv:util]
+basepython = python3
+deps =
+  coverage
+  pre-commit
+envdir = {toxworkdir}/util
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+skip_install = true
+commands =
+  {posargs:pre-commit run}
+"""
