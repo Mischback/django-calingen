@@ -29,6 +29,10 @@ django/runserver : django/migrate
 	$(MAKE) django django_command="runserver $(host_port)"
 .PHONY : django/runserver
 
+django/shell :
+	$(MAKE) django django_command="shell"
+.PHONY : django/shell
+
 # ### utility targets
 
 util/bandit :
