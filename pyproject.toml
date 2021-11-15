@@ -63,6 +63,17 @@ skipsdist = true
 skip_missing_interpreters = true
 minversion = 3.24.0
 
+[testenv:django]
+basepython = python3
+deps =
+  -r {toxinidir}/requirements/development.txt
+envdir = {toxworkdir}/django
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+skip_install = true
+commands =
+  django-admin {posargs:version} --settings=tests.util.settings_dev --pythonpath=./
+
 [testenv:util]
 basepython = python3
 deps =

@@ -9,6 +9,13 @@ MAKEFLAGS += --no-print-directory
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
+# ### Django management commands
+
+django_command ?= "version"
+django :
+	tox -q -e django -- $(django_command)
+.PHONY : django
+
 # ### utility targets
 
 util/bandit :
