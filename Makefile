@@ -20,6 +20,12 @@ django/check :
 	$(MAKE) django django_command="check"
 .PHONY : django/check
 
+# Create the migrations for the app to be developed!
+# TODO: The app name is hardcoded here!
+django/makemigrations :
+	$(MAKE) django django_command="makemigrations calingen"
+.PHONY : django/makemigrations
+
 django/migrate :
 	$(MAKE) django django_command="migrate"
 .PHONY : django/migrate
