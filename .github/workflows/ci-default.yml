@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [dev-setup]
+  pull_request:
+    branches: [dev-setup]
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run linters
+      - uses: actions/setup-pyhton@v2
+        with:
+          python-version: 3.9
+      - run: |
+          make util/black
+          make util/mypy
+          make util/flake8
+          make util/bandit
+
+
+  testing:
+    needs: linting
+    strategy:
+      matrix:
+        platform: [ubuntu-latest windows-latest]
+        python-version: [3.6, 3.7, 3.8, 3.9, 3.10]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: OS ${{ matrix.platform }} - Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox tox-gh-actions
+    - name: Run tests with tox
+      run: tox
+      env:
+        PLATFORM: ${{ matrix.platform }}
