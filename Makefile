@@ -68,28 +68,29 @@ django/shell :
 # ### utility targets
 
 util/bandit :
-	$(MAKE) util/pre-commit pre-commit_id="bandit"
+	$(MAKE) util/pre-commit pre-commit_id="bandit" pre-commit_files="--all-files"
 .PHONY : util/bandit
 
 util/black :
-	$(MAKE) util/pre-commit pre-commit_id="black"
+	$(MAKE) util/pre-commit pre-commit_id="black" pre-commit_files="--all-files"
 .PHONY : util/black
 
 util/flake8 :
-	$(MAKE) util/pre-commit pre-commit_id="flake8"
+	$(MAKE) util/pre-commit pre-commit_id="flake8" pre-commit_files="--all-files"
 .PHONY : util/flake8
 
 util/isort :
-	$(MAKE) util/pre-commit pre-commit_id="isort"
+	$(MAKE) util/pre-commit pre-commit_id="isort" pre-commit_files="--all-files"
 .PHONY : util/isort
 
 util/mypy :
-	$(MAKE) util/pre-commit pre-commit_id="mypy"
+	$(MAKE) util/pre-commit pre-commit_id="mypy" pre-commit_files="--all-files"
 .PHONY : util/mypy
 
 pre-commit_id ?= ""
+pre-commit_files ?= ""
 util/pre-commit :
-	tox -q -e util -- pre-commit run $(pre-commit_id)
+	tox -q -e util -- pre-commit run $(pre-commit_files) $(pre-commit_id)
 .PHONY : util/pre-commit
 
 

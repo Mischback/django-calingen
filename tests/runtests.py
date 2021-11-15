@@ -20,6 +20,7 @@ It can't be run on certain modules only, but on given tags.
 import argparse
 import os
 import sys
+from typing import List
 
 # Django imports
 import django
@@ -111,7 +112,7 @@ def app_tests(
     disable_optimisation: bool,
     enable_migrations: bool,
     enable_timing: bool,
-    tags: list[str],
+    tags: List[str],
     verbosity: int,
 ) -> int:
     """Get the TestRunner and runs the tests."""
