@@ -1,3 +1,4 @@
+# ### COVERAGE ###
 [tool.coverage.run]
 branch = true
 source = [
@@ -17,6 +18,7 @@ show_missing = true
 fail_under = 95
 
 
+# ### ISORT ###
 [tool.isort]
 profile = "black"
 # include_trailing_comma = true # included in profile "black" & "django"
@@ -52,6 +54,7 @@ skip_glob = [
 ]
 
 
+# ### MYPY ###
 [tool.mypy]
 python_version = "3.9"
 warn_unused_configs = true
@@ -71,7 +74,6 @@ warn_unused_ignores = true
 warn_return_any = true
 warn_unreachable = true
 
-
 [tool.django-stubs]
 # django-stubs provide type information for Django
 # it is included as additional dependency for the pre-commit hook, but needs
@@ -79,6 +81,7 @@ warn_unreachable = true
 django_settings_module = "tests.util.settings_dev"
 
 
+# ### TOX ###
 [tool.tox]
 legacy_tox_ini = """
 [tox]
