@@ -29,7 +29,7 @@ release = version
 # ### General Configuration
 
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-exclude_patterns
-exclude_patterns = []
+exclude_patterns = []  # type: ignore
 
 # activate extensions
 extensions = [
@@ -86,7 +86,7 @@ autoapi_member_order = "groupwise"
 
 # ##### intersphinx
 
-django_version = ".".join(map(str, django.VERSION[0:2]))
+django_version = ".".join(map(str, django.VERSION[0:2]))  # type: ignore
 python_version = ".".join(map(str, sys.version_info[0:2]))
 intersphinx_mapping = {
     "python": ("https://docs.python.org/" + python_version, None),
@@ -102,7 +102,7 @@ intersphinx_mapping = {
 intersphinx_cache_limit = 90  # days
 
 
-def _add_django_roles(app):
+def _add_django_roles(app):  # type: ignore
     """Adds Django-specific roles to be accessible while linking to Django's documentation.
 
     The roles are actually fetched from Django's own sphinx extension [1]_.
@@ -183,6 +183,6 @@ html_static_path = ["_static"]
 # ### Extension Magic
 
 
-def setup(app):
+def setup(app):  # type: ignore
     """Let this configuration be its own extension."""
     _add_django_roles(app)
