@@ -93,6 +93,10 @@ util/pre-commit :
 	tox -q -e util -- pre-commit run $(pre-commit_files) $(pre-commit_id)
 .PHONY : util/pre-commit
 
+util/pre-commit/update :
+	tox -q -e util -- pre-commit autoupdate
+.PHONY : util/pre-commit/update
+
 
 # ### Sphinx-related commands
 
