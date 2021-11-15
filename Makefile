@@ -11,6 +11,10 @@ MAKEFLAGS += --no-builtin-rules
 
 # ### utility targets
 
+util/bandit :
+	$(MAKE) util/pre-commit pre-commit_id="bandit"
+.PHONY : util/bandit
+
 util/black :
 	$(MAKE) util/pre-commit pre-commit_id="black"
 .PHONY : util/black
