@@ -48,12 +48,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox tox-gh-actions coveralls
+          pip install tox tox-gh-actions coveralls coverage[toml]
       - name: Run tests with tox
         run: tox
         env:
           PLATFORM: ${{ matrix.platform }}
-      - name: Prepare coverage[toml] result
+      - name: Prepare coverage result
         run: |
           coverage combine --append
           coveralls
