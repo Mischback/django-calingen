@@ -1,0 +1,151 @@
+# ### COVERAGE ###
+[tool.coverage.run]
+branch = true
+source = [
+  "calingen",
+  "tests"
+]
+omit = [
+  "*/__init__.py",
+  "*/migrations/*",
+  "*/tests/util/*",
+  "*/tests/runtests.py"
+]
+
+[tool.coverage.report]
+precision = 1
+show_missing = true
+fail_under = 95
+
+
+# ### ISORT ###
+[tool.isort]
+profile = "black"
+# include_trailing_comma = true # included in profile "black" & "django"
+# force_grid_wrap = true # included in profile "black"
+# multi_line_output = 3 # included in profile "black"; 5 in "django"
+# use_parantheses = true # included in profile "black"
+# ensure_newline_before_comments = true # included in profile "black"
+# line_length = 88 # included in profile "black", 79 in "django"
+combine_as_imports = true # included in profile "django"
+default_section = "THIRDPARTY"
+not_skip = "__init__.py"
+
+known_first_party = "calingen"
+known_django = "django"
+sections = [
+  "FUTURE",
+  "STDLIB",
+  "DJANGO",
+  "THIRDPARTY",
+  "FIRSTPARTY",
+  "LOCALFOLDER"
+]
+import_heading_stdlib = "Python imports"
+import_heading_django = "Django imports"
+import_heading_firstparty = "app imports"
+import_heading_localfolder = "local imports"
+import_heading_thirdparty = "external imports"
+skip_glob = [
+  ".env",
+  ".tox",
+  "*/migrations/*",
+  "settings_dev.py"
+]
+
+
+# ### MYPY ###
+[tool.mypy]
+python_version = "3.9"
+warn_unused_configs = true
+
+disallow_any_unimported = false # can't control code outside of this repo
+disallow_any_expr = true
+disallow_any_decorated = true
+disallow_untyped_calls = false # can't control code outside of this repo
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+# warn_no_return = true # true is the default value
+warn_return_any = true
+warn_unreachable = true
+
+[tool.django-stubs]
+# django-stubs provide type information for Django
+# it is included as additional dependency for the pre-commit hook, but needs
+# this configuration value
+django_settings_module = "tests.util.settings_dev"
+
+
+# ### TOX ###
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist =
+  util
+
+skipsdist = true
+skip_missing_interpreters = true
+minversion = 3.24.0
+
+[testenv:django]
+basepython = python3
+deps =
+  -r {toxinidir}/requirements/development.txt
+envdir = {toxworkdir}/django
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+skip_install = true
+commands =
+  django-admin {posargs:version} --settings=tests.util.settings_dev --pythonpath=./
+
+[testenv:util]
+basepython = python3
+deps =
+  coverage[toml]
+  pre-commit
+envdir = {toxworkdir}/util
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+skip_install = true
+commands =
+  {posargs:pre-commit run}
+
+[testenv:sphinx]
+basepython = {[testenv:util]basepython}
+changedir = {toxinidir}/docs
+deps =
+  -r {toxinidir}/requirements/documentation.txt
+envdir = {toxworkdir}/sphinx
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+skip_install = true
+whitelist_externals =
+  make
+commands =
+  {posargs:make html}
+
+[testenv:sphinx-serve]
+basepython = {[testenv:sphinx]basepython}
+changedir = {toxinidir}/docs/build/html
+deps = {[testenv:sphinx]deps}
+envdir = {[testenv:sphinx]envdir}
+setenv = {[testenv:sphinx]setenv}
+skip_install = {[testenv:sphinx]skip_install}
+commands =
+  python -m http.server {posargs:8082}
+
+[testenv:testing]
+basepython = {[testenv:django]basepython}
+deps =
+  {[testenv:django]deps}
+  coverage[toml]
+envdir = {toxworkdir}/testing
+setenv = {[testenv:django]setenv}
+skip_install = {[testenv:django]skip_install}
+commands = coverage run --parallel tests/runtests.py {posargs}
+"""

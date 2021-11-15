@@ -1,0 +1,18 @@
+[flake8]
+exclude =
+    .git,
+    .tox,
+    docs/source/conf.py,
+    migrations,
+    settings_dev.py,
+
+# as per Django's Coding Style
+# see https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
+# When using 'black', max line length will be capped at 88.
+max-line-length = 119
+
+ignore =
+    # as per Django's Coding Style
+    W601,
+    # line break before binary operator
+    W503,
