@@ -1,3 +1,37 @@
+[tool.isort]
+profile = "black"
+# include_trailing_comma = true # included in profile "black" & "django"
+# force_grid_wrap = true # included in profile "black"
+# multi_line_output = 3 # included in profile "black"; 5 in "django"
+# use_parantheses = true # included in profile "black"
+# ensure_newline_before_comments = true # included in profile "black"
+# line_length = 88 # included in profile "black", 79 in "django"
+combine_as_imports = true # included in profile "django"
+default_section = "THIRDPARTY"
+not_skip = "__init__.py"
+
+known_first_party = "calingen"
+known_django = "django"
+sections = [
+  "FUTURE",
+  "STDLIB",
+  "DJANGO",
+  "THIRDPARTY",
+  "FIRSTPARTY",
+  "LOCALFOLDER"
+]
+import_heading_stdlib = "Python imports"
+import_heading_django = "Django imports"
+import_heading_firstparty = "app imports"
+import_heading_localfolder = "local imports"
+import_heading_thirdparty = "external imports"
+skip_glob = [
+  ".env",
+  ".tox",
+  "*/migrations/*",
+  "settings_dev.py"
+]
+
 
 [tool.mypy]
 python_version = "3.9"
