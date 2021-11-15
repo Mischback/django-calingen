@@ -1,2 +1,5 @@
 # The project's virtual environment
 .env
+
+# tox's virtual environments
+.tox
