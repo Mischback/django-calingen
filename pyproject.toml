@@ -1,4 +1,24 @@
 
+[tool.mypy]
+python_version = "3.9"
+warn_unused_configs = true
+
+disallow_any_unimported = false # can't control code outside of this repo
+disallow_any_expr = true
+disallow_any_decorated = true
+disallow_untyped_calls = false # can't control code outside of this repo
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+# warn_no_return = true # true is the default value
+warn_return_any = true
+warn_unreachable = true
+
+
 [tool.tox]
 legacy_tox_ini = """
 [tox]

@@ -5,6 +5,7 @@
 # some make settings
 .SILENT :
 .DELETE_ON_ERROR :
+MAKEFLAGS += --no-print-directory
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
@@ -13,6 +14,10 @@ MAKEFLAGS += --no-builtin-rules
 util/black :
 	$(MAKE) util/pre-commit pre-commit_id="black"
 .PHONY : util/black
+
+util/mypy :
+	$(MAKE) util/pre-commit pre-commit_id="mypy"
+.PHONY : util/mypy
 
 pre-commit_id ?= ""
 util/pre-commit :
