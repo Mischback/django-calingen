@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# SPDX-License-Identifier: MIT
+
 """Includes an app-specific test runner.
 
 This test runner heavily relies on Django's DiscoverRunner. In fact, it is very
@@ -58,12 +60,12 @@ def setup(
     if not disable_optimisation:
         # don't test with debugging enabled
         settings.DEBUG = False
-        settings.ALLOWED_HOSTS = []  # type: ignore
+        settings.ALLOWED_HOSTS = []  # type: ignore[misc]
 
         # only use one password hasher (and the fastest one)
         settings.PASSWORD_HASHERS = [
             "django.contrib.auth.hashers.MD5PasswordHasher",
-        ]  # type: ignore
+        ]  # type: ignore[misc]
 
         # turn off logging
         # Python imports
@@ -73,7 +75,7 @@ def setup(
 
         # disable migrations during tests
         if not enable_migrations:
-            # see https://simpleisbetterthancomplex.com/tips/2016/08/19/django-tip-12-disabling-migrations-to-speed-up-unit-tests.html  # noqa
+            # see https://simpleisbetterthancomplex.com/tips/2016/08/19/django-tip-12-disabling-migrations-to-speed-up-unit-tests.html  # noqa: E501
             settings.MIGRATION_MODULES = DisableMigrations()
             if verbosity >= 2:
                 print("Testing without applied migrations.")
@@ -91,18 +93,18 @@ def setup(
         # Django imports
         from django import test
 
-        def setUp(self):  # type: ignore
+        def setUp(self):  # type: ignore[no-untyped-def]
             self.start_time = time.time()
 
-        def tearDown(self):  # type: ignore
+        def tearDown(self):  # type: ignore[no-untyped-def]
             total = time.time() - self.start_time
             if total > 0.5:
                 print(
                     "\n\t\033[91m{:.3f}s\t{}\033[0m".format(total, self._testMethodName)
                 )
 
-        test.TestCase.setUp = setUp  # type: ignore
-        test.TestCase.tearDown = tearDown  # type: ignore
+        test.TestCase.setUp = setUp  # type: ignore[assignment]
+        test.TestCase.tearDown = tearDown  # type: ignore[assignment]
 
     # actually build the Django configuration
     django.setup()
@@ -182,18 +184,18 @@ if __name__ == "__main__":
     options = parser.parse_args()
 
     # run tests according to the options
-    if options.settings:  # type: ignore
-        os.environ["DJANGO_SETTINGS_MODULE"] = options.settings  # type: ignore
+    if options.settings:  # type: ignore[misc]
+        os.environ["DJANGO_SETTINGS_MODULE"] = options.settings  # type: ignore[misc]
     else:
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "util.settings_dev")
         options.settings = os.environ["DJANGO_SETTINGS_MODULE"]
 
     failures = app_tests(
-        options.disable_optimisation,  # type: ignore
-        options.enable_migrations,  # type: ignore
-        options.enable_timing,  # type: ignore
-        options.tags,  # type: ignore
-        options.verbosity,  # type: ignore
+        options.disable_optimisation,  # type: ignore[misc]
+        options.enable_migrations,  # type: ignore[misc]
+        options.enable_timing,  # type: ignore[misc]
+        options.tags,  # type: ignore[misc]
+        options.verbosity,  # type: ignore[misc]
     )
 
     if failures:
