@@ -15,3 +15,6 @@ docs/build
 .coverage.*
 .coverage
 lcov.info
+
+# mypy's cache directory
+.mypy_cache

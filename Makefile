@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 # This Makefile is not really a build tool. It provides shortcuts to run certain
 # tasks while developing the application and serves as a convenient way to
 # launch different tools with sane default settings.
@@ -44,6 +46,10 @@ django :
 django/check :
 	$(MAKE) django django_command="check"
 .PHONY : django/check
+
+django/createsuperuser :
+	tox -q -e djangosuperuser
+.PHONY : django/createsuperuser
 
 # Create the migrations for the app to be developed!
 # TODO: The app name is hardcoded here!
@@ -92,6 +98,10 @@ pre-commit_files ?= ""
 util/pre-commit :
 	tox -q -e util -- pre-commit run $(pre-commit_files) $(pre-commit_id)
 .PHONY : util/pre-commit
+
+util/pre-commit/update :
+	tox -q -e util -- pre-commit autoupdate
+.PHONY : util/pre-commit/update
 
 
 # ### Sphinx-related commands

@@ -2,6 +2,8 @@
   "files.watcherExclude": {
     "**/.env/**": true,
     "**/.git/**": true,
-    "**/.tox/**": true
+    "**/.tox/**": true,
+    "**/.mypy_cache/**": true,
+    "**/docs/build/**": true
   }
 }

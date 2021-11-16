@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 # Python imports
 import datetime
 import os
@@ -10,7 +12,7 @@ import django
 sys.path.insert(0, os.path.abspath("../../"))
 
 
-import calingen  # noqa isort:skip
+import calingen  # noqa: isort:skip
 
 
 # for `autodoc`, Django has to be setup (with a minimal setup)
@@ -29,7 +31,7 @@ release = version
 # ### General Configuration
 
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-exclude_patterns
-exclude_patterns = []  # type: ignore
+exclude_patterns = []  # type: ignore[var-annotated]
 
 # activate extensions
 extensions = [
@@ -86,7 +88,7 @@ autoapi_member_order = "groupwise"
 
 # ##### intersphinx
 
-django_version = ".".join(map(str, django.VERSION[0:2]))  # type: ignore
+django_version = ".".join(map(str, django.VERSION[0:2]))  # type: ignore[misc]
 python_version = ".".join(map(str, sys.version_info[0:2]))
 intersphinx_mapping = {
     "python": ("https://docs.python.org/" + python_version, None),
@@ -102,7 +104,7 @@ intersphinx_mapping = {
 intersphinx_cache_limit = 90  # days
 
 
-def _add_django_roles(app):  # type: ignore
+def _add_django_roles(app):  # type: ignore[no-untyped-def]
     """Adds Django-specific roles to be accessible while linking to Django's documentation.
 
     The roles are actually fetched from Django's own sphinx extension [1]_.
@@ -183,6 +185,6 @@ html_static_path = ["_static"]
 # ### Extension Magic
 
 
-def setup(app):  # type: ignore
+def setup(app):  # type: ignore[no-untyped-def]
     """Let this configuration be its own extension."""
     _add_django_roles(app)

@@ -121,6 +121,19 @@ skip_install = true
 commands =
   django-admin {posargs:version} --settings=tests.util.settings_dev --pythonpath=./
 
+[testenv:djangosuperuser]
+basepython = {[testenv:django]basepython}
+deps = {[testenv:django]deps}
+envdir = {[testenv:django]envdir}
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+  DJANGO_SUPERUSER_USERNAME=admin
+  DJANGO_SUPERUSER_EMAIL=admin@root.local
+  DJANGO_SUPERUSER_PASSWORD=foobar
+skip_install = {[testenv:django]skip_install}
+commands =
+  django-admin createsuperuser --noinput --settings=tests.util.settings_dev --pythonpath=./
+
 [testenv:util]
 basepython = python3
 deps =

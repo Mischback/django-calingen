@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 """Contains minimum settings to run the development of the app in a tox-based
 environment."""
 
