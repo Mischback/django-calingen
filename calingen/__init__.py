@@ -7,14 +7,16 @@ __author__ = "Mischback"
 
 __app_name__ = "django-calingen"
 """The name of the applications.
+
 This should be determined dynamically...
 """
 
 __version__ = "0.0.1"
 """The current version."""
 
-default_app_config = "stockings.apps.StockingsConfig"
+default_app_config = "calingen.apps.CalingenConfig"
 """The path to the app's default configuration class.
+
 Consider this *legacy code*. See
 :djangoapi:`Django's documentation<applications/#configuring-applications>` for
 details.
