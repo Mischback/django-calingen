@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 """Provides a minimum url configuration to run the app with Django project."""
 
 # Django imports

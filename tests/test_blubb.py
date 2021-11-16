@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 """Just for linting."""
 
 # Django imports

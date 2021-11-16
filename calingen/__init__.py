@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 """A simple and reusable application to track the progress of a stock portfolio."""
 
 __author__ = "Mischback"

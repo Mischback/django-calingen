@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 # This Makefile is not really a build tool. It provides shortcuts to run certain
 # tasks while developing the application and serves as a convenient way to
 # launch different tools with sane default settings.
