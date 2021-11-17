@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 """Provides the models of the application."""
 
 # app imports

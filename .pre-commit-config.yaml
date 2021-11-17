@@ -24,7 +24,8 @@ repos:
       - id: mypy
         exclude: |
           (?x)^(
-            calingen/models/.*
+            calingen/models/.*|
+            calingen/admin\.py
           )$
         additional_dependencies: [Django, django-stubs]
   # flake8 (linting)
