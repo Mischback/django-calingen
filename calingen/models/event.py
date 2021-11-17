@@ -5,6 +5,7 @@
 # Django imports
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -111,3 +112,13 @@ class Event(models.Model):
         return "[{}] [{}] {} - {}".format(
             self.type, self.owner, self.title, self.start
         )  # pragma: nocover
+
+    def get_absolute_url(self):
+        """Return the absolute URL for instances of this model.
+
+        Returns
+        -------
+        str
+            The absolute URL for instances of this model.
+        """
+        return reverse("event-detail", args=[self.id])  # pragma: nocover

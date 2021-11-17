@@ -9,6 +9,29 @@ from django.views import generic
 from calingen.models.event import Event
 
 
+class EventDetailView(generic.DetailView):
+    """Provide details of a :class:`calingen.models.event.Event` instance.
+
+    Notes
+    -----
+    This implementation uses Django's generic class-based view
+    :class:`django.views.generic.DetailView`.
+    """
+
+    model = Event
+    """Required attribute to tie this view to the model."""
+
+    context_object_name = "event_item"
+    """Provide a semantic name for the built-in context."""
+
+    pk_url_kwarg = "event_id"
+    """The name of the keyword argument as provided in the app's url configuration.
+
+    By default, this is simply ``"pk"``, but for clarity, the app's url
+    configuration (:mod:`calingen.urls`) uses the more explicit ``"event_id"``.
+    """
+
+
 class EventListView(generic.ListView):
     """Provide a list of :class:`calingen.models.event.Event` instances.
 
