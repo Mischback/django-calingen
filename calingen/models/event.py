@@ -86,6 +86,7 @@ class Event(models.Model):
     type = models.CharField(
         max_length=18,
         choices=EventType.choices,
+        default=EventType.ANNUAL_ANNIVERSARY,
         help_text=_("The type of this event."),
         verbose_name=_("Event Type"),
     )
