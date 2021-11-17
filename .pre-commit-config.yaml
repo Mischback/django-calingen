@@ -22,6 +22,10 @@ repos:
     rev: v0.910-1
     hooks:
       - id: mypy
+        exclude: |
+          (?x)^(
+            calingen/models/.*
+          )$
         additional_dependencies: [Django, django-stubs]
   # flake8 (linting)
   - repo: https://github.com/PyCQA/flake8
