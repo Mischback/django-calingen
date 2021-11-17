@@ -19,6 +19,9 @@ sys.path.append(os.path.normpath(PROJECT_ROOT))
 # Allow all hosts during development
 ALLOWED_HOSTS = ["*"]
 
+# Required setting as per Django 3.2
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 # Database configuration
 DATABASES = {
     "default": {
