@@ -3,6 +3,8 @@
 """Provides views for the :class:`calingen.models.event.Event` model."""
 
 # Django imports
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views import generic
 
 # app imports
@@ -10,6 +12,7 @@ from calingen.models.event import Event
 from calingen.views.mixins import CalingenRestrictToUserMixin
 
 
+@method_decorator(login_required, name="dispatch")
 class EventDetailView(CalingenRestrictToUserMixin, generic.DetailView):
     """Provide details of a :class:`calingen.models.event.Event` instance.
 
@@ -33,6 +36,7 @@ class EventDetailView(CalingenRestrictToUserMixin, generic.DetailView):
     """
 
 
+@method_decorator(login_required, name="dispatch")
 class EventListView(CalingenRestrictToUserMixin, generic.ListView):
     """Provide a list of :class:`calingen.models.event.Event` instances.
 
