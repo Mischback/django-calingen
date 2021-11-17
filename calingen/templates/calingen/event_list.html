@@ -1,5 +1,25 @@
 {% extends "calingen/app_base.html" %}
 
 {% block main %}
-<h1>Event List</h1>
+<h2>Event List</h2>
+
+<section>
+  <table>
+    {% if event_list %}
+    {% for event in event_list %}
+    <tr>
+      <td>
+        <a href="{{ event.get_absolute_url }}">{{ event.title }}</a>
+      </td>
+      <td>{{ event.start }}</td>
+      <td>{{ event.owner }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+      <td>Could not fetch Event list.</td>
+    </tr>
+    {% endif %}
+  </table>
+</section>
 {% endblock %}

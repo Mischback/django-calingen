@@ -20,3 +20,6 @@ class EventListView(generic.ListView):
 
     model = Event
     """Required attribute to tie this view to the model."""
+
+    context_object_name = "event_list"
+    """Provide a semantic name for the built-in context."""
