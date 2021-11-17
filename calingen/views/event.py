@@ -7,9 +7,10 @@ from django.views import generic
 
 # app imports
 from calingen.models.event import Event
+from calingen.views.mixins import CalingenRestrictToUserMixin
 
 
-class EventDetailView(generic.DetailView):
+class EventDetailView(CalingenRestrictToUserMixin, generic.DetailView):
     """Provide details of a :class:`calingen.models.event.Event` instance.
 
     Notes
@@ -32,7 +33,7 @@ class EventDetailView(generic.DetailView):
     """
 
 
-class EventListView(generic.ListView):
+class EventListView(CalingenRestrictToUserMixin, generic.ListView):
     """Provide a list of :class:`calingen.models.event.Event` instances.
 
     Notes

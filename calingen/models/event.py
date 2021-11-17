@@ -9,6 +9,85 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 
+class EventQuerySet(models.QuerySet):
+    """App-specific implementation of :class:`django.db.models.QuerySet`.
+
+    Notes
+    -----
+    This :class:`~django.db.models.QuerySet` implementation provides
+    app-specific augmentations, most notable the ability to filter the result
+    by the :attr:`calingen.models.event.Event.owner` attribute.
+    """
+
+    def default(self):
+        """Return a queryset with annotations.
+
+        Returns
+        -------
+        :class:`django.db.models.QuerySet`
+            The annotated queryset.
+
+        Warnings
+        --------
+        Currently, this method does nothing on its own, but is kept to keep the
+        app's specific QuerySets consistent.
+        """
+        return self
+
+    def filter_by_user(self, user):
+        """Return a queryset filtered by the :attr:`Event.owner <calingen.models.event.Event.owner>` attribute.
+
+        Parameters
+        ----------
+        user :
+            An instance of the project's user model, as specified by
+            :setting:`AUTH_USER_MODEL`.
+
+        Returns
+        -------
+        :class:`django.db.models.QuerySet`
+            The filtered queryset.
+
+        Notes
+        -----
+        Effectively, this method is used to ensure, that any user may only
+        access :class:`~calingen.models.event.Event` objects, that
+        he `owns`. This is the app's way of ensuring `row-level permissions`,
+        because only owners are allowed to view (and modify) their events.
+        """
+        return self.filter(owner=user)
+
+
+class EventManager(models.Manager):
+    """App-/model-specific implementation of :class:`django.db.models.Manager`.
+
+    Notes
+    -----
+    This :class:`~django.db.models.Manager` implementation is used as an
+    additional manager of :class:`~calingen.models.event.Event` (see
+    :attr:`calingen.models.event.Event.calingen_manager`).
+
+    This implementation inherits its functionality from
+    :class:`django.db.models.Manager` and provides identical funtionality.
+    Furthermore, it augments the retrieved objects with additional attributes,
+    using the custom :class:`~django.db.models.QuerySet` implementation
+    :class:`~calingen.models.event.EventQuerySet`.
+    """
+
+    def get_queryset(self):
+        """Use the app-/model-specific :class:`~calingen.models.event.EventQuerySet` by default.
+
+        Returns
+        -------
+        :class:`django.models.db.QuerySet`
+            This queryset is provided by
+            :class:`calingen.models.event.EventQuerySet` and applies its
+            :meth:`~calingen.models.event.EventQuerySet.default` method. The
+            retrieved objects will be annotated with additional attributes.
+        """
+        return EventQuerySet(self.model, using=self._db).default()
+
+
 class Event(models.Model):
     """Represents one event in a user's calender.
 
@@ -23,6 +102,27 @@ class Event(models.Model):
         """Provides the accepted choices for :attr:`calingen.models.event.Event.type`."""
 
         ANNUAL_ANNIVERSARY = "ANNUAL_ANNIVERSARY", _("Annual Anniversary")
+
+    objects = models.Manager()
+    """The model's default manager.
+
+    The default manager is set to :class:`django.db.models.Manager`, which is
+    the default value. In order to add the custom :attr:`calingen_manager` as
+    an *additional* manager, the default manager has to be provided explicitly
+    (see :djangodoc:`topics/db/managers/#default-managers`).
+    """
+
+    calingen_manager = EventManager()
+    """App-/model-specific manager, that provides additional functionality.
+
+    This manager is set to
+    :class:`calingen.models.event.EventManager`. Its implementation provides
+    augmentations of `Event` objects, by annotating them on database level.
+    This will reduce the number of required database queries, if attributes of
+    the object are accessed.
+
+    The manager has to be used explicitly.
+    """
 
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
