@@ -3,6 +3,7 @@
 """Provide the app's central class to store and manage calender entries."""
 
 # Django imports
+from django import forms
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -222,3 +223,48 @@ class Event(models.Model):
             The absolute URL for instances of this model.
         """
         return reverse("event-detail", args=[self.id])  # pragma: nocover
+
+
+class EventForm(forms.ModelForm):
+    """This form is used to validate input for creating and updating `Event` instances.
+
+    Notes
+    -----
+    This form performs validation.
+
+    Furthermore, it is used to seperate the internal data representation from
+    the frontend presentation, i.e. the :attr:`calingen.models.event.Event.start`
+    is internally stored as :py:obj:`datetime.datetime`. However, while
+    rendering the frontend, two fields are used. The values of these fields are
+    combined again (in this class's :meth:`calingen.models.event.EventForm.clean`
+    method) and then re-applied to the created instance in
+    :meth:`calingen.views.event.EventCreateView.form_valid`.
+    """
+
+    start_date = forms.CharField(min_length=8, max_length=10)
+    start_time = forms.CharField(min_length=5, max_length=5, required=False)
+
+    def clean(self):
+        """Clean and process input data.
+
+        Notes
+        -----
+        - determine ``start`` from :attr:`~calingen.models.event.EventForm.start_date`
+          and :attr:`~calingen.models.event.EventForm.start_time`
+        """
+        if self.cleaned_data.get("start_time") != "":
+            self.cleaned_data["start"] = "{} {}".format(
+                self.cleaned_data.get("start_date"), self.cleaned_data.get("start_time")
+            )
+        else:
+            self.cleaned_data["start"] = "{} {}".format(
+                self.cleaned_data.get("start_date"), "00:00"
+            )
+        del self.cleaned_data["start_date"]
+        del self.cleaned_data["start_time"]
+
+        return self.cleaned_data
+
+    class Meta:  # noqa: D106
+        model = Event
+        fields = ["type", "title", "start_date", "start_time"]

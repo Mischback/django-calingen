@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 # app imports
-from calingen.models.event import Event
+from calingen.models.event import Event, EventForm
 from calingen.views.mixins import CalingenRestrictToUserMixin
 
 
@@ -19,29 +19,34 @@ class EventCreateView(LoginRequiredMixin, generic.CreateView):
     This implementation uses Django's generic class-based view
     :class:`django.views.generic.CreateView`.
 
-    As of now, the automatically generated ``ModelForm`` is used. This might be
-    subject to changes, as the generated form might not be sufficient to support
-    the complexer details of the :class:`calingen.models.event.Event` model.
+    The view relies on :class:`calingen.models.event.EventForm` as its
+    ``ModelForm``. This is required to make custom validation logic available.
     """
 
     model = Event
     """Required attribute to tie this view to the model."""
 
-    fields = ["title", "start", "type"]
-    """Required attribute to make the generic ``ModelForm`` work."""
+    form_class = EventForm
+    """Specify which form to use."""
 
     def form_valid(self, form):
         """Override of the default ``form_valid`` method.
 
         Notes
         -----
-        This override enables the ``form`` to automatically tie the
-        :class:`calingen.models.event.Event` instance to be created to the
-        ``request.user``, applying him automatically as value for
+        This method adds additional attributes to the ``form.instance``, most
+        notably it automatically adds the ``request.user`` as the instance's
         :attr:`calingen.models.event.Event.owner` (see
         :djangodoc:`topics/class-based-views/generic-editing/#models-and-request-user`).
+
+        The method is heavily dependent on
+        :class:`calingen.models.event.EventForm` and its
+        :meth:`calingen.models.event.EventForm.clean` method. It applies several
+        of the `cleaned` values to the ``instance``.
         """
+        form.instance.start = form.cleaned_data.get("start")
         form.instance.owner = self.request.user
+
         return super().form_valid(form)
 
 
