@@ -29,7 +29,6 @@ profile = "black"
 # line_length = 88 # included in profile "black", 79 in "django"
 combine_as_imports = true # included in profile "django"
 default_section = "THIRDPARTY"
-not_skip = "__init__.py"
 
 known_first_party = "calingen"
 known_django = "django"
@@ -57,6 +56,9 @@ skip_glob = [
 # ### MYPY ###
 [tool.mypy]
 python_version = "3.9"
+plugins = [
+  "mypy_django_plugin.main"
+]
 warn_unused_configs = true
 
 disallow_any_unimported = false # can't control code outside of this repo
