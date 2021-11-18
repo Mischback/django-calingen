@@ -3,9 +3,24 @@
 {% block page_title %}Event: EventCreateView / EventUpdateView{% endblock page_title %}
 
 {% block main %}
-<form method="post">
+<form method="post" novalidate class="calingen-form">
   {% csrf_token %}
-  {{ form.as_ul }}
-  <input type="submit" value="Submit" />
+
+  {% for hidden_field in form.hidden_fields %}
+    {{ hidden_field }}
+  {% endfor %}
+
+  {% for field in form.visible_fields %}
+    <div class="field-group">
+      {{ field.label_tag }}
+      {{ field }}
+      {% if field.help_text %}
+        <small>{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+  <button type="submit">Add Event</button>
+  <button type="reset">Cancel</button>
 </form>
 {% endblock main %}
