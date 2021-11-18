@@ -16,6 +16,15 @@
       body {
         background: #333;
       }
+      #calingen_nav {
+        background-color: #ccc;
+      }
+      #calingen_nav div {
+        float: left;
+      }
+      #calingen_nav br {
+        clear: both;
+      }
       #calingen_main {
         background: #eee;
         padding: 1em;
@@ -40,6 +49,22 @@
     </style>
   </head>
   <body>
+    <div id="calingen_nav">
+      <div>
+        <ul>
+          <li><a href="{% url "event-list" %}">Event List</a></li>
+          <li><a href="{% url "event-add" %}">Add Event</a></li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><a href="{% url "admin:index" %}">Admin</a></li>
+          <li><a href="{% url "admin:app_list" "calingen" %}">Admin (CalInGen)</a></li>
+          <li><a href="{% url "admin:app_list" "auth" %}">Admin (Auth)</a></li>
+        </ul>
+      </div>
+      <br />
+    </div>
     <div id="calingen_main">
 {% block main %}
 foobar
