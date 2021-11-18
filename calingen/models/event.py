@@ -9,6 +9,9 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+# app imports
+from calingen.forms.fields.datetime import SplitDateTimeOptionalField
+
 
 class EventQuerySet(models.QuerySet):
     """App-specific implementation of :class:`django.db.models.QuerySet`.
@@ -241,7 +244,7 @@ class EventForm(forms.ModelForm):
     :meth:`calingen.views.event.EventCreateView.form_valid`.
     """
 
-    start = forms.SplitDateTimeField()
+    start = SplitDateTimeOptionalField()
 
     class Meta:  # noqa: D106
         model = Event
