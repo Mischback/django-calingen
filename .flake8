@@ -5,6 +5,7 @@ exclude =
     docs/source/conf.py,
     migrations,
     settings_dev.py,
+    settings_test.py,
 
 # as per Django's Coding Style
 # see https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
