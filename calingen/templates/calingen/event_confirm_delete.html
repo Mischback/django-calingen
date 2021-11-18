@@ -1,0 +1,8 @@
+{% extends "calingen/app_base.html" %}
+
+{% block main %}
+<form method="post">{% csrf_token %}
+  <p>Are you sure you want to delete "{{ event_item }}"?</p>
+  <input type="submit" value="Confirm">
+</form>
+{% endblock %}
