@@ -7,8 +7,14 @@ from django.contrib import admin
 
 # app imports
 from calingen.models.event import Event
+from calingen.models.profile import Profile
 
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):  # noqa: D101
+    pass
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):  # noqa: D101
     pass
