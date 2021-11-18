@@ -18,6 +18,11 @@ show_missing = true
 fail_under = 95
 
 
+# ### DJLINT ###
+[tool.djlint]
+ignore = "T028"
+
+
 # ### ISORT ###
 [tool.isort]
 profile = "black"
