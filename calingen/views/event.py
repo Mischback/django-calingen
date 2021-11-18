@@ -89,3 +89,12 @@ class EventListView(CalingenRestrictToUserMixin, LoginRequiredMixin, generic.Lis
 
     context_object_name = "event_list"
     """Provide a semantic name for the built-in context."""
+
+
+class EventUpdateView(CalingenRestrictToUserMixin, LoginRequiredMixin, generic.UpdateView):
+
+    model = Event
+
+    form_class = EventForm
+
+    pk_url_kwarg = "event_id"

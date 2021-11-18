@@ -244,6 +244,13 @@ class EventForm(forms.ModelForm):
     start_date = forms.CharField(min_length=8, max_length=10)
     start_time = forms.CharField(min_length=5, max_length=5, required=False)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if kwargs["instance"] is not None:
+            self.fields["start_date"].initial = "foo"
+            self.fields["start_time"].initial = "bar"
+
     def clean(self):
         """Clean and process input data.
 
