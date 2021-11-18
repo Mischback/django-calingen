@@ -7,5 +7,31 @@
 
 <section>
   <h3>{{ event_item.title }}</h3>
+
+  <table>
+    <tr>
+      <td>Title:</td>
+      <td>{{ event_item.title }}</td>
+    </tr>
+    <tr>
+      <td>Start Date & Time:</td>
+      <td>{{ event_item.start|date:"c" }}</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>{{ event_item.get_type_display }} [{{ event_item.type }}]</td>
+    </tr>
+    <tr>
+      <td>Owner:</td>
+      <td>{{ event_item.owner }}</td>
+    </tr>
+    <tr>
+      <td>Actions:</td>
+      <td>
+        <a href="{% url "event-update" event_item.id %}">update</a>
+        <a href="{% url "event-delete" event_item.id %}">delete</a>
+      </td>
+    </tr>
+  </table>
 </section>
 {% endblock main %}

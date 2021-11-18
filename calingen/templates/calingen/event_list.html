@@ -24,7 +24,7 @@
         <a href="{% url "event-update" event.id %}">update</a>
         <a href="{% url "event-delete" event.id %}">delete</a>
       </td>
-      <td>{{ event.start|date:"SHORT_DATETIME_FORMAT" }}</td>
+      <td>{{ event.start|date:"c" }}</td>
       <td>{{ event.get_type_display }}</td>
       <td>{{ event.owner }}</td>
     </tr>
