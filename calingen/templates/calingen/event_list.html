@@ -1,5 +1,7 @@
 {% extends "calingen/app_base.html" %}
 
+{% block page_title %}Event: EventListView{% endblock page_title %}
+
 {% block main %}
 <h2>Event List</h2>
 
@@ -12,6 +14,7 @@
         <a href="{{ event.get_absolute_url }}">{{ event.title }}</a>
       </td>
       <td>{{ event.start }}</td>
+      <td>{{ event.get_type_display }}</td>
       <td>{{ event.owner }}</td>
     </tr>
     {% endfor %}

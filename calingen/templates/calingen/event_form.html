@@ -1,5 +1,7 @@
 {% extends "calingen/app_base.html" %}
 
+{% block page_title %}Event: EventCreateView / EventUpdateView{% endblock page_title %}
+
 {% block main %}
 <form method="post">
   {% csrf_token %}

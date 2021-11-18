@@ -2,12 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>calingen development template</title>
+    {% spaceless %}
+    <title>
+      {% block page_title %}calingen development template{% endblock page_title %}
+    </title>
+    {% endspaceless %}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      html {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 16px;
+      }
+      body {
+        background: #333;
+      }
+      #calingen_main {
+        background: #eee;
+        padding: 1em;
+      }
+      #calingen_footer {
+        background: #ccc;
+        text-align: right;
+      }
+    </style>
   </head>
   <body>
+    <div id="calingen_main">
 {% block main %}
 foobar
 {% endblock main %}
+    </div>
+    <div id="calingen_footer">
+      2021 by <a href="https://github.com/Mischback/django-calingen">Mischback</a>
+    </div>
   </body>
 </html>
