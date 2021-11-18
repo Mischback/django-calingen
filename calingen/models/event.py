@@ -229,20 +229,7 @@ class Event(models.Model):
 
 
 class EventForm(forms.ModelForm):
-    """This form is used to validate input for creating and updating `Event` instances.
-
-    Notes
-    -----
-    This form performs validation.
-
-    Furthermore, it is used to seperate the internal data representation from
-    the frontend presentation, i.e. the :attr:`calingen.models.event.Event.start`
-    is internally stored as :py:obj:`datetime.datetime`. However, while
-    rendering the frontend, two fields are used. The values of these fields are
-    combined again (in this class's :meth:`calingen.models.event.EventForm.clean`
-    method) and then re-applied to the created instance in
-    :meth:`calingen.views.event.EventCreateView.form_valid`.
-    """
+    """This form is used to validate input for creating and updating `Event` instances."""
 
     start = SplitDateTimeOptionalField()
 

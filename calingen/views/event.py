@@ -34,15 +34,9 @@ class EventCreateView(LoginRequiredMixin, generic.CreateView):
 
         Notes
         -----
-        This method adds additional attributes to the ``form.instance``, most
-        notably it automatically adds the ``request.user`` as the instance's
+        This method automatically adds the ``request.user`` as the instance's
         :attr:`calingen.models.event.Event.owner` (see
         :djangodoc:`topics/class-based-views/generic-editing/#models-and-request-user`).
-
-        The method is heavily dependent on
-        :class:`calingen.models.event.EventForm` and its
-        :meth:`calingen.models.event.EventForm.clean` method. It applies several
-        of the `cleaned` values to the ``instance``.
         """
         form.instance.owner = self.request.user
 
