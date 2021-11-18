@@ -8,10 +8,15 @@ from django.views import generic
 
 # app imports
 from calingen.models.event import Event, EventForm
-from calingen.views.mixins import CalingenRestrictToUserMixin
+from calingen.views.mixins import (
+    CalingenInjectRequestUserIntoFormValidMixin,
+    CalingenRestrictToUserMixin,
+)
 
 
-class EventCreateView(LoginRequiredMixin, generic.CreateView):
+class EventCreateView(
+    LoginRequiredMixin, CalingenInjectRequestUserIntoFormValidMixin, generic.CreateView
+):
     """Provide the generic class-based view implementation to add `Event` objects.
 
     Notes
@@ -28,19 +33,6 @@ class EventCreateView(LoginRequiredMixin, generic.CreateView):
 
     form_class = EventForm
     """Specify which form to use."""
-
-    def form_valid(self, form):
-        """Override of the default ``form_valid`` method.
-
-        Notes
-        -----
-        This method automatically adds the ``request.user`` as the instance's
-        :attr:`calingen.models.event.Event.owner` (see
-        :djangodoc:`topics/class-based-views/generic-editing/#models-and-request-user`).
-        """
-        form.instance.owner = self.request.user
-
-        return super().form_valid(form)
 
 
 class EventDetailView(
