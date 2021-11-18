@@ -241,37 +241,8 @@ class EventForm(forms.ModelForm):
     :meth:`calingen.views.event.EventCreateView.form_valid`.
     """
 
-    start_date = forms.CharField(min_length=8, max_length=10)
-    start_time = forms.CharField(min_length=5, max_length=5, required=False)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        if kwargs["instance"] is not None:
-            self.fields["start_date"].initial = "foo"
-            self.fields["start_time"].initial = "bar"
-
-    def clean(self):
-        """Clean and process input data.
-
-        Notes
-        -----
-        - determine ``start`` from :attr:`~calingen.models.event.EventForm.start_date`
-          and :attr:`~calingen.models.event.EventForm.start_time`
-        """
-        if self.cleaned_data.get("start_time") != "":
-            self.cleaned_data["start"] = "{} {}".format(
-                self.cleaned_data.get("start_date"), self.cleaned_data.get("start_time")
-            )
-        else:
-            self.cleaned_data["start"] = "{} {}".format(
-                self.cleaned_data.get("start_date"), "00:00"
-            )
-        del self.cleaned_data["start_date"]
-        del self.cleaned_data["start_time"]
-
-        return self.cleaned_data
+    start = forms.SplitDateTimeField()
 
     class Meta:  # noqa: D106
         model = Event
-        fields = ["type", "title", "start_date", "start_time"]
+        fields = ["type", "title", "start"]

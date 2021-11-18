@@ -44,7 +44,6 @@ class EventCreateView(LoginRequiredMixin, generic.CreateView):
         :meth:`calingen.models.event.EventForm.clean` method. It applies several
         of the `cleaned` values to the ``instance``.
         """
-        form.instance.start = form.cleaned_data.get("start")
         form.instance.owner = self.request.user
 
         return super().form_valid(form)
@@ -91,10 +90,29 @@ class EventListView(CalingenRestrictToUserMixin, LoginRequiredMixin, generic.Lis
     """Provide a semantic name for the built-in context."""
 
 
-class EventUpdateView(CalingenRestrictToUserMixin, LoginRequiredMixin, generic.UpdateView):
+class EventUpdateView(
+    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.UpdateView
+):
+    """Provide the generic class-based view implementation to update `Event` objects.
+
+    Notes
+    -----
+    This implementation uses Django's generic class-based view
+    :class:`django.views.generic.UpdateView`.
+
+    The view relies on :class:`calingen.models.event.EventForm` as its
+    ``ModelForm``. This is required to make custom validation logic available.
+    """
 
     model = Event
+    """Required attribute to tie this view to the model."""
 
     form_class = EventForm
+    """Specify which form to use."""
 
     pk_url_kwarg = "event_id"
+    """The name of the keyword argument as provided in the app's url configuration.
+
+    By default, this is simply ``"pk"``, but for clarity, the app's url
+    configuration (:mod:`calingen.urls`) uses the more explicit ``"event_id"``.
+    """
