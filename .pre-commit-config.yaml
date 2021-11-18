@@ -54,7 +54,5 @@ repos:
     hooks:
       # prohibit blank "noqa"
       - id: python-check-blanket-noqa
-      # prohibit blank "type ignore"
-      - id: python-check-blanket-type-ignore
       # eval() is evil
       - id: python-no-eval
