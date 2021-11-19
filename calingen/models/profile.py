@@ -8,6 +8,26 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
+class ProfileQuerySet(models.QuerySet):
+    """Just for linting, will be refactored!"""  # noqa: D400
+
+    def default(self):
+        """Just for linting, will be refactored!"""  # noqa: D400
+        return self
+
+    def filter_by_user(self, user):
+        """Just for linting, will be refactored!"""  # noqa: D400
+        return self.filter(owner=user)
+
+
+class ProfileManager(models.Manager):
+    """Just for linting, will be refactored!"""  # noqa: D400
+
+    def get_queryset(self):
+        """Just for linting, will be refactored!"""  # noqa: D400
+        return ProfileQuerySet(self.model, using=self._db).default()
+
+
 class Profile(models.Model):
     """Represents the app-specific profile.
 
@@ -27,6 +47,18 @@ class Profile(models.Model):
     (see :djangodoc:`topics/db/managers/#default-managers`).
     """
 
+    calingen_manager = ProfileManager()
+    """App-/model-specific manager, that provides additional functionality.
+
+    This manager is set to
+    :class:`calingen.models.profile.ProfileManager`. Its implementation provides
+    augmentations of `Profile` objects, by annotating them on database level.
+    This will reduce the number of required database queries, if attributes of
+    the object are accessed.
+
+    The manager has to be used explicitly.
+    """
+
     owner = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Owner")
     )
@@ -36,7 +68,7 @@ class Profile(models.Model):
     -----
     This is implemented as a :class:`~django.db.models.OneToOneField` with
     ``on_delete=CASCADE``, meaning: if the referenced `User` object is deleted,
-    all referencing `Event` objects are discarded aswell.
+    the referencing `Profile` object is discarded aswell.
 
     To keep this application as pluggable as possible, the referenced class is
     dependent on :setting:`AUTH_USER_MODEL`. With this implementation, the
