@@ -5,6 +5,7 @@
 # Django imports
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -56,15 +57,11 @@ class ProfileCreateView(
         multiple instances of :class:`~calingen.models.profile.Profile` for the
         same `user` will raise an :class:`~django.db.IntegrityError`.
 
-        [describe the actual behaviour when the FIXME is fixed!]
+        If the :class:`~django.db.IntegrityError` is catched, the user will be
+        redirected to his profile page.
         """
         try:
             return super().form_valid(form)
         except IntegrityError:
-            # This works during manual testing, but it does not seem to be the
-            # clean and usual way to go.
-            # FIXME: Investigate this further!
-            # - Provide a real Error, as it is best-practice in Django?
-            # - simply redirect to the user's profile
-            form.add_error(None, "Your profile already exists!")
-            return self.form_invalid(form)
+            # The requesting user already has a profile, simply redirect him
+            return redirect("profile-update", self.request.user.id)
