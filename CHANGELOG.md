@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - provide _Github Action_-based Continuous Integration, running linters, tests
   and reporting coverage to coveralls.io
 - provide code quality tools by _pre-commit_
+- add model ``Event``, including views for _CRUD_
+- add model ``Profile``, including views for _CRUD_
 
 
 
