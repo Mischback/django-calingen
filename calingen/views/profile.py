@@ -11,7 +11,10 @@ from django.views import generic
 
 # app imports
 from calingen.models.profile import Profile
-from calingen.views.mixins import CalingenInjectRequestUserIntoFormValidMixin
+from calingen.views.mixins import (
+    CalingenInjectRequestUserIntoFormValidMixin,
+    CalingenRestrictToUserMixin,
+)
 
 
 class ProfileCreateView(
@@ -65,3 +68,38 @@ class ProfileCreateView(
         except IntegrityError:
             # The requesting user already has a profile, simply redirect him
             return redirect("profile-update", self.request.user.id)
+
+
+class ProfileDeleteView(
+    LoginRequiredMixin, CalingenRestrictToUserMixin, generic.DeleteView
+):
+    """Provide the generic class-based view implementation to delete `Profile` objects.
+
+    Notes
+    -----
+    This implementation uses Django's generic class-based view
+    :class:`django.views.generic.DeleteView`.
+    """
+
+    model = Profile
+    """Required attribute to tie this view to the model."""
+
+    context_object_name = "profile_item"
+    """Provide a semantic name for the built-in context."""
+
+    pk_url_kwarg = "profile_id"
+    """The name of the keyword argument as provided in the app's url configuration.
+
+    By default, this is simply ``"pk"``, but for clarity, the app's url
+    configuration (:mod:`calingen.urls`) uses the more explicit ``"profile_id"``.
+    """
+
+    success_url = reverse_lazy("profile-add")
+    """The URL to redirect to after successfully deleting the instance.
+
+    Warnings
+    --------
+    As of now, this redirect to the page to create a profile. This **must** be
+    adjusted, once the `real` estimated flows are implemented with all required
+    views.
+    """
