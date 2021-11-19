@@ -22,3 +22,22 @@ time (as :py:obj:`datetime.datetime`).
 
 This is implemented as :py:obj:`collections.namedtuple`.
 """
+
+
+class CalenderEntryList(object):
+    """A list of calender entries."""
+
+    def add_entry(self, entry, title=None, type=None, start=None):
+        """Just for linting."""
+        if entry is None:
+            if (title is None) or (type is None) or (start is None):
+                # TODO: Provide custom exception class!
+                raise Exception("Could not add entry!")
+
+            entry = CalenderEntry(title, type, start)
+
+        # TODO: Add entry to internal list IF NOT ALREADY present
+
+    def merge(self, entry_list_instance):
+        """Just for linting."""
+        raise NotImplementedError("This is not yet implemented!")
