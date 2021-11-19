@@ -6,7 +6,7 @@
 from django.urls import path
 
 # app imports
-from calingen.views import event
+from calingen.views import event, profile
 
 urlpatterns = [
     path("event/", event.EventListView.as_view(), name="event-list"),
@@ -22,4 +22,5 @@ urlpatterns = [
         name="event-delete",
     ),
     path("event/add/", event.EventCreateView.as_view(), name="event-add"),
+    path("profile/add/", profile.ProfileCreateView.as_view(), name="profile-add"),
 ]
