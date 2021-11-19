@@ -4,6 +4,16 @@
 # tasks while developing the application and serves as a convenient way to
 # launch different tools with sane default settings.
 
+# ### INTERNAL SETTINGS / CONSTANTS
+TOX_WORK_DIR := .tox
+TOX_DJANGO_ENV := $(TOX_WORK_DIR)/django
+TOX_SPHINX_ENV := $(TOX_WORK_DIR)/sphinx
+TOX_UTIL_ENV := $(TOX_WORK_DIR)/util
+TOX_TEST_DIR := $(TOX_WORK_DIR)/testing
+
+DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/development.txt
+
+
 # some make settings
 .SILENT :
 .DELETE_ON_ERROR :
@@ -12,7 +22,7 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 
-clean :
+clean : $(TOX_UTIL_ENV)
 	- tox -q -e util -- coverage erase
 	rm -rf docs/build/*
 	find . -iname "*.pyc" -delete
@@ -20,13 +30,13 @@ clean :
 	find . -iname ".coverage.*" -delete
 .PHONY : clean
 
-dev/coverage : clean dev/test
+dev/coverage : clean dev/test $(TOX_UTIL_ENV)
 	- tox -q -e util -- coverage combine
 	tox -q -e util -- coverage report
 .PHONY : dev/coverage
 
 test_command ?= ""
-dev/test :
+dev/test : $(TOX_TEST_DIR)
 	tox -q -e testing -- $(test_command)
 .PHONY : dev/test
 
@@ -39,7 +49,7 @@ dev/test/tag :
 # ### Django management commands
 
 django_command ?= "version"
-django :
+django : $(TOX_DJANGO_ENV)
 	tox -q -e django -- $(django_command)
 .PHONY : django
 
@@ -95,21 +105,39 @@ util/isort :
 
 pre-commit_id ?= ""
 pre-commit_files ?= ""
-util/pre-commit :
+util/pre-commit : $(TOX_UTIL_ENV)
 	tox -q -e util -- pre-commit run $(pre-commit_files) $(pre-commit_id)
 .PHONY : util/pre-commit
 
-util/pre-commit/update :
+util/pre-commit/install : $(TOX_UTIL_ENV)
+	tox -q -e util -- pre-commit install
+.PHONY : util/pre-commit/install
+
+util/pre-commit/update : $(TOX_UTIL_ENV)
 	tox -q -e util -- pre-commit autoupdate
 .PHONY : util/pre-commit/update
 
 
 # ### Sphinx-related commands
 
-sphinx/build/html :
+sphinx/build/html : $(TOX_SPHINX_ENV)
 	tox -q -e sphinx
 .PHONY : sphinx/build/html
 
 sphinx/serve/html : sphinx/build/html
 	tox -q -e sphinx-serve
 .PHONY : sphinx/serve/html
+
+
+# ### INTERNAL RECIPES
+$(TOX_DJANGO_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
+	tox --recreate -e django
+
+$(TOX_SPHINX_ENV) : requirements/documentation.txt pyproject.toml
+	tox --recreate -e sphinx
+
+$(TOX_TEST_DIR) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
+	tox --recreate -e testing
+
+$(TOX_UTIL_ENV) : pyproject.toml .pre-commit-config.yaml
+	tox --recreate -e util
