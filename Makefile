@@ -9,6 +9,7 @@ TOX_WORK_DIR := .tox
 TOX_DJANGO_ENV := $(TOX_WORK_DIR)/django
 TOX_SPHINX_ENV := $(TOX_WORK_DIR)/sphinx
 TOX_UTIL_ENV := $(TOX_WORK_DIR)/util
+TOX_TEST_DIR := $(TOX_WORK_DIR)/testing
 
 DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/development.txt
 
@@ -21,7 +22,7 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 
-clean :
+clean : $(TOX_UTIL_ENV)
 	- tox -q -e util -- coverage erase
 	rm -rf docs/build/*
 	find . -iname "*.pyc" -delete
@@ -29,13 +30,13 @@ clean :
 	find . -iname ".coverage.*" -delete
 .PHONY : clean
 
-dev/coverage : clean dev/test
+dev/coverage : clean dev/test $(TOX_UTIL_ENV)
 	- tox -q -e util -- coverage combine
 	tox -q -e util -- coverage report
 .PHONY : dev/coverage
 
 test_command ?= ""
-dev/test :
+dev/test : $(TOX_TEST_DIR)
 	tox -q -e testing -- $(test_command)
 .PHONY : dev/test
 
@@ -128,8 +129,11 @@ sphinx/serve/html : sphinx/build/html
 $(TOX_DJANGO_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
 	tox --recreate -e django
 
+$(TOX_SPHINX_ENV) : requirements/documentation.txt pyproject.toml
+	tox --recreate -e sphinx
+
+$(TOX_TEST_DIR) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
+	tox --recreate -e testing
+
 $(TOX_UTIL_ENV) : pyproject.toml .pre-commit-config.yaml
 	tox --recreate -e util
-
-$(TOX_SPHINX_ENV) : requirements/documentation.txt
-	tox --recreate -e sphinx
