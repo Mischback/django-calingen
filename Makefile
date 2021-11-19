@@ -7,6 +7,7 @@
 # ### INTERNAL SETTINGS / CONSTANTS
 TOX_WORK_DIR := .tox
 TOX_DJANGO_ENV := $(TOX_WORK_DIR)/django
+TOX_UTIL_ENV := $(TOX_WORK_DIR)/util
 
 DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/development.txt
 
@@ -102,11 +103,11 @@ util/isort :
 
 pre-commit_id ?= ""
 pre-commit_files ?= ""
-util/pre-commit :
+util/pre-commit : $(TOX_UTIL_ENV)
 	tox -q -e util -- pre-commit run $(pre-commit_files) $(pre-commit_id)
 .PHONY : util/pre-commit
 
-util/pre-commit/update :
+util/pre-commit/update : $(TOX_UTIL_ENV)
 	tox -q -e util -- pre-commit autoupdate
 .PHONY : util/pre-commit/update
 
@@ -125,3 +126,6 @@ sphinx/serve/html : sphinx/build/html
 # ### INTERNAL RECIPES
 $(TOX_DJANGO_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
 	tox --recreate -e django
+
+$(TOX_UTIL_ENV) : pyproject.toml .pre-commit-config.yaml
+	tox --recreate -e util
