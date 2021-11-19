@@ -4,6 +4,13 @@
 # tasks while developing the application and serves as a convenient way to
 # launch different tools with sane default settings.
 
+# ### INTERNAL SETTINGS / CONSTANTS
+TOX_WORK_DIR := .tox
+TOX_DJANGO_ENV := $(TOX_WORK_DIR)/django
+
+DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/development.txt
+
+
 # some make settings
 .SILENT :
 .DELETE_ON_ERROR :
@@ -39,7 +46,7 @@ dev/test/tag :
 # ### Django management commands
 
 django_command ?= "version"
-django :
+django : $(TOX_DJANGO_ENV)
 	tox -q -e django -- $(django_command)
 .PHONY : django
 
@@ -113,3 +120,8 @@ sphinx/build/html :
 sphinx/serve/html : sphinx/build/html
 	tox -q -e sphinx-serve
 .PHONY : sphinx/serve/html
+
+
+# ### INTERNAL RECIPES
+$(TOX_DJANGO_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
+	tox --recreate -e django
