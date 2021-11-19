@@ -5,6 +5,7 @@
 # Django imports
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
@@ -79,3 +80,13 @@ class Profile(models.Model):
 
     def __str__(self):  # noqa: D105
         return "[Profile] {}".format(self.owner)  # pragma: nocover
+
+    def get_absolute_url(self):
+        """Return the absolute URL for instances of this model.
+
+        Returns
+        -------
+        str
+            The absolute URL for instances of this model.
+        """
+        return reverse("profile-update", args=[self.id])  # pragma: nocover

@@ -42,9 +42,6 @@ class ProfileCreateView(
     template_name_suffix = "_create"
     """Make the view use the template ``calingen/profile_create.html``."""
 
-    success_url = reverse_lazy("profile-update")
-    """Redirect the user to his (newly created) profile."""
-
     def form_valid(self, form):
         """Handle database integrity errors.
 
@@ -103,3 +100,36 @@ class ProfileDeleteView(
     adjusted, once the `real` estimated flows are implemented with all required
     views.
     """
+
+
+class ProfileUpdateView(
+    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.CreateView
+):
+    """Provide the generic class-based view implementation to add `Profile` objects.
+
+    Notes
+    -----
+    This implementation uses Django's generic class-based view
+    :class:`django.views.generic.CreateView`.
+    """
+
+    model = Profile
+    """Required attribute to tie this view to the model."""
+
+    fields = []
+    """The fields to include into the form.
+
+    This list is left empty, as the creation of the
+    :class:`~calingen.models.profile.Profile` instance is a one-off operation,
+    simply tying the instance to an existing ``User`` of the Django project.
+    """
+
+    pk_url_kwarg = "profile_id"
+    """The name of the keyword argument as provided in the app's url configuration.
+
+    By default, this is simply ``"pk"``, but for clarity, the app's url
+    configuration (:mod:`calingen.urls`) uses the more explicit ``"profile_id"``.
+    """
+
+    template_name_suffix = "_update"
+    """Make the view use the template ``calingen/profile_update.html``."""

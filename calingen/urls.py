@@ -28,4 +28,9 @@ urlpatterns = [
         profile.ProfileDeleteView.as_view(),
         name="profile-delete",
     ),
+    path(
+        "profile/<int:event_id>/update/",
+        profile.ProfileUpdateView.as_view(),
+        name="profile-update",
+    ),
 ]
