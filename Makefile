@@ -109,6 +109,10 @@ util/pre-commit : $(TOX_UTIL_ENV)
 	tox -q -e util -- pre-commit run $(pre-commit_files) $(pre-commit_id)
 .PHONY : util/pre-commit
 
+util/pre-commit/install : $(TOX_UTIL_ENV)
+	tox -q -e util -- pre-commit install
+.PHONY : util/pre-commit/install
+
 util/pre-commit/update : $(TOX_UTIL_ENV)
 	tox -q -e util -- pre-commit autoupdate
 .PHONY : util/pre-commit/update
