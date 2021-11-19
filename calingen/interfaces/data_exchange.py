@@ -5,7 +5,7 @@
 # Python imports
 from collections import namedtuple
 
-CalenderEntry = namedtuple("CalenderEntry", "title type start")
+CalenderEntry = namedtuple("CalenderEntry", "title category start")
 """This data structure is used to pass calender entries around.
 
 Warnings
@@ -17,7 +17,7 @@ the expected type.
 
 Notes
 -----
-The structure contains an entries ``title``, ``type`` and its ``start`` date and
+The structure contains an entries ``title``, ``category`` and its ``start`` date and
 time (as :py:obj:`datetime.datetime`).
 
 This is implemented as :py:obj:`collections.namedtuple`.
@@ -27,17 +27,18 @@ This is implemented as :py:obj:`collections.namedtuple`.
 class CalenderEntryList(object):
     """A list of calender entries."""
 
-    def add_entry(self, entry, title=None, type=None, start=None):
+    _entries = []
+
+    def add_entry(self, entry, title=None, category=None, start=None):
         """Just for linting."""
         if entry is None:
-            if (title is None) or (type is None) or (start is None):
-                # TODO: Provide custom exception class!
+            if (title is None) or (category is None) or (start is None):
                 raise Exception("Could not add entry!")
 
-            entry = CalenderEntry(title, type, start)
+            entry = CalenderEntry(title, category, start)
 
-        # TODO: Add entry to internal list IF NOT ALREADY present
+        self._entries.append(entry)
 
     def merge(self, entry_list_instance):
         """Just for linting."""
-        raise NotImplementedError("This is not yet implemented!")
+        self._entries += entry_list_instance._entries
