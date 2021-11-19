@@ -16,7 +16,7 @@ import calingen  # noqa: isort:skip
 
 
 # for `autodoc`, Django has to be setup (with a minimal setup)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.util.settings_dev")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.util.settings_test")
 django.setup()
 
 # ### Project Information
