@@ -187,7 +187,7 @@ if __name__ == "__main__":
     if options.settings:  # type: ignore[misc]
         os.environ["DJANGO_SETTINGS_MODULE"] = options.settings  # type: ignore[misc]
     else:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "util.settings_dev")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "util.settings_test")
         options.settings = os.environ["DJANGO_SETTINGS_MODULE"]
 
     failures = app_tests(

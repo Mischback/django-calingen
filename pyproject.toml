@@ -18,6 +18,11 @@ show_missing = true
 fail_under = 95
 
 
+# ### DJLINT ###
+[tool.djlint]
+ignore = "T028"
+
+
 # ### ISORT ###
 [tool.isort]
 profile = "black"
@@ -29,7 +34,6 @@ profile = "black"
 # line_length = 88 # included in profile "black", 79 in "django"
 combine_as_imports = true # included in profile "django"
 default_section = "THIRDPARTY"
-not_skip = "__init__.py"
 
 known_first_party = "calingen"
 known_django = "django"
@@ -52,33 +56,6 @@ skip_glob = [
   "*/migrations/*",
   "settings_dev.py"
 ]
-
-
-# ### MYPY ###
-[tool.mypy]
-python_version = "3.9"
-warn_unused_configs = true
-
-disallow_any_unimported = false # can't control code outside of this repo
-disallow_any_expr = true
-disallow_any_decorated = true
-disallow_untyped_calls = false # can't control code outside of this repo
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-disallow_untyped_decorators = true
-
-no_implicit_optional = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-# warn_no_return = true # true is the default value
-warn_return_any = true
-warn_unreachable = true
-
-[tool.django-stubs]
-# django-stubs provide type information for Django
-# it is included as additional dependency for the pre-commit hook, but needs
-# this configuration value
-django_settings_module = "tests.util.settings_dev"
 
 
 # ### TOX ###

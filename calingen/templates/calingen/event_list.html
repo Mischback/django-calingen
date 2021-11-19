@@ -1,0 +1,39 @@
+{% extends "calingen/app_base.html" %}
+
+{% block page_title %}Event: EventListView{% endblock page_title %}
+
+{% block main %}
+<h2>Event List</h2>
+
+<section>
+  <table class="list_view">
+    {% if event_list %}
+    <tr>
+      <th>Title</th>
+      <th>Actions</th>
+      <th>Start</th>
+      <th>Type</th>
+      <th>Owner</th>
+    </tr>
+    {% for event in event_list %}
+    <tr>
+      <td>
+        <a href="{{ event.get_absolute_url }}">{{ event.title }}</a>
+      </td>
+      <td>
+        <a href="{% url "event-update" event.id %}">update</a>
+        <a href="{% url "event-delete" event.id %}">delete</a>
+      </td>
+      <td>{{ event.start|date:"c" }}</td>
+      <td>{{ event.get_type_display }}</td>
+      <td>{{ event.owner }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+      <td>Could not fetch Event list.</td>
+    </tr>
+    {% endif %}
+  </table>
+</section>
+{% endblock main %}

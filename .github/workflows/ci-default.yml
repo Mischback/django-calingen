@@ -25,8 +25,8 @@ jobs:
           pip install tox tox-gh-actions
       - name: Run black
         run: make util/black
-      - name: Run mypy
-        run: make util/mypy
+      # - name: Run mypy
+      #   run: make util/mypy
       - name: Run flake8
         run: make util/flake8
       - name: Run bandit

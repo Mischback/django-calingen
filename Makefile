@@ -81,6 +81,10 @@ util/black :
 	$(MAKE) util/pre-commit pre-commit_id="black" pre-commit_files="--all-files"
 .PHONY : util/black
 
+util/djlint :
+	$(MAKE) util/pre-commit pre-commit_id="djlint-django" pre-commit_files="--all-files"
+.PHONY : util/djlint
+
 util/flake8 :
 	$(MAKE) util/pre-commit pre-commit_id="flake8" pre-commit_files="--all-files"
 .PHONY : util/flake8
@@ -88,10 +92,6 @@ util/flake8 :
 util/isort :
 	$(MAKE) util/pre-commit pre-commit_id="isort" pre-commit_files="--all-files"
 .PHONY : util/isort
-
-util/mypy :
-	$(MAKE) util/pre-commit pre-commit_id="mypy" pre-commit_files="--all-files"
-.PHONY : util/mypy
 
 pre-commit_id ?= ""
 pre-commit_files ?= ""
