@@ -33,6 +33,10 @@ required (or at least recommended) tools available without too much effort.
 
 ### Code Style
 
+- black
+
 ### Documentation Styleguide
+
+- Numpy Style
 
 ### Git Commit Message Styleguide
