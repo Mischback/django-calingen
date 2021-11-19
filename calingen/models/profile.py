@@ -7,17 +7,12 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+# app imports
+from calingen.models.queryset import CalingenQuerySet
 
-class ProfileQuerySet(models.QuerySet):
-    """Just for linting, will be refactored!"""  # noqa: D400
 
-    def default(self):
-        """Just for linting, will be refactored!"""  # noqa: D400
-        return self
-
-    def filter_by_user(self, user):
-        """Just for linting, will be refactored!"""  # noqa: D400
-        return self.filter(owner=user)
+class ProfileQuerySet(CalingenQuerySet):  # noqa: D101
+    pass
 
 
 class ProfileManager(models.Manager):

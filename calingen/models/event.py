@@ -11,55 +11,11 @@ from django.utils.translation import ugettext_lazy as _
 
 # app imports
 from calingen.forms.fields.datetime import SplitDateTimeOptionalField
+from calingen.models.queryset import CalingenQuerySet
 
 
-class EventQuerySet(models.QuerySet):
-    """App-specific implementation of :class:`django.db.models.QuerySet`.
-
-    Notes
-    -----
-    This :class:`~django.db.models.QuerySet` implementation provides
-    app-specific augmentations, most notable the ability to filter the result
-    by the :attr:`calingen.models.event.Event.owner` attribute.
-    """
-
-    def default(self):
-        """Return a queryset with annotations.
-
-        Returns
-        -------
-        :class:`django.db.models.QuerySet`
-            The annotated queryset.
-
-        Warnings
-        --------
-        Currently, this method does nothing on its own, but is kept to keep the
-        app's specific QuerySets consistent.
-        """
-        return self
-
-    def filter_by_user(self, user):
-        """Return a queryset filtered by the :attr:`Event.owner <calingen.models.event.Event.owner>` attribute.
-
-        Parameters
-        ----------
-        user :
-            An instance of the project's user model, as specified by
-            :setting:`AUTH_USER_MODEL`.
-
-        Returns
-        -------
-        :class:`django.db.models.QuerySet`
-            The filtered queryset.
-
-        Notes
-        -----
-        Effectively, this method is used to ensure, that any user may only
-        access :class:`~calingen.models.event.Event` objects, that
-        he `owns`. This is the app's way of ensuring `row-level permissions`,
-        because only owners are allowed to view (and modify) their events.
-        """
-        return self.filter(owner=user)
+class EventQuerySet(CalingenQuerySet):  # noqa: D101
+    pass
 
 
 class EventManager(models.Manager):
