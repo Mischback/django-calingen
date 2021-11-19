@@ -7,6 +7,7 @@
 # ### INTERNAL SETTINGS / CONSTANTS
 TOX_WORK_DIR := .tox
 TOX_DJANGO_ENV := $(TOX_WORK_DIR)/django
+TOX_SPHINX_ENV := $(TOX_WORK_DIR)/sphinx
 TOX_UTIL_ENV := $(TOX_WORK_DIR)/util
 
 DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/development.txt
@@ -114,7 +115,7 @@ util/pre-commit/update : $(TOX_UTIL_ENV)
 
 # ### Sphinx-related commands
 
-sphinx/build/html :
+sphinx/build/html : $(TOX_SPHINX_ENV)
 	tox -q -e sphinx
 .PHONY : sphinx/build/html
 
@@ -129,3 +130,6 @@ $(TOX_DJANGO_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
 
 $(TOX_UTIL_ENV) : pyproject.toml .pre-commit-config.yaml
 	tox --recreate -e util
+
+$(TOX_SPHINX_ENV) : requirements/documentation.txt
+	tox --recreate -e sphinx
