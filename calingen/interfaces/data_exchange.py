@@ -24,7 +24,7 @@ This is implemented as :py:obj:`collections.namedtuple`.
 """
 
 
-class CalenderEntryList(object):
+class CalenderEntryList:
     """A list of calender entries.
 
     Attributes
