@@ -185,7 +185,7 @@ class Event(models.Model):
 
 
 class EventForm(forms.ModelForm):
-    """This form is used to validate input for creating and updating `Event` instances."""
+    """Used to validate input for creating and updating `Event` instances."""
 
     start = SplitDateTimeOptionalField()
 

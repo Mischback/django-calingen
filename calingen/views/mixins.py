@@ -49,7 +49,7 @@ class CalingenRestrictToUserMixin:
 
 
 class CalingenInjectRequestUserIntoFormValidMixin:
-    """This mixin injects the ``request.user`` into a ``form.instance``.
+    """Injects the ``request.user`` into a ``form.instance``.
 
     Warnings
     --------

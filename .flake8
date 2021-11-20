@@ -10,7 +10,7 @@ extend-select =
     # flake8-django
     DJ, DJ10, DJ11,
 
-# just don't use these
+# just don't use these...
 ignore =
     # as per Django's Coding Style
     W601,
@@ -19,7 +19,7 @@ ignore =
     # line length (of code) is handled by black
     E501,
 
-# and limit flake8 to the project's very own source code
+# ...and limit flake8 to the project's very own source code
 exclude =
     .git,
     .tox,
@@ -28,8 +28,11 @@ exclude =
     settings_dev.py,
     settings_test.py,
 
-# be really strict about the line length of docstrings
-max-doc-length = 79
+# Actually, try to stay below 80 characters for docstrings.
+# But enforcing this does not work, when linking to other classes / attributes
+# in the first line of the docstring.
+# So, let's rely on convention instead.
+max-doc-length = 119
 
 # set the used convention for pydocstyle
 docstring-convention = numpy
