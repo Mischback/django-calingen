@@ -13,7 +13,8 @@ class PluginMount(type):
     plugin system" (ok, there are SO threads, without providing any real
     solution).
 
-    However, there is [1]_, describing some sort of _weird Python sorcery_.
+    However, there is a blog post by Marty Alchin, dating back to 2008 [1]_,
+    describing some sort of `weird Python sorcery`.
     Digging deeper, while trying to understand the purpose and possible
     application of ``metaclass`` in this context, this SO thread [2]_ was found
     (easily one of the best SO threads on a general programming technique).
@@ -45,7 +46,39 @@ class PluginMount(type):
 class EventProvider(metaclass=PluginMount):
     """Mount point for plugins that provide events.
 
-    Plugins implementing this reference must provide the following attributes:
+    Plugins implementing this reference must provide the following attributes
+    and methods:
 
-    - title : The title of the provider.
+    - **title** : The title of the provider, provided as :py:obj:`str`.
+    - **resolve(year)** : A classmethod that accepts a **year** (:py:obj:`int`)
+      as parameter and returns an instance of
+      :class:`calingen.interfaces.data_exchange.CalenderEntryList` containing
+      the `Events` of the requested year with their corresponding meta
+      information as specified by
+      :class:`calingen.interfaces.data_exchange.CalenderEntry`.
     """
+
+    @classmethod
+    def resolve(cls, year):
+        """Return a list of events.
+
+        Parameters
+        ----------
+        year : int
+            The year to retrieve the list of events for.
+
+        Returns
+        -------
+        :class:`calingen.interfaces.data_exchange.CalenderEntryList`
+            Wraps the actual events, provided as
+            :class:`calingen.interfaces.data_exchange.CalenderEntry` into one
+            single object.
+
+        Notes
+        -----
+        Neither :class:`~calingen.interfaces.data_exchange.CalenderEntry` nor
+        :class:`~calingen.interfaces.data_exchange.CalenderEntryList` perform
+        any validation on its data. Don't sticking to the specified and expected
+        types will crash later and _might_ be hard to debug.
+        """
+        raise NotImplementedError("Has to be implemented by the actual provider")
