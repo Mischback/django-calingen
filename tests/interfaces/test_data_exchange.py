@@ -15,7 +15,7 @@ from calingen.interfaces.data_exchange import CalenderEntry, CalenderEntryList
 from ..util.testcases import CalingenTestCase
 
 
-@tag("interfaces", "data", "calenderentry")
+@tag("interfaces", "data", "calenderentrylist")
 class CalenderEntryListTest(CalingenTestCase):
     """Provide tests for the CalenderEntryList class."""
 
