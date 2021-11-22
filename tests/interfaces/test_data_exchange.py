@@ -69,3 +69,43 @@ class CalenderEntryListTest(CalingenTestCase):
         with self.assertRaises(CalenderEntryList.CalenderEntryListException):
             # Act (actually perform what has to be done)
             cal_entry_list.add_entry(None)
+
+    def test_merge_merges_distinct_sets(self):
+        """merge() correctly merges two distinct CalenderEntryList instances."""
+        # Arrange (set up test environment)
+        cal_entry_one = CalenderEntry(title="foo", category="foo", start="foo")
+        cal_entry_two = CalenderEntry(title="bar", category="bar", start="bar")
+
+        cal_entry_list_target = CalenderEntryList()
+        cal_entry_list_target.add_entry(cal_entry_one)
+
+        cal_entry_list_second = CalenderEntryList()
+        cal_entry_list_second.add_entry(cal_entry_two)
+
+        # Act (actually perform what has to be done)
+        cal_entry_list_target.merge(cal_entry_list_second)
+
+        # Assert (verify the results)
+        self.assertIn(cal_entry_one, cal_entry_list_target._entries)
+        self.assertIn(cal_entry_two, cal_entry_list_target._entries)
+
+    def test_merge_merges_non_distinct_sets(self):
+        """merge() correctly merges two distinct CalenderEntryList instances."""
+        # Arrange (set up test environment)
+        cal_entry_one = CalenderEntry(title="foo", category="foo", start="foo")
+        cal_entry_two = CalenderEntry(title="bar", category="bar", start="bar")
+
+        cal_entry_list_target = CalenderEntryList()
+        cal_entry_list_target.add_entry(cal_entry_one)
+
+        cal_entry_list_second = CalenderEntryList()
+        cal_entry_list_second.add_entry(cal_entry_two)
+        cal_entry_list_second.add_entry(cal_entry_one)
+
+        # Act (actually perform what has to be done)
+        cal_entry_list_target.merge(cal_entry_list_second)
+
+        # Assert (verify the results)
+        self.assertIn(cal_entry_one, cal_entry_list_target._entries)
+        self.assertIn(cal_entry_two, cal_entry_list_target._entries)
+        self.assertEqual(len(cal_entry_list_target._entries), 2)
