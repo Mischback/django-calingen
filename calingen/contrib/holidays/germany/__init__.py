@@ -10,3 +10,7 @@ class GermanyFederal(EventProvider):
     """Provides federal holidays of Germany."""
 
     title = "Germany Federal Holidays"
+
+    @classmethod
+    def resolve(cls, year):  # noqa: D102
+        return "foo"
