@@ -5,6 +5,9 @@
 # Python imports
 from collections import namedtuple
 
+# app imports
+from calingen.exceptions import CallingenInterfaceException
+
 CalenderEntry = namedtuple("CalenderEntry", "title category start")
 """This data structure is used to pass calender entries around.
 
@@ -41,6 +44,9 @@ class CalenderEntryList:
     enforced or validated (EAFP).
     """
 
+    class CalenderEntryListException(CallingenInterfaceException):
+        """Class-specific exception, raised on failures in this class's methods."""
+
     def __init__(self):  # noqa: D107
         self._entries = set()
 
@@ -60,7 +66,7 @@ class CalenderEntryList:
 
         Raises
         ------
-        Exception
+        CalenderEntryListException
             If ``entry`` is set to ``None``, ``title``, ``category`` and ``start``
             are expected to be non ``None`` values (see above for the expected,
             but not enforced types). Otherwise, the exception is raised.
@@ -71,7 +77,7 @@ class CalenderEntryList:
         """
         if entry is None:
             if (title is None) or (category is None) or (start is None):
-                raise Exception("Could not add entry!")
+                raise self.CalenderEntryListException("Could not add entry!")
 
             entry = CalenderEntry(title, category, start)
 
