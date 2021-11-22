@@ -81,4 +81,6 @@ class EventProvider(metaclass=PluginMount):
         any validation on its data. Don't sticking to the specified and expected
         types will crash later and _might_ be hard to debug.
         """
-        raise NotImplementedError("Has to be implemented by the actual provider")
+        raise NotImplementedError(
+            "Has to be implemented by the actual provider"
+        )  # pragma: nocover
