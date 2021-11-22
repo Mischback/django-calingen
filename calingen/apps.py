@@ -2,8 +2,12 @@
 
 """Provide the application configuration for Django."""
 
+# Python imports
+import importlib
+
 # Django imports
 from django.apps import AppConfig
+from django.conf import settings
 
 
 class CalingenConfig(AppConfig):
@@ -23,9 +27,7 @@ class CalingenConfig(AppConfig):
         Notes
         -----
         This method is executed when the application is (completely) loaded.
-
-        As of now, this method does not perform anything. Anyhow, it is
-        considered best practice to use this method to connect signal handlers,
-        which might come in handy.
         """
-        pass
+        # load the external event providers
+        for provider in settings.CALINGEN_EXTERNAL_EVENT_PROVIDER:
+            importlib.import_module(provider)
