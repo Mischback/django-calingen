@@ -6,9 +6,6 @@
 import os
 import sys
 
-# app imports
-from calingen.settings import CALINGEN_EXTERNAL_EVENT_PROVIDER
-
 # Path to the test directory
 TEST_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
