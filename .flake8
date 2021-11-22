@@ -19,6 +19,9 @@ ignore =
     # line length (of code) is handled by black
     E501,
 
+per-file-ignores =
+    tests/interfaces/__init__.py:D104
+
 # ...and limit flake8 to the project's very own source code
 exclude =
     .git,
