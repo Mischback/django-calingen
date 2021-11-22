@@ -20,7 +20,7 @@ ignore =
     E501,
 
 per-file-ignores =
-    tests/interfaces/__init__.py:D104
+    tests/interfaces/*.py:D
 
 # ...and limit flake8 to the project's very own source code
 exclude =

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide tests for :module:`calingen.interfaces.data_exchange`."""
+"""Provide tests for calingen.interfaces.data_exchange."""
 
 # Python imports
 from unittest import mock, skip  # noqa: F401
@@ -17,10 +17,10 @@ from ..util.testcases import CalingenTestCase
 
 @tag("interfaces", "data", "calenderentry")
 class CalenderEntryListTest(CalingenTestCase):
-    """Provide tests for the :class:`calingen.interfaces.data_exchange.CalenderEntryList` class."""
+    """Provide tests for the CalenderEntryList class."""
 
     def test_constructor_initializes_set(self):
-        """Constructor initializes ``_entries``."""
+        """Constructor initializes _entries."""
         # Arrange (set up test environment)
         cal_entry_list = CalenderEntryList()
 
@@ -30,7 +30,7 @@ class CalenderEntryListTest(CalingenTestCase):
         self.assertIsInstance(cal_entry_list._entries, set)
 
     def test_add_entry_adds_provided_entry(self):
-        """``add_entry()`` appends provided entry to ``_entries``."""
+        """add_entry() appends provided entry to _entries."""
         # Arrange (set up test environment)
         cal_entry_list = CalenderEntryList()
         test_entry = "foo"
@@ -42,7 +42,7 @@ class CalenderEntryListTest(CalingenTestCase):
         self.assertIn(test_entry, cal_entry_list._entries)
 
     def test_add_entry_adds_constructed_entry(self):
-        """``add_entry()`` appends an entry specified by its values to ``_entries``."""
+        """add_entry() appends an entry specified by its values to _entries."""
         # Arrange (set up test environment)
         cal_entry_list = CalenderEntryList()
         test_title = "foo"
@@ -61,7 +61,7 @@ class CalenderEntryListTest(CalingenTestCase):
         )
 
     def test_add_entry_enforces_required_values(self):
-        """``add_entry()`` expects an ``entry`` or the values to create one."""
+        """add_entry() expects an entry or the values to create one."""
         # Arrange (set up test environment)
         cal_entry_list = CalenderEntryList()
 
