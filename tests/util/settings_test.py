@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: MIT
 
-"""Contains minimum settings to run the development of the app in a tox-based
-environment."""
+"""Contains minimum settings to run the development of the app in a tox-based environment."""
 
 # Python imports
 import os
 import sys
+
+# app imports
+from calingen.settings import CALINGEN_EXTERNAL_EVENT_PROVIDER
 
 # Path to the test directory
 TEST_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -73,6 +75,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+CALINGEN_EXTERNAL_EVENT_PROVIDER = [
+    "calingen.contrib.holidays.germany",
 ]
 
 LOGGING = {
