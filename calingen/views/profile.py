@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 # app imports
-from calingen.models.profile import Profile
+from calingen.models.profile import Profile, ProfileForm
 from calingen.views.mixins import (
     CalingenInjectRequestUserIntoFormValidMixin,
     CalingenRestrictToUserMixin,
@@ -116,8 +116,8 @@ class ProfileUpdateView(
     model = Profile
     """Required attribute to tie this view to the model."""
 
-    fields = ["event_provider"]
-    """The fields to include into the form."""
+    form_class = ProfileForm
+    """Specify which form to use."""
 
     pk_url_kwarg = "profile_id"
     """The name of the keyword argument as provided in the app's url configuration.

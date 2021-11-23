@@ -3,6 +3,7 @@
 """Provide the app's user profile."""
 
 # Django imports
+from django import forms
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -100,3 +101,11 @@ class Profile(models.Model):
             The absolute URL for instances of this model.
         """
         return reverse("profile-update", args=[self.id])  # pragma: nocover
+
+
+class ProfileForm(forms.ModelForm):
+    """Used to validate input for creating and updating :class:`~calingen.models.profile.Profile` instances."""
+
+    class Meta:  # noqa: D106
+        model = Profile
+        fields = ["event_provider"]
