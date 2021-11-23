@@ -55,6 +55,16 @@ class Profile(models.Model):
     The manager has to be used explicitly.
     """
 
+    event_provider = models.JSONField(
+        default=dict, blank=True, verbose_name=_("Event Provider")
+    )
+    """List of activated :class:`~calingen.interfaces.plugin_api.EventProvider` plugins.
+
+    Notes
+    -----
+    This is implemented as a :class:`~django.db.models.JSONField`.
+    """
+
     owner = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Owner")
     )
