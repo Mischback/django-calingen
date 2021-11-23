@@ -29,7 +29,7 @@ urlpatterns = [
         name="profile-delete",
     ),
     path(
-        "profile/<int:event_id>/update/",
+        "profile/<int:profile_id>/update/",
         profile.ProfileUpdateView.as_view(),
         name="profile-update",
     ),

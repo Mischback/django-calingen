@@ -103,7 +103,7 @@ class ProfileDeleteView(
 
 
 class ProfileUpdateView(
-    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.CreateView
+    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.UpdateView
 ):
     """Provide the generic class-based view implementation to add `Profile` objects.
 
@@ -116,13 +116,8 @@ class ProfileUpdateView(
     model = Profile
     """Required attribute to tie this view to the model."""
 
-    fields = []
-    """The fields to include into the form.
-
-    This list is left empty, as the creation of the
-    :class:`~calingen.models.profile.Profile` instance is a one-off operation,
-    simply tying the instance to an existing ``User`` of the Django project.
-    """
+    fields = ["event_provider"]
+    """The fields to include into the form."""
 
     pk_url_kwarg = "profile_id"
     """The name of the keyword argument as provided in the app's url configuration.
