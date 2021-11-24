@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
+from calingen.interfaces.plugin_api import EventProvider
 from calingen.models.queryset import CalingenQuerySet
 
 
@@ -105,6 +106,10 @@ class Profile(models.Model):
 
 class ProfileForm(forms.ModelForm):
     """Used to validate input for creating and updating :class:`~calingen.models.profile.Profile` instances."""
+
+    event_provider = forms.fields.MultipleChoiceField(
+        choices=EventProvider.list_available_plugins
+    )
 
     class Meta:  # noqa: D106
         model = Profile

@@ -3,6 +3,32 @@
 """Provides the API for plugins."""
 
 
+def fully_qualified_classname(class_or_instance):
+    """Get the fully qualified Python path of a class (or instance).
+
+    Parameters
+    ----------
+    class_or_instance : any
+        The class (or instance of a class) to work on
+
+    Returns
+    -------
+    str
+        The fully qualified, dotted Python path of that class or instance.
+    """
+    if isinstance(class_or_instance, type):
+        # operating on a class (NOT an instance!)
+        return ".".join([class_or_instance.__module__, class_or_instance.__qualname__])
+
+    # operating on an instance
+    return ".".join(
+        [
+            class_or_instance.__class__.__module__,
+            class_or_instance.__class__.__qualname__,
+        ]
+    )
+
+
 class PluginMount(type):
     """Core of the plugin api.
 
@@ -57,6 +83,31 @@ class EventProvider(metaclass=PluginMount):
       information as specified by
       :class:`calingen.interfaces.data_exchange.CalenderEntry`.
     """
+
+    @classmethod
+    def list_available_plugins(cls):
+        """Return the available plugins.
+
+        Returns
+        -------
+        set
+            The resulting :py:obj:`set` contains a 2-tuple for every plugin,
+            including its `qualified classname` and its **title** attribute.
+            The `qualified classname` is determined by
+            :func:`~calingen.interfaces.plugin_api.fully_qualified_classname`.
+
+        Notes
+        -----
+        Primary use case for this method is the usage in a Django view,
+        specifically :class:`~calingen.models.profile.ProfileForm` uses this
+        method to provide the choices of its field. That ``Form`` is then used
+        in the app's viegs, e.g. :class:`~calingen.views.profile.ProfileUpdateView`.
+        """
+        result = set()
+        for plugin in cls.plugins:
+            print("{}: {}".format(plugin.title, fully_qualified_classname(plugin)))
+            result.add((fully_qualified_classname(plugin), plugin.title))
+        return result
 
     @classmethod
     def resolve(cls, year):
