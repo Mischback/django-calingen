@@ -105,7 +105,6 @@ class EventProvider(metaclass=PluginMount):
         """
         result = set()
         for plugin in cls.plugins:
-            print("{}: {}".format(plugin.title, fully_qualified_classname(plugin)))
             result.add((fully_qualified_classname(plugin), plugin.title))
         return result
 
