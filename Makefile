@@ -22,6 +22,13 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 
+run: django/runserver
+.PHONY : run
+
+doc: sphinx/serve/html
+.PHONY : doc
+
+
 clean : $(TOX_UTIL_ENV)
 	- tox -q -e util -- coverage erase
 	rm -rf docs/build/*
