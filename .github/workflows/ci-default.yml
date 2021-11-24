@@ -40,6 +40,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
+        exclude:
+          # exclude Python 3.7 and 3.8 on Windows
+          # The excluded Python versions are provided without JSON1 extension of
+          # sqlite
+          - os: windows-latest
+            python-version: ["3.7", "3.8"]
     runs-on: ${{ matrix.os }}
 
     steps:
