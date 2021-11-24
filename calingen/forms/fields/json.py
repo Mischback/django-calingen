@@ -45,6 +45,12 @@ class JSONDataMultipleChoice(MultipleChoiceField):
         -------
         list
             A list of strings, corresponding to the input JSON object's keys.
+
+        Warnings
+        --------
+        The method does check, if there is input (from the ORM layer), that is
+        not present in the provided ``choices``. But as of now, only a logging
+        message (log level ``warn``) will be emitted (:issue:`11`).
         """
         # value is a pythonic representation of a JSON object with a known
         # structure
