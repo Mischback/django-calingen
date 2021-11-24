@@ -106,7 +106,10 @@ class EventProvider(metaclass=PluginMount):
         result = set()
         for plugin in cls.plugins:
             result.add((fully_qualified_classname(plugin), plugin.title))
-        return result
+
+        # the ``set`` is sorted on return (converting it to a list, but that's
+        # fine with the current (only) consumer)
+        return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
 
     @classmethod
     def resolve(cls, year):
