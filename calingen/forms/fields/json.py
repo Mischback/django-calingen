@@ -2,9 +2,14 @@
 
 """Provides Django form fields related to JSON model fields."""
 
+# Python imports
+import logging
+
 # Django imports
 from django.forms.fields import MultipleChoiceField
 from django.forms.widgets import CheckboxSelectMultiple
+
+logger = logging.getLogger(__name__)
 
 
 class JSONDataMultipleChoice(MultipleChoiceField):
@@ -44,7 +49,23 @@ class JSONDataMultipleChoice(MultipleChoiceField):
         # value is a pythonic representation of a JSON object with a known
         # structure
         parsed_value = []
+
         for plugin in value:
+            if plugin not in [available[0] for available in self.choices]:
+                logger.warn("{} is not available in self.choices".format(plugin))
+
+            # This basically works, but does not handle the case, that a value
+            # is present in ORM that points to a plugin, that is not longer
+            # available.
+            # Possible solutions:
+            # 1) ignore this:
+            #    when the form (containing this field) is saved, the
+            #    corresponding entry is gone, as it is lost
+            # 2) inform the user: possibly Django's messaging framework could
+            #    be used. This would be another (implicit) dependency, which
+            #    might not be desirable.
+            # For now, just put a logging message in place.
+            # See issue #11
             parsed_value.append(plugin)
 
         return parsed_value
