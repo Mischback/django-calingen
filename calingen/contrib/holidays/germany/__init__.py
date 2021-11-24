@@ -56,3 +56,8 @@ class GermanyFederal(EventProvider):
                 )[0],
             )
         return result
+
+
+class TestProvider(GermanyFederal):  # noqa: D101
+
+    title = "Holidays:TEST"
