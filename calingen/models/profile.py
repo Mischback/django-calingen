@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
+from calingen.forms.fields.json import JSONDataMultipleChoice
 from calingen.interfaces.plugin_api import EventProvider
 from calingen.models.queryset import CalingenQuerySet
 
@@ -107,7 +108,7 @@ class Profile(models.Model):
 class ProfileForm(forms.ModelForm):
     """Used to validate input for creating and updating :class:`~calingen.models.profile.Profile` instances."""
 
-    event_provider = forms.fields.MultipleChoiceField(
+    event_provider = JSONDataMultipleChoice(
         choices=EventProvider.list_available_plugins
     )
 
