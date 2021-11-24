@@ -109,7 +109,7 @@ class ProfileForm(forms.ModelForm):
     """Used to validate input for creating and updating :class:`~calingen.models.profile.Profile` instances."""
 
     event_provider = JSONDataMultipleChoice(
-        choices=EventProvider.list_available_plugins
+        choices=EventProvider.list_available_plugins, required=False
     )
 
     class Meta:  # noqa: D106
