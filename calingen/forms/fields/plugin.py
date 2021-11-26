@@ -6,11 +6,9 @@ import logging
 
 # Django imports
 from django.forms.fields import JSONField, MultipleChoiceField, MultiValueField
-from django.forms.widgets import CheckboxSelectMultiple
 
 # app imports
 from calingen.forms.widgets import PluginWidget
-from calingen.interfaces.plugin_api import EventProvider
 
 logger = logging.getLogger(__name__)
 
