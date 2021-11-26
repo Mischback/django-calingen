@@ -5,7 +5,7 @@
 import logging
 
 # Django imports
-from django.forms.fields import JSONField, MultipleChoiceField, MultiValueField
+from django.forms.fields import CharField, MultipleChoiceField, MultiValueField
 
 # app imports
 from calingen.forms.widgets import PluginWidget
@@ -20,19 +20,25 @@ class CalingenMultipleChoiceField(MultipleChoiceField):
         super().__init__(*args, **kwargs)
 
 
-class CalingenJSONField(JSONField):
-    pass
-
-
 class PluginField(MultiValueField):
 
     widget = PluginWidget
 
     def __init__(self, *args, choices=(), **kwargs):
         logger.debug("running PluginField.__init__()")
+        self.choices = choices
 
-        fields = (CalingenMultipleChoiceField(choices=choices), CalingenJSONField())
+        fields = (CalingenMultipleChoiceField(), CharField())
 
         super().__init__(fields=fields, *args, **kwargs)
 
-        self.widget.update_available_plugins(choices)
+        self.fields[0].choices = self.choices
+        self.widget.update_available_plugins(self.choices)
+
+    def compress(self, data_list):
+        if data_list:
+            result = {}
+            result["active"] = data_list[0]
+            result["unavailable"] = data_list[1]
+            return result
+        return None

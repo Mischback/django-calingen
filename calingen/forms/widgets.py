@@ -40,9 +40,6 @@ class PluginWidget(MultiWidget):
         if value:
             active = value["active"]
             unavailable = value["unavailable"]
-
-            logger.debug(active)
-            logger.debug(unavailable)
             return [active, unavailable]
 
         return [None, None]
