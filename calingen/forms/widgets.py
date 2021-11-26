@@ -5,7 +5,7 @@ import logging
 
 # Django imports
 from django.forms.fields import CallableChoiceIterator
-from django.forms.widgets import CheckboxSelectMultiple, MultiWidget, Textarea
+from django.forms.widgets import CheckboxSelectMultiple, MultiWidget, TextInput
 
 logger = logging.getLogger(__name__)
 
@@ -17,15 +17,18 @@ class CalingenCheckboxSelectMultiple(CheckboxSelectMultiple):
         super().__init__(*args, **kwargs)
 
 
-class CalingenTextarea(Textarea):
-    pass
+class CalingenTextInput(TextInput):
+    def __init__(self, *args, **kwargs):
+        logger.debug("CalingenTextInput.__init__()")
+
+        super().__init__(*args, **kwargs)
 
 
 class PluginWidget(MultiWidget):
     def __init__(self, *args, **kwargs):
         logger.debug("running PluginWidget.__init__()")
 
-        widgets = (CalingenCheckboxSelectMultiple(), CalingenTextarea())
+        widgets = (CheckboxSelectMultiple(), TextInput())
         super().__init__(widgets=widgets, *args, **kwargs)
 
     def update_available_plugins(self, choices=()):
@@ -38,8 +41,8 @@ class PluginWidget(MultiWidget):
 
     def decompress(self, value):
         if value:
-            active = value["active"]
-            unavailable = value["unavailable"]
+            active = value.get("active", [])
+            unavailable = value.get("unavailable", [])
             return [active, unavailable]
 
         return [None, None]

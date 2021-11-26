@@ -19,6 +19,30 @@ class CalingenMultipleChoiceField(MultipleChoiceField):
 
         super().__init__(*args, **kwargs)
 
+    def prepare_value(self, value):
+        logger.debug("CalingenMultipleChoiceField.prepare_value()")
+        return super().prepare_value(value)
+
+
+class CalingenListField(CharField):
+
+    def __init__(self, *args, **kwargs):
+        logger.debug("CalingenListField.__init__()")
+
+        super().__init__(*args, **kwargs)
+
+    def prepare_value(self, value):
+        logger.debug("CalingenListField.prepare_value()")
+        return ", ".join(value)
+
+    def to_python(self, value):
+        logger.debug("CalingenListField.to_python()")
+        logger.debug(value)
+        if not value:
+            return []
+
+        return [item.strip() for item in value.split(",")]
+
 
 class PluginField(MultiValueField):
 
@@ -28,7 +52,7 @@ class PluginField(MultiValueField):
         logger.debug("running PluginField.__init__()")
         self.choices = choices
 
-        fields = (CalingenMultipleChoiceField(), CharField())
+        fields = (MultipleChoiceField(), CalingenListField())
 
         super().__init__(fields=fields, *args, **kwargs)
 

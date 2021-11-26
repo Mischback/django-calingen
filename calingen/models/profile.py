@@ -111,8 +111,31 @@ class Profile(models.Model):
 
     @property
     def event_provider(self):  # noqa: D102
-        logger.debug(self._event_provider)
-        return self._event_provider
+        raw = self._event_provider
+
+        provider = [p[0] for p in EventProvider.list_available_plugins()]
+
+        active = []
+        unavailable = []
+
+        for item in raw.get("active", []):
+            if item in provider:
+                active.append(item)
+            else:
+                unavailable.append(item)
+
+        for item in raw.get("unavailable", []):
+            if item in provider:
+                active.append(item)
+            else:
+                unavailable.append(item)
+
+        result = {}
+        result["active"] = active
+        result["unavailable"] = unavailable
+
+        logger.debug(result)
+        return result
 
     @event_provider.setter
     def event_provider(self, value):
