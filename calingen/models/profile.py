@@ -2,6 +2,9 @@
 
 """Provide the app's user profile."""
 
+# Python imports
+import logging
+
 # Django imports
 from django import forms
 from django.conf import settings
@@ -13,6 +16,8 @@ from django.utils.translation import ugettext_lazy as _
 from calingen.forms.fields.json import JSONDataMultipleChoice
 from calingen.interfaces.plugin_api import EventProvider
 from calingen.models.queryset import CalingenQuerySet
+
+logger = logging.getLogger(__name__)
 
 
 class ProfileQuerySet(CalingenQuerySet):  # noqa: D101
@@ -58,7 +63,7 @@ class Profile(models.Model):
     The manager has to be used explicitly.
     """
 
-    event_provider = models.JSONField(
+    _event_provider = models.JSONField(
         default=dict, blank=True, verbose_name=_("Event Provider")
     )
     """List of activated :class:`~calingen.interfaces.plugin_api.EventProvider` plugins.
@@ -104,6 +109,16 @@ class Profile(models.Model):
         """
         return reverse("profile-update", args=[self.id])  # pragma: nocover
 
+    @property
+    def event_provider(self):  # noqa: D102
+        logger.debug(self._event_provider)
+        return self._event_provider
+
+    @event_provider.setter
+    def event_provider(self, value):
+        self._event_provider = value
+        self.save()
+
 
 class ProfileForm(forms.ModelForm):
     """Used to validate input for creating and updating :class:`~calingen.models.profile.Profile` instances."""
@@ -111,6 +126,16 @@ class ProfileForm(forms.ModelForm):
     event_provider = JSONDataMultipleChoice(
         choices=EventProvider.list_available_plugins, required=False
     )
+
+    def __init__(self, *args, **kwargs):
+        instance = kwargs.get("instance", None)
+        if instance is not None:
+            kwargs["initial"] = {"event_provider": instance.event_provider}
+        super().__init__(*args, **kwargs)
+
+    def save(self, *args, **kwargs):  # noqa: D102
+        self.instance.event_provider = self.cleaned_data["event_provider"]
+        return super().save(*args, **kwargs)
 
     class Meta:  # noqa: D106
         model = Profile
