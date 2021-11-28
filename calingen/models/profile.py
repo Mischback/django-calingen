@@ -2,9 +2,6 @@
 
 """Provide the app's user profile."""
 
-# Python imports
-import logging
-
 # Django imports
 from django import forms
 from django.conf import settings
@@ -16,8 +13,6 @@ from django.utils.translation import ugettext_lazy as _
 from calingen.forms.fields.plugin import PluginField
 from calingen.interfaces.plugin_api import EventProvider
 from calingen.models.queryset import CalingenQuerySet
-
-logger = logging.getLogger(__name__)
 
 
 class ProfileQuerySet(CalingenQuerySet):  # noqa: D101
@@ -134,7 +129,6 @@ class Profile(models.Model):
         result["active"] = active
         result["unavailable"] = unavailable
 
-        logger.debug(result)
         return result
 
     @event_provider.setter

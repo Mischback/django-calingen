@@ -1,33 +1,12 @@
 # SPDX-License-Identifier: MIT
 
-# Python imports
-import logging
-
 # Django imports
 from django.forms.fields import CallableChoiceIterator
 from django.forms.widgets import CheckboxSelectMultiple, MultiWidget, TextInput
 
-logger = logging.getLogger(__name__)
-
-
-class CalingenCheckboxSelectMultiple(CheckboxSelectMultiple):
-    def __init__(self, *args, choices=(), **kwargs):
-        logger.debug("running CalingenCheckboxSelectMultiple.__init__()")
-
-        super().__init__(*args, **kwargs)
-
-
-class CalingenTextInput(TextInput):
-    def __init__(self, *args, **kwargs):
-        logger.debug("CalingenTextInput.__init__()")
-
-        super().__init__(*args, **kwargs)
-
 
 class PluginWidget(MultiWidget):
     def __init__(self, *args, **kwargs):
-        logger.debug("running PluginWidget.__init__()")
-
         widgets = (CheckboxSelectMultiple(), TextInput())
         super().__init__(widgets=widgets, *args, **kwargs)
 
