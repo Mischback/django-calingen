@@ -61,11 +61,14 @@ class Profile(models.Model):
     _event_provider = models.JSONField(
         default=dict, blank=True, verbose_name=_("Event Provider")
     )
-    """List of activated :class:`~calingen.interfaces.plugin_api.EventProvider` plugins.
+    """Manage :class:`~calingen.interfaces.plugin_api.EventProvider` plugins for this profile.
 
     Notes
     -----
-    This is implemented as a :class:`~django.db.models.JSONField`.
+    This is implemented as a :class:`~django.db.models.JSONField` and should be
+    interfaced by its custom
+    :meth:`~calingen.models.profile.Profile.event_provider` getter and setter
+    methods, provided as a ``property``.
     """
 
     owner = models.OneToOneField(
@@ -105,7 +108,26 @@ class Profile(models.Model):
         return reverse("profile-update", args=[self.id])  # pragma: nocover
 
     @property
-    def event_provider(self):  # noqa: D102
+    def event_provider(self):
+        """Get and set the list of :class:`~calingen.interfaces.plugin_api.EventProvider`.
+
+        This method is used to access the ``Profile``'s ``EventProvider``. The
+        returned object will have two attributes, ``active`` and
+        ``unavailable``: ``active`` contains the selected ``EventProvider``
+        plugins, **that are currently active in this project**. If the user
+        had selected ``EventProvider`` plugins, that are currently not available
+        in this project, i.e. because they were deactivated by the administrator,
+        these plugins are moved to ``unavailable``.
+
+        Notes
+        -----
+        While the implementation of the ``getter`` involves some logic to
+        perform the operations as described above, the ``setter`` simply applies
+        the provided value to
+        :attr:`~calingen.models.profule.Profile._event_provider`. This means,
+        that if the user did not actually **update** its profile, the operation
+        performed by the ``getter`` is simply discarded.
+        """
         raw = self._event_provider
 
         provider = [p[0] for p in EventProvider.list_available_plugins()]
@@ -143,6 +165,18 @@ class ProfileForm(forms.ModelForm):
     event_provider = PluginField(
         required=False, choices=EventProvider.list_available_plugins
     )
+    """Manually add the model's ``property`` to the form.
+
+    Notes
+    -----
+    :class:`~django.forms.ModelForm` only includes actual model fields.
+    :attr:`calingen.models.profile.Profile.event_provider` is actually only a
+    ``property`` to interface
+    :attr:`~calingen.models.profile.Profile._event_provider`.
+
+    The ``property`` is added here and then applied in the form's
+    :meth:`~calingen.models.profile.ProfileForm.save` method.
+    """
 
     def __init__(self, *args, **kwargs):
         instance = kwargs.get("instance", None)
@@ -150,7 +184,8 @@ class ProfileForm(forms.ModelForm):
             kwargs["initial"] = {"event_provider": instance.event_provider}
         super().__init__(*args, **kwargs)
 
-    def save(self, *args, **kwargs):  # noqa: D102
+    def save(self, *args, **kwargs):
+        """Inject the value of ``event_provider`` into the instance and save it."""
         self.instance.event_provider = self.cleaned_data["event_provider"]
         return super().save(*args, **kwargs)
 
