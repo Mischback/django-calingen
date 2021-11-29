@@ -24,7 +24,11 @@ NEUJAHR = (
     EventType.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1)),
 )
-# HEILIGE_DREI_KOENIGE = (_("Epiphany"), EventType.HOLIDAY, rrule(freq=YEARLY, dtstart=datetime(1990, 1, 6)))
+HEILIGE_DREI_KOENIGE = (
+    _("Epiphany"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 1, 6)),
+)
 # FRAUENTAG = (_("Women's Day"), EventType.HOLIDAY, rrule(freq=YEARLY, dtstart=datetime(1990, 3, 8)))
 KARFREITAG = (_("Good Friday"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=-2))
 OSTER_SONNTAG = (_("Easter Sunday"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=0))
@@ -49,10 +53,16 @@ PFINGST_MONTAG = (
     EventType.HOLIDAY,
     rrule(freq=YEARLY, byeaster=50),
 )
+FRONLEICHNAM = (_("Corpus Christi"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=60))
 TAG_DER_DEUTSCHEN_EINHEIT = (
     _("Day of German Unity"),
     EventType.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 10, 3)),
+)
+ALLERHEILIGEN = (
+    _("All Hallows"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 11, 1)),
 )
 ERSTER_WEIHNACHTSTAG = (
     _("Christmas Day"),
@@ -106,3 +116,11 @@ class GermanyFederal(EventProvider):
                 )[0],
             )
         return result
+
+
+class BadenWuerttemberg(GermanyFederal):
+    """Provides holidays of Baden-Wuerttemberg."""
+
+    title = _("Holidays of Baden-Württemberg")
+
+    holidays = FEDERAL_HOLIDAYS + [HEILIGE_DREI_KOENIGE, FRONLEICHNAM, ALLERHEILIGEN]
