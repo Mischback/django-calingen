@@ -3,6 +3,7 @@
 """Provides views for the :class:`calingen.models.profile.Profile` model."""
 
 # Django imports
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.shortcuts import redirect
@@ -128,3 +129,26 @@ class ProfileUpdateView(
 
     template_name_suffix = "_update"
     """Make the view use the template ``calingen/profile_update.html``."""
+
+    def get_context_data(self, **kwargs):
+        """Provide additional context for this view.
+
+        While accessing the users :class:`~calingen.models.profile.Profile`,
+        its list of ``event_provider`` is updated. If there are providers, that
+        are moved from ``active`` to ``unavailable``, the user is informed using
+        Django's ``messages`` framework.
+        """
+        context = super().get_context_data(**kwargs)
+
+        for deactivated_plugin in context["profile"].event_provider[
+            "newly_unavailable"
+        ]:
+            messages.warning(
+                self.request,
+                "The following plugin is no longer available: {}".format(
+                    deactivated_plugin
+                ),
+                fail_silently=True,
+            )
+
+        return context

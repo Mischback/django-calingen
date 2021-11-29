@@ -112,12 +112,15 @@ class Profile(models.Model):
         """Get and set the list of :class:`~calingen.interfaces.plugin_api.EventProvider`.
 
         This method is used to access the ``Profile``'s ``EventProvider``. The
-        returned object will have two attributes, ``active`` and
-        ``unavailable``: ``active`` contains the selected ``EventProvider``
+        returned object will have three attributes, ``active``, ``unavailable``
+        and ``newly_unavailable``: ``active`` contains the selected ``EventProvider``
         plugins, **that are currently active in this project**. If the user
         had selected ``EventProvider`` plugins, that are currently not available
         in this project, i.e. because they were deactivated by the administrator,
-        these plugins are moved to ``unavailable``.
+        these plugins are moved to ``unavailable``. Also, these plugins are
+        included in ``newly_unavailable`` and then picked up in the
+        :meth:`~calingen.views.profile.ProfileUpdateView.get_context_data`
+        method to provide messages to the user.
 
         Notes
         -----
@@ -134,11 +137,13 @@ class Profile(models.Model):
 
         active = []
         unavailable = []
+        newly_unavailable = []
 
         for item in raw.get("active", []):
             if item in provider:
                 active.append(item)
             else:
+                newly_unavailable.append(item)
                 unavailable.append(item)
 
         for item in raw.get("unavailable", []):
@@ -150,6 +155,7 @@ class Profile(models.Model):
         result = {}
         result["active"] = active
         result["unavailable"] = unavailable
+        result["newly_unavailable"] = newly_unavailable
 
         return result
 
