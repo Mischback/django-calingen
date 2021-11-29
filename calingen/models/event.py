@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
-from calingen.forms.fields.datetime import SplitDateTimeOptionalField
+from calingen.forms.fields import SplitDateTimeOptionalField
 from calingen.models.queryset import CalingenQuerySet
 
 

@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
-from calingen.forms.fields.plugin import PluginField
+from calingen.forms.fields import PluginField
 from calingen.interfaces.plugin_api import EventProvider
 from calingen.models.queryset import CalingenQuerySet
 

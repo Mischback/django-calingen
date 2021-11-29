@@ -25,8 +25,8 @@ class PluginWidget(MultiWidget):
         :class:`~django.forms.widgets.MultiWidget`, this step is not performed
         for the subwidgets.
 
-        The constructor of :class:`~calingen.forms.fields.plugin.PluginField`
-        will take care of this by calling this method.
+        The constructor of :class:`~calingen.forms.fields.PluginField` will take
+        care of this by calling this method.
         """
         # See: django.forms.fields.ChoiceField._set_choices
         if callable(choices):
@@ -40,7 +40,7 @@ class PluginWidget(MultiWidget):
 
         Notes
         -----
-        See the corresponding :meth:`calingen.forms.fields.plugin.PluginField.compress`
+        See the corresponding :meth:`calingen.forms.fields.PluginField.compress`
         method.
         """
         if value:

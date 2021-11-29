@@ -60,7 +60,7 @@ class CalingenListField(CharField):
         :class:`django.forms.fields.MultiValueField`, the method is not called
         for `sub fields`.
 
-        However, :meth:`calingen.forms.fields.plugin.PluginField.prepare_value`
+        However, :meth:`calingen.forms.fields.PluginField.prepare_value`
         calls this method.
         """
         return ", ".join(value)
