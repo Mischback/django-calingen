@@ -111,6 +111,13 @@
       <br />
     </div>
     <div id="calingen_main">
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
 {% block main %}
 foobar
 {% endblock main %}
