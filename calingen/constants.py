@@ -23,3 +23,4 @@ class EventType(TextChoices):
     """
 
     ANNUAL_ANNIVERSARY = "ANNUAL_ANNIVERSARY", _("Annual Anniversary")
+    HOLIDAY = "HOLIDAY", _("Holiday")
