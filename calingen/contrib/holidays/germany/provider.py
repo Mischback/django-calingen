@@ -34,9 +34,21 @@ FRAUENTAG = (
     EventType.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 3, 8)),
 )
-KARFREITAG = (_("Good Friday"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=-2))
-OSTER_SONNTAG = (_("Easter Sunday"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=0))
-OSTER_MONTAG = (_("Easter Monday"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=1))
+KARFREITAG = (
+    _("Good Friday"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=-2),
+)
+OSTER_SONNTAG = (
+    _("Easter Sunday"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=0),
+)
+OSTER_MONTAG = (
+    _("Easter Monday"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=1),
+)
 TAG_DER_ARBEIT = (
     _("Worker's Day"),
     EventType.HOLIDAY,
@@ -45,19 +57,23 @@ TAG_DER_ARBEIT = (
 CHRISTI_HIMMELFAHRT = (
     _("Ascension"),
     EventType.HOLIDAY,
-    rrule(freq=YEARLY, byeaster=39),
+    rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=39),
 )
 PFINGST_SONNTAG = (
     _("Penecost Sunday"),
     EventType.HOLIDAY,
-    rrule(freq=YEARLY, byeaster=49),
+    rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=49),
 )
 PFINGST_MONTAG = (
     _("Pentecost Monday"),
     EventType.HOLIDAY,
-    rrule(freq=YEARLY, byeaster=50),
+    rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=50),
 )
-FRONLEICHNAM = (_("Corpus Christi"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=60))
+FRONLEICHNAM = (
+    _("Corpus Christi"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=60),
+)
 MARIA_HIMMELFAHRT = (
     _("Assumption of Mary"),
     EventType.HOLIDAY,
