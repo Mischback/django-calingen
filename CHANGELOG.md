@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - add a generic plugin api
   - add a plugin api to provide events
   - add a app-specific form field and widget to handle plugins
+- implement ``EventProvider`` for German holidays
 
 
 
