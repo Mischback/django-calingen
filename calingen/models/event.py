@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
+from calingen.constants import EventType
 from calingen.forms.fields import SplitDateTimeOptionalField
 from calingen.models.queryset import CalingenQuerySet
 
@@ -57,11 +58,6 @@ class Event(models.Model):
     `calingen` app. Inherited attributes/methods (provided by Django's
     :class:`~django.db.models.Model`) are not documented here.
     """
-
-    class EventType(models.TextChoices):
-        """Provides the accepted choices for :attr:`calingen.models.event.Event.type`."""
-
-        ANNUAL_ANNIVERSARY = "ANNUAL_ANNIVERSARY", _("Annual Anniversary")
 
     objects = models.Manager()
     """The model's default manager.
@@ -159,7 +155,7 @@ class Event(models.Model):
     stored in this attribute.
 
     The attribute is implemented as :class:`~django.db.models.CharField` with
-    its possible values limited by :class:`calingen.models.event.Event.EventType`.
+    its possible values limited by :class:`calingen.constants.EventType`.
     """
 
     class Meta:  # noqa: D106
