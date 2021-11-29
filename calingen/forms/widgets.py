@@ -4,14 +4,14 @@
 
 # Django imports
 from django.forms.fields import CallableChoiceIterator
-from django.forms.widgets import CheckboxSelectMultiple, MultiWidget, TextInput
+from django.forms.widgets import CheckboxSelectMultiple, HiddenInput, MultiWidget
 
 
 class PluginWidget(MultiWidget):
     """Widget to render the app-specific :class:`~calingen.forms.fields.plugin.PluginField`."""
 
     def __init__(self, *args, **kwargs):
-        widgets = (CheckboxSelectMultiple(), TextInput())
+        widgets = (CheckboxSelectMultiple(), HiddenInput())
         super().__init__(widgets=widgets, *args, **kwargs)
 
     def update_available_plugins(self, choices=()):
