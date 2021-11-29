@@ -22,7 +22,8 @@ ignore =
     B018
 
 per-file-ignores =
-    tests/interfaces/*.py:D
+    tests/interfaces/*.py:D,
+    tests/forms/*.py:D
 
 # ...and limit flake8 to the project's very own source code
 exclude =

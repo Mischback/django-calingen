@@ -63,7 +63,7 @@ class CalingenListField(CharField):
         However, :meth:`calingen.forms.fields.PluginField.prepare_value`
         calls this method.
         """
-        return ", ".join(value)
+        return ", ".join(value)  # pragma: nocover
 
     def to_python(self, value):
         """Merge a comma-seperated list of strings to a Python list."""
