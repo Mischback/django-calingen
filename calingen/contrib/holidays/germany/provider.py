@@ -9,7 +9,7 @@ from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 
 # external imports
-from dateutil.rrule import YEARLY, rrule
+from dateutil.rrule import WE, YEARLY, rrule
 
 # app imports
 from calingen.constants import EventType
@@ -82,6 +82,17 @@ ALLERHEILIGEN = (
     _("All Hallows"),
     EventType.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 11, 1)),
+)
+BUSS_UND_BETTAG = (
+    _("Day of Repetance"),
+    EventType.HOLIDAY,
+    rrule(
+        freq=YEARLY,
+        dtstart=datetime(1990, 1, 1),
+        bymonth=11,
+        byweekday=WE,
+        bymonthday=(16, 17, 18, 19, 20, 21, 22),
+    ),
 )
 ERSTER_WEIHNACHTSTAG = (
     _("Christmas Day"),
@@ -232,6 +243,14 @@ class Saarland(GermanyFederal):
     title = _("Holidays of Saarland")
 
     holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM, ALLERHEILIGEN, MARIA_HIMMELFAHRT]
+
+
+class Sachsen(GermanyFederal):
+    """Provides holidays of Sachsen."""
+
+    title = _("Holidays of Sachsen")
+
+    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM, BUSS_UND_BETTAG]
 
 
 class SachsenAnhalt(GermanyFederal):
