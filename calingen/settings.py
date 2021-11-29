@@ -46,4 +46,7 @@ formerly selected ``EventProvider`` using Django's ``messages`` framework.
 
 See :meth:`calingen.views.profile.ProfileUpdateView.get_context_data` for
 implementation details.
+
+See :func:`calingen.checks.check_config_value_event_provider_notification` for
+the corresponding contributions to Django's check framework.
 """

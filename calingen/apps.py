@@ -9,6 +9,7 @@ import logging
 # Django imports
 from django.apps import AppConfig
 from django.conf import settings
+from django.core.checks import register as register_check
 
 # get a module-level logger
 logger = logging.getLogger(__name__)
@@ -35,6 +36,7 @@ class CalingenConfig(AppConfig):
         # delay app imports until now, to make sure everything else is ready
         # app imports
         from calingen import settings as app_default_settings
+        from calingen.checks import check_config_value_event_provider_notification
 
         # inject app-specific settings
         # see https://stackoverflow.com/a/47154840
@@ -43,6 +45,9 @@ class CalingenConfig(AppConfig):
                 value = getattr(app_default_settings, name)
                 logger.info("Injecting setting {} with value {}".format(name, value))
                 setattr(settings, name, value)
+
+        # register app-specific check functions
+        register_check(check_config_value_event_provider_notification)
 
         # load the external event providers
         for provider in settings.CALINGEN_EXTERNAL_EVENT_PROVIDER:
