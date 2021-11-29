@@ -14,8 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add module ``interfaces``
   - add ``data_exchange`` interfaces, to pass calender entries or list of them
     between different components of the application
-- add a generic plugin api
-- add a plugin api to provide events
+  - add a generic plugin api
+  - add a plugin api to provide events
+  - add a app-specific form field and widget to handle plugins
 
 
 
