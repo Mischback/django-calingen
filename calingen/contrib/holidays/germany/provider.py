@@ -29,7 +29,11 @@ HEILIGE_DREI_KOENIGE = (
     EventType.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 6)),
 )
-# FRAUENTAG = (_("Women's Day"), EventType.HOLIDAY, rrule(freq=YEARLY, dtstart=datetime(1990, 3, 8)))
+FRAUENTAG = (
+    _("Women's Day"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 3, 8)),
+)
 KARFREITAG = (_("Good Friday"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=-2))
 OSTER_SONNTAG = (_("Easter Sunday"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=0))
 OSTER_MONTAG = (_("Easter Monday"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=1))
@@ -54,10 +58,20 @@ PFINGST_MONTAG = (
     rrule(freq=YEARLY, byeaster=50),
 )
 FRONLEICHNAM = (_("Corpus Christi"), EventType.HOLIDAY, rrule(freq=YEARLY, byeaster=60))
+MARIA_HIMMELFAHRT = (
+    _("Assumption of Mary"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 8, 15)),
+)
 TAG_DER_DEUTSCHEN_EINHEIT = (
     _("Day of German Unity"),
     EventType.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 10, 3)),
+)
+REFORMATIONSTAG = (
+    _("Reformation Day"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 10, 31)),
 )
 ALLERHEILIGEN = (
     _("All Hallows"),
@@ -124,3 +138,62 @@ class BadenWuerttemberg(GermanyFederal):
     title = _("Holidays of Baden-Württemberg")
 
     holidays = FEDERAL_HOLIDAYS + [HEILIGE_DREI_KOENIGE, FRONLEICHNAM, ALLERHEILIGEN]
+
+
+class Bayern(GermanyFederal):
+    """Provides holidays of Bayern."""
+
+    title = _("Holidays of Bayern")
+
+    holidays = FEDERAL_HOLIDAYS + [
+        HEILIGE_DREI_KOENIGE,
+        FRONLEICHNAM,
+        MARIA_HIMMELFAHRT,
+        ALLERHEILIGEN,
+    ]
+
+
+class Berlin(GermanyFederal):
+    """Provides holidays of Berlin."""
+
+    title = _("Holidays of Berlin")
+
+    holidays = FEDERAL_HOLIDAYS + [FRAUENTAG]
+
+
+class Brandenburg(GermanyFederal):
+    """Provides holidays of Brandenburg."""
+
+    title = _("Holidays of Brandenburg")
+
+    holidays = FEDERAL_HOLIDAYS + [REFORMATIONSTAG]
+
+
+class Bremen(Brandenburg):
+    """Provides holidays of Bremen."""
+
+    title = _("Holidays of Bremen")
+
+
+class Hamburg(Brandenburg):
+    """Provides holidays of Hamburg."""
+
+    title = _("Holidays of Hamburg")
+
+
+class MecklenburgVorpommern(Brandenburg):
+    """Provides holidays of Mecklenburg-Vorpommern."""
+
+    title = _("Holidays of Mecklenburg-Vorpommern")
+
+
+class Niedersachsen(Brandenburg):
+    """Provides holidays of Niedersachsen."""
+
+    title = _("Holidays of Niedersachsen")
+
+
+class SchleswigHolstein(Brandenburg):
+    """Provides holidays of Schleswig-Holstein."""
+
+    title = _("Holidays of Schleswig-Holstein")
