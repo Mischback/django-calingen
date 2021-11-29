@@ -3,6 +3,7 @@
 """Provides views for the :class:`calingen.models.profile.Profile` model."""
 
 # Django imports
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
@@ -131,24 +132,33 @@ class ProfileUpdateView(
     """Make the view use the template ``calingen/profile_update.html``."""
 
     def get_context_data(self, **kwargs):
-        """Provide additional context for this view.
+        """Provide additional context for this view, depending on app-specific settings.
 
         While accessing the users :class:`~calingen.models.profile.Profile`,
         its list of ``event_provider`` is updated. If there are providers, that
         are moved from ``active`` to ``unavailable``, the user is informed using
         Django's ``messages`` framework.
+
+        This is dependent on the setting
+        :attr:`~calingen.settings.CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION`.
         """
-        context = super().get_context_data(**kwargs)
+        if settings.CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION == "messages":
+            # get the context
+            context = super().get_context_data(**kwargs)
 
-        for deactivated_plugin in context["profile"].event_provider[
-            "newly_unavailable"
-        ]:
-            messages.warning(
-                self.request,
-                "The following plugin is no longer available: {}".format(
-                    deactivated_plugin
-                ),
-                fail_silently=True,
-            )
+            # evaluate, if there are newly deactivated plugins and add a message
+            for deactivated_plugin in context["profile"].event_provider[
+                "newly_unavailable"
+            ]:
+                messages.warning(
+                    self.request,
+                    "The following plugin is no longer available: {}".format(
+                        deactivated_plugin
+                    ),
+                    fail_silently=True,
+                )
 
-        return context
+            return context
+
+        # depending on the setting, just return the context
+        return super().get_context_data(**kwargs)
