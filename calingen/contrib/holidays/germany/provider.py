@@ -63,6 +63,11 @@ MARIA_HIMMELFAHRT = (
     EventType.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 8, 15)),
 )
+WELTKINDERTAG = (
+    _("Children's Day"),
+    EventType.HOLIDAY,
+    rrule(freq=YEARLY, dtstart=datetime(1990, 9, 20)),
+)
 TAG_DER_DEUTSCHEN_EINHEIT = (
     _("Day of German Unity"),
     EventType.HOLIDAY,
@@ -197,3 +202,49 @@ class SchleswigHolstein(Brandenburg):
     """Provides holidays of Schleswig-Holstein."""
 
     title = _("Holidays of Schleswig-Holstein")
+
+
+class Hessen(GermanyFederal):
+    """Provides holidays of Hessen."""
+
+    title = _("Holidays of Hessen")
+
+    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM]
+
+
+class NordrheinWestphalen(GermanyFederal):
+    """Provides holidays of Nordrhein-Westphalen."""
+
+    title = _("Holidays of Nordrhein-Westphalen")
+
+    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM, ALLERHEILIGEN]
+
+
+class RheinlandPfalz(NordrheinWestphalen):
+    """Provides holidays of Rheinland-Pfalz."""
+
+    title = _("Holidays of Rheinland-Pfalz")
+
+
+class Saarland(GermanyFederal):
+    """Provides holidays of Saarland."""
+
+    title = _("Holidays of Saarland")
+
+    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM, ALLERHEILIGEN, MARIA_HIMMELFAHRT]
+
+
+class SachsenAnhalt(GermanyFederal):
+    """Provides holidays of Sachsen-Anhalt."""
+
+    title = _("Holidays of Sachsen-Anhalt")
+
+    holidays = FEDERAL_HOLIDAYS + [HEILIGE_DREI_KOENIGE, REFORMATIONSTAG]
+
+
+class Thueringen(GermanyFederal):
+    """Provides holidays of Thueringen."""
+
+    title = _("Holidays of Thüringen")
+
+    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM, WELTKINDERTAG, REFORMATIONSTAG]

@@ -11,7 +11,13 @@ from .provider import (  # noqa: F401
     Bremen,
     GermanyFederal,
     Hamburg,
+    Hessen,
     MecklenburgVorpommern,
     Niedersachsen,
+    NordrheinWestphalen,
+    RheinlandPfalz,
+    Saarland,
+    SachsenAnhalt,
     SchleswigHolstein,
+    Thueringen,
 )
