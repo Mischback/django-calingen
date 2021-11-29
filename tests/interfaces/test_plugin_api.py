@@ -25,10 +25,25 @@ class EventProviderTest(CalingenTestCase):
 
         # Act (actually perform what has to be done)
         class EventProviderTestImplementation(EventProvider):
-            pass
+            title = "do-not-care"
 
         # Assert (verify the results))
         self.assertEqual(len(EventProvider.plugins), already_present_plugins + 1)
+
+    def test_list_available_plugins(self):
+        """Verify that EventProvider instances are listed."""
+
+        # Arrange (set up test environment)
+        test_implementation_name = "TestImplementation"
+
+        class EventProviderTestImplementation_list_plugins_test(EventProvider):
+            title = test_implementation_name
+
+        # Act (actually perform what has to be done)
+        event_provider_list = EventProvider.list_available_plugins()
+
+        # Assert (verify the results))
+        self.assertIn((mock.ANY, test_implementation_name), event_provider_list)
 
 
 @tag("interfaces", "utility")
@@ -37,7 +52,7 @@ class UtilityFunctionTest(CalingenTestCase):
         """fully_qualified_classname() on a class."""
         # Arrange (set up test environment)
         class EventProviderTestImplementation(EventProvider):
-            pass
+            title = "do-not-care"
 
         a_class = EventProviderTestImplementation
 
@@ -51,7 +66,7 @@ class UtilityFunctionTest(CalingenTestCase):
         """fully_qualified_classname() on an instance."""
         # Arrange (set up test environment)
         class EventProviderTestImplementation(EventProvider):
-            pass
+            title = "do-not-care"
 
         an_instance = EventProviderTestImplementation()
 

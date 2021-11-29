@@ -101,7 +101,7 @@ class EventProvider(metaclass=PluginMount):
         Primary use case for this method is the usage in a Django view,
         specifically :class:`~calingen.models.profile.ProfileForm` uses this
         method to provide the choices of its field. That ``Form`` is then used
-        in the app's viegs, e.g. :class:`~calingen.views.profile.ProfileUpdateView`.
+        in the app's views, e.g. :class:`~calingen.views.profile.ProfileUpdateView`.
         """
         result = set()
         for plugin in cls.plugins:
