@@ -18,8 +18,6 @@ ignore =
     W503,
     # line length (of code) is handled by black
     E501,
-    # As of 2021-11-28 there is a bug in flake8-bugbear (#208)
-    B018
 
 per-file-ignores =
     tests/interfaces/*.py:D,
