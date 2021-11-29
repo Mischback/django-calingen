@@ -70,3 +70,50 @@ class PluginFieldTest(CalingenTestCase):
 
         # Assert (verify the results)
         mock_MVF.assert_called_once()
+
+    @mock.patch("calingen.forms.fields.MultiValueField")
+    def test_prepare_value(self, mock_MVF):
+        # Arrange (set up test environment)
+        mock_ListField = mock.MagicMock()
+        mock_ListField_prepare_value = mock.MagicMock()
+        mock_ListField.prepare_value = mock_ListField_prepare_value
+        test_value = {"unavailable": "foo"}
+        a = PluginField()
+        a.fields = [mock.ANY, mock_ListField]
+
+        # Act (actually perform what has to be done)
+        a.prepare_value(test_value)
+
+        # Assert (verify the results)
+        mock_ListField_prepare_value.assert_called()
+
+    @mock.patch("calingen.forms.fields.MultiValueField")
+    def test_compress_empty(self, mock_MVF):
+        # Arrange (set up test environment)
+        mock_ListField = mock.MagicMock()
+        mock_ListField_prepare_value = mock.MagicMock()
+        mock_ListField.prepare_value = mock_ListField_prepare_value
+        test_value = None
+        a = PluginField()
+
+        # Act (actually perform what has to be done)
+        return_value = a.compress(test_value)
+
+        # Assert (verify the results)
+        self.assertIsNone(return_value)
+
+    @mock.patch("calingen.forms.fields.MultiValueField")
+    def test_compress_valid_datalist(self, mock_MVF):
+        # Arrange (set up test environment)
+        mock_ListField = mock.MagicMock()
+        mock_ListField_prepare_value = mock.MagicMock()
+        mock_ListField.prepare_value = mock_ListField_prepare_value
+        test_value = ["foo", "bar"]
+        a = PluginField()
+
+        # Act (actually perform what has to be done)
+        return_value = a.compress(test_value)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value["active"], "foo")
+        self.assertEqual(return_value["unavailable"], "bar")
