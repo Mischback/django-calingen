@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide tests for calingen.interfaces.plugin_api."""
+"""Provide tests for calingen.forms.widgets."""
 
 # Python imports
 from unittest import mock, skip  # noqa: F401
