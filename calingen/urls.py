@@ -24,7 +24,9 @@ urlpatterns = [
         name="event-delete",
     ),
     path("event/add/", event.EventCreateView.as_view(), name="event-add"),
-    path("profile/<int:profile_id>/", profile.ProfileView.as_view(), name="profile"),
+    path(
+        "profile/<int:profile_id>/", profile.ProfileDetailView.as_view(), name="profile"
+    ),
     path("profile/add/", profile.ProfileCreateView.as_view(), name="profile-add"),
     path(
         "profile/<int:profile_id>/delete/",

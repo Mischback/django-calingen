@@ -13,19 +13,36 @@ from django.views import generic
 
 # app imports
 from calingen.models.event import Event
-from calingen.models.profile import Profile, ProfileForm
+from calingen.models.profile import Profile, ProfileForm, resolve_event_provider
 from calingen.views.mixins import (
     CalingenInjectRequestUserIntoFormValidMixin,
     CalingenRestrictToUserMixin,
 )
 
 
-class ProfileView(
-    LoginRequiredMixin, CalingenRestrictToUserMixin, generic.base.TemplateView
+class ProfileDetailView(
+    LoginRequiredMixin, CalingenRestrictToUserMixin, generic.DetailView
 ):
-    """Just for linting."""
+    """Provide details of a :class:`calingen.models.profile.Profile` instance.
 
-    template_name = "calingen/profile.html"
+    Notes
+    -----
+    This implementation uses Django's generic class-based view
+    :class:`django.views.generic.DetailView`.
+    """
+
+    model = Profile
+    """Required attribute to tie this view to the model."""
+
+    context_object_name = "profile"
+    """Provide a semantic name for the built-in context."""
+
+    pk_url_kwarg = "profile_id"
+    """The name of the keyword argument as provided in the app's url configuration.
+
+    By default, this is simply ``"pk"``, but for clarity, the app's url
+    configuration (:mod:`calingen.urls`) uses the more explicit ``"event_id"``.
+    """
 
     def get_context_data(self, **kwargs):
         """Just for linting."""
@@ -33,12 +50,12 @@ class ProfileView(
 
         # add summary of Event instances and EventProvider instances
         user_events = Event.calingen_manager.summary(self.request.user)
-        # provider_events = len(
-        #     resolve_event_provider(context["profile"].event_provider["active"])._entries
-        # )
+        provider_events = len(
+            resolve_event_provider(context["profile"].event_provider["active"])._entries
+        )
         context["events"] = {
             "user_provided": user_events,
-            # "external_provider": provider_events,
+            "external_provider": provider_events,
         }
 
         return context
