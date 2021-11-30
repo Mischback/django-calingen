@@ -11,8 +11,13 @@ from django.utils.translation import ugettext_lazy as _
 
 # app imports
 from calingen.constants import EventType
+from calingen.exceptions import CalingenException
 from calingen.forms.fields import SplitDateTimeOptionalField
 from calingen.models.queryset import CalingenQuerySet
+
+
+class EventModelException(CalingenException):
+    """Base class for all exceptions related to the :class:`~calingen.models.event.Event` model."""
 
 
 class EventQuerySet(CalingenQuerySet):  # noqa: D101
@@ -47,6 +52,28 @@ class EventManager(models.Manager):
             retrieved objects will be annotated with additional attributes.
         """
         return EventQuerySet(self.model, using=self._db).default()
+
+    def summary(self, user=None):
+        """Provide a user-specific summary of :class:`~calingen.models.event.Event` instances.
+
+        Parameters
+        ----------
+        user :
+            The summary is provided for an actual user, filtered by
+            :attr:`calingen.models.event.Event.owner`.
+
+            Most likely you will want to pass ``request.user`` into the method.
+
+        Returns
+        -------
+        int
+            As of now, the method only returns the number of instances.
+        """
+        if user is None:
+            raise EventModelException(
+                "This method may only be called with a user object"
+            )
+        return self.get_queryset().filter_by_user(user).count()
 
 
 class Event(models.Model):

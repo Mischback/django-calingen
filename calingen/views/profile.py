@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 # app imports
+from calingen.models.event import Event
 from calingen.models.profile import Profile, ProfileForm
 from calingen.views.mixins import (
     CalingenInjectRequestUserIntoFormValidMixin,
@@ -142,10 +143,14 @@ class ProfileUpdateView(
         This is dependent on the setting
         :attr:`~calingen.settings.CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION`.
         """
-        if settings.CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION == "messages":
-            # get the context
-            context = super().get_context_data(**kwargs)
+        # get the context
+        context = super().get_context_data(**kwargs)
 
+        # add summary of Event instances and EventProvider instances
+        events = Event.calingen_manager.summary(self.request.user)
+        context["events"] = events
+
+        if settings.CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION == "messages":
             # evaluate, if there are newly deactivated plugins and add a message
             for deactivated_plugin in context["profile"].event_provider[
                 "newly_unavailable"
@@ -158,7 +163,4 @@ class ProfileUpdateView(
                     fail_silently=True,
                 )
 
-            return context
-
-        # depending on the setting, just return the context
-        return super().get_context_data(**kwargs)
+        return context

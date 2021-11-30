@@ -3,14 +3,20 @@
 {% block page_title %}Profile: ProfileUpdateView{% endblock page_title %}
 
 {% block main %}
-<h2>Update Profile</h2>
+<h2>CalInGen Profile</h2>
 
-<form method="post" novalidate class="calingen-form">
-  {% csrf_token %}
+<strong>{{ events }}</strong> user-provided Events
 
-  {% include "calingen/includes/form.html" with form=form %}
+<div>
+  <h2>Update Profile</h2>
 
-  <button type="submit">Update Profile</button>
-  <button type="reset">Cancel</button>
-</form>
+  <form method="post" novalidate class="calingen-form">
+    {% csrf_token %}
+
+    {% include "calingen/includes/form.html" with form=form %}
+
+    <button type="submit">Update Profile</button>
+    <button type="reset">Cancel</button>
+  </form>
+</div>
 {% endblock main %}
