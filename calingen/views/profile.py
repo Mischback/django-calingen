@@ -20,6 +20,18 @@ from calingen.views.mixins import (
 )
 
 
+class ProfileView(
+    LoginRequiredMixin, CalingenRestrictToUserMixin, generic.base.TemplateView
+):
+    """Just for linting."""
+
+    template_name = "calingen/profile.html"
+
+    def get_context_data(self, **kwargs):
+        """Just for linting."""
+        return super().get_context_data(**kwargs)
+
+
 class ProfileCreateView(
     LoginRequiredMixin, CalingenInjectRequestUserIntoFormValidMixin, generic.CreateView
 ):
