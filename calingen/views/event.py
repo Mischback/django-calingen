@@ -35,6 +35,9 @@ class EventCreateView(
     form_class = EventForm
     """Specify which form to use."""
 
+    template_name_suffix = "_create"
+    """Make the view use the template ``calingen/event_create.html``."""
+
 
 class EventDeleteView(
     CalingenRestrictToUserMixin, LoginRequiredMixin, generic.DeleteView
@@ -131,3 +134,6 @@ class EventUpdateView(
     By default, this is simply ``"pk"``, but for clarity, the app's url
     configuration (:mod:`calingen.urls`) uses the more explicit ``"event_id"``.
     """
+
+    template_name_suffix = "_update"
+    """Make the view use the template ``calingen/event_update.html``."""
