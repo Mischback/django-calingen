@@ -48,15 +48,64 @@ def resolve_event_provider(provider_list, year=None):
     return result
 
 
-class ProfileQuerySet(CalingenQuerySet):  # noqa: D101
-    pass
+class ProfileQuerySet(CalingenQuerySet):
+    """App-specific implementation of :class:`django.db.models.QuerySet`.
+
+    Notes
+    -----
+    This :class:`~django.db.models.QuerySet` implementation provides
+    app-specific augmentations.
+
+    The provided methods augment/extend the retrieved
+    :class:`calingen.models.profile.Profile` instances by annotating them with
+    additional information.
+    """
+
+    def default(self):
+        """Return a :class:`~django.db.models.QuerySet` with annotations.
+
+        Returns
+        -------
+        :class:`~django.db.models.QuerySet`
+            The annotated queryset.
+
+        Notes
+        -----
+        This is the queryset's default method, which will make the associated
+        project user (specified by :setting:`AUTH_USER_MODEL` and stored in
+        :attr:`Profile.owner <calingen.models.profile.Profile.owner>`) available.
+        """
+        return self.select_related("owner")
 
 
 class ProfileManager(models.Manager):
-    """Just for linting, will be refactored!"""  # noqa: D400
+    """App-/model-specific implementation of :class:`django.db.models.Manager`.
+
+    Notes
+    -----
+    This :class:`~django.db.models.Manager` implementation is used as an
+    additional manager of :class:`~calingen.models.profile.Profile`
+    (see :attr:`calingen.models.profile.Profile.calingen_manager`).
+
+    This implementation inherits its functionality from
+    :class:`django.db.models.Manager` and provides identical funtionality.
+    Furthermore, it augments the retrieved objects with additional attributes,
+    using the custom :class:`~django.db.models.QuerySet` implementation
+    :class:`~calingen.models.profile.ProfileQuerySet`.
+    """
 
     def get_queryset(self):
-        """Just for linting, will be refactored!"""  # noqa: D400
+        """Use the app-/model-specific :class:`~calingen.models.profile.ProfileQuerySet` by default.
+
+        Returns
+        -------
+        :class:`django.models.db.QuerySet`
+            This queryset is provided by
+            :class:`calingen.models.profile.ProfileQuerySet` and applies its
+            :meth:`~stockings.models.profile.ProfileQuerySet.default`
+            method. The retrieved objects will be annotated with additional
+            attributes.
+        """
         return ProfileQuerySet(self.model, using=self._db).default()
 
 

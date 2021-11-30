@@ -2,6 +2,9 @@
 
 """Provides views for the :class:`calingen.models.profile.Profile` model."""
 
+# Python imports
+import logging
+
 # Django imports
 from django.conf import settings
 from django.contrib import messages
@@ -18,6 +21,8 @@ from calingen.views.mixins import (
     CalingenInjectRequestUserIntoFormValidMixin,
     CalingenRestrictToUserMixin,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class ProfileDetailView(
@@ -59,6 +64,11 @@ class ProfileDetailView(
         }
 
         return context
+
+    def get_queryset(self):  # noqa: D102
+        logger.debug("ProfileDetailView.get_queryset()")
+
+        return super().get_queryset()
 
 
 class ProfileCreateView(

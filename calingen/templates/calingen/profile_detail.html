@@ -3,7 +3,7 @@
 {% block page_title %}Profile: ProfileUpdateView{% endblock page_title %}
 
 {% block main %}
-<h2>CalInGen Profile</h2>
+<h2>CalInGen Profile of {{ profile.owner }}</h2>
 
 <strong>{{ events.user_provided }}</strong> user-provided Events,
 <strong>{{ events.external_provider }}</strong> Events provided by plugins.
