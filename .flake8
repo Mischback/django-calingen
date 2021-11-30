@@ -1,4 +1,31 @@
 [flake8]
+# Activate rules by plugins
+extend-select =
+    # flake8-assertive
+    A,
+    # flake8-bugbear
+    B, B902, B903,
+    # pydocstyle (by flake8-docstrings)
+    D,
+    # flake8-django
+    DJ, DJ10, DJ11,
+
+# just don't use these...
+ignore =
+    # as per Django's Coding Style
+    W601,
+    # line break before binary operator
+    W503,
+    # line length (of code) is handled by black
+    E501,
+
+per-file-ignores =
+    tests/forms/*.py:D
+    tests/interfaces/*.py:D,
+    tests/models/*.py:D
+    tests/test_checks.py:D
+
+# ...and limit flake8 to the project's very own source code
 exclude =
     .git,
     .tox,
@@ -7,13 +34,11 @@ exclude =
     settings_dev.py,
     settings_test.py,
 
-# as per Django's Coding Style
-# see https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
-# When using 'black', max line length will be capped at 88.
-max-line-length = 119
+# Actually, try to stay below 80 characters for docstrings.
+# But enforcing this does not work, when linking to other classes / attributes
+# in the first line of the docstring.
+# So, let's rely on convention instead.
+max-doc-length = 119
 
-ignore =
-    # as per Django's Coding Style
-    W601,
-    # line break before binary operator
-    W503,
+# set the used convention for pydocstyle
+docstring-convention = numpy

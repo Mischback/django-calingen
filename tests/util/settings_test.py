@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Contains minimum settings to run the development of the app in a tox-based
-environment."""
+"""Contains minimum settings to run the development of the app in a tox-based environment."""
 
 # Python imports
 import os
@@ -73,6 +72,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+CALINGEN_EXTERNAL_EVENT_PROVIDER = [
+    "calingen.contrib.holidays.germany",
 ]
 
 LOGGING = {

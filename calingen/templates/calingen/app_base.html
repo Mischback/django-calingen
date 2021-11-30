@@ -91,6 +91,12 @@
     <div id="calingen_nav">
       <div>
         <ul>
+          <li><a href="{% url "profile-update" request.user.id %}">Update Profile</a></li>
+          <li><a href="{% url "profile-add" %}">Add Profile</a></li>
+        </ul>
+      </div>
+      <div>
+        <ul>
           <li><a href="{% url "event-list" %}">Event List</a></li>
           <li><a href="{% url "event-add" %}">Add Event</a></li>
         </ul>
@@ -105,6 +111,13 @@
       <br />
     </div>
     <div id="calingen_main">
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
 {% block main %}
 foobar
 {% endblock main %}

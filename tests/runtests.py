@@ -75,7 +75,7 @@ def setup(
 
         # disable migrations during tests
         if not enable_migrations:
-            # see https://simpleisbetterthancomplex.com/tips/2016/08/19/django-tip-12-disabling-migrations-to-speed-up-unit-tests.html  # noqa: E501
+            # see https://simpleisbetterthancomplex.com/tips/2016/08/19/django-tip-12-disabling-migrations-to-speed-up-unit-tests.html  # noqa: W505
             settings.MIGRATION_MODULES = DisableMigrations()
             if verbosity >= 2:
                 print("Testing without applied migrations.")
