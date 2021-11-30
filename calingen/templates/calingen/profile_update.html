@@ -5,7 +5,8 @@
 {% block main %}
 <h2>CalInGen Profile</h2>
 
-<strong>{{ events }}</strong> user-provided Events
+<strong>{{ events.user_provided }}</strong> user-provided Events,
+<strong>{{ events.external_provider }}</strong> Events provided by plugins.
 
 <div>
   <h2>Update Profile</h2>

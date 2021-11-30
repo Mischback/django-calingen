@@ -2,17 +2,50 @@
 
 """Provide the app's user profile."""
 
+# Python imports
+import datetime
+
 # Django imports
 from django import forms
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
 from calingen.forms.fields import PluginField
+from calingen.interfaces.data_exchange import CalenderEntryList
 from calingen.interfaces.plugin_api import EventProvider
 from calingen.models.queryset import CalingenQuerySet
+
+
+def resolve_event_provider(provider_list, year=None):
+    """Combine all event providers results into one :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
+
+    Parameters
+    ----------
+    provider_list : list
+        The list of :class:`~calingen.interfaces.plugin_api.EventProvider`
+        instances, provided as fully qualified Python paths.
+    year : int, optional
+        The year to use for resolving the
+        :class:`~calingen.interfaces.plugin_api.EventProvider`.
+
+    Returns
+    -------
+    :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+        A single instance including all events from all providers.
+    """
+    if year is None:
+        year = datetime.datetime.now().year
+
+    result = CalenderEntryList()
+    for provider in provider_list:
+        provider_instance = import_string(provider)
+        result.merge(provider_instance.resolve(year))
+
+    return result
 
 
 class ProfileQuerySet(CalingenQuerySet):  # noqa: D101

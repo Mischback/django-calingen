@@ -13,7 +13,7 @@ from django.views import generic
 
 # app imports
 from calingen.models.event import Event
-from calingen.models.profile import Profile, ProfileForm
+from calingen.models.profile import Profile, ProfileForm, resolve_event_provider
 from calingen.views.mixins import (
     CalingenInjectRequestUserIntoFormValidMixin,
     CalingenRestrictToUserMixin,
@@ -147,8 +147,14 @@ class ProfileUpdateView(
         context = super().get_context_data(**kwargs)
 
         # add summary of Event instances and EventProvider instances
-        events = Event.calingen_manager.summary(self.request.user)
-        context["events"] = events
+        user_events = Event.calingen_manager.summary(self.request.user)
+        provider_events = len(
+            resolve_event_provider(context["profile"].event_provider["active"])._entries
+        )
+        context["events"] = {
+            "user_provided": user_events,
+            "external_provider": provider_events,
+        }
 
         if settings.CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION == "messages":
             # evaluate, if there are newly deactivated plugins and add a message
