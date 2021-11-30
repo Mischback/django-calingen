@@ -13,7 +13,7 @@ from django.views import generic
 
 # app imports
 from calingen.models.event import Event
-from calingen.models.profile import Profile, ProfileForm, resolve_event_provider
+from calingen.models.profile import Profile, ProfileForm
 from calingen.views.mixins import (
     CalingenInjectRequestUserIntoFormValidMixin,
     CalingenRestrictToUserMixin,
@@ -29,7 +29,19 @@ class ProfileView(
 
     def get_context_data(self, **kwargs):
         """Just for linting."""
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+
+        # add summary of Event instances and EventProvider instances
+        user_events = Event.calingen_manager.summary(self.request.user)
+        # provider_events = len(
+        #     resolve_event_provider(context["profile"].event_provider["active"])._entries
+        # )
+        context["events"] = {
+            "user_provided": user_events,
+            # "external_provider": provider_events,
+        }
+
+        return context
 
 
 class ProfileCreateView(
@@ -155,20 +167,10 @@ class ProfileUpdateView(
         This is dependent on the setting
         :attr:`~calingen.settings.CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION`.
         """
-        # get the context
-        context = super().get_context_data(**kwargs)
-
-        # add summary of Event instances and EventProvider instances
-        user_events = Event.calingen_manager.summary(self.request.user)
-        provider_events = len(
-            resolve_event_provider(context["profile"].event_provider["active"])._entries
-        )
-        context["events"] = {
-            "user_provided": user_events,
-            "external_provider": provider_events,
-        }
-
         if settings.CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION == "messages":
+            # get the context
+            context = super().get_context_data(**kwargs)
+
             # evaluate, if there are newly deactivated plugins and add a message
             for deactivated_plugin in context["profile"].event_provider[
                 "newly_unavailable"
@@ -181,4 +183,6 @@ class ProfileUpdateView(
                     fail_silently=True,
                 )
 
-        return context
+            return context
+
+        return super().get_context_data(**kwargs)
