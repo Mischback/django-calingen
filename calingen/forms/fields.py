@@ -2,7 +2,6 @@
 
 """Provide app-specific form fields."""
 
-
 # Django imports
 from django.core.exceptions import ValidationError
 from django.forms.fields import (
@@ -40,9 +39,10 @@ class SplitDateTimeOptionalField(SplitDateTimeField):
             steps.
         """
         try:
-            self.fields[1].to_python(value[1])
+            if self.fields[1].to_python(value[1]) is None:
+                value[1] = "00:00"
         except ValidationError:
-            value[1] = "00:00:00"
+            value[1] = "00:00"
 
         return super().clean(value)
 
