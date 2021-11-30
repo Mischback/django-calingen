@@ -51,7 +51,7 @@ class ProfileDetailView(
         # add summary of Event instances and EventProvider instances
         user_events = Event.calingen_manager.summary(self.request.user)
         provider_events = len(
-            resolve_event_provider(context["profile"].event_provider["active"])._entries
+            resolve_event_provider(context["profile"].event_provider["active"])
         )
         context["events"] = {
             "user_provided": user_events,

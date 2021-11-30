@@ -50,6 +50,9 @@ class CalenderEntryList:
     def __init__(self):  # noqa: D107
         self._entries = set()
 
+    def __len__(self):  # noqa: D105
+        return len(self._entries)
+
     def add_entry(self, entry, title=None, category=None, start=None):
         """Add a :class:`~calingen.interfaces.data_exchange.CalenderEntry` to the list.
 
