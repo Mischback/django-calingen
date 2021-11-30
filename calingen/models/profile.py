@@ -105,7 +105,7 @@ class Profile(models.Model):
         str
             The absolute URL for instances of this model.
         """
-        return reverse("profile-update", args=[self.id])  # pragma: nocover
+        return reverse("profile", args=[self.id])  # pragma: nocover
 
     @property
     def event_provider(self):
