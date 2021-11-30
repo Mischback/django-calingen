@@ -160,7 +160,7 @@ class Profile(models.Model):
         return result
 
     @event_provider.setter
-    def event_provider(self, value):
+    def event_provider(self, value):  # pragma: nocover
         self._event_provider = value
         self.save()
 
@@ -184,13 +184,13 @@ class ProfileForm(forms.ModelForm):
     :meth:`~calingen.models.profile.ProfileForm.save` method.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  # pragma: nocover
         instance = kwargs.get("instance", None)
         if instance is not None:
             kwargs["initial"] = {"event_provider": instance.event_provider}
         super().__init__(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):  # pragma: nocover
         """Inject the value of ``event_provider`` into the instance and save it."""
         self.instance.event_provider = self.cleaned_data["event_provider"]
         return super().save(*args, **kwargs)
