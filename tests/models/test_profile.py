@@ -17,6 +17,7 @@ from ..util.testcases import CalingenTestCase
 
 @tag("models", "profile")
 class ProfileTest(CalingenTestCase):
+    @tag("event_provider")
     @mock.patch("calingen.models.profile.EventProvider")
     def test_event_provider_getter_empty_raw(self, mock_event_provider):
         """If _event_provider is empty, return empty values."""
@@ -37,6 +38,7 @@ class ProfileTest(CalingenTestCase):
         self.assertEqual(return_value["unavailable"], [])
         self.assertEqual(return_value["newly_unavailable"], [])
 
+    @tag("event_provider")
     @mock.patch("calingen.models.profile.EventProvider")
     def test_event_provider_getter_active_to_active(self, mock_event_provider):
         """Active and available stays active."""
@@ -57,6 +59,7 @@ class ProfileTest(CalingenTestCase):
         self.assertEqual(return_value["unavailable"], [])
         self.assertEqual(return_value["newly_unavailable"], [])
 
+    @tag("event_provider")
     @mock.patch("calingen.models.profile.EventProvider")
     def test_event_provider_getter_unavailable_to_unavailable(
         self, mock_event_provider
@@ -79,6 +82,7 @@ class ProfileTest(CalingenTestCase):
         self.assertEqual(return_value["unavailable"], ["foo.bar.buhu"])
         self.assertEqual(return_value["newly_unavailable"], [])
 
+    @tag("event_provider")
     @mock.patch("calingen.models.profile.EventProvider")
     def test_event_provider_getter_unavailable_to_active(self, mock_event_provider):
         """Inactive but available is moved to active."""
@@ -99,6 +103,7 @@ class ProfileTest(CalingenTestCase):
         self.assertEqual(return_value["unavailable"], [])
         self.assertEqual(return_value["newly_unavailable"], [])
 
+    @tag("event_provider")
     @mock.patch("calingen.models.profile.EventProvider")
     def test_event_provider_getter_active_to_unavailable(self, mock_event_provider):
         """Active but unavailable is moved to unavailable and included in newly_unavailable."""
