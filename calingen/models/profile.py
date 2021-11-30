@@ -161,6 +161,8 @@ class Profile(models.Model):
 
     @event_provider.setter
     def event_provider(self, value):  # pragma: nocover
+        if value is None:
+            value = dict()
         self._event_provider = value
         self.save()
 
