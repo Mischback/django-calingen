@@ -110,7 +110,7 @@ class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
             return super().form_valid(form)
         except IntegrityError:
             # The requesting user already has a profile, simply redirect him
-            return redirect("profile", self.request.user.id)
+            return redirect("profile", Profile.objects.get(owner=self.request.user).id)
 
 
 class ProfileDeleteView(
