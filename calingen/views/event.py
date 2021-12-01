@@ -10,10 +10,15 @@ from django.views import generic
 # app imports
 from calingen.models.event import Event, EventForm
 from calingen.models.profile import Profile
-from calingen.views.mixins import CalingenRestrictToUserMixin
+from calingen.views.mixins import (
+    CalingenRestrictToUserMixin,
+    CalingenUserProfileIDMixin,
+)
 
 
-class EventCreateView(LoginRequiredMixin, generic.CreateView):
+class EventCreateView(
+    LoginRequiredMixin, CalingenUserProfileIDMixin, generic.CreateView
+):
     """Provide the generic class-based view implementation to add `Event` objects.
 
     Notes
@@ -55,7 +60,10 @@ class EventCreateView(LoginRequiredMixin, generic.CreateView):
 
 
 class EventDeleteView(
-    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.DeleteView
+    CalingenRestrictToUserMixin,
+    LoginRequiredMixin,
+    CalingenUserProfileIDMixin,
+    generic.DeleteView,
 ):
     """Provide the generic class-based view implementation to delete `Event` objects.
 
@@ -83,7 +91,10 @@ class EventDeleteView(
 
 
 class EventDetailView(
-    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.DetailView
+    CalingenRestrictToUserMixin,
+    LoginRequiredMixin,
+    CalingenUserProfileIDMixin,
+    generic.DetailView,
 ):
     """Provide details of a :class:`calingen.models.event.Event` instance.
 
@@ -107,7 +118,12 @@ class EventDetailView(
     """
 
 
-class EventListView(CalingenRestrictToUserMixin, LoginRequiredMixin, generic.ListView):
+class EventListView(
+    CalingenRestrictToUserMixin,
+    LoginRequiredMixin,
+    CalingenUserProfileIDMixin,
+    generic.ListView,
+):
     """Provide a list of :class:`calingen.models.event.Event` instances.
 
     Notes
@@ -124,7 +140,10 @@ class EventListView(CalingenRestrictToUserMixin, LoginRequiredMixin, generic.Lis
 
 
 class EventUpdateView(
-    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.UpdateView
+    CalingenRestrictToUserMixin,
+    LoginRequiredMixin,
+    CalingenUserProfileIDMixin,
+    generic.UpdateView,
 ):
     """Provide the generic class-based view implementation to update `Event` objects.
 

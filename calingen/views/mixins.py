@@ -5,6 +5,9 @@
 # Django imports
 from django.core.exceptions import ImproperlyConfigured
 
+# app imports
+from calingen.models.profile import Profile
+
 
 class CalingenRestrictToUserMixin:
     """Limits the resulting queryset to objects, that belong to the current user.
@@ -46,3 +49,20 @@ class CalingenRestrictToUserMixin:
         return self.model.calingen_manager.get_queryset().filter_by_user(
             self.request.user
         )
+
+
+class CalingenUserProfileIDMixin:
+    """Injects the :class:`~calingen.models.profile.Profile` id of the ``request.user`` into the context.
+
+    This mixin uses ``get_context_data()`` to inject the ``profile_id``.
+
+    The mixin can safely be used on any ``View`` that also uses the
+    :class:`django.contrib.auth.mixins.LoginRequiredMixin`.
+    """
+
+    def get_context_data(self, **kwargs):  # noqa: D102
+        context = super().get_context_data(**kwargs)
+
+        context["profile_id"] = Profile.objects.get(owner=self.request.user).id
+
+        return context
