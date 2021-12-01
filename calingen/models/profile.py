@@ -183,7 +183,10 @@ class ProfileManager(models.Manager):
         :class:`calingen.models.profile.Profile`
             The ``Profile`` associated with the given ``user``.
         """
-        return self.get(owner=user)
+        try:
+            return self.get(owner=user)
+        except self.model.DoesNotExist:
+            return None
 
 
 class Profile(models.Model):
