@@ -9,7 +9,7 @@ import datetime
 from django.urls import path
 
 # app imports
-from calingen.views import base, event, profile
+from calingen.views import base, event, profile, web
 
 urlpatterns = [
     path("", base.homepage, name="homepage"),
@@ -40,13 +40,13 @@ urlpatterns = [
     ),
     path(
         "<int:profile_id>/events/",
-        base.EventListYearView.as_view(),
+        web.EventListYearView.as_view(),
         kwargs={"target_year": datetime.datetime.now().year},
         name="event-list-year",
     ),
     path(
         "<int:profile_id>/events/<int:target_year>/",
-        base.EventListYearView.as_view(),
+        web.EventListYearView.as_view(),
         name="event-list-year",
     ),
 ]
