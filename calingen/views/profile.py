@@ -15,8 +15,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 # app imports
-from calingen.models.event import Event
-from calingen.models.profile import Profile, ProfileForm, resolve_event_provider
+from calingen.models.profile import Profile, ProfileForm
 from calingen.views.mixins import (
     CalingenInjectRequestUserIntoFormValidMixin,
     CalingenRestrictToUserMixin,
@@ -53,15 +52,10 @@ class ProfileDetailView(
         """Just for linting."""
         context = super().get_context_data(**kwargs)
 
-        # add summary of Event instances and EventProvider instances
-        user_events = Event.calingen_manager.summary(self.request.user)
-        provider_events = len(
-            resolve_event_provider(context["profile"].event_provider["active"])
-        )
-        context["events"] = {
-            "user_provided": user_events,
-            "external_provider": provider_events,
-        }
+        # add summary of EventProvider instances
+        # provider_events = len(
+        #     resolve_event_provider(context["profile"].event_provider["active"])
+        #
 
         return context
 
