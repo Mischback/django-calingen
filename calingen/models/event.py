@@ -40,12 +40,6 @@ class EventQuerySet(CalingenQuerySet):
         -------
         :class:`~django.db.models.QuerySet`
             The annotated queryset.
-
-        Notes
-        -----
-        The following annotations are provided by default:
-
-        - :meth:`~calingen.models.event.EventQuerySet._owner`
         """
         return self
 
