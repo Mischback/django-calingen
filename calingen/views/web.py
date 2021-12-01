@@ -10,20 +10,17 @@ Please note: The focus of calingen is to create analogous, paper-based calender
 pages. These views are provided as convenience!
 """
 
-# Python imports
-import logging
-
 # Django imports
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 
 # app imports
+from calingen.models.event import Event
+from calingen.models.profile import Profile, resolve_event_provider
 from calingen.views.mixins import (
     CalingenRestrictToUserMixin,
     CalingenUserProfileIDMixin,
 )
-
-logger = logging.getLogger(__name__)
 
 
 class CalenderEntryListYearView(
@@ -48,6 +45,11 @@ class CalenderEntryListYearView(
         """Just for linting."""
         context = super().get_context_data(**kwargs)
 
-        logger.debug(context)
+        # get the user's profile (required to process plugins)
+        profile = Profile.calingen_manager.get_profile(self.request.user)
+
+        entries = Event.calingen_manager.get_calender_entry_list(self.request.user)
+        entries.merge(resolve_event_provider(profile.event_provider["active"]))
+        context["entries"] = entries
 
         return context
