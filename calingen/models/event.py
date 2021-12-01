@@ -136,7 +136,7 @@ class Event(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="+",
+        related_name="events",
         verbose_name=_("Owner"),
     )
     """Reference to a Django `User`.
