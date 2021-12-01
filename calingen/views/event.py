@@ -9,15 +9,11 @@ from django.views import generic
 
 # app imports
 from calingen.models.event import Event, EventForm
-from calingen.views.mixins import (
-    CalingenInjectRequestUserIntoFormValidMixin,
-    CalingenRestrictToUserMixin,
-)
+from calingen.models.profile import Profile
+from calingen.views.mixins import CalingenRestrictToUserMixin
 
 
-class EventCreateView(
-    LoginRequiredMixin, CalingenInjectRequestUserIntoFormValidMixin, generic.CreateView
-):
+class EventCreateView(LoginRequiredMixin, generic.CreateView):
     """Provide the generic class-based view implementation to add `Event` objects.
 
     Notes
@@ -37,6 +33,25 @@ class EventCreateView(
 
     template_name_suffix = "_create"
     """Make the view use the template ``calingen/event_create.html``."""
+
+    def form_valid(self, form):
+        """Inject the user's :class:`~calingen.models.profile.Profile` into the form.
+
+        Every user does have only one :class:`~calingen.models.profile.Profile`
+        and :class:`~calingen.models.event.Event` instances are directly tied
+        to that ``Profile``.
+
+        The :class:`~calingen.models.event.EventForm`` does not include the
+        field to select the ``Profile``, as user's are only allowed to create
+        ``Event`` instances for themselves.
+
+        This method `injects` the user's ``Profile`` into the ``form.instance``
+        to maintain database integrity.
+        """
+        # get the user's Profile to inject this into the instance
+        form.instance.profile = Profile.objects.get(owner=self.request.user)
+
+        return super().form_valid(form)
 
 
 class EventDeleteView(
