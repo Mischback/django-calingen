@@ -24,9 +24,7 @@ def homepage(request):
     # Every user has exactly one (calingen) Profile (One to One relation)
     # So, this fetches the Profile of the user or is None, if the user doesn't
     # have a Profile associated (yet)
-    profile = (
-        Profile.calingen_manager.get_queryset().filter_by_user(request.user).first()
-    )
+    profile = Profile.calingen_manager.get_profile(request.user)
 
     # If there is no Profile, redirect to the view to add one
     if profile is None:

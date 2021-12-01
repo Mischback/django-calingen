@@ -169,6 +169,22 @@ class ProfileManager(models.Manager):
         """
         return ProfileQuerySet(self.model, using=self._db).default()
 
+    def get_profile(self, user):
+        """Retrieve the :class:`~calingen.models.profile.Profile` associated with a ``User`` instance.
+
+        Parameters
+        ----------
+        user :
+            An instance of the project's user model, as specified by
+            :setting:`AUTH_USER_MODEL`.
+
+        Returns
+        -------
+        :class:`calingen.models.profile.Profile`
+            The ``Profile`` associated with the given ``user``.
+        """
+        return self.get(owner=user)
+
 
 class Profile(models.Model):
     """Represents the app-specific profile.
