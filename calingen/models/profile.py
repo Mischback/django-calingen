@@ -71,18 +71,15 @@ class ProfileQuerySet(CalingenQuerySet):
 
         Notes
         -----
-        This is the queryset's default method, which will make the associated
-        project user (specified by :setting:`AUTH_USER_MODEL` and stored in
-        :attr:`Profile.owner <calingen.models.profile.Profile.owner>`) available.
-
         The following annotations are provided by default:
 
+        - :meth:`~calingen.models.profile.ProfileQuerySet._owner`
         - :meth:`~calingen.models.profile.ProfileQuerySet._event_count`
         """
         return self._owner()._event_count()
 
     def _event_count(self):
-        """Annotate each instance with the count of associated :class:`~calingen.models.event.Event`.
+        """Annotate each instance with the count of associated :class:`~calingen.models.event.Event` instances.
 
         Returns
         -------
@@ -92,6 +89,10 @@ class ProfileQuerySet(CalingenQuerySet):
 
         Notes
         -----
+        This method makes the associated project user (specified by
+        :setting:`AUTH_USER_MODEL` and stored in
+        :attr:`Profile.owner <calingen.models.profile.Profile.owner>`) available.
+
         This annotation is provided in
         :meth:`~calingen.models.profile.ProfileQuerySet.default`.
         """

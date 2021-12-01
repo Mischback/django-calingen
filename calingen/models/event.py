@@ -43,9 +43,30 @@ class EventQuerySet(CalingenQuerySet):
 
         Notes
         -----
-        This is the queryset's default method, which will make the associated
-        project user (specified by :setting:`AUTH_USER_MODEL` and stored in
+        The following annotations are provided by default:
+
+        - :meth:`~calingen.models.event.EventQuerySet._owner`
+        """
+        return self._owner()
+
+    def _owner(self):
+        """Make :attr:`Event.owner <calingen.models.event.Event.owner>` available.
+
+        Returns
+        -------
+        :class:`~django.db.models.QuerySet`
+            Instances of :class:`~calingen.models.event.Event` will have
+            their :attr:`~calingen.models.event.Event.owner` available
+            without another database query.
+
+        Notes
+        -----
+        This method makes the associated project user (specified by
+        :setting:`AUTH_USER_MODEL` and stored in
         :attr:`Event.owner <calingen.models.event.Event.owner>`) available.
+
+        This annotation is provided in
+        :meth:`~calingen.models.event.EventQuerySet.default`.
         """
         return self.select_related("owner")
 
