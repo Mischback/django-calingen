@@ -8,4 +8,11 @@
 <strong>{{ profile.event_count }}</strong> user-provided Events,
 <strong>{{ provider_events_count }}</strong> Events provided by plugins.
 
+<h3>Available Actions:</h3>
+<ul>
+  <li>see all Events as a list</li>
+  <li><a href="{% url "event-add" %}">add Events</a> to your profile</li>
+  <li>update your <a href="{% url "profile-update" profile_id %}">Profile Settings</a></li>
+</ul>
+
 {% endblock main %}
