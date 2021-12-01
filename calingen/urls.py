@@ -2,6 +2,9 @@
 
 """Provides app-specific URLs."""
 
+# Python imports
+import datetime
+
 # Django imports
 from django.urls import path
 
@@ -34,5 +37,16 @@ urlpatterns = [
         "<int:profile_id>/update/",
         profile.ProfileUpdateView.as_view(),
         name="profile-update",
+    ),
+    path(
+        "<int:profile_id>/events/",
+        base.EventListYearView.as_view(),
+        kwargs={"target_year": datetime.datetime.now().year},
+        name="event-list-year",
+    ),
+    path(
+        "<int:profile_id>/events/<int:target_year>/",
+        base.EventListYearView.as_view(),
+        name="event-list-year",
     ),
 ]

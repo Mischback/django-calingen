@@ -4,10 +4,16 @@
 
 # Django imports
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
+from django.views.generic.base import TemplateView
 
 # app imports
 from calingen.models.profile import Profile
+from calingen.views.mixins import (
+    CalingenRestrictToUserMixin,
+    CalingenUserProfileIDMixin,
+)
 
 
 @login_required
@@ -32,3 +38,14 @@ def homepage(request):
 
     # redirect to the user's Profile
     return redirect("profile", profile_id=profile.id)
+
+
+class EventListYearView(
+    LoginRequiredMixin,
+    CalingenRestrictToUserMixin,
+    CalingenUserProfileIDMixin,
+    TemplateView,
+):
+    """Provide a list view of all events in a given year."""
+
+    template_name = "calingen/base_event_list_year.html"
