@@ -24,17 +24,15 @@ urlpatterns = [
         name="event-delete",
     ),
     path("event/add/", event.EventCreateView.as_view(), name="event-add"),
-    path(
-        "profile/<int:profile_id>/", profile.ProfileDetailView.as_view(), name="profile"
-    ),
+    path("<int:profile_id>/", profile.ProfileDetailView.as_view(), name="profile"),
     path("profile/add/", profile.ProfileCreateView.as_view(), name="profile-add"),
     path(
-        "profile/<int:profile_id>/delete/",
+        "<int:profile_id>/delete/",
         profile.ProfileDeleteView.as_view(),
         name="profile-delete",
     ),
     path(
-        "profile/<int:profile_id>/update/",
+        "<int:profile_id>/update/",
         profile.ProfileUpdateView.as_view(),
         name="profile-update",
     ),
