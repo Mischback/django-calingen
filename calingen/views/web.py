@@ -26,13 +26,21 @@ from calingen.views.mixins import (
 logger = logging.getLogger(__name__)
 
 
-class EventListYearView(
+class CalenderEntryListYearView(
     LoginRequiredMixin,
     CalingenRestrictToUserMixin,
     CalingenUserProfileIDMixin,
     TemplateView,
 ):
-    """Provide a list view of all events in a given year."""
+    """Provide a list view of all events in a given year.
+
+    Notes
+    -----
+    The :class:`~calingen.views.mixins.CalingenUserProfileIDMixin` is not really
+    required, because the view fetches the (full)
+    :class:`~calingen.models.profile.Profile` instance anyway. Room for
+    optimization.
+    """
 
     template_name = "calingen/base_event_list_year.html"
 
