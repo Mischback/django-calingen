@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from calingen.constants import EventType
 from calingen.exceptions import CalingenException
 from calingen.forms.fields import SplitDateTimeOptionalField
+from calingen.interfaces.data_exchange import CalenderEntryList
 from calingen.models.profile import Profile
 from calingen.models.queryset import CalingenQuerySet
 
@@ -82,6 +83,31 @@ class EventManager(models.Manager):
     using the custom :class:`~django.db.models.QuerySet` implementation
     :class:`~calingen.models.event.EventQuerySet`.
     """
+
+    def get_calender_entry_list(self, user=None):
+        """Return all instances as :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
+
+        Parameters
+        ----------
+        user :
+            The summary is provided for an actual user, filtered by
+            :attr:`calingen.models.event.Event.owner`.
+
+            Most likely you will want to pass ``request.user`` into the method.
+
+        Returns
+        -------
+        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+            All :class:`~calingen.models.event.Event` instances of ``user``,
+            converted into a ``CalenderEntryList``.
+        """
+        result = CalenderEntryList()
+        for event in self.get_user_events_qs(user).iterator():
+            result.add_entry(
+                None, title=event.title, category=event.type, start=event.start
+            )
+
+        return result
 
     def get_queryset(self):
         """Use the app-/model-specific :class:`~calingen.models.event.EventQuerySet` by default.
