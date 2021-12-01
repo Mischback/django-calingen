@@ -46,26 +46,3 @@ class CalingenRestrictToUserMixin:
         return self.model.calingen_manager.get_queryset().filter_by_user(
             self.request.user
         )
-
-
-class CalingenInjectRequestUserIntoFormValidMixin:
-    """Injects the ``request.user`` into a ``form.instance``.
-
-    Warnings
-    --------
-    This mixin is not really generic!
-
-    It is assumed, that the ``instance`` has an attribute ``owner``, which is
-    used to store a reference to the :setting:`AUTH_USER_MODEL`.
-
-    Notes
-    -----
-    The technique is directly taken from Django's documentation, see:
-    :djangodoc:`topics/class-based-views/generic-editing/#models-and-request-user`).
-    """
-
-    def form_valid(self, form):
-        """Override of the default ``form_valid`` method."""
-        form.instance.owner = self.request.user
-
-        return super().form_valid(form)
