@@ -20,8 +20,34 @@ class EventModelException(CalingenException):
     """Base class for all exceptions related to the :class:`~calingen.models.event.Event` model."""
 
 
-class EventQuerySet(CalingenQuerySet):  # noqa: D101
-    pass
+class EventQuerySet(CalingenQuerySet):
+    """App-specific implementation of :class:`django.db.models.QuerySet`.
+
+    Notes
+    -----
+    This :class:`~django.db.models.QuerySet` implementation provides
+    app-specific augmentations.
+
+    The provided methods augment/extend the retrieved
+    :class:`calingen.models.event.Event` instances by annotating them with
+    additional information.
+    """
+
+    def default(self):
+        """Return a :class:`~django.db.models.QuerySet` with annotations.
+
+        Returns
+        -------
+        :class:`~django.db.models.QuerySet`
+            The annotated queryset.
+
+        Notes
+        -----
+        This is the queryset's default method, which will make the associated
+        project user (specified by :setting:`AUTH_USER_MODEL` and stored in
+        :attr:`Event.owner <calingen.models.event.Event.owner>`) available.
+        """
+        return self.select_related("owner")
 
 
 class EventManager(models.Manager):
