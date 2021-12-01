@@ -78,6 +78,29 @@ class ProfileQuerySet(CalingenQuerySet):
         """
         return self._owner()._event_count()
 
+    def filter_by_user(self, user):
+        """Filter the result set by the objects' :attr:`owners <calingen.models.profile.Profile.owner>`.
+
+        Parameters
+        ----------
+        user :
+            An instance of the project's user model, as specified by
+            :setting:`AUTH_USER_MODEL`.
+
+        Returns
+        -------
+        :class:`django.db.models.QuerySet`
+            The filtered queryset.
+
+        Notes
+        -----
+        Effectively, this method is used to ensure, that any user may only
+        access objects, which are owned by him. This is the app's way of
+        ensuring `row-level permissions`, because only owners are allowed to
+        view (and modify) their events.
+        """
+        return self.filter(owner=user)
+
     def _event_count(self):
         """Annotate each instance with the count of associated :class:`~calingen.models.event.Event` instances.
 
@@ -89,14 +112,10 @@ class ProfileQuerySet(CalingenQuerySet):
 
         Notes
         -----
-        This method makes the associated project user (specified by
-        :setting:`AUTH_USER_MODEL` and stored in
-        :attr:`Profile.owner <calingen.models.profile.Profile.owner>`) available.
-
         This annotation is provided in
         :meth:`~calingen.models.profile.ProfileQuerySet.default`.
         """
-        return self.annotate(event_count=models.Count("owner__events"))
+        return self.annotate(event_count=models.Count("events"))
 
     def _owner(self):
         """Make :attr:`Profile.owner <calingen.models.profile.Profile.owner>` available.
@@ -110,6 +129,10 @@ class ProfileQuerySet(CalingenQuerySet):
 
         Notes
         -----
+        This method makes the associated project user (specified by
+        :setting:`AUTH_USER_MODEL` and stored in
+        :attr:`Profile.owner <calingen.models.profile.Profile.owner>`) available.
+
         This annotation is provided in
         :meth:`~calingen.models.profile.ProfileQuerySet.default`.
         """
