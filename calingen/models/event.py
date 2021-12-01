@@ -96,6 +96,30 @@ class EventManager(models.Manager):
         """
         return EventQuerySet(self.model, using=self._db).default()
 
+    def get_user_events_qs(self, user=None):
+        """Provide a ``QuerySet`` containing all events of a given ``user``.
+
+        Parameters
+        ----------
+        user :
+            The summary is provided for an actual user, filtered by
+            :attr:`calingen.models.event.Event.owner`.
+
+            Most likely you will want to pass ``request.user`` into the method.
+
+        Returns
+        -------
+        :class:`django.models.db.QuerySet`
+            This queryset is provided by
+            :class:`calingen.models.event.EventQuerySet` and applies its
+            :meth:`~calingen.models.event.EventQuerySet.filter_by_user` method.
+        """
+        if user is None:
+            raise EventModelException(
+                "This method may only be called with a user object"
+            )
+        return self.get_queryset().filter_by_user(user)
+
     def summary(self, user=None):
         """Provide a user-specific summary of :class:`~calingen.models.event.Event` instances.
 
@@ -112,11 +136,7 @@ class EventManager(models.Manager):
         int
             As of now, the method only returns the number of instances.
         """
-        if user is None:
-            raise EventModelException(
-                "This method may only be called with a user object"
-            )
-        return self.get_queryset().filter_by_user(user).count()
+        return self.get_user_events_qs(user).count()
 
 
 class Event(models.Model):
