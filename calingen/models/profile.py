@@ -79,7 +79,7 @@ class ProfileQuerySet(CalingenQuerySet):
 
         - :meth:`~calingen.models.profile.ProfileQuerySet._event_count`
         """
-        return self.select_related("owner")._event_count()
+        return self._owner()._event_count()
 
     def _event_count(self):
         """Annotate each instance with the count of associated :class:`~calingen.models.event.Event`.
@@ -96,6 +96,23 @@ class ProfileQuerySet(CalingenQuerySet):
         :meth:`~calingen.models.profile.ProfileQuerySet.default`.
         """
         return self.annotate(event_count=models.Count("owner__events"))
+
+    def _owner(self):
+        """Make :attr:`Profile.owner <calingen.models.profile.Profile.owner>` available.
+
+        Returns
+        -------
+        :class:`~django.db.models.QuerySet`
+            Instances of :class:`~calingen.models.profile.Profile` will have
+            their :attr:`~calingen.models.profile.Profile.owner` available
+            without another database query.
+
+        Notes
+        -----
+        This annotation is provided in
+        :meth:`~calingen.models.profile.ProfileQuerySet.default`.
+        """
+        return self.select_related("owner")
 
 
 class ProfileManager(models.Manager):
