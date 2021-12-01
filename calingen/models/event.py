@@ -4,7 +4,6 @@
 
 # Django imports
 from django import forms
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -13,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from calingen.constants import EventType
 from calingen.exceptions import CalingenException
 from calingen.forms.fields import SplitDateTimeOptionalField
+from calingen.models.profile import Profile
 from calingen.models.queryset import CalingenQuerySet
 
 
@@ -47,28 +47,30 @@ class EventQuerySet(CalingenQuerySet):
 
         - :meth:`~calingen.models.event.EventQuerySet._owner`
         """
-        return self._owner()
+        return self
 
-    def _owner(self):
-        """Make :attr:`Event.owner <calingen.models.event.Event.owner>` available.
+    def filter_by_user(self, user):
+        """Filter the result set by the objects' :attr:`owners <calingen.models.profile.Profile.owner>`.
+
+        Parameters
+        ----------
+        user :
+            An instance of the project's user model, as specified by
+            :setting:`AUTH_USER_MODEL`.
 
         Returns
         -------
-        :class:`~django.db.models.QuerySet`
-            Instances of :class:`~calingen.models.event.Event` will have
-            their :attr:`~calingen.models.event.Event.owner` available
-            without another database query.
+        :class:`django.db.models.QuerySet`
+            The filtered queryset.
 
         Notes
         -----
-        This method makes the associated project user (specified by
-        :setting:`AUTH_USER_MODEL` and stored in
-        :attr:`Event.owner <calingen.models.event.Event.owner>`) available.
-
-        This annotation is provided in
-        :meth:`~calingen.models.event.EventQuerySet.default`.
+        Effectively, this method is used to ensure, that any user may only
+        access objects, which are owned by him. This is the app's way of
+        ensuring `row-level permissions`, because only owners are allowed to
+        view (and modify) their events.
         """
-        return self.select_related("owner")
+        return self.filter(profile__owner=user)
 
 
 class EventManager(models.Manager):
@@ -154,29 +156,24 @@ class Event(models.Model):
     The manager has to be used explicitly.
     """
 
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+    profile = models.ForeignKey(
+        Profile,
         on_delete=models.CASCADE,
         related_name="events",
-        verbose_name=_("Owner"),
+        verbose_name=Profile._meta.verbose_name,
     )
-    """Reference to a Django `User`.
+    """Reference to a :class:`~calingen.models.profile.Profile` object.
 
     Notes
     -----
     This is implemented as a :class:`~django.db.models.ForeignKey` with
-    ``on_delete=CASCADE``, meaning: if the referenced `User` object is deleted,
-    all referencing `Event` objects are discarded aswell.
+    ``on_delete=CASCADE``, meaning: if the referenced
+    :class:`~calingen.models.profile.Profile` object is deleted,
+    all referencing ``Event`` objects are discarded aswell.
 
     The backwards relation (see
-    :attr:`ForeignKey.related_name<django.db.models.ForeignKey.related_name>`) is
-    disabled.
-
-    To keep this application as pluggable as possible, the referenced class is
-    dependent on :setting:`AUTH_USER_MODEL`. With this implementation, the
-    project may substitute the :class:`~django.contrib.auth.models.User` model
-    provided by Django without breaking any functionality in `calingen` (see
-    :djangodoc:`Reusable Apps and AUTH_USER_MODEL <topics/auth/customizing/#reusable-apps-and-auth-user-model>`).
+    :attr:`ForeignKey.related_name<django.db.models.ForeignKey.related_name>`)
+    is named ``"events"``.
     """
 
     start = models.DateTimeField(
@@ -240,7 +237,7 @@ class Event(models.Model):
 
     def __str__(self):  # noqa: D105
         return "[{}] [{}] {} - {}".format(
-            self.type, self.owner, self.title, self.start
+            self.type, self.profile, self.title, self.start
         )  # pragma: nocover
 
     def get_absolute_url(self):
