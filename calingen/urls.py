@@ -6,11 +6,10 @@
 from django.urls import path
 
 # app imports
-from calingen.views import event, profile
-from calingen.views.base import homepage
+from calingen.views import base, event, profile
 
 urlpatterns = [
-    path("", homepage, name="homepage"),
+    path("", base.homepage, name="homepage"),
     path("event/", event.EventListView.as_view(), name="event-list"),
     path("event/<int:event_id>/", event.EventDetailView.as_view(), name="event-detail"),
     path(
