@@ -16,10 +16,7 @@ from django.views import generic
 
 # app imports
 from calingen.models.profile import Profile, ProfileForm
-from calingen.views.mixins import (
-    CalingenInjectRequestUserIntoFormValidMixin,
-    CalingenRestrictToUserMixin,
-)
+from calingen.views.mixins import CalingenRestrictToUserMixin
 
 logger = logging.getLogger(__name__)
 
@@ -65,9 +62,7 @@ class ProfileDetailView(
         return super().get_queryset()
 
 
-class ProfileCreateView(
-    LoginRequiredMixin, CalingenInjectRequestUserIntoFormValidMixin, generic.CreateView
-):
+class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
     """Provide the generic class-based view implementation to add `Profile` objects.
 
     Notes
@@ -108,6 +103,9 @@ class ProfileCreateView(
         If the :class:`~django.db.IntegrityError` is catched, the user will be
         redirected to his profile page.
         """
+        # inject the current user into the instance
+        form.instance.owner = self.request.user
+
         try:
             return super().form_valid(form)
         except IntegrityError:
