@@ -2,29 +2,41 @@
 
 """Provides data exchange formats."""
 
-# Python imports
-from collections import namedtuple
-
 # app imports
 from calingen.exceptions import CallingenInterfaceException
 
-CalenderEntry = namedtuple("CalenderEntry", "title category start")
-"""This data structure is used to pass calender entries around.
 
-Warnings
---------
-This data structure does not provide any validation of its values / fields.
+class CalenderEntry:
+    """Data structure to pass calender entries around."""
 
-Following EAFP: the consuming code **must ensure** that the received data is of
-the expected type.
+    def __init__(self, title, category, start):
+        self.title = title
+        self.category = category
+        self.start = start
 
-Notes
------
-The structure contains an entries ``title``, ``category`` and its ``start`` date and
-time (as :py:obj:`datetime.datetime`).
+    def __eq__(self, other):  # noqa: D105
+        raise NotImplementedError("tbd")
 
-This is implemented as :py:obj:`collections.namedtuple`.
-"""
+    def __ne__(self, other):  # noqa: D105
+        raise NotImplementedError("tbd")
+
+    def __lt__(self, other):  # noqa: D105
+        raise NotImplementedError("tbd")
+
+    def __gt__(self, other):  # noqa: D105
+        raise NotImplementedError("tbd")
+
+    def __le__(self, other):  # noqa: D105
+        raise NotImplementedError("tbd")
+
+    def __ge__(self, other):  # noqa: D105
+        raise NotImplementedError("tbd")
+
+    def __str__(self):  # noqa: D105
+        raise NotImplementedError("tbd")
+
+    def __hash__(self):  # noqa: D105
+        raise NotImplementedError("tbd")
 
 
 class CalenderEntryList:
@@ -79,6 +91,7 @@ class CalenderEntryList:
         There is no validation of the input types!
         """
         if entry is None:
+            # FIXME: This is not longer required, if the refactoring of CalenderEntry works!
             if (title is None) or (category is None) or (start is None):
                 raise self.CalenderEntryListException("Could not add entry!")
 
