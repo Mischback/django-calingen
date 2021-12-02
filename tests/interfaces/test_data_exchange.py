@@ -64,6 +64,22 @@ class CalenderEntryTest(CalingenTestCase):
         with self.assertRaises(parser._parser.ParserError):
             entry = CalenderEntry("foo", "bar", test_datetime_str)  # noqa: F841
 
+    def test_eq_different_classes(self):
+        # Arrange (set up test environment)
+        class TestClass:
+            pass
+
+        test_class = TestClass()
+        entry = CalenderEntry("foo", "bar", datetime.datetime(2021, 12, 2, 15, 4))
+
+        # Act (actually perform what has to be done)
+        return_value = entry.__eq__(test_class)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, NotImplemented)
+        self.assertNotEqual(entry, test_class)
+        self.assertNotEqual(test_class, entry)
+
 
 @tag("interfaces", "data", "calenderentrylist")
 class CalenderEntryListTest(CalingenTestCase):
