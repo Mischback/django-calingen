@@ -145,8 +145,8 @@ class CalenderEntryListTest(CalingenTestCase):
         # Assert (verify the results)
         self.assertIsInstance(cal_entry_list._entries, set)
 
-    def test_add_entry_adds_provided_entry(self):
-        """add_entry() appends provided entry to _entries."""
+    def test_add_adds_provided_entry(self):
+        """add() appends provided entry to _entries."""
         # Arrange (set up test environment)
         cal_entry_list = CalenderEntryList()
         test_entry = "foo"
@@ -156,6 +156,16 @@ class CalenderEntryListTest(CalingenTestCase):
 
         # Assert (verify the results)
         self.assertIn(test_entry, cal_entry_list._entries)
+
+    def test_add_rejects_none(self):
+        """add() rejects if parameter is None."""
+        # Arrange (set up test environment)
+        cal_entry_list = CalenderEntryList()
+
+        # Act (actually perform what has to be done)
+        # Assert (verify the results)
+        with self.assertRaises(CalenderEntryList.CalenderEntryListException):
+            cal_entry_list.add(None)
 
     def test_merge_merges_distinct_sets(self):
         """merge() correctly merges two distinct CalenderEntryList instances."""

@@ -36,7 +36,7 @@ class CalenderEntry:
         # see https://stackoverflow.com/a/2909119
         # see https://stackoverflow.com/a/8796908
         if isinstance(other, CalenderEntry):
-            return self.__key() == other.__key()
+            return self.__key() == other.__key()  # pragma: nocover
         return NotImplemented
 
     def __lt__(self, other):  # noqa: D105
@@ -102,13 +102,10 @@ class CalenderEntryList:
             optional parameters are used to create an instance of
             :class:`~calingen.interfaces.data_exchange.CalenderEntry` and add
             that.
-        title: str, optional
-        category: str, optional
-        start: datetime.datetime, optional
 
         Warnings
         --------
-        There is no validation of the input types!
+        There is no validation of the input type!
         """
         if entry is None:
             raise self.CalenderEntryListException("An entry is required")
