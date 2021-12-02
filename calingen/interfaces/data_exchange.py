@@ -104,3 +104,22 @@ class CalenderEntryList:
         of this type is a design choice and may be subject to change.
         """
         self._entries.update(entry_list_instance._entries)
+
+    def sorted(self):
+        """Return the object's ``_entries`` sorted by ``start``.
+
+        Returns
+        -------
+        list
+            The sorted list of
+            :class:`~calingen.interfaces.data_exchange.CalenderEntry`.
+
+        Warnings
+        --------
+        While this class uses internally a ``set`` to manage the entries, this
+        method returns a list.
+
+        If consuming code requires uniqueness of items, use this method as late
+        as possible.
+        """
+        return sorted(self._entries, key=lambda entry: entry.start)

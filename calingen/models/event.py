@@ -319,7 +319,7 @@ class Event(models.Model):
             None,
             title=self.title,
             category=self.type,
-            start=datetime.date(year, self.start.month, self.start.day),
+            start=datetime.datetime(year, self.start.month, self.start.day, 0, 0, 0),
         )
 
         return result
