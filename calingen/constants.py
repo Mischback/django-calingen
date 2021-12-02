@@ -7,7 +7,7 @@ from django.db.models import TextChoices
 from django.utils.translation import ugettext_lazy as _
 
 
-class EventType(TextChoices):
+class EventCategory(TextChoices):
     """The single source of truth for different types of events.
 
     Throughout the app, there are different sources for events, most notably the

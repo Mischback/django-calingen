@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from dateutil.rrule import WE, YEARLY, rrule
 
 # app imports
-from calingen.constants import EventType
+from calingen.constants import EventCategory
 from calingen.interfaces.data_exchange import CalenderEntryList
 from calingen.interfaces.plugin_api import EventProvider
 
@@ -21,87 +21,87 @@ from calingen.interfaces.plugin_api import EventProvider
 # GermanyFederal
 NEUJAHR = (
     _("New Year"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1)),
 )
 HEILIGE_DREI_KOENIGE = (
     _("Epiphany"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 6)),
 )
 FRAUENTAG = (
     _("Women's Day"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 3, 8)),
 )
 KARFREITAG = (
     _("Good Friday"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=-2),
 )
 OSTER_SONNTAG = (
     _("Easter Sunday"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=0),
 )
 OSTER_MONTAG = (
     _("Easter Monday"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=1),
 )
 TAG_DER_ARBEIT = (
     _("Worker's Day"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 5, 1)),
 )
 CHRISTI_HIMMELFAHRT = (
     _("Ascension"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=39),
 )
 PFINGST_SONNTAG = (
     _("Penecost Sunday"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=49),
 )
 PFINGST_MONTAG = (
     _("Pentecost Monday"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=50),
 )
 FRONLEICHNAM = (
     _("Corpus Christi"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=60),
 )
 MARIA_HIMMELFAHRT = (
     _("Assumption of Mary"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 8, 15)),
 )
 WELTKINDERTAG = (
     _("Children's Day"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 9, 20)),
 )
 TAG_DER_DEUTSCHEN_EINHEIT = (
     _("Day of German Unity"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 10, 3)),
 )
 REFORMATIONSTAG = (
     _("Reformation Day"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 10, 31)),
 )
 ALLERHEILIGEN = (
     _("All Hallows"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 11, 1)),
 )
 BUSS_UND_BETTAG = (
     _("Day of Repetance"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(
         freq=YEARLY,
         dtstart=datetime(1990, 1, 1),
@@ -112,12 +112,12 @@ BUSS_UND_BETTAG = (
 )
 ERSTER_WEIHNACHTSTAG = (
     _("Christmas Day"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 12, 25)),
 )
 ZWEITER_WEIHNACHTSTAG = (
     _("Boxing Day"),
-    EventType.HOLIDAY,
+    EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 12, 26)),
 )
 

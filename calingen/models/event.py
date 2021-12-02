@@ -12,7 +12,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
-from calingen.constants import EventType
+from calingen.constants import EventCategory
 from calingen.exceptions import CalingenException
 from calingen.forms.fields import SplitDateTimeOptionalField
 from calingen.interfaces.data_exchange import CalenderEntryList
@@ -254,8 +254,8 @@ class Event(models.Model):
 
     type = models.CharField(
         max_length=18,
-        choices=EventType.choices,
-        default=EventType.ANNUAL_ANNIVERSARY,
+        choices=EventCategory.choices,
+        default=EventCategory.ANNUAL_ANNIVERSARY,
         help_text=_("The type of this event."),
         verbose_name=_("Event Type"),
     )
@@ -263,11 +263,11 @@ class Event(models.Model):
 
     Notes
     -----
-    Some functionalities of the `Event` class depend on the actual `EventType`
+    Some functionalities of the `Event` class depend on the actual ``EventCategory``
     stored in this attribute.
 
     The attribute is implemented as :class:`~django.db.models.CharField` with
-    its possible values limited by :class:`calingen.constants.EventType`.
+    its possible values limited by :class:`calingen.constants.EventCategory`.
     """
 
     class Meta:  # noqa: D106
