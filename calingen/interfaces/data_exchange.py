@@ -44,19 +44,21 @@ class CalenderEntry:
         # see https://stackoverflow.com/a/12448200
         return "<CalenderEntry(title={}, category={}, start={})>".format(
             self.title.__repr__(), self.category.__repr__(), self.timestamp.__repr__()
-        )
+        )  # pragma: nocover
 
     def __str__(self):  # noqa: D105
         # see https://stackoverflow.com/a/12448200
-        return "[{}] {} ({})".format(self.timestamp, self.title, self.category)
+        return "[{}] {} ({})".format(
+            self.timestamp, self.title, self.category
+        )  # pragma: nocover
 
     def __hash__(self):  # noqa: D105
         # see https://stackoverflow.com/a/2909119
-        return hash(self.__key())
+        return hash(self.__key())  # pragma: nocover
 
     def __key(self):
         # see https://stackoverflow.com/a/2909119
-        return (self.timestamp, self.category, self.title)
+        return (self.timestamp, self.category, self.title)  # pragma: nocover
 
 
 class CalenderEntryList:
@@ -83,7 +85,7 @@ class CalenderEntryList:
         self._entries = set()
 
     def __len__(self):  # noqa: D105
-        return len(self._entries)
+        return len(self._entries)  # pragma: nocover
 
     def add_entry(self, entry, title=None, category=None, timestamp=None):
         """Add a :class:`~calingen.interfaces.data_exchange.CalenderEntry` to the list.
@@ -155,4 +157,6 @@ class CalenderEntryList:
         If consuming code requires uniqueness of items, use this method as late
         as possible.
         """
-        return sorted(self._entries, key=lambda entry: entry.timestamp)
+        return sorted(
+            self._entries, key=lambda entry: entry.timestamp
+        )  # pragma: nocover
