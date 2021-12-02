@@ -15,6 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 
 # app imports
+from calingen.interfaces.data_exchange import CalenderEntryList
 from calingen.models.event import Event
 from calingen.models.profile import Profile
 from calingen.views.mixins import (
@@ -48,8 +49,15 @@ class CalenderEntryListYearView(
         # get the user's profile (required to process plugins)
         profile = Profile.calingen_manager.get_profile(self.request.user)
 
-        entries = Event.calingen_manager.get_calender_entry_list(self.request.user)
-        entries.merge(profile.resolve())
+        all_entries = CalenderEntryList()
+        internal_events = Event.calingen_manager.get_calender_entry_list(
+            self.request.user
+        )
+        plugin_events = profile.resolve()
+        all_entries.merge(internal_events)
+        all_entries.merge(plugin_events)
+        entries = all_entries.sorted()
+
         context["entries"] = entries
 
         return context
