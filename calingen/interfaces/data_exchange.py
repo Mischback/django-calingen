@@ -10,6 +10,7 @@ from functools import total_ordering
 from dateutil import parser
 
 # app imports
+from calingen.constants import EventCategory
 from calingen.exceptions import CallingenInterfaceException
 
 
@@ -19,7 +20,12 @@ class CalenderEntry:
 
     def __init__(self, title, category, timestamp):
         self.title = title
-        self.category = category
+
+        # Use the (lazy) translatable category (if available)
+        if category in EventCategory.values:
+            self.category = EventCategory[category].label  # pragma: nocover
+        else:
+            self.category = category
 
         # Ensure that "timestamp" is a datetime.datetime object
         if isinstance(timestamp, datetime.datetime):
