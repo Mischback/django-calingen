@@ -2,10 +2,14 @@
 
 """Provides data exchange formats."""
 
+# Python imports
+from functools import total_ordering
+
 # app imports
 from calingen.exceptions import CallingenInterfaceException
 
 
+@total_ordering
 class CalenderEntry:
     """Data structure to pass calender entries around."""
 
@@ -15,28 +19,35 @@ class CalenderEntry:
         self.start = start
 
     def __eq__(self, other):  # noqa: D105
-        raise NotImplementedError("tbd")
-
-    def __ne__(self, other):  # noqa: D105
-        raise NotImplementedError("tbd")
+        # see https://stackoverflow.com/a/2909119
+        # see https://stackoverflow.com/a/8796908
+        if isinstance(other, CalenderEntry):
+            return self.__key() == other.__key()
+        return NotImplemented
 
     def __lt__(self, other):  # noqa: D105
-        raise NotImplementedError("tbd")
+        # see https://stackoverflow.com/a/8796908
+        if isinstance(other, CalenderEntry):
+            return self.__key() < other.__key()
+        return NotImplemented
 
-    def __gt__(self, other):  # noqa: D105
-        raise NotImplementedError("tbd")
-
-    def __le__(self, other):  # noqa: D105
-        raise NotImplementedError("tbd")
-
-    def __ge__(self, other):  # noqa: D105
-        raise NotImplementedError("tbd")
+    def __repr__(self):  # noqa: D105
+        # see https://stackoverflow.com/a/12448200
+        return "<CalenderEntry(title={}, category={}, start={})>".format(
+            self.title.__repr__(), self.category.__repr__(), self.start.__repr__()
+        )
 
     def __str__(self):  # noqa: D105
-        raise NotImplementedError("tbd")
+        # see https://stackoverflow.com/a/12448200
+        return "[{}] {} ({})".format(self.start, self.title, self.category)
 
     def __hash__(self):  # noqa: D105
-        raise NotImplementedError("tbd")
+        # see https://stackoverflow.com/a/2909119
+        return hash(self.__key())
+
+    def __key(self):
+        # see https://stackoverflow.com/a/2909119
+        return (self.start, self.category, self.title)
 
 
 class CalenderEntryList:
