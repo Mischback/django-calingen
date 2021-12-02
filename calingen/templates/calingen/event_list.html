@@ -13,7 +13,6 @@
       <th>Actions</th>
       <th>Start</th>
       <th>Category</th>
-      <th>Owner</th>
     </tr>
     {% for event in event_list %}
     <tr>
@@ -24,9 +23,8 @@
         <a href="{% url "event-update" event.id %}">update</a>
         <a href="{% url "event-delete" event.id %}">delete</a>
       </td>
-      <td>{{ event.timestamp|date:"c" }}</td>
+      <td>{{ event.start|date:"c" }}</td>
       <td>{{ event.get_category_display }}</td>
-      <td>{{ event.owner }}</td>
     </tr>
     {% endfor %}
     {% else %}
