@@ -6,6 +6,9 @@
 import datetime
 from functools import total_ordering
 
+# external imports
+from dateutil import parser
+
 # app imports
 from calingen.exceptions import CallingenInterfaceException
 
@@ -22,10 +25,11 @@ class CalenderEntry:
         if isinstance(timestamp, datetime.datetime):
             self.timestamp = timestamp
         elif isinstance(timestamp, datetime.date):
-            self.timestamp = datetime.combine(timestamp, datetime.time.min)
+            self.timestamp = datetime.datetime.combine(timestamp, datetime.time.min)
         else:
-            # Delegate parsing to datetime; probably breaks if unparsable
-            self.timestamp = datetime.datetime(timestamp)
+            # Delegate parsing to dateutil; probably breaks if unparsable
+            # TODO: How does Django handle this? I mean, this is a Django app after all
+            self.timestamp = parser.parse(timestamp)
 
     def __eq__(self, other):  # noqa: D105
         # see https://stackoverflow.com/a/2909119
