@@ -2,6 +2,9 @@
 
 """Provide the app's central class to store and manage calender entries."""
 
+# Python imports
+import datetime
+
 # Django imports
 from django import forms
 from django.db import models
@@ -84,7 +87,7 @@ class EventManager(models.Manager):
     :class:`~calingen.models.event.EventQuerySet`.
     """
 
-    def get_calender_entry_list(self, user=None):
+    def get_calender_entry_list(self, user=None, year=None):
         """Return all instances as :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
 
         Parameters
@@ -103,9 +106,7 @@ class EventManager(models.Manager):
         """
         result = CalenderEntryList()
         for event in self.get_user_events_qs(user).iterator():
-            result.add_entry(
-                None, title=event.title, category=event.type, start=event.start
-            )
+            result.merge(event.resolve(year))
 
         return result
 
@@ -289,6 +290,39 @@ class Event(models.Model):
             The absolute URL for instances of this model.
         """
         return reverse("event-detail", args=[self.id])  # pragma: nocover
+
+    def resolve(self, year=None):
+        """Resolve this object's ``start`` for a given ``year``.
+
+        Parameters
+        ----------
+        year : int, optional
+            The year to resolve for. Will use the current year if not specified.
+
+        Returns
+        -------
+        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+            The method returns a ``CalenderEntryList`` with entries for the
+            given ``year``.
+        """
+        if year is None:
+            year = datetime.datetime.now().year
+
+        result = CalenderEntryList()
+
+        # The current state of the app just includes the types
+        # ANNUAL_ANNIVERSARY and HOLIDAY. Both of them are implicitly expected
+        # to have a yearly recurrence.
+        # The following statement works on that assumption and simply uses the
+        # specified year parameter with the (stored) values of month and day.
+        result.add_entry(
+            None,
+            title=self.title,
+            category=self.type,
+            start=datetime.date(year, self.start.month, self.start.day),
+        )
+
+        return result
 
 
 class EventForm(forms.ModelForm):
