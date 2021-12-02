@@ -3,6 +3,7 @@
 """Provide tests for calingen.interfaces.data_exchange."""
 
 # Python imports
+import datetime
 from unittest import mock, skip  # noqa: F401
 
 # Django imports
@@ -47,7 +48,7 @@ class CalenderEntryListTest(CalingenTestCase):
         cal_entry_list = CalenderEntryList()
         test_title = "foo"
         test_category = "bar"
-        test_start = "baz"
+        test_start = datetime.datetime.now()
 
         # Act (actually perform what has to be done)
         cal_entry_list.add_entry(
@@ -73,8 +74,12 @@ class CalenderEntryListTest(CalingenTestCase):
     def test_merge_merges_distinct_sets(self):
         """merge() correctly merges two distinct CalenderEntryList instances."""
         # Arrange (set up test environment)
-        cal_entry_one = CalenderEntry(title="foo", category="foo", timestamp="foo")
-        cal_entry_two = CalenderEntry(title="bar", category="bar", timestamp="bar")
+        cal_entry_one = CalenderEntry(
+            title="foo", category="foo", timestamp=datetime.datetime.now()
+        )
+        cal_entry_two = CalenderEntry(
+            title="bar", category="bar", timestamp=datetime.datetime.now()
+        )
 
         cal_entry_list_target = CalenderEntryList()
         cal_entry_list_target.add_entry(cal_entry_one)
@@ -92,8 +97,12 @@ class CalenderEntryListTest(CalingenTestCase):
     def test_merge_merges_non_distinct_sets(self):
         """merge() correctly merges two distinct CalenderEntryList instances."""
         # Arrange (set up test environment)
-        cal_entry_one = CalenderEntry(title="foo", category="foo", timestamp="foo")
-        cal_entry_two = CalenderEntry(title="bar", category="bar", timestamp="bar")
+        cal_entry_one = CalenderEntry(
+            title="foo", category="foo", timestamp=datetime.datetime.now()
+        )
+        cal_entry_two = CalenderEntry(
+            title="bar", category="bar", timestamp=datetime.datetime.now()
+        )
 
         cal_entry_list_target = CalenderEntryList()
         cal_entry_list_target.add_entry(cal_entry_one)

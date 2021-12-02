@@ -3,6 +3,7 @@
 """Provides data exchange formats."""
 
 # Python imports
+import datetime
 from functools import total_ordering
 
 # app imports
@@ -16,7 +17,15 @@ class CalenderEntry:
     def __init__(self, title, category, timestamp):
         self.title = title
         self.category = category
-        self.timestamp = timestamp
+
+        # Ensure that "timestamp" is a datetime.datetime object
+        if isinstance(timestamp, datetime.datetime):
+            self.timestamp = timestamp
+        elif isinstance(timestamp, datetime.date):
+            self.timestamp = datetime.combine(timestamp, datetime.time.min)
+        else:
+            # Delegate parsing to datetime; probably breaks if unparsable
+            self.timestamp = datetime.datetime(timestamp)
 
     def __eq__(self, other):  # noqa: D105
         # see https://stackoverflow.com/a/2909119
