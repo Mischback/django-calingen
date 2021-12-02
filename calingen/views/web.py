@@ -40,7 +40,7 @@ class CalenderEntryListYearView(
     optimization.
     """
 
-    template_name = "calingen/base_event_list_year.html"
+    template_name = "calingen/calender_entry_list_year.html"
 
     def get_context_data(self, **kwargs):
         """Just for linting."""
