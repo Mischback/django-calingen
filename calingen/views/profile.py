@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 # app imports
-from calingen.models.profile import Profile, ProfileForm, resolve_event_provider
+from calingen.models.profile import Profile, ProfileForm
 from calingen.views.mixins import (
     CalingenRestrictToUserMixin,
     CalingenUserProfileIDMixin,
@@ -51,9 +51,7 @@ class ProfileDetailView(
         context = super().get_context_data(**kwargs)
 
         # add number of events derived from activated EventProvider instances
-        context["provider_events_count"] = len(
-            resolve_event_provider(context["profile"].event_provider["active"])
-        )
+        context["provider_events_count"] = len(context["profile"].resolve())
 
         return context
 

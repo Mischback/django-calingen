@@ -16,7 +16,7 @@ from django.views.generic.base import TemplateView
 
 # app imports
 from calingen.models.event import Event
-from calingen.models.profile import Profile, resolve_event_provider
+from calingen.models.profile import Profile
 from calingen.views.mixins import (
     CalingenRestrictToUserMixin,
     CalingenUserProfileIDMixin,
@@ -49,7 +49,7 @@ class CalenderEntryListYearView(
         profile = Profile.calingen_manager.get_profile(self.request.user)
 
         entries = Event.calingen_manager.get_calender_entry_list(self.request.user)
-        entries.merge(resolve_event_provider(profile.event_provider["active"]))
+        entries.merge(profile.resolve())
         context["entries"] = entries
 
         return context
