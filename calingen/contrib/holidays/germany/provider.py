@@ -13,7 +13,7 @@ from dateutil.rrule import WE, YEARLY, rrule
 
 # app imports
 from calingen.constants import EventCategory
-from calingen.interfaces.data_exchange import CalenderEntryList
+from calingen.interfaces.data_exchange import CalenderEntry, CalenderEntryList
 from calingen.interfaces.plugin_api import EventProvider
 
 # The following constants simply provide all the available German Holidays
@@ -153,13 +153,14 @@ class GermanyFederal(EventProvider):
 
         result = CalenderEntryList()
         for i in cls.holidays:
-            result.add_entry(
-                None,
-                title=i[0],
-                category=i[1],
-                timestamp=i[2].between(
-                    datetime(year, 1, 1), datetime(year, 12, 31), inc=True
-                )[0],
+            result.add(
+                CalenderEntry(
+                    i[0],
+                    i[1],
+                    i[2].between(
+                        datetime(year, 1, 1), datetime(year, 12, 31), inc=True
+                    )[0],
+                )
             )
         return result
 

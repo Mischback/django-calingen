@@ -152,29 +152,10 @@ class CalenderEntryListTest(CalingenTestCase):
         test_entry = "foo"
 
         # Act (actually perform what has to be done)
-        cal_entry_list.add_entry(test_entry)
+        cal_entry_list.add(test_entry)
 
         # Assert (verify the results)
         self.assertIn(test_entry, cal_entry_list._entries)
-
-    def test_add_entry_adds_constructed_entry(self):
-        """add_entry() appends an entry specified by its values to _entries."""
-        # Arrange (set up test environment)
-        cal_entry_list = CalenderEntryList()
-        test_title = "foo"
-        test_category = "bar"
-        test_start = datetime.datetime.now()
-
-        # Act (actually perform what has to be done)
-        cal_entry_list.add_entry(
-            None, title=test_title, category=test_category, timestamp=test_start
-        )
-
-        # Assert (verify the results)
-        self.assertIn(
-            CalenderEntry(test_title, test_category, test_start),
-            cal_entry_list._entries,
-        )
 
     def test_merge_merges_distinct_sets(self):
         """merge() correctly merges two distinct CalenderEntryList instances."""
@@ -187,10 +168,10 @@ class CalenderEntryListTest(CalingenTestCase):
         )
 
         cal_entry_list_target = CalenderEntryList()
-        cal_entry_list_target.add_entry(cal_entry_one)
+        cal_entry_list_target.add(cal_entry_one)
 
         cal_entry_list_second = CalenderEntryList()
-        cal_entry_list_second.add_entry(cal_entry_two)
+        cal_entry_list_second.add(cal_entry_two)
 
         # Act (actually perform what has to be done)
         cal_entry_list_target.merge(cal_entry_list_second)
@@ -210,11 +191,11 @@ class CalenderEntryListTest(CalingenTestCase):
         )
 
         cal_entry_list_target = CalenderEntryList()
-        cal_entry_list_target.add_entry(cal_entry_one)
+        cal_entry_list_target.add(cal_entry_one)
 
         cal_entry_list_second = CalenderEntryList()
-        cal_entry_list_second.add_entry(cal_entry_two)
-        cal_entry_list_second.add_entry(cal_entry_one)
+        cal_entry_list_second.add(cal_entry_two)
+        cal_entry_list_second.add(cal_entry_one)
 
         # Act (actually perform what has to be done)
         cal_entry_list_target.merge(cal_entry_list_second)

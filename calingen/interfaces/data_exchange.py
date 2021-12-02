@@ -92,7 +92,7 @@ class CalenderEntryList:
     def __len__(self):  # noqa: D105
         return len(self._entries)  # pragma: nocover
 
-    def add_entry(self, entry, title=None, category=None, timestamp=None):
+    def add(self, entry):
         """Add a :class:`~calingen.interfaces.data_exchange.CalenderEntry` to the list.
 
         Parameters
@@ -111,7 +111,7 @@ class CalenderEntryList:
         There is no validation of the input types!
         """
         if entry is None:
-            entry = CalenderEntry(title, category, timestamp)
+            raise self.CalenderEntryListException("An entry is required")
 
         self._entries.add(entry)
 

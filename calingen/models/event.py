@@ -15,7 +15,7 @@ from django.utils.translation import ugettext_lazy as _
 from calingen.constants import EventCategory
 from calingen.exceptions import CalingenException
 from calingen.forms.fields import SplitDateTimeOptionalField
-from calingen.interfaces.data_exchange import CalenderEntryList
+from calingen.interfaces.data_exchange import CalenderEntry, CalenderEntryList
 from calingen.models.profile import Profile
 from calingen.models.queryset import CalingenQuerySet
 
@@ -315,13 +315,12 @@ class Event(models.Model):
         # to have a yearly recurrence.
         # The following statement works on that assumption and simply uses the
         # specified year parameter with the (stored) values of month and day.
-        result.add_entry(
-            None,
-            title=self.title,
-            category=self.category,
-            timestamp=datetime.datetime(
-                year, self.start.month, self.start.day, 0, 0, 0
-            ),
+        result.add(
+            CalenderEntry(
+                self.title,
+                self.category,
+                datetime.date(year, self.start.month, self.start.day),
+            )
         )
 
         return result
