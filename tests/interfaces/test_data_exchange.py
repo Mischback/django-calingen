@@ -176,16 +176,6 @@ class CalenderEntryListTest(CalingenTestCase):
             cal_entry_list._entries,
         )
 
-    def test_add_entry_enforces_required_values(self):
-        """add_entry() expects an entry or the values to create one."""
-        # Arrange (set up test environment)
-        cal_entry_list = CalenderEntryList()
-
-        # Assert (verify the results)
-        with self.assertRaises(CalenderEntryList.CalenderEntryListException):
-            # Act (actually perform what has to be done)
-            cal_entry_list.add_entry(None)
-
     def test_merge_merges_distinct_sets(self):
         """merge() correctly merges two distinct CalenderEntryList instances."""
         # Arrange (set up test environment)

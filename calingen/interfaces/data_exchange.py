@@ -28,7 +28,8 @@ class CalenderEntry:
             self.timestamp = datetime.datetime.combine(timestamp, datetime.time.min)
         else:
             # Delegate parsing to dateutil; probably breaks if unparsable
-            # TODO: How does Django handle this? I mean, this is a Django app after all
+            # Django uses datetime.datetime.strptime(), dateutil.parser should
+            # be "more forgiving". And while we rely on that package anyway...
             self.timestamp = parser.parse(timestamp)
 
     def __eq__(self, other):  # noqa: D105
@@ -105,22 +106,11 @@ class CalenderEntryList:
         category: str, optional
         start: datetime.datetime, optional
 
-        Raises
-        ------
-        CalenderEntryListException
-            If ``entry`` is set to ``None``, ``title``, ``category`` and ``start``
-            are expected to be non ``None`` values (see above for the expected,
-            but not enforced types). Otherwise, the exception is raised.
-
         Warnings
         --------
         There is no validation of the input types!
         """
         if entry is None:
-            # FIXME: This is not longer required, if the refactoring of CalenderEntry works!
-            if (title is None) or (category is None) or (timestamp is None):
-                raise self.CalenderEntryListException("Could not add entry!")
-
             entry = CalenderEntry(title, category, timestamp)
 
         self._entries.add(entry)
