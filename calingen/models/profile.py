@@ -20,34 +20,6 @@ from calingen.interfaces.plugin_api import EventProvider
 from calingen.models.queryset import CalingenQuerySet
 
 
-def resolve_event_provider(provider_list, year=None):
-    """Combine all event providers results into one :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
-
-    Parameters
-    ----------
-    provider_list : list
-        The list of :class:`~calingen.interfaces.plugin_api.EventProvider`
-        instances, provided as fully qualified Python paths.
-    year : int, optional
-        The year to use for resolving the
-        :class:`~calingen.interfaces.plugin_api.EventProvider`.
-
-    Returns
-    -------
-    :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
-        A single instance including all events from all providers.
-    """
-    if year is None:
-        year = datetime.datetime.now().year
-
-    result = CalenderEntryList()
-    for provider in provider_list:
-        provider_instance = import_string(provider)
-        result.merge(provider_instance.resolve(year))
-
-    return result
-
-
 class ProfileQuerySet(CalingenQuerySet):
     """App-specific implementation of :class:`django.db.models.QuerySet`.
 
@@ -268,6 +240,30 @@ class Profile(models.Model):
             The absolute URL for instances of this model.
         """
         return reverse("profile", args=[self.id])  # pragma: nocover
+
+    def resolve(self, year=None):
+        """Combine all event providers results for a given year into one :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
+
+        Parameters
+        ----------
+        year : int, optional
+            The year to use for resolving the
+            :class:`~calingen.interfaces.plugin_api.EventProvider`.
+
+        Returns
+        -------
+        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+            A single instance including all events from all active providers.
+        """
+        if year is None:
+            year = datetime.datetime.now().year
+
+        result = CalenderEntryList()
+        for provider in self.event_provider["active"]:
+            provider_instance = import_string(provider)
+            result.merge(provider_instance.resolve(year))
+
+        return result
 
     @property
     def event_provider(self):
