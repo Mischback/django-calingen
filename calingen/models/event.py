@@ -45,7 +45,7 @@ class EventQuerySet(CalingenQuerySet):
         :class:`~django.db.models.QuerySet`
             The annotated queryset.
         """
-        return self
+        return self  # pragma: nocover
 
     def filter_by_user(self, user):
         """Filter the result set by the objects' :attr:`owners <calingen.models.profile.Profile.owner>`.
@@ -121,7 +121,7 @@ class EventManager(models.Manager):
             :meth:`~calingen.models.event.EventQuerySet.default` method. The
             retrieved objects will be annotated with additional attributes.
         """
-        return EventQuerySet(self.model, using=self._db).default()
+        return EventQuerySet(self.model, using=self._db).default()  # pragma: nocover
 
     def get_user_events_qs(self, user=None):
         """Provide a ``QuerySet`` containing all events of a given ``user``.
