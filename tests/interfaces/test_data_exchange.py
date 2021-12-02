@@ -80,6 +80,56 @@ class CalenderEntryTest(CalingenTestCase):
         self.assertNotEqual(entry, test_class)
         self.assertNotEqual(test_class, entry)
 
+    def test_lt_different_classes(self):
+        # Arrange (set up test environment)
+        class TestClass:
+            pass
+
+        test_class = TestClass()
+        entry = CalenderEntry("foo", "bar", datetime.datetime(2021, 12, 2, 15, 4))
+
+        # Act (actually perform what has to be done)
+        return_value = entry.__lt__(test_class)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, NotImplemented)
+
+        with self.assertRaises(TypeError):
+            self.assertLess(entry, test_class)
+
+    def test_lt_timestamp(self):
+        # Arrange (set up test environment)
+        entry_1 = CalenderEntry("aaa", "bbb", datetime.datetime(2021, 12, 2, 15, 4))
+        entry_2 = CalenderEntry("aaa", "bbb", datetime.datetime(2020, 12, 2, 15, 4))
+
+        # Act (actually perform what has to be done)
+        # Assert (verify the results)
+        self.assertFalse(entry_1 < entry_2)
+        self.assertLess(entry_2, entry_1)
+        self.assertLessEqual(entry_2, entry_1)
+
+    def test_lt_category(self):
+        # Arrange (set up test environment)
+        entry_1 = CalenderEntry("aaa", "zzz", datetime.datetime(2021, 12, 2, 15, 4))
+        entry_2 = CalenderEntry("aaa", "bbb", datetime.datetime(2021, 12, 2, 15, 4))
+
+        # Act (actually perform what has to be done)
+        # Assert (verify the results)
+        self.assertFalse(entry_1 < entry_2)
+        self.assertLess(entry_2, entry_1)
+        self.assertLessEqual(entry_2, entry_1)
+
+    def test_lt_title(self):
+        # Arrange (set up test environment)
+        entry_1 = CalenderEntry("zzz", "bbb", datetime.datetime(2021, 12, 2, 15, 4))
+        entry_2 = CalenderEntry("aaa", "bbb", datetime.datetime(2021, 12, 2, 15, 4))
+
+        # Act (actually perform what has to be done)
+        # Assert (verify the results)
+        self.assertFalse(entry_1 < entry_2)
+        self.assertLess(entry_2, entry_1)
+        self.assertLessEqual(entry_2, entry_1)
+
 
 @tag("interfaces", "data", "calenderentrylist")
 class CalenderEntryListTest(CalingenTestCase):
