@@ -15,11 +15,11 @@ class EventCategory(TextChoices):
     provided by the :class:`~calingen.interfaces.plugin_api.EventProvider`
     implementations.
 
-    All these sources **must** provide compatible event types.
+    All these sources **must** provide compatible event categories.
 
     Notes
     -----
-    Provides the accepted choices for :attr:`calingen.models.event.Event.type`.
+    Provides the accepted choices for :attr:`calingen.models.event.Event.category`.
     """
 
     ANNUAL_ANNIVERSARY = "ANNUAL_ANNIVERSARY", _("Annual Anniversary")

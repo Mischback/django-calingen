@@ -252,14 +252,14 @@ class Event(models.Model):
     The attribute is implemented as :class:`~django.db.models.CharField`.
     """
 
-    type = models.CharField(
+    category = models.CharField(
         max_length=18,
         choices=EventCategory.choices,
         default=EventCategory.ANNUAL_ANNIVERSARY,
-        help_text=_("The type of this event."),
-        verbose_name=_("Event Type"),
+        help_text=_("The category of this event."),
+        verbose_name=_("Event Category"),
     )
-    """The type of this `Event`.
+    """The category of this `Event`.
 
     Notes
     -----
@@ -278,7 +278,7 @@ class Event(models.Model):
 
     def __str__(self):  # noqa: D105
         return "[{}] [{}] {} - {}".format(
-            self.type, self.profile, self.title, self.start
+            self.category, self.profile, self.title, self.start
         )  # pragma: nocover
 
     def get_absolute_url(self):
@@ -310,7 +310,7 @@ class Event(models.Model):
 
         result = CalenderEntryList()
 
-        # The current state of the app just includes the types
+        # The current state of the app just includes the categories
         # ANNUAL_ANNIVERSARY and HOLIDAY. Both of them are implicitly expected
         # to have a yearly recurrence.
         # The following statement works on that assumption and simply uses the
@@ -318,7 +318,7 @@ class Event(models.Model):
         result.add_entry(
             None,
             title=self.title,
-            category=self.type,
+            category=self.category,
             start=datetime.datetime(year, self.start.month, self.start.day, 0, 0, 0),
         )
 
@@ -332,4 +332,4 @@ class EventForm(forms.ModelForm):
 
     class Meta:  # noqa: D106
         model = Event
-        fields = ["type", "title", "start"]
+        fields = ["category", "title", "start"]
