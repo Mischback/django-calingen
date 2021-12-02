@@ -161,6 +161,4 @@ class CalenderEntryList:
         If consuming code requires uniqueness of items, use this method as late
         as possible.
         """
-        return sorted(
-            self._entries, key=lambda entry: entry.timestamp
-        )  # pragma: nocover
+        return sorted(self._entries)  # pragma: nocover
