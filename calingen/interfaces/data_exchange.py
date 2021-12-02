@@ -13,10 +13,10 @@ from calingen.exceptions import CallingenInterfaceException
 class CalenderEntry:
     """Data structure to pass calender entries around."""
 
-    def __init__(self, title, category, start):
+    def __init__(self, title, category, timestamp):
         self.title = title
         self.category = category
-        self.start = start
+        self.timestamp = timestamp
 
     def __eq__(self, other):  # noqa: D105
         # see https://stackoverflow.com/a/2909119
@@ -34,12 +34,12 @@ class CalenderEntry:
     def __repr__(self):  # noqa: D105
         # see https://stackoverflow.com/a/12448200
         return "<CalenderEntry(title={}, category={}, start={})>".format(
-            self.title.__repr__(), self.category.__repr__(), self.start.__repr__()
+            self.title.__repr__(), self.category.__repr__(), self.timestamp.__repr__()
         )
 
     def __str__(self):  # noqa: D105
         # see https://stackoverflow.com/a/12448200
-        return "[{}] {} ({})".format(self.start, self.title, self.category)
+        return "[{}] {} ({})".format(self.timestamp, self.title, self.category)
 
     def __hash__(self):  # noqa: D105
         # see https://stackoverflow.com/a/2909119
@@ -47,7 +47,7 @@ class CalenderEntry:
 
     def __key(self):
         # see https://stackoverflow.com/a/2909119
-        return (self.start, self.category, self.title)
+        return (self.timestamp, self.category, self.title)
 
 
 class CalenderEntryList:
@@ -76,7 +76,7 @@ class CalenderEntryList:
     def __len__(self):  # noqa: D105
         return len(self._entries)
 
-    def add_entry(self, entry, title=None, category=None, start=None):
+    def add_entry(self, entry, title=None, category=None, timestamp=None):
         """Add a :class:`~calingen.interfaces.data_exchange.CalenderEntry` to the list.
 
         Parameters
@@ -103,10 +103,10 @@ class CalenderEntryList:
         """
         if entry is None:
             # FIXME: This is not longer required, if the refactoring of CalenderEntry works!
-            if (title is None) or (category is None) or (start is None):
+            if (title is None) or (category is None) or (timestamp is None):
                 raise self.CalenderEntryListException("Could not add entry!")
 
-            entry = CalenderEntry(title, category, start)
+            entry = CalenderEntry(title, category, timestamp)
 
         self._entries.add(entry)
 
@@ -146,4 +146,4 @@ class CalenderEntryList:
         If consuming code requires uniqueness of items, use this method as late
         as possible.
         """
-        return sorted(self._entries, key=lambda entry: entry.start)
+        return sorted(self._entries, key=lambda entry: entry.timestamp)

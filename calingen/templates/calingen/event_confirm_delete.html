@@ -6,7 +6,7 @@
 <form method="post">{% csrf_token %}
   <p>Are you sure you want to delete this event?</p>
   <p>
-    <strong>{{ event_item.title }}</strong>: {{ event_item.start|date:"c" }} - {{ event_item.get_category_display }}
+    <strong>{{ event_item.title }}</strong>: {{ event_item.timestamp|date:"c" }} - {{ event_item.get_category_display }}
   </p>
   <input type="submit" value="Confirm" />
 </form>

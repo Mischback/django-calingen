@@ -157,7 +157,7 @@ class GermanyFederal(EventProvider):
                 None,
                 title=i[0],
                 category=i[1],
-                start=i[2].between(
+                timestamp=i[2].between(
                     datetime(year, 1, 1), datetime(year, 12, 31), inc=True
                 )[0],
             )

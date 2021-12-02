@@ -51,7 +51,7 @@ class CalenderEntryListTest(CalingenTestCase):
 
         # Act (actually perform what has to be done)
         cal_entry_list.add_entry(
-            None, title=test_title, category=test_category, start=test_start
+            None, title=test_title, category=test_category, timestamp=test_start
         )
 
         # Assert (verify the results)
@@ -73,8 +73,8 @@ class CalenderEntryListTest(CalingenTestCase):
     def test_merge_merges_distinct_sets(self):
         """merge() correctly merges two distinct CalenderEntryList instances."""
         # Arrange (set up test environment)
-        cal_entry_one = CalenderEntry(title="foo", category="foo", start="foo")
-        cal_entry_two = CalenderEntry(title="bar", category="bar", start="bar")
+        cal_entry_one = CalenderEntry(title="foo", category="foo", timestamp="foo")
+        cal_entry_two = CalenderEntry(title="bar", category="bar", timestamp="bar")
 
         cal_entry_list_target = CalenderEntryList()
         cal_entry_list_target.add_entry(cal_entry_one)
@@ -92,8 +92,8 @@ class CalenderEntryListTest(CalingenTestCase):
     def test_merge_merges_non_distinct_sets(self):
         """merge() correctly merges two distinct CalenderEntryList instances."""
         # Arrange (set up test environment)
-        cal_entry_one = CalenderEntry(title="foo", category="foo", start="foo")
-        cal_entry_two = CalenderEntry(title="bar", category="bar", start="bar")
+        cal_entry_one = CalenderEntry(title="foo", category="foo", timestamp="foo")
+        cal_entry_two = CalenderEntry(title="bar", category="bar", timestamp="bar")
 
         cal_entry_list_target = CalenderEntryList()
         cal_entry_list_target.add_entry(cal_entry_one)
