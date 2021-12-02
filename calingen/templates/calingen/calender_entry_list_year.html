@@ -4,4 +4,30 @@
 
 {% block main %}
 <h2>Event List for Year</h2>
+
+<section>
+  <table class="list_view">
+    {% if entries %}
+    <tr>
+      <th>Title</th>
+      <th>Start</th>
+      <th>Category</th>
+    </tr>
+    {% for entry in entries %}
+    <tr>
+      <td>
+        {{ entry.title }}
+      </td>
+      <td>{{ entry.start|date:"c" }}</td>
+      <td>{{ entry.category }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+      <td>Could not fetch entry list.</td>
+    </tr>
+    {% endif %}
+  </table>
+</section>
+
 {% endblock main %}
