@@ -18,16 +18,12 @@ from django.views.generic.base import TemplateView
 from calingen.interfaces.data_exchange import CalenderEntryList
 from calingen.models.event import Event
 from calingen.models.profile import Profile
-from calingen.views.mixins import (
-    CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
-)
+from calingen.views.mixins import CalingenRestrictToUserMixin
 
 
 class CalenderEntryListYearView(
     LoginRequiredMixin,
     CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
     TemplateView,
 ):
     """Provide a list view of all events in a given year.
@@ -59,5 +55,10 @@ class CalenderEntryListYearView(
         entries = all_entries.sorted()
 
         context["entries"] = entries
+
+        # Usually, CalingenUserProfileIDMixin provides the (required)
+        # profile_id, but as this view fetches the Profile anyway, it will be
+        # added manually
+        context["profile_id"] = profile.id
 
         return context
