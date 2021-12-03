@@ -66,6 +66,15 @@ class CalenderEntryTest(CalingenTestCase):
                 "foo", "bar", test_datetime_str, ("foo", "bar")
             )
 
+    def test_constructor_rejects_non_valid_source(self):
+        # Arrange (set up test environment)
+        test_date = datetime.date(2021, 12, 2)
+
+        # Act (actually perform what has to be done)
+        # Assert (verify the results)
+        with self.assertRaises(CalenderEntry.CalenderEntryException):
+            entry = CalenderEntry("foo", "bar", test_date, "BREAK")  # noqa: F841
+
     def test_eq_different_classes(self):
         # Arrange (set up test environment)
         class TestClass:
