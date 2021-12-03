@@ -13,12 +13,34 @@ from dateutil import parser
 from calingen.constants import EventCategory
 from calingen.exceptions import CallingenInterfaceException
 
+SOURCE_INTERNAL = "INTERNAL"
+SOURCE_EXTERNAL = "EXTERNAL"
+
 
 @total_ordering
 class CalenderEntry:
     """Data structure to pass calender entries around."""
 
-    def __init__(self, title, category, timestamp):
+    class CalenderEntryException(CallingenInterfaceException):
+        """Class-specific exception, raised on failures in this class's methods.
+
+        Warnings
+        --------
+        The instances' ``source`` attribute is not included in checks for
+        equality (``__eq__()``) or during hash-processing (``__hash__()``)!
+
+        This means, that if an event is specified by an external provider and
+        by using the app's :class:`calingen.models.event.Event` model, using
+        the same ``title``, ``category`` and ``timestamp``, they are considered
+        **equal**.
+
+        The implementation of
+        :class:`calingen.interfaces.data_exchange.CalenderEntryList` relies
+        internally on a ``set``, which means the entries are unique. So, only
+        one of the events will be present in the resulting ``CalenderEntryList``.
+        """
+
+    def __init__(self, title, category, timestamp, source):
         self.title = title
 
         # Use the (lazy) translatable category (if available)
@@ -38,6 +60,13 @@ class CalenderEntry:
             # be "more forgiving". And while we rely on that package anyway...
             self.timestamp = parser.parse(timestamp)
 
+        # "source" is expected to be a tuple of the the form
+        # (SOURCE_INTERNAL, Event.id) or (SOURCE_EXTERNAL, EventProvider.title)
+        if isinstance(source, tuple):
+            self.source = source
+        else:
+            raise self.CalenderEntryException("source must be provided as tuple")
+
     def __eq__(self, other):  # noqa: D105
         # see https://stackoverflow.com/a/2909119
         # see https://stackoverflow.com/a/8796908
@@ -53,8 +82,11 @@ class CalenderEntry:
 
     def __repr__(self):  # noqa: D105
         # see https://stackoverflow.com/a/12448200
-        return "<CalenderEntry(title={}, category={}, start={})>".format(
-            self.title.__repr__(), self.category.__repr__(), self.timestamp.__repr__()
+        return "<CalenderEntry(title={}, category={}, start={}, source={})>".format(
+            self.title.__repr__(),
+            self.category.__repr__(),
+            self.timestamp.__repr__(),
+            self.source.__repr__(),
         )  # pragma: nocover
 
     def __str__(self):  # noqa: D105
