@@ -3,8 +3,8 @@
 {% block page_title %}Profile: ProfileDeleteView{% endblock page_title %}
 
 {% block main %}
-<form method="post">{% csrf_token %}
+<form method="post" class="calingen-form">{% csrf_token %}
   <p>Are you sure you want to delete your <strong>CalInGen</strong> profile?</p>
-  <input type="submit" value="Confirm" />
+  <button type="submit" class="danger">Yes, I want to delete my Profile!</button>
 </form>
 {% endblock main %}
