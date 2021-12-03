@@ -3,7 +3,12 @@
 {% block page_title %}Base: EventListYear{% endblock page_title %}
 
 {% block main %}
-<h2>Event List for Year</h2>
+<h2>
+  Event List for Year
+  <a href="{% url "calender-entry-list-year" profile_id target_year|add:"-1" %}">&#171;</a>
+  {{ target_year }}
+  <a href="{% url "calender-entry-list-year" profile_id target_year|add:"1" %}">&#187;</a>
+</h2>
 
 <section>
   <table class="list_view">

@@ -51,9 +51,9 @@ class CalenderEntryListYearView(
 
         all_entries = CalenderEntryList()
         internal_events = Event.calingen_manager.get_calender_entry_list(
-            self.request.user
+            user=self.request.user, year=context["target_year"]
         )
-        plugin_events = profile.resolve()
+        plugin_events = profile.resolve(year=context["target_year"])
         all_entries.merge(internal_events)
         all_entries.merge(plugin_events)
         entries = all_entries.sorted()
