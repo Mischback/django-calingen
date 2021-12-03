@@ -3,6 +3,7 @@
 """Provide tests for calingen.models.profile."""
 
 # Python imports
+import datetime
 from unittest import mock, skip  # noqa: F401
 
 # Django imports
@@ -123,3 +124,51 @@ class ProfileTest(CalingenTestCase):
         self.assertEqual(return_value["active"], [])
         self.assertEqual(return_value["unavailable"], ["foo.bar.buhu"])
         self.assertEqual(return_value["newly_unavailable"], ["foo.bar.buhu"])
+
+    @mock.patch("calingen.models.profile.import_string")
+    @mock.patch("calingen.models.profile.CalenderEntryList")
+    @mock.patch(
+        "calingen.models.profile.Profile.event_provider", new_callable=mock.PropertyMock
+    )
+    def test_resolve_applies_given_year_in_CalenderEntry(
+        self, mock_event_provider, mock_cel, mock_import_string
+    ):
+        """Resolving CalenderEntryList with given year."""
+        # Arrange (set up test environment)
+        test_active_provider = "foo.bar.buhu"
+        profile = Profile()
+        mock_event_provider.return_value = {"active": [test_active_provider]}
+
+        # Act (actually perform what has to be done)
+        return_value = profile.resolve(year=2020)
+
+        # Assert (verify the results))
+        mock_cel.assert_called_once()
+        mock_import_string.assert_called_once_with(test_active_provider)
+        mock_cel.return_value.merge.assert_called_once()
+        self.assertIsInstance(return_value, mock.MagicMock)
+
+    @mock.patch("calingen.models.profile.import_string")
+    @mock.patch("calingen.models.profile.datetime")
+    @mock.patch("calingen.models.profile.CalenderEntryList")
+    @mock.patch(
+        "calingen.models.profile.Profile.event_provider", new_callable=mock.PropertyMock
+    )
+    def test_resolve_applies_current_year_in_CalenderEntry(
+        self, mock_event_provider, mock_cel, mock_datetime, mock_import_string
+    ):
+        """Resolving CalenderEntryList with current year if not specified."""
+        # Arrange (set up test environment)
+        test_active_provider = "foo.bar.buhu"
+        profile = Profile()
+        mock_event_provider.return_value = {"active": [test_active_provider]}
+        mock_datetime.datetime.now.return_value = datetime.date(2020, 12, 3)
+
+        # Act (actually perform what has to be done)
+        return_value = profile.resolve()
+
+        # Assert (verify the results))
+        mock_cel.assert_called_once()
+        mock_import_string.assert_called_once_with(test_active_provider)
+        mock_cel.return_value.merge.assert_called_once()
+        self.assertIsInstance(return_value, mock.MagicMock)
