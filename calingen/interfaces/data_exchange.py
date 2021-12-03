@@ -14,33 +14,97 @@ from calingen.constants import EventCategory
 from calingen.exceptions import CallingenInterfaceException
 
 SOURCE_INTERNAL = "INTERNAL"
+"""Constant for app-internal :class:`~calingen.models.event.Event` instances."""
+
 SOURCE_EXTERNAL = "EXTERNAL"
+"""Constant for entries provided by implementations of :class:`calingen.interfaces.plugin_api.EventProvider`"""
 
 
 @total_ordering
 class CalenderEntry:
-    """Data structure to pass calender entries around."""
+    """Data structure to pass calender entries around.
+
+    Parameters
+    ----------
+    title : str
+    category : calingen.constants.EventCategory.value
+    timestamp : datetime.datetime, datetime.date, str
+    source : tuple
+
+    Attributes
+    ----------
+    title : str
+        The actual title of the entry.
+    category : str
+        While this is actually a simple :py:obj:`str`, it is expected to be of
+        the specified type. A lookup against
+        :attr:`EventCategory.values <calingen.constants.EventCategory.values>`
+        is performed, but this is not an enforced validation!
+
+        If the ``constructor`` was called with an instance of
+        :attr:`EventCategory.value <calingen.constants.EventCategory.value>`,
+        this will be a `translateable` string.
+    timestamp : datetime.datetime
+        The paremeter accepts the specified types and will convert them to
+        :py:obj:`datetime.datetime` internally.
+        If a :py:obj:`str` is given, :meth:`dateutil.parser.parse` is used and
+        may raise an exception, if the provided string could not be parsed.
+    source : tuple
+        Expected is a tuple of the form ``("INTERNAL", [int])``, where ``[int]``
+        is interpreted as an ``id`` of an :class:`~calingen.models.event.Event`
+        instance, or ``("EXTERNAL", [str])``, where ``[str]`` is used as a plain
+        string.
+
+        For implementations of
+        :class:`~calingen.interfaces.plugin_api.EventProvider` it is recommended
+        to provide its ``title`` attribute.
+
+    Raises
+    ------
+    CalenderEntry.CalenderEntryException
+        Raised if ``source`` was not provided as :py:obj:`tuple`
+    dateutil.parser._parser.ParserError
+        Raised if ``timestamp`` is provided as :py:obj:`str` and could not be
+        parsed by :meth:`dateutil.parser.parse`
+
+    Warnings
+    --------
+    The instances' ``source`` attribute is not included in checks for
+    equality (``__eq__()``) or during hash-processing (``__hash__()``)!
+
+    This means, that if an event is specified by an external provider and
+    by using the app's :class:`calingen.models.event.Event` model, using
+    the same ``title``, ``category`` and ``timestamp``, they are considered
+    **equal**.
+
+    The implementation of
+    :class:`calingen.interfaces.data_exchange.CalenderEntryList` relies
+    internally on a ``set``, which means the entries are unique. So, only
+    one of the events will be present in the resulting ``CalenderEntryList``.
+
+    Notes
+    -----
+    Instances of this class are single, self-contained entries in a calender.
+    They provide an abstraction and common interface to events provided by the
+    app's user (instances of :class:`~calingen.models.event.Event`) and events
+    provided by plugins (implementations of
+    :class:`~calingen.interfaces.plugin_api.EventProvider`).
+
+    However, there is no real case of using this class without and accompanying
+    :class:`~calingen.interfaces.data_exchange.CalenderEntryList`. Actually,
+    all ``resolve()`` operations are required to return an instance of
+    :class:`~calingen.interfaces.data_exchange.CalenderEntryList` with instances
+    of this class as its payload.
+
+    As you can see, the documentation of the class's `magic methods` is kept at
+    a minimum. See the source code for further details!
+    """
 
     class CalenderEntryException(CallingenInterfaceException):
-        """Class-specific exception, raised on failures in this class's methods.
-
-        Warnings
-        --------
-        The instances' ``source`` attribute is not included in checks for
-        equality (``__eq__()``) or during hash-processing (``__hash__()``)!
-
-        This means, that if an event is specified by an external provider and
-        by using the app's :class:`calingen.models.event.Event` model, using
-        the same ``title``, ``category`` and ``timestamp``, they are considered
-        **equal**.
-
-        The implementation of
-        :class:`calingen.interfaces.data_exchange.CalenderEntryList` relies
-        internally on a ``set``, which means the entries are unique. So, only
-        one of the events will be present in the resulting ``CalenderEntryList``.
-        """
+        """Class-specific exception, raised on failures in this class's methods."""
 
     def __init__(self, title, category, timestamp, source):
+        # documentation of the costructor is in the class's docstring!
         self.title = title
 
         # Use the (lazy) translatable category (if available)
@@ -67,20 +131,23 @@ class CalenderEntry:
         else:
             raise self.CalenderEntryException("source must be provided as tuple")
 
-    def __eq__(self, other):  # noqa: D105
+    def __eq__(self, other):
+        """Check equality with ``other`` object."""
         # see https://stackoverflow.com/a/2909119
         # see https://stackoverflow.com/a/8796908
         if isinstance(other, CalenderEntry):
             return self.__key() == other.__key()  # pragma: nocover
         return NotImplemented
 
-    def __lt__(self, other):  # noqa: D105
+    def __lt__(self, other):
+        """Provide `less than` comparison with ``other`` object."""
         # see https://stackoverflow.com/a/8796908
         if isinstance(other, CalenderEntry):
             return self.__key() < other.__key()
         return NotImplemented
 
-    def __repr__(self):  # noqa: D105
+    def __repr__(self):
+        """Provide an instance's `representation`."""
         # see https://stackoverflow.com/a/12448200
         return "<CalenderEntry(title={}, category={}, start={}, source={})>".format(
             self.title.__repr__(),
@@ -89,17 +156,20 @@ class CalenderEntry:
             self.source.__repr__(),
         )  # pragma: nocover
 
-    def __str__(self):  # noqa: D105
+    def __str__(self):
+        """Provide a string representation of the instance."""
         # see https://stackoverflow.com/a/12448200
         return "[{}] {} ({})".format(
             self.timestamp, self.title, self.category
         )  # pragma: nocover
 
-    def __hash__(self):  # noqa: D105
+    def __hash__(self):
+        """Provide a unique representation of the instance."""
         # see https://stackoverflow.com/a/2909119
         return hash(self.__key())  # pragma: nocover
 
     def __key(self):
+        """Provide internal representation of the instance."""
         # see https://stackoverflow.com/a/2909119
         return (self.timestamp, self.category, self.title)  # pragma: nocover
 
@@ -119,6 +189,15 @@ class CalenderEntryList:
     While objects of this class are intended to store / handle instances of
     :class:`~calingen.interfaces.data_exchange.CalenderEntry`, this is **not**
     enforced or validated (EAFP).
+
+    Notes
+    -----
+    This class is a close companion of
+    :class:`~calingen.interfaces.data_exchange.CalenderEntry` instances.
+
+    Internally, the app expects the result of any ``resolve()`` operation to be
+    an instance of this class with a set (or list) of
+    :class:`~calingen.interfaces.data_exchange.CalenderEntry` instances.
     """
 
     class CalenderEntryListException(CallingenInterfaceException):
@@ -136,10 +215,12 @@ class CalenderEntryList:
         Parameters
         ----------
         entry : CalenderEntry
-            The entry to be added to this class's list. If set to ``None``, the
-            optional parameters are used to create an instance of
-            :class:`~calingen.interfaces.data_exchange.CalenderEntry` and add
-            that.
+            The entry to be added to this class's list.
+
+        Raises
+        ------
+        CalenderEntryList.CalenderEntryListException
+            Raised if no entry is provided.
 
         Warnings
         --------
