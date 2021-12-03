@@ -20,6 +20,7 @@ ignore =
     E501,
 
 per-file-ignores =
+    calingen/models/profile.py:W505
     tests/forms/*.py:D
     tests/interfaces/*.py:D,
     tests/models/*.py:D

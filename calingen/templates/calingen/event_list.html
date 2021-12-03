@@ -12,8 +12,7 @@
       <th>Title</th>
       <th>Actions</th>
       <th>Start</th>
-      <th>Type</th>
-      <th>Owner</th>
+      <th>Category</th>
     </tr>
     {% for event in event_list %}
     <tr>
@@ -25,8 +24,7 @@
         <a href="{% url "event-delete" event.id %}">delete</a>
       </td>
       <td>{{ event.start|date:"c" }}</td>
-      <td>{{ event.get_type_display }}</td>
-      <td>{{ event.owner }}</td>
+      <td>{{ event.get_category_display }}</td>
     </tr>
     {% endfor %}
     {% else %}

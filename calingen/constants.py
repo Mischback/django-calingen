@@ -7,7 +7,7 @@ from django.db.models import TextChoices
 from django.utils.translation import ugettext_lazy as _
 
 
-class EventType(TextChoices):
+class EventCategory(TextChoices):
     """The single source of truth for different types of events.
 
     Throughout the app, there are different sources for events, most notably the
@@ -15,11 +15,11 @@ class EventType(TextChoices):
     provided by the :class:`~calingen.interfaces.plugin_api.EventProvider`
     implementations.
 
-    All these sources **must** provide compatible event types.
+    All these sources **must** provide compatible event categories.
 
     Notes
     -----
-    Provides the accepted choices for :attr:`calingen.models.event.Event.type`.
+    Provides the accepted choices for :attr:`calingen.models.event.Event.category`.
     """
 
     ANNUAL_ANNIVERSARY = "ANNUAL_ANNIVERSARY", _("Annual Anniversary")

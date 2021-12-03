@@ -59,4 +59,4 @@ class CalingenQuerySet(QuerySet):
         ensuring `row-level permissions`, because only owners are allowed to
         view (and modify) their events.
         """
-        return self.filter(owner=user)
+        raise NotImplementedError("Must be implemented by actual QuerySet")

@@ -2,29 +2,163 @@
 
 """Provide the app's user profile."""
 
+# Python imports
+import datetime
+
 # Django imports
 from django import forms
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
 from calingen.forms.fields import PluginField
+from calingen.interfaces.data_exchange import CalenderEntryList
 from calingen.interfaces.plugin_api import EventProvider
 from calingen.models.queryset import CalingenQuerySet
 
 
-class ProfileQuerySet(CalingenQuerySet):  # noqa: D101
-    pass
+class ProfileQuerySet(CalingenQuerySet):
+    """App-specific implementation of :class:`django.db.models.QuerySet`.
+
+    Notes
+    -----
+    This :class:`~django.db.models.QuerySet` implementation provides
+    app-specific augmentations.
+
+    The provided methods augment/extend the retrieved
+    :class:`calingen.models.profile.Profile` instances by annotating them with
+    additional information.
+    """
+
+    def default(self):
+        """Return a :class:`~django.db.models.QuerySet` with annotations.
+
+        Returns
+        -------
+        :class:`~django.db.models.QuerySet`
+            The annotated queryset.
+
+        Notes
+        -----
+        The following annotations are provided by default:
+
+        - :meth:`~calingen.models.profile.ProfileQuerySet._owner`
+        - :meth:`~calingen.models.profile.ProfileQuerySet._event_count`
+        """
+        return self._owner()._event_count()
+
+    def filter_by_user(self, user):
+        """Filter the result set by the objects' :attr:`owners <calingen.models.profile.Profile.owner>`.
+
+        Parameters
+        ----------
+        user :
+            An instance of the project's user model, as specified by
+            :setting:`AUTH_USER_MODEL`.
+
+        Returns
+        -------
+        :class:`django.db.models.QuerySet`
+            The filtered queryset.
+
+        Notes
+        -----
+        Effectively, this method is used to ensure, that any user may only
+        access objects, which are owned by him. This is the app's way of
+        ensuring `row-level permissions`, because only owners are allowed to
+        view (and modify) their events.
+        """
+        return self.filter(owner=user)
+
+    def _event_count(self):
+        """Annotate each instance with the count of associated :class:`~calingen.models.event.Event` instances.
+
+        Returns
+        -------
+        :class:`~django.db.models.QuerySet`
+            The annotated queryset. The annotation will be available as
+            ``event_count``.
+
+        Notes
+        -----
+        This annotation is provided in
+        :meth:`~calingen.models.profile.ProfileQuerySet.default`.
+        """
+        return self.annotate(event_count=models.Count("events"))
+
+    def _owner(self):
+        """Make :attr:`Profile.owner <calingen.models.profile.Profile.owner>` available.
+
+        Returns
+        -------
+        :class:`~django.db.models.QuerySet`
+            Instances of :class:`~calingen.models.profile.Profile` will have
+            their :attr:`~calingen.models.profile.Profile.owner` available
+            without another database query.
+
+        Notes
+        -----
+        This method makes the associated project user (specified by
+        :setting:`AUTH_USER_MODEL` and stored in
+        :attr:`Profile.owner <calingen.models.profile.Profile.owner>`) available.
+
+        This annotation is provided in
+        :meth:`~calingen.models.profile.ProfileQuerySet.default`.
+        """
+        return self.select_related("owner")  # pragma: nocover
 
 
 class ProfileManager(models.Manager):
-    """Just for linting, will be refactored!"""  # noqa: D400
+    """App-/model-specific implementation of :class:`django.db.models.Manager`.
+
+    Notes
+    -----
+    This :class:`~django.db.models.Manager` implementation is used as an
+    additional manager of :class:`~calingen.models.profile.Profile`
+    (see :attr:`calingen.models.profile.Profile.calingen_manager`).
+
+    This implementation inherits its functionality from
+    :class:`django.db.models.Manager` and provides identical funtionality.
+    Furthermore, it augments the retrieved objects with additional attributes,
+    using the custom :class:`~django.db.models.QuerySet` implementation
+    :class:`~calingen.models.profile.ProfileQuerySet`.
+    """
 
     def get_queryset(self):
-        """Just for linting, will be refactored!"""  # noqa: D400
-        return ProfileQuerySet(self.model, using=self._db).default()
+        """Use the app-/model-specific :class:`~calingen.models.profile.ProfileQuerySet` by default.
+
+        Returns
+        -------
+        :class:`django.models.db.QuerySet`
+            This queryset is provided by
+            :class:`calingen.models.profile.ProfileQuerySet` and applies its
+            :meth:`~stockings.models.profile.ProfileQuerySet.default`
+            method. The retrieved objects will be annotated with additional
+            attributes.
+        """
+        return ProfileQuerySet(self.model, using=self._db).default()  # pragma: nocover
+
+    def get_profile(self, user):
+        """Retrieve the :class:`~calingen.models.profile.Profile` associated with a ``User`` instance.
+
+        Parameters
+        ----------
+        user :
+            An instance of the project's user model, as specified by
+            :setting:`AUTH_USER_MODEL`.
+
+        Returns
+        -------
+        :class:`calingen.models.profile.Profile`
+            The ``Profile`` associated with the given ``user``.
+        """
+        try:
+            return self.get(owner=user)
+        except self.model.DoesNotExist:
+            return None
 
 
 class Profile(models.Model):
@@ -105,7 +239,31 @@ class Profile(models.Model):
         str
             The absolute URL for instances of this model.
         """
-        return reverse("profile-update", args=[self.id])  # pragma: nocover
+        return reverse("profile", args=[self.id])  # pragma: nocover
+
+    def resolve(self, year=None):
+        """Combine all event providers results for a given year into one :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
+
+        Parameters
+        ----------
+        year : int, optional
+            The year to use for resolving the
+            :class:`~calingen.interfaces.plugin_api.EventProvider`.
+
+        Returns
+        -------
+        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+            A single instance including all events from all active providers.
+        """
+        if year is None:
+            year = datetime.datetime.now().year
+
+        result = CalenderEntryList()
+        for provider in self.event_provider["active"]:
+            provider_instance = import_string(provider)
+            result.merge(provider_instance.resolve(year))
+
+        return result
 
     @property
     def event_provider(self):
@@ -161,6 +319,8 @@ class Profile(models.Model):
 
     @event_provider.setter
     def event_provider(self, value):  # pragma: nocover
+        if value is None:
+            value = dict()
         self._event_provider = value
         self.save()
 

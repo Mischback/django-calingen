@@ -5,6 +5,9 @@
 # Django imports
 from django.core.exceptions import ImproperlyConfigured
 
+# app imports
+from calingen.models.profile import Profile
+
 
 class CalingenRestrictToUserMixin:
     """Limits the resulting queryset to objects, that belong to the current user.
@@ -48,24 +51,20 @@ class CalingenRestrictToUserMixin:
         )
 
 
-class CalingenInjectRequestUserIntoFormValidMixin:
-    """Injects the ``request.user`` into a ``form.instance``.
+class CalingenUserProfileIDMixin:
+    """Injects the :class:`~calingen.models.profile.Profile` id of the ``request.user`` into the context.
 
-    Warnings
-    --------
-    This mixin is not really generic!
+    This mixin uses ``get_context_data()`` to inject the ``profile_id``.
 
-    It is assumed, that the ``instance`` has an attribute ``owner``, which is
-    used to store a reference to the :setting:`AUTH_USER_MODEL`.
-
-    Notes
-    -----
-    The technique is directly taken from Django's documentation, see:
-    :djangodoc:`topics/class-based-views/generic-editing/#models-and-request-user`).
+    The mixin can safely be used on any ``View`` that also uses the
+    :class:`django.contrib.auth.mixins.LoginRequiredMixin`.
     """
 
-    def form_valid(self, form):
-        """Override of the default ``form_valid`` method."""
-        form.instance.owner = self.request.user
+    def get_context_data(self, **kwargs):  # noqa: D102
+        context = super().get_context_data(**kwargs)
 
-        return super().form_valid(form)
+        context["profile_id"] = Profile.calingen_manager.get_profile(
+            self.request.user
+        ).id
+
+        return context

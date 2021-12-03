@@ -14,14 +14,49 @@ from django.views import generic
 # app imports
 from calingen.models.profile import Profile, ProfileForm
 from calingen.views.mixins import (
-    CalingenInjectRequestUserIntoFormValidMixin,
     CalingenRestrictToUserMixin,
+    CalingenUserProfileIDMixin,
 )
 
 
-class ProfileCreateView(
-    LoginRequiredMixin, CalingenInjectRequestUserIntoFormValidMixin, generic.CreateView
+class ProfileDetailView(
+    LoginRequiredMixin,
+    CalingenRestrictToUserMixin,
+    CalingenUserProfileIDMixin,
+    generic.DetailView,
 ):
+    """Provide details of a :class:`calingen.models.profile.Profile` instance.
+
+    Notes
+    -----
+    This implementation uses Django's generic class-based view
+    :class:`django.views.generic.DetailView`.
+    """
+
+    model = Profile
+    """Required attribute to tie this view to the model."""
+
+    context_object_name = "profile"
+    """Provide a semantic name for the built-in context."""
+
+    pk_url_kwarg = "profile_id"
+    """The name of the keyword argument as provided in the app's url configuration.
+
+    By default, this is simply ``"pk"``, but for clarity, the app's url
+    configuration (:mod:`calingen.urls`) uses the more explicit ``"event_id"``.
+    """
+
+    def get_context_data(self, **kwargs):
+        """Just for linting."""
+        context = super().get_context_data(**kwargs)
+
+        # add number of events derived from activated EventProvider instances
+        context["provider_events_count"] = len(context["profile"].resolve())
+
+        return context
+
+
+class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
     """Provide the generic class-based view implementation to add `Profile` objects.
 
     Notes
@@ -62,15 +97,21 @@ class ProfileCreateView(
         If the :class:`~django.db.IntegrityError` is catched, the user will be
         redirected to his profile page.
         """
+        # inject the current user into the instance
+        form.instance.owner = self.request.user
+
         try:
             return super().form_valid(form)
         except IntegrityError:
             # The requesting user already has a profile, simply redirect him
-            return redirect("profile-update", self.request.user.id)
+            return redirect("profile", Profile.objects.get(owner=self.request.user).id)
 
 
 class ProfileDeleteView(
-    LoginRequiredMixin, CalingenRestrictToUserMixin, generic.DeleteView
+    LoginRequiredMixin,
+    CalingenRestrictToUserMixin,
+    CalingenUserProfileIDMixin,
+    generic.DeleteView,
 ):
     """Provide the generic class-based view implementation to delete `Profile` objects.
 
@@ -105,7 +146,10 @@ class ProfileDeleteView(
 
 
 class ProfileUpdateView(
-    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.UpdateView
+    CalingenRestrictToUserMixin,
+    LoginRequiredMixin,
+    CalingenUserProfileIDMixin,
+    generic.UpdateView,
 ):
     """Provide the generic class-based view implementation to add `Profile` objects.
 
@@ -160,5 +204,4 @@ class ProfileUpdateView(
 
             return context
 
-        # depending on the setting, just return the context
         return super().get_context_data(**kwargs)

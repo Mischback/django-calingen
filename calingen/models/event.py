@@ -2,21 +2,77 @@
 
 """Provide the app's central class to store and manage calender entries."""
 
+# Python imports
+import datetime
+
 # Django imports
 from django import forms
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 # app imports
-from calingen.constants import EventType
+from calingen.constants import EventCategory
+from calingen.exceptions import CalingenException
 from calingen.forms.fields import SplitDateTimeOptionalField
+from calingen.interfaces.data_exchange import (
+    SOURCE_INTERNAL,
+    CalenderEntry,
+    CalenderEntryList,
+)
+from calingen.models.profile import Profile
 from calingen.models.queryset import CalingenQuerySet
 
 
-class EventQuerySet(CalingenQuerySet):  # noqa: D101
-    pass
+class EventModelException(CalingenException):
+    """Base class for all exceptions related to the :class:`~calingen.models.event.Event` model."""
+
+
+class EventQuerySet(CalingenQuerySet):
+    """App-specific implementation of :class:`django.db.models.QuerySet`.
+
+    Notes
+    -----
+    This :class:`~django.db.models.QuerySet` implementation provides
+    app-specific augmentations.
+
+    The provided methods augment/extend the retrieved
+    :class:`calingen.models.event.Event` instances by annotating them with
+    additional information.
+    """
+
+    def default(self):
+        """Return a :class:`~django.db.models.QuerySet` with annotations.
+
+        Returns
+        -------
+        :class:`~django.db.models.QuerySet`
+            The annotated queryset.
+        """
+        return self  # pragma: nocover
+
+    def filter_by_user(self, user):
+        """Filter the result set by the objects' :attr:`owners <calingen.models.profile.Profile.owner>`.
+
+        Parameters
+        ----------
+        user :
+            An instance of the project's user model, as specified by
+            :setting:`AUTH_USER_MODEL`.
+
+        Returns
+        -------
+        :class:`django.db.models.QuerySet`
+            The filtered queryset.
+
+        Notes
+        -----
+        Effectively, this method is used to ensure, that any user may only
+        access objects, which are owned by him. This is the app's way of
+        ensuring `row-level permissions`, because only owners are allowed to
+        view (and modify) their events.
+        """
+        return self.filter(profile__owner=user)
 
 
 class EventManager(models.Manager):
@@ -35,6 +91,29 @@ class EventManager(models.Manager):
     :class:`~calingen.models.event.EventQuerySet`.
     """
 
+    def get_calender_entry_list(self, user=None, year=None):
+        """Return all instances as :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
+
+        Parameters
+        ----------
+        user :
+            The summary is provided for an actual user, filtered by
+            :attr:`calingen.models.event.Event.owner`.
+
+            Most likely you will want to pass ``request.user`` into the method.
+
+        Returns
+        -------
+        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+            All :class:`~calingen.models.event.Event` instances of ``user``,
+            converted into a ``CalenderEntryList``.
+        """
+        result = CalenderEntryList()
+        for event in self.get_user_events_qs(user).iterator():
+            result.merge(event.resolve(year))
+
+        return result
+
     def get_queryset(self):
         """Use the app-/model-specific :class:`~calingen.models.event.EventQuerySet` by default.
 
@@ -46,7 +125,49 @@ class EventManager(models.Manager):
             :meth:`~calingen.models.event.EventQuerySet.default` method. The
             retrieved objects will be annotated with additional attributes.
         """
-        return EventQuerySet(self.model, using=self._db).default()
+        return EventQuerySet(self.model, using=self._db).default()  # pragma: nocover
+
+    def get_user_events_qs(self, user=None):
+        """Provide a ``QuerySet`` containing all events of a given ``user``.
+
+        Parameters
+        ----------
+        user :
+            The summary is provided for an actual user, filtered by
+            :attr:`calingen.models.event.Event.owner`.
+
+            Most likely you will want to pass ``request.user`` into the method.
+
+        Returns
+        -------
+        :class:`django.models.db.QuerySet`
+            This queryset is provided by
+            :class:`calingen.models.event.EventQuerySet` and applies its
+            :meth:`~calingen.models.event.EventQuerySet.filter_by_user` method.
+        """
+        if user is None:
+            raise EventModelException(
+                "This method may only be called with a user object"
+            )
+        return self.get_queryset().filter_by_user(user)
+
+    def summary(self, user=None):
+        """Provide a user-specific summary of :class:`~calingen.models.event.Event` instances.
+
+        Parameters
+        ----------
+        user :
+            The summary is provided for an actual user, filtered by
+            :attr:`calingen.models.event.Event.owner`.
+
+            Most likely you will want to pass ``request.user`` into the method.
+
+        Returns
+        -------
+        int
+            As of now, the method only returns the number of instances.
+        """
+        return self.get_user_events_qs(user).count()
 
 
 class Event(models.Model):
@@ -80,29 +201,24 @@ class Event(models.Model):
     The manager has to be used explicitly.
     """
 
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+    profile = models.ForeignKey(
+        Profile,
         on_delete=models.CASCADE,
-        related_name="+",
-        verbose_name=_("Owner"),
+        related_name="events",
+        verbose_name=Profile._meta.verbose_name,
     )
-    """Reference to a Django `User`.
+    """Reference to a :class:`~calingen.models.profile.Profile` object.
 
     Notes
     -----
     This is implemented as a :class:`~django.db.models.ForeignKey` with
-    ``on_delete=CASCADE``, meaning: if the referenced `User` object is deleted,
-    all referencing `Event` objects are discarded aswell.
+    ``on_delete=CASCADE``, meaning: if the referenced
+    :class:`~calingen.models.profile.Profile` object is deleted,
+    all referencing ``Event`` objects are discarded aswell.
 
     The backwards relation (see
-    :attr:`ForeignKey.related_name<django.db.models.ForeignKey.related_name>`) is
-    disabled.
-
-    To keep this application as pluggable as possible, the referenced class is
-    dependent on :setting:`AUTH_USER_MODEL`. With this implementation, the
-    project may substitute the :class:`~django.contrib.auth.models.User` model
-    provided by Django without breaking any functionality in `calingen` (see
-    :djangodoc:`Reusable Apps and AUTH_USER_MODEL <topics/auth/customizing/#reusable-apps-and-auth-user-model>`).
+    :attr:`ForeignKey.related_name<django.db.models.ForeignKey.related_name>`)
+    is named ``"events"``.
     """
 
     start = models.DateTimeField(
@@ -140,22 +256,22 @@ class Event(models.Model):
     The attribute is implemented as :class:`~django.db.models.CharField`.
     """
 
-    type = models.CharField(
+    category = models.CharField(
         max_length=18,
-        choices=EventType.choices,
-        default=EventType.ANNUAL_ANNIVERSARY,
-        help_text=_("The type of this event."),
-        verbose_name=_("Event Type"),
+        choices=EventCategory.choices,
+        default=EventCategory.ANNUAL_ANNIVERSARY,
+        help_text=_("The category of this event."),
+        verbose_name=_("Event Category"),
     )
-    """The type of this `Event`.
+    """The category of this `Event`.
 
     Notes
     -----
-    Some functionalities of the `Event` class depend on the actual `EventType`
+    Some functionalities of the `Event` class depend on the actual ``EventCategory``
     stored in this attribute.
 
     The attribute is implemented as :class:`~django.db.models.CharField` with
-    its possible values limited by :class:`calingen.constants.EventType`.
+    its possible values limited by :class:`calingen.constants.EventCategory`.
     """
 
     class Meta:  # noqa: D106
@@ -166,7 +282,7 @@ class Event(models.Model):
 
     def __str__(self):  # noqa: D105
         return "[{}] [{}] {} - {}".format(
-            self.type, self.owner, self.title, self.start
+            self.category, self.profile, self.title, self.start
         )  # pragma: nocover
 
     def get_absolute_url(self):
@@ -179,6 +295,41 @@ class Event(models.Model):
         """
         return reverse("event-detail", args=[self.id])  # pragma: nocover
 
+    def resolve(self, year=None):
+        """Resolve this object's ``start`` for a given ``year``.
+
+        Parameters
+        ----------
+        year : int, optional
+            The year to resolve for. Will use the current year if not specified.
+
+        Returns
+        -------
+        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+            The method returns a ``CalenderEntryList`` with entries for the
+            given ``year``.
+        """
+        if year is None:
+            year = datetime.datetime.now().year
+
+        result = CalenderEntryList()
+
+        # The current state of the app just includes the categories
+        # ANNUAL_ANNIVERSARY and HOLIDAY. Both of them are implicitly expected
+        # to have a yearly recurrence.
+        # The following statement works on that assumption and simply uses the
+        # specified year parameter with the (stored) values of month and day.
+        result.add(
+            CalenderEntry(
+                self.title,
+                self.category,
+                datetime.date(year, self.start.month, self.start.day),
+                (SOURCE_INTERNAL, self.get_absolute_url),
+            )
+        )
+
+        return result
+
 
 class EventForm(forms.ModelForm):
     """Used to validate input for creating and updating `Event` instances."""
@@ -187,4 +338,4 @@ class EventForm(forms.ModelForm):
 
     class Meta:  # noqa: D106
         model = Event
-        fields = ["type", "title", "start"]
+        fields = ["category", "title", "start"]

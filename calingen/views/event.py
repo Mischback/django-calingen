@@ -9,14 +9,15 @@ from django.views import generic
 
 # app imports
 from calingen.models.event import Event, EventForm
+from calingen.models.profile import Profile
 from calingen.views.mixins import (
-    CalingenInjectRequestUserIntoFormValidMixin,
     CalingenRestrictToUserMixin,
+    CalingenUserProfileIDMixin,
 )
 
 
 class EventCreateView(
-    LoginRequiredMixin, CalingenInjectRequestUserIntoFormValidMixin, generic.CreateView
+    LoginRequiredMixin, CalingenUserProfileIDMixin, generic.CreateView
 ):
     """Provide the generic class-based view implementation to add `Event` objects.
 
@@ -35,9 +36,34 @@ class EventCreateView(
     form_class = EventForm
     """Specify which form to use."""
 
+    template_name_suffix = "_create"
+    """Make the view use the template ``calingen/event_create.html``."""
+
+    def form_valid(self, form):
+        """Inject the user's :class:`~calingen.models.profile.Profile` into the form.
+
+        Every user does have only one :class:`~calingen.models.profile.Profile`
+        and :class:`~calingen.models.event.Event` instances are directly tied
+        to that ``Profile``.
+
+        The :class:`~calingen.models.event.EventForm`` does not include the
+        field to select the ``Profile``, as user's are only allowed to create
+        ``Event`` instances for themselves.
+
+        This method `injects` the user's ``Profile`` into the ``form.instance``
+        to maintain database integrity.
+        """
+        # get the user's Profile to inject this into the instance
+        form.instance.profile = Profile.objects.get(owner=self.request.user)
+
+        return super().form_valid(form)
+
 
 class EventDeleteView(
-    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.DeleteView
+    CalingenRestrictToUserMixin,
+    LoginRequiredMixin,
+    CalingenUserProfileIDMixin,
+    generic.DeleteView,
 ):
     """Provide the generic class-based view implementation to delete `Event` objects.
 
@@ -65,7 +91,10 @@ class EventDeleteView(
 
 
 class EventDetailView(
-    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.DetailView
+    CalingenRestrictToUserMixin,
+    LoginRequiredMixin,
+    CalingenUserProfileIDMixin,
+    generic.DetailView,
 ):
     """Provide details of a :class:`calingen.models.event.Event` instance.
 
@@ -89,7 +118,12 @@ class EventDetailView(
     """
 
 
-class EventListView(CalingenRestrictToUserMixin, LoginRequiredMixin, generic.ListView):
+class EventListView(
+    CalingenRestrictToUserMixin,
+    LoginRequiredMixin,
+    CalingenUserProfileIDMixin,
+    generic.ListView,
+):
     """Provide a list of :class:`calingen.models.event.Event` instances.
 
     Notes
@@ -106,7 +140,10 @@ class EventListView(CalingenRestrictToUserMixin, LoginRequiredMixin, generic.Lis
 
 
 class EventUpdateView(
-    CalingenRestrictToUserMixin, LoginRequiredMixin, generic.UpdateView
+    CalingenRestrictToUserMixin,
+    LoginRequiredMixin,
+    CalingenUserProfileIDMixin,
+    generic.UpdateView,
 ):
     """Provide the generic class-based view implementation to update `Event` objects.
 
@@ -131,3 +168,6 @@ class EventUpdateView(
     By default, this is simply ``"pk"``, but for clarity, the app's url
     configuration (:mod:`calingen.urls`) uses the more explicit ``"event_id"``.
     """
+
+    template_name_suffix = "_update"
+    """Make the view use the template ``calingen/event_update.html``."""
