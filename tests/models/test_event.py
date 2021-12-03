@@ -32,7 +32,7 @@ class EventTest(CalingenTestCase):
         return_value = event.resolve(year=2020)
 
         # Assert (verify the results))
-        mock_ce.assert_called_with("foo", "bar", datetime.date(2020, 12, 3))
+        mock_ce.assert_called_with("foo", "bar", datetime.date(2020, 12, 3), mock.ANY)
         self.assertIsInstance(return_value, mock.MagicMock)
 
     @mock.patch("calingen.models.event.datetime")
@@ -53,5 +53,5 @@ class EventTest(CalingenTestCase):
         return_value = event.resolve()
 
         # Assert (verify the results))
-        mock_ce.assert_called_with("foo", "bar", mock_datetime.date())
+        mock_ce.assert_called_with("foo", "bar", mock_datetime.date(), mock.ANY)
         self.assertIsInstance(return_value, mock.MagicMock)
