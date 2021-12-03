@@ -73,7 +73,7 @@ django/createsuperuser :
 .PHONY : django/createsuperuser
 
 django/makemessages :
-	$(MAKE) django django_command="makemessages --locale=en --locale=de"
+	$(MAKE) django django_command="makemessages --locale=en --locale=de --ignore=.tox --ignore=tests --ignore=docs"
 .PHONY : django/makemessages
 
 # Create the migrations for the app to be developed!
