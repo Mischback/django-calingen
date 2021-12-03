@@ -108,7 +108,7 @@ class ProfileQuerySet(CalingenQuerySet):
         This annotation is provided in
         :meth:`~calingen.models.profile.ProfileQuerySet.default`.
         """
-        return self.select_related("owner")
+        return self.select_related("owner")  # pragma: nocover
 
 
 class ProfileManager(models.Manager):
@@ -139,7 +139,7 @@ class ProfileManager(models.Manager):
             method. The retrieved objects will be annotated with additional
             attributes.
         """
-        return ProfileQuerySet(self.model, using=self._db).default()
+        return ProfileQuerySet(self.model, using=self._db).default()  # pragma: nocover
 
     def get_profile(self, user):
         """Retrieve the :class:`~calingen.models.profile.Profile` associated with a ``User`` instance.
