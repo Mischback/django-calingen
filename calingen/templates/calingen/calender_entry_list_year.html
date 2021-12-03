@@ -12,6 +12,7 @@
       <th>Title</th>
       <th>Start</th>
       <th>Category</th>
+      <th>Source</th>
     </tr>
     {% for entry in entries %}
     <tr>
@@ -20,6 +21,13 @@
       </td>
       <td>{{ entry.timestamp|date:"c" }}</td>
       <td>{{ entry.category }}</td>
+      <td>
+        {% if entry.source.0 == "INTERNAL" %}
+          <a href="{{ entry.source.1 }}">Event Detail</a>
+        {% else %}
+          {{ entry.source.1 }}
+        {% endif %}
+      </td>
     </tr>
     {% endfor %}
     {% else %}
