@@ -64,9 +64,17 @@ django/check :
 	$(MAKE) django django_command="check"
 .PHONY : django/check
 
+django/compilemessages :
+	$(MAKE) django django_command="compilemessages --ignore=.tox --ignore=tests --ignore=docs"
+.PHONY : django/compilemessages
+
 django/createsuperuser :
 	tox -q -e djangosuperuser
 .PHONY : django/createsuperuser
+
+django/makemessages :
+	$(MAKE) django django_command="makemessages --locale=en --locale=de --ignore=.tox --ignore=tests --ignore=docs"
+.PHONY : django/makemessages
 
 # Create the migrations for the app to be developed!
 # TODO: The app name is hardcoded here!

@@ -29,9 +29,6 @@ DATABASES = {
     }
 }
 
-# Enable Django's DEBUG mode
-DEBUG = True
-
 # Provide a minimal Django project as environment
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -74,29 +71,5 @@ TEMPLATES = [
     },
 ]
 
-CALINGEN_EXTERNAL_EVENT_PROVIDER = [
-    "calingen.contrib.holidays.germany",
-]
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "dev_f": {
-            "format": "[%(levelname)s] %(name)s:%(lineno)d:%(funcName)s \n\t %(message)s",
-        },
-    },
-    "handlers": {
-        "def_h": {
-            "class": "logging.StreamHandler",
-            "formatter": "dev_f",
-        },
-    },
-    "loggers": {
-        "calingen": {
-            "handlers": ["def_h"],
-            "level": "DEBUG",
-            "propagate": False,
-        }
-    },
-}
+# deactivate Internationalization for tests
+USE_I18N = False

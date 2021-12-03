@@ -1,0 +1,219 @@
+# SPDX-License-Identifier: MIT
+#
+# Translators:
+# Mischback, 2021
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-03 07:40-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: calingen/constants.py:25
+msgid "Annual Anniversary"
+msgstr "Jahrestag"
+
+#: calingen/constants.py:26
+msgid "Holiday"
+msgstr "Feiertag"
+
+#: calingen/contrib/holidays/germany/provider.py:27
+msgid "New Year"
+msgstr "Neujahr"
+
+#: calingen/contrib/holidays/germany/provider.py:32
+msgid "Epiphany"
+msgstr "Heilige Drei Könige"
+
+#: calingen/contrib/holidays/germany/provider.py:37
+msgid "Women's Day"
+msgstr "Frauentag"
+
+#: calingen/contrib/holidays/germany/provider.py:42
+msgid "Good Friday"
+msgstr "Karfreitag"
+
+#: calingen/contrib/holidays/germany/provider.py:47
+msgid "Easter Sunday"
+msgstr "Ostersonntag"
+
+#: calingen/contrib/holidays/germany/provider.py:52
+msgid "Easter Monday"
+msgstr "Ostermontag"
+
+#: calingen/contrib/holidays/germany/provider.py:57
+msgid "Worker's Day"
+msgstr "Tag der Arbeit"
+
+#: calingen/contrib/holidays/germany/provider.py:62
+msgid "Ascension"
+msgstr "Christi Himmelfahrt"
+
+#: calingen/contrib/holidays/germany/provider.py:67
+msgid "Penecost Sunday"
+msgstr "Pfingstsonntag"
+
+#: calingen/contrib/holidays/germany/provider.py:72
+msgid "Pentecost Monday"
+msgstr "Pfingstmontag"
+
+#: calingen/contrib/holidays/germany/provider.py:77
+msgid "Corpus Christi"
+msgstr "Fronleichnam"
+
+#: calingen/contrib/holidays/germany/provider.py:82
+msgid "Assumption of Mary"
+msgstr "Maria Himmelfahrt"
+
+#: calingen/contrib/holidays/germany/provider.py:87
+msgid "Children's Day"
+msgstr "Kindertag"
+
+#: calingen/contrib/holidays/germany/provider.py:92
+msgid "Day of German Unity"
+msgstr "Tag der Deutschen Einheit"
+
+#: calingen/contrib/holidays/germany/provider.py:97
+msgid "Reformation Day"
+msgstr "Reformationstag"
+
+#: calingen/contrib/holidays/germany/provider.py:102
+msgid "All Hallows"
+msgstr "Allerheiligen"
+
+#: calingen/contrib/holidays/germany/provider.py:107
+msgid "Day of Repetance"
+msgstr "Buß- und Bettag"
+
+#: calingen/contrib/holidays/germany/provider.py:118
+msgid "Christmas Day"
+msgstr "1. Weihnachtstag"
+
+#: calingen/contrib/holidays/germany/provider.py:123
+msgid "Boxing Day"
+msgstr "2. Weihnachtstag"
+
+#: calingen/contrib/holidays/germany/provider.py:151
+msgid "German Federal Holidays"
+msgstr "Feiertage (bundesweit)"
+
+#: calingen/contrib/holidays/germany/provider.py:176
+msgid "Holidays of Baden-Württemberg"
+msgstr "Feiertage (Baden-Württemberg)"
+
+#: calingen/contrib/holidays/germany/provider.py:184
+msgid "Holidays of Bayern"
+msgstr "Feiertage (Bayern)"
+
+#: calingen/contrib/holidays/germany/provider.py:197
+msgid "Holidays of Berlin"
+msgstr "Feiertage (Berlin)"
+
+#: calingen/contrib/holidays/germany/provider.py:205
+msgid "Holidays of Brandenburg"
+msgstr "Feiertage (Brandenburg)"
+
+#: calingen/contrib/holidays/germany/provider.py:213
+msgid "Holidays of Bremen"
+msgstr "Feiertage (Bremen)"
+
+#: calingen/contrib/holidays/germany/provider.py:219
+msgid "Holidays of Hamburg"
+msgstr "Feiertage (Hamburg)"
+
+#: calingen/contrib/holidays/germany/provider.py:225
+msgid "Holidays of Mecklenburg-Vorpommern"
+msgstr "Feiertage (Mecklenburg-Vorpommern)"
+
+#: calingen/contrib/holidays/germany/provider.py:231
+msgid "Holidays of Niedersachsen"
+msgstr "Feiertage (Niedersachsen)"
+
+#: calingen/contrib/holidays/germany/provider.py:237
+msgid "Holidays of Schleswig-Holstein"
+msgstr "Feiertage (Schleswig-Holstein)"
+
+#: calingen/contrib/holidays/germany/provider.py:243
+msgid "Holidays of Hessen"
+msgstr "Feiertage (Hessen)"
+
+#: calingen/contrib/holidays/germany/provider.py:251
+msgid "Holidays of Nordrhein-Westphalen"
+msgstr "Feiertage (Nordrhein-Westphalen)"
+
+#: calingen/contrib/holidays/germany/provider.py:259
+msgid "Holidays of Rheinland-Pfalz"
+msgstr "Feiertage (Rheinland-Pfalz)"
+
+#: calingen/contrib/holidays/germany/provider.py:265
+msgid "Holidays of Saarland"
+msgstr "Feiertage (Saarland)"
+
+#: calingen/contrib/holidays/germany/provider.py:273
+msgid "Holidays of Sachsen"
+msgstr "Feiertage (Sachsen)"
+
+#: calingen/contrib/holidays/germany/provider.py:281
+msgid "Holidays of Sachsen-Anhalt"
+msgstr "Feiertage (Sachsen-Anhalt)"
+
+#: calingen/contrib/holidays/germany/provider.py:289
+msgid "Holidays of Thüringen"
+msgstr "Feiertage (Thüringen)"
+
+#: calingen/models/event.py:225
+msgid "The start date and time for this recurring event."
+msgstr "Das Startdatum und -zeit für diesen wiederkehrenden Eintrag"
+
+#: calingen/models/event.py:226
+msgid "Start Date"
+msgstr "Startdatum"
+
+#: calingen/models/event.py:248
+msgid ""
+"This will be included in the generated output and is capped at 50 characters."
+msgstr "Wird im generierten Dokument angezeigt (max. 50 Zeichen)."
+
+#: calingen/models/event.py:250
+msgid "Event Title"
+msgstr "Titel des Eintrages"
+
+#: calingen/models/event.py:263
+msgid "The category of this event."
+msgstr "Kategorie des Eintrages"
+
+#: calingen/models/event.py:264
+msgid "Event Category"
+msgstr "Kategorie"
+
+#: calingen/models/event.py:280
+msgid "Event"
+msgstr "Eintrag"
+
+#: calingen/models/event.py:281
+msgid "Events"
+msgstr "Einträge"
+
+#: calingen/models/profile.py:196
+msgid "Event Provider"
+msgstr "Ereignis Provider (Plugin)"
+
+#: calingen/models/profile.py:209
+msgid "Owner"
+msgstr "Besitzer"
+
+#: calingen/models/profile.py:228
+msgid "Profile"
+msgstr "Profil"
+
+#: calingen/models/profile.py:229
+msgid "Profiles"
+msgstr "Profile"

@@ -23,3 +23,6 @@ lcov.info
 __pycache__/
 *.py[cod]
 *$py.class
+
+# ignore the compiled language files
+*.mo
