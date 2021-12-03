@@ -95,8 +95,10 @@
           {% if profile_id %}
           <li><a href="{% url "profile" profile_id %}">Profile</a></li>
           <li><a href="{% url "profile-update" profile_id %}">Update Profile</a></li>
-          {% endif %}
+          <li><a href="{% url "profile-delete" profile_id %}">Delete Profile</a></li>
+          {% else %}
           <li><a href="{% url "profile-add" %}">Add Profile</a></li>
+          {% endif %}
         </ul>
       </div>
       <div>
