@@ -1,5 +1,8 @@
 # SPDX-License-Identifier: MIT
 
+# Django imports
+from django.utils.translation import gettext_noop as _
+
 # local imports
 from .settings_test import *
 
@@ -10,9 +13,31 @@ INSTALLED_APPS += [
 # Enable Django's DEBUG mode
 DEBUG = True
 
+# Re-enable Internationalization (turned off iin settings_test.py)
+USE_I18N = True
+
+# enable Localization
+USE_L10N = True
+
+# enable timezone awareness by default
+USE_TZ = True
+
+LANGUAGES = (("en", _("English")), ("de", _("German")))
+
 MIDDLEWARE += [
     # add DebugToolbar middleware
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
+
+# Inject the localization middleware into the right position
+MIDDLEWARE = [
+    y
+    for i, x in enumerate(MIDDLEWARE)
+    for y in (
+        ("django.middleware.locale.LocaleMiddleware", x)
+        if MIDDLEWARE[i - 1] == "django.contrib.sessions.middleware.SessionMiddleware"
+        else (x,)
+    )
 ]
 
 CALINGEN_EXTERNAL_EVENT_PROVIDER = [

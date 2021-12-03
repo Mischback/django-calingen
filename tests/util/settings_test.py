@@ -70,3 +70,6 @@ TEMPLATES = [
         },
     },
 ]
+
+# deactivate Internationalization for tests
+USE_I18N = False
