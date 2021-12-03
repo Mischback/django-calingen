@@ -15,7 +15,11 @@ from django.utils.translation import ugettext_lazy as _
 from calingen.constants import EventCategory
 from calingen.exceptions import CalingenException
 from calingen.forms.fields import SplitDateTimeOptionalField
-from calingen.interfaces.data_exchange import CalenderEntry, CalenderEntryList
+from calingen.interfaces.data_exchange import (
+    SOURCE_INTERNAL,
+    CalenderEntry,
+    CalenderEntryList,
+)
 from calingen.models.profile import Profile
 from calingen.models.queryset import CalingenQuerySet
 
@@ -320,6 +324,7 @@ class Event(models.Model):
                 self.title,
                 self.category,
                 datetime.date(year, self.start.month, self.start.day),
+                (SOURCE_INTERNAL, self.get_absolute_url),
             )
         )
 
