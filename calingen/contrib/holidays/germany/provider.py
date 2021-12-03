@@ -6,7 +6,7 @@
 from datetime import datetime
 
 # Django imports
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 # external imports
 from dateutil.rrule import WE, YEARLY, rrule
