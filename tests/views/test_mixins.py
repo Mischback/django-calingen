@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide tests for calingen.models.profile."""
+"""Provide tests for calingen.views.mixins."""
 
 # Python imports
 from unittest import mock, skip  # noqa: F401
