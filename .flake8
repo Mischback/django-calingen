@@ -24,6 +24,7 @@ per-file-ignores =
     tests/forms/*.py:D
     tests/interfaces/*.py:D,
     tests/models/*.py:D
+    tests/views/*.py:D
     tests/test_checks.py:D
 
 # ...and limit flake8 to the project's very own source code
