@@ -29,6 +29,7 @@ class CalingenHomepageTest(CalingenTestCase):
         mock_profile.calingen_manager = mock_profile_manager
         request = self.factory.get("/rand")
         request.user = "foo"
+        # see: https://pythonin1minute.com/how-to-test-decorators-in-python/
         view = homepage.__wrapped__
 
         # Act (actually perform what has to be done)
@@ -48,6 +49,7 @@ class CalingenHomepageTest(CalingenTestCase):
         mock_profile.calingen_manager = mock_profile_manager
         request = self.factory.get("/rand")
         request.user = "foo"
+        # see: https://pythonin1minute.com/how-to-test-decorators-in-python/
         view = homepage.__wrapped__
 
         # Act (actually perform what has to be done)
