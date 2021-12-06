@@ -6,58 +6,34 @@
 from unittest import mock, skip  # noqa: F401
 
 # Django imports
-from django.test import RequestFactory, override_settings, tag  # noqa: F401
+from django.contrib.auth.models import User
+from django.test import Client, override_settings, tag  # noqa: F401
+from django.urls import reverse
 
 # app imports
-from calingen.views.base import homepage
+from calingen.models.profile import Profile
 
 # local imports
-from ..util.testcases import CalingenTestCase
+from ..util.testcases import CalingenORMTestCase
 
 
 @tag("views", "base", "homepage")
-class CalingenHomepageTest(CalingenTestCase):
+class CalingenHomepageTest(CalingenORMTestCase):
+    def test_profile_not_available(self):
+        self.user = User.objects.get(pk=5)
+        self.client = Client()
+        self.client.force_login(self.user)
 
-    factory = RequestFactory()
+        response = self.client.get(reverse("homepage"), follow=True)
 
-    @mock.patch("calingen.views.base.redirect")
-    @mock.patch("calingen.views.base.Profile")
-    def test_profile_not_available(self, mock_profile, mock_redirect):
-        # Arrange (set up test environment)
-        mock_profile_manager = mock.PropertyMock()
-        mock_profile_manager.get_profile.return_value = None
-        mock_profile.calingen_manager = mock_profile_manager
-        request = self.factory.get("/rand")
-        request.user = "foo"
-        # see: https://pythonin1minute.com/how-to-test-decorators-in-python/
-        view = homepage.__wrapped__
+        self.assertRedirects(response, reverse("profile-add"))
 
-        # Act (actually perform what has to be done)
-        response = view(request)  # noqa: F841
+    def test_profile_available(self):
+        self.user = User.objects.get(pk=2)
+        self.profile = Profile.objects.get(owner=self.user)
+        self.client = Client()
+        self.client.force_login(self.user)
 
-        # Assert (verify the results)
-        self.assertTrue(mock_profile_manager.get_profile.called)
-        self.assertTrue(mock_redirect.called)
-        mock_redirect.assert_called_with("profile-add")
+        response = self.client.get(reverse("homepage"), follow=True)
 
-    @mock.patch("calingen.views.base.redirect")
-    @mock.patch("calingen.views.base.Profile")
-    def test_profile_available(self, mock_profile, mock_redirect):
-        # Arrange (set up test environment)
-        mock_profile_manager = mock.PropertyMock()
-        mock_profile_manager.get_profile.return_value = mock.Mock()
-        mock_profile.calingen_manager = mock_profile_manager
-        request = self.factory.get("/rand")
-        request.user = "foo"
-        # see: https://pythonin1minute.com/how-to-test-decorators-in-python/
-        view = homepage.__wrapped__
-
-        # Act (actually perform what has to be done)
-        response = view(request)  # noqa: F841
-
-        # Assert (verify the results)
-        self.assertTrue(mock_profile_manager.get_profile.called)
-        self.assertTrue(mock_redirect.called)
-        mock_redirect.assert_called_with(
-            "profile", profile_id=mock_profile_manager.get_profile.return_value.id
-        )
+        self.assertRedirects(response, reverse("profile", args=[self.profile.id]))
