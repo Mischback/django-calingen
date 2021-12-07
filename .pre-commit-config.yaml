@@ -9,7 +9,7 @@ minimum_pre_commit_version: '1.14.0'
 repos:
   # black (code formatting)
   - repo: https://github.com/psf/black
-    rev: 21.10b0
+    rev: 21.12b0
     hooks:
       - id: black
   # isort (automatically sort import statements)
@@ -38,7 +38,7 @@ repos:
       - id: bandit
   # lint templates
   - repo: https://github.com/Riverside-Healthcare/djLint
-    rev: 0.6.0
+    rev: 0.6.8
     hooks:
       - id: djlint-django
   - repo: https://github.com/pre-commit/pre-commit-hooks
