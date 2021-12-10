@@ -10,7 +10,7 @@ from django.views import generic
 # app imports
 from calingen.models.event import Event, EventForm
 from calingen.models.profile import Profile
-from calingen.views.mixins import CalingenRestrictToUserMixin, ProfileIDMixin
+from calingen.views.mixins import ProfileIDMixin, RestrictToUserMixin
 
 
 class EventCreateView(LoginRequiredMixin, ProfileIDMixin, generic.CreateView):
@@ -55,7 +55,7 @@ class EventCreateView(LoginRequiredMixin, ProfileIDMixin, generic.CreateView):
 
 
 class EventDeleteView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
     ProfileIDMixin,
     generic.DeleteView,
@@ -86,7 +86,7 @@ class EventDeleteView(
 
 
 class EventDetailView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
     ProfileIDMixin,
     generic.DetailView,
@@ -114,7 +114,7 @@ class EventDetailView(
 
 
 class EventListView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
     ProfileIDMixin,
     generic.ListView,
@@ -135,7 +135,7 @@ class EventListView(
 
 
 class EventUpdateView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
     ProfileIDMixin,
     generic.UpdateView,

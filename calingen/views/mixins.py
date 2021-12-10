@@ -11,7 +11,7 @@ from calingen.models.event import Event
 from calingen.models.profile import Profile
 
 
-class CalingenRestrictToUserMixin:
+class RestrictToUserMixin:
     """Limits the resulting queryset to objects, that belong to the current user.
 
     This mixin overwrites the view's ``get_queryset()`` method and automatically

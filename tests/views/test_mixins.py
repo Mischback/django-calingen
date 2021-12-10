@@ -13,7 +13,7 @@ from django.views.generic import View
 from django.views.generic.base import ContextMixin
 
 # app imports
-from calingen.views.mixins import CalingenRestrictToUserMixin, ProfileIDMixin
+from calingen.views.mixins import ProfileIDMixin, RestrictToUserMixin
 
 # local imports
 from ..util.testcases import CalingenTestCase
@@ -34,7 +34,7 @@ class TestTemplateView(View):
         return HttpResponse()
 
 
-class RestrictToUserMixinAppliedView(CalingenRestrictToUserMixin, QuerySetView):
+class RestrictToUserMixinAppliedView(RestrictToUserMixin, QuerySetView):
     """Combines the app's mixin with a dummy CBV."""
 
     model = None

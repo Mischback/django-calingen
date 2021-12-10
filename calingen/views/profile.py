@@ -13,12 +13,12 @@ from django.views import generic
 
 # app imports
 from calingen.models.profile import Profile, ProfileForm
-from calingen.views.mixins import CalingenRestrictToUserMixin, ProfileIDMixin
+from calingen.views.mixins import ProfileIDMixin, RestrictToUserMixin
 
 
 class ProfileDetailView(
     LoginRequiredMixin,
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     ProfileIDMixin,
     generic.DetailView,
 ):
@@ -106,7 +106,7 @@ class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
 
 class ProfileDeleteView(
     LoginRequiredMixin,
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     ProfileIDMixin,
     generic.DeleteView,
 ):
@@ -143,7 +143,7 @@ class ProfileDeleteView(
 
 
 class ProfileUpdateView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
     ProfileIDMixin,
     generic.UpdateView,

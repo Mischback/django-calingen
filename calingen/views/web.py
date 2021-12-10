@@ -15,12 +15,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 
 # app imports
-from calingen.views.mixins import AllCalenderEntriesMixin, CalingenRestrictToUserMixin
+from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
 
 
 class CalenderEntryListView(
     LoginRequiredMixin,
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     AllCalenderEntriesMixin,
     TemplateView,
 ):
