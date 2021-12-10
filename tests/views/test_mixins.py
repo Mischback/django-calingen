@@ -44,8 +44,8 @@ class UserProfileIDMixinAppliedView(ProfileIDMixin, ContextMixin, TestTemplateVi
     pass
 
 
-@tag("views", "mixins", "CalingenRestrictToUserMixin")
-class CalingenRestrictToUserMixinTest(CalingenTestCase):
+@tag("views", "mixins", "RestrictToUserMixin")
+class RestrictToUserMixinTest(CalingenTestCase):
 
     factory = RequestFactory()
 
@@ -83,8 +83,8 @@ class CalingenRestrictToUserMixinTest(CalingenTestCase):
         )
 
 
-@tag("views", "mixins", "CalingenUserProfileIDMixin")
-class CalingenUserProfileIDMixinTest(CalingenTestCase):
+@tag("views", "mixins", "ProfileIDMixin")
+class ProfileIDMixinTest(CalingenTestCase):
 
     factory = RequestFactory()
 
