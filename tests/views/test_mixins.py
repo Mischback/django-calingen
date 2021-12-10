@@ -13,10 +13,7 @@ from django.views.generic import View
 from django.views.generic.base import ContextMixin
 
 # app imports
-from calingen.views.mixins import (
-    CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
-)
+from calingen.views.mixins import CalingenRestrictToUserMixin, ProfileIDMixin
 
 # local imports
 from ..util.testcases import CalingenTestCase
@@ -43,9 +40,7 @@ class RestrictToUserMixinAppliedView(CalingenRestrictToUserMixin, QuerySetView):
     model = None
 
 
-class UserProfileIDMixinAppliedView(
-    CalingenUserProfileIDMixin, ContextMixin, TestTemplateView
-):
+class UserProfileIDMixinAppliedView(ProfileIDMixin, ContextMixin, TestTemplateView):
     pass
 
 

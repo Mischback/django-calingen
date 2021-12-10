@@ -53,7 +53,7 @@ class CalingenRestrictToUserMixin:
         )
 
 
-class CalingenUserProfileIDMixin:
+class ProfileIDMixin:
     """Injects the :class:`~calingen.models.profile.Profile` id of the ``request.user`` into the context.
 
     This mixin uses ``get_context_data()`` to inject the ``profile_id``.

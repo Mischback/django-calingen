@@ -10,15 +10,10 @@ from django.views import generic
 # app imports
 from calingen.models.event import Event, EventForm
 from calingen.models.profile import Profile
-from calingen.views.mixins import (
-    CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
-)
+from calingen.views.mixins import CalingenRestrictToUserMixin, ProfileIDMixin
 
 
-class EventCreateView(
-    LoginRequiredMixin, CalingenUserProfileIDMixin, generic.CreateView
-):
+class EventCreateView(LoginRequiredMixin, ProfileIDMixin, generic.CreateView):
     """Provide the generic class-based view implementation to add `Event` objects.
 
     Notes
@@ -62,7 +57,7 @@ class EventCreateView(
 class EventDeleteView(
     CalingenRestrictToUserMixin,
     LoginRequiredMixin,
-    CalingenUserProfileIDMixin,
+    ProfileIDMixin,
     generic.DeleteView,
 ):
     """Provide the generic class-based view implementation to delete `Event` objects.
@@ -93,7 +88,7 @@ class EventDeleteView(
 class EventDetailView(
     CalingenRestrictToUserMixin,
     LoginRequiredMixin,
-    CalingenUserProfileIDMixin,
+    ProfileIDMixin,
     generic.DetailView,
 ):
     """Provide details of a :class:`calingen.models.event.Event` instance.
@@ -121,7 +116,7 @@ class EventDetailView(
 class EventListView(
     CalingenRestrictToUserMixin,
     LoginRequiredMixin,
-    CalingenUserProfileIDMixin,
+    ProfileIDMixin,
     generic.ListView,
 ):
     """Provide a list of :class:`calingen.models.event.Event` instances.
@@ -142,7 +137,7 @@ class EventListView(
 class EventUpdateView(
     CalingenRestrictToUserMixin,
     LoginRequiredMixin,
-    CalingenUserProfileIDMixin,
+    ProfileIDMixin,
     generic.UpdateView,
 ):
     """Provide the generic class-based view implementation to update `Event` objects.
