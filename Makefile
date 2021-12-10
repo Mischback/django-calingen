@@ -65,6 +65,10 @@ django/check :
 	$(MAKE) django django_command="check"
 .PHONY : django/check
 
+django/clearsessions :
+	$(MAKE) django django_command="clearsessions"
+.PHONY : django/clearsessions
+
 django/compilemessages :
 	$(MAKE) django django_command="compilemessages --ignore=.tox --ignore=tests --ignore=docs"
 .PHONY : django/compilemessages
@@ -88,7 +92,7 @@ django/migrate :
 .PHONY : django/migrate
 
 host_port ?= "0:8000"
-django/runserver : django/migrate
+django/runserver : django/migrate django/clearsessions
 	$(MAKE) django django_command="runserver $(host_port)"
 .PHONY : django/runserver
 
