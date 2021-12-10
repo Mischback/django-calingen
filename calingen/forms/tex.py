@@ -25,3 +25,11 @@ class TeXLayoutSelectionForm(Form):
     :meth:`LayoutProvider.list_available_plugins() <calingen.interfaces.plugin_api.LayoutProvider.list_available_plugins>`
     and presented using a :class:`~django.forms.widgets.RadioSelect` widget.
     """
+
+    def __init__(self, *args, request=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.request = request
+
+    def save_selection(self):
+        """Save the layout selection in the user's ``Session``."""
+        self.request.session["selected_layout"] = self.cleaned_data["layout"]
