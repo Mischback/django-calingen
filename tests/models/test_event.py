@@ -31,8 +31,10 @@ class EventQuerySetTest(CalingenORMTestCase):
         test_bob_events = EventQuerySet(Event).filter_by_user(bob)
 
         # Assert (verify the results)
-        self.assertQuerysetEqual(alice_events, test_alice_events, ordered=False)
-        self.assertQuerysetEqual(bob_events, test_bob_events, ordered=False)
+        self.assertQuerysetEqual(
+            alice_events, map(repr, test_alice_events), ordered=False
+        )
+        self.assertQuerysetEqual(bob_events, map(repr, test_bob_events), ordered=False)
 
 
 @tag("models", "event", "EventManager")
@@ -49,8 +51,10 @@ class EventManagerTest(CalingenORMTestCase):
         test_bob_events = Event.calingen_manager.get_user_events_qs(user=bob)
 
         # Assert (verify the results)
-        self.assertQuerysetEqual(alice_events, test_alice_events, ordered=False)
-        self.assertQuerysetEqual(bob_events, test_bob_events, ordered=False)
+        self.assertQuerysetEqual(
+            alice_events, map(repr, test_alice_events), ordered=False
+        )
+        self.assertQuerysetEqual(bob_events, map(repr, test_bob_events), ordered=False)
 
     def test_get_user_events_qs_exception(self):
         # Arrange (set up test environment)
