@@ -7,7 +7,7 @@ from django.forms.fields import ChoiceField
 from django.forms.widgets import RadioSelect
 
 # app imports
-from calingen.forms.baseforms import RequestEnabledForm
+from calingen.forms.generic import RequestEnabledForm
 from calingen.interfaces.plugin_api import LayoutProvider
 
 

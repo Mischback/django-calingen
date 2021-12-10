@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide Form implementations with common functionality."""
+"""Provide Form implementations with generic functionality."""
 
 # Django imports
 from django.forms import Form
