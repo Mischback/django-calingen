@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.test import override_settings, tag  # noqa: F401
 
 # app imports
-from calingen.models.event import Event, EventQuerySet
+from calingen.models.event import Event, EventModelException, EventQuerySet
 
 # local imports
 from ..util.testcases import CalingenORMTestCase, CalingenTestCase
@@ -33,6 +33,34 @@ class EventQuerySetTest(CalingenORMTestCase):
         # Assert (verify the results)
         self.assertQuerysetEqual(alice_events, test_alice_events, ordered=False)
         self.assertQuerysetEqual(bob_events, test_bob_events, ordered=False)
+
+
+@tag("models", "event", "EventManager")
+class EventManagerTest(CalingenORMTestCase):
+    def test_get_user_events_qs(self):
+        # Arrange (set up test environment)
+        alice = User.objects.get(pk=2)  # Alice!
+        alice_events = Event.objects.filter(profile__owner=alice).all()
+        bob = User.objects.get(pk=2)  # Alice!
+        bob_events = Event.objects.filter(profile__owner=bob).all()
+
+        # Act (actually perform what has to be done)
+        test_alice_events = Event.calingen_manager.get_user_events_qs(user=alice)
+        test_bob_events = Event.calingen_manager.get_user_events_qs(user=bob)
+
+        # Assert (verify the results)
+        self.assertQuerysetEqual(alice_events, test_alice_events, ordered=False)
+        self.assertQuerysetEqual(bob_events, test_bob_events, ordered=False)
+
+    def test_get_user_events_qs_exception(self):
+        # Arrange (set up test environment)
+
+        # Act (actually perform what has to be done)
+        # Assert (verify the results)
+        with self.assertRaises(EventModelException):
+            test_alice_events = (  # noqa: F841
+                Event.calingen_manager.get_user_events_qs()
+            )
 
 
 @tag("models", "event", "Event")
