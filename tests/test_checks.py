@@ -24,7 +24,7 @@ class CalingenChecksTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = check_config_value_event_provider_notification(None)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value, [])
 
     @tag("config", "event_provider")
@@ -35,7 +35,7 @@ class CalingenChecksTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = check_config_value_event_provider_notification(None)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value, [])
 
     @tag("config", "event_provider")
@@ -46,7 +46,7 @@ class CalingenChecksTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = check_config_value_event_provider_notification(None)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value, [])
 
     @tag("config", "event_provider")
@@ -57,7 +57,7 @@ class CalingenChecksTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = check_config_value_event_provider_notification(None)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertNotEqual(return_value, [])
         self.assertEqual(len(return_value), 1)
 
@@ -69,7 +69,7 @@ class CalingenChecksTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = check_config_value_event_provider_notification(None)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertNotEqual(return_value, [])
         self.assertEqual(len(return_value), 1)
 
@@ -81,6 +81,6 @@ class CalingenChecksTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = check_config_value_event_provider_notification(None)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertNotEqual(return_value, [])
         self.assertEqual(len(return_value), 1)

@@ -27,7 +27,7 @@ class EventProviderTest(CalingenTestCase):
         class EventProviderTestImplementation(EventProvider):
             title = "do-not-care"
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(len(EventProvider.plugins), already_present_plugins + 1)
 
     def test_list_available_plugins(self):
@@ -42,7 +42,7 @@ class EventProviderTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         event_provider_list = EventProvider.list_available_plugins()
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertIn((mock.ANY, test_implementation_name), event_provider_list)
 
 
@@ -59,7 +59,7 @@ class UtilityFunctionTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         fqc = fully_qualified_classname(a_class)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(fqc, ".".join([a_class.__module__, a_class.__qualname__]))
 
     def test_fully_qualified_classname_instance(self):
@@ -73,7 +73,7 @@ class UtilityFunctionTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         fqc = fully_qualified_classname(an_instance)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(
             fqc,
             ".".join(

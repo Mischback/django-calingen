@@ -67,7 +67,7 @@ class RestrictToUserMixinTest(CalingenTestCase):
         view = RestrictToUserMixinAppliedView.as_view()
 
         # Act (actually perform what has to be done)
-        # Assert (verify the results))
+        # Assert (verify the results)
         with self.assertRaises(ImproperlyConfigured):
             response = view(request)  # noqa: F841
 
@@ -83,7 +83,7 @@ class RestrictToUserMixinTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         response = view(request)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
             cbv.model.calingen_manager.get_queryset.return_value.filter_by_user.called
@@ -111,7 +111,7 @@ class ProfileIDMixinTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         response = view(request)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(mock_profile_manager.get_profile.called)
 

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide tests for calingen.models.profile."""
+"""Provide tests for calingen.views.base."""
 
 # Python imports
 from unittest import mock, skip  # noqa: F401
@@ -20,20 +20,26 @@ from ..util.testcases import CalingenORMTestCase
 @tag("views", "base", "homepage")
 class CalingenHomepageTest(CalingenORMTestCase):
     def test_profile_not_available(self):
+        # Arrange (set up test environment)
         self.user = User.objects.get(pk=5)
         self.client = Client()
         self.client.force_login(self.user)
 
+        # Act (actually perform what has to be done)
         response = self.client.get(reverse("homepage"), follow=True)
 
+        # Assert (verify the results)
         self.assertRedirects(response, reverse("profile-add"))
 
     def test_profile_available(self):
+        # Arrange (set up test environment)
         self.user = User.objects.get(pk=2)
         self.profile = Profile.objects.get(owner=self.user)
         self.client = Client()
         self.client.force_login(self.user)
 
+        # Act (actually perform what has to be done)
         response = self.client.get(reverse("homepage"), follow=True)
 
+        # Assert (verify the results)
         self.assertRedirects(response, reverse("profile", args=[self.profile.id]))

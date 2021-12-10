@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide tests for calingen.models.profile."""
+"""Provide tests for calingen.models.event."""
 
 # Python imports
 import datetime
@@ -31,7 +31,7 @@ class EventTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = event.resolve(year=2020)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         mock_ce.assert_called_with("foo", "bar", datetime.date(2020, 12, 3), mock.ANY)
         self.assertIsInstance(return_value, mock.MagicMock)
 
@@ -52,6 +52,6 @@ class EventTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = event.resolve()
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         mock_ce.assert_called_with("foo", "bar", mock_datetime.date(), mock.ANY)
         self.assertIsInstance(return_value, mock.MagicMock)

@@ -34,7 +34,7 @@ class ProfileTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = profile.event_provider
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value["active"], [])
         self.assertEqual(return_value["unavailable"], [])
         self.assertEqual(return_value["newly_unavailable"], [])
@@ -55,7 +55,7 @@ class ProfileTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = profile.event_provider
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value["active"], ["foo.bar"])
         self.assertEqual(return_value["unavailable"], [])
         self.assertEqual(return_value["newly_unavailable"], [])
@@ -78,7 +78,7 @@ class ProfileTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = profile.event_provider
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value["active"], [])
         self.assertEqual(return_value["unavailable"], ["foo.bar.buhu"])
         self.assertEqual(return_value["newly_unavailable"], [])
@@ -99,7 +99,7 @@ class ProfileTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = profile.event_provider
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value["active"], ["foo.bar", "foo.baz"])
         self.assertEqual(return_value["unavailable"], [])
         self.assertEqual(return_value["newly_unavailable"], [])
@@ -120,7 +120,7 @@ class ProfileTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = profile.event_provider
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value["active"], [])
         self.assertEqual(return_value["unavailable"], ["foo.bar.buhu"])
         self.assertEqual(return_value["newly_unavailable"], ["foo.bar.buhu"])
@@ -142,7 +142,7 @@ class ProfileTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = profile.resolve(year=2020)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         mock_cel.assert_called_once()
         mock_import_string.assert_called_once_with(test_active_provider)
         mock_cel.return_value.merge.assert_called_once()
@@ -167,7 +167,7 @@ class ProfileTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = profile.resolve()
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         mock_cel.assert_called_once()
         mock_import_string.assert_called_once_with(test_active_provider)
         mock_cel.return_value.merge.assert_called_once()
