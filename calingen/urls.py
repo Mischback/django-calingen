@@ -9,7 +9,7 @@ import datetime
 from django.urls import path
 
 # app imports
-from calingen.views import base, event, profile, web
+from calingen.views import base, event, profile, tex, web
 
 urlpatterns = [
     path("", base.homepage, name="homepage"),
@@ -48,5 +48,10 @@ urlpatterns = [
         "<int:profile_id>/events/<int:target_year>/",
         web.CalenderEntryListView.as_view(),
         name="calender-entry-list-year",
+    ),
+    path(
+        "generate/select-layout/",
+        tex.TeXLayoutSelectionView.as_view(),
+        name="tex-layout-selection",
     ),
 ]

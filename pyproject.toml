@@ -20,7 +20,7 @@ fail_under = 95
 
 # ### DJLINT ###
 [tool.djlint]
-ignore = "T028"
+ignore = "T028,H030,H031"
 
 
 # ### ISORT ###
