@@ -12,4 +12,4 @@ class SimpleEventList(LayoutProvider):
     name = "Simple Event List"
     paper_size = "a4"
     orientation = "portrait"
-    _template = "calingen/tex/simple_event_list/simple_event_list.tex"
+    _template = "simple_event_list/tex/simple_event_list.tex"
