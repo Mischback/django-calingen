@@ -62,6 +62,17 @@ class EventManagerTest(CalingenORMTestCase):
                 Event.calingen_manager.get_user_events_qs()
             )
 
+    def test_summary(self):
+        # Arrange (set up test environment)
+        alice = User.objects.get(pk=2)  # Alice!
+        alice_events = Event.objects.filter(profile__owner=alice).count()
+
+        # Act (actually perform what has to be done)
+        test_alice_events = Event.calingen_manager.summary(user=alice)
+
+        # Assert (verify the results)
+        self.assertEqual(alice_events, test_alice_events)
+
 
 @tag("models", "event", "Event")
 class EventTest(CalingenTestCase):
