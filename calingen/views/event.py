@@ -34,7 +34,7 @@ class EventCreateView(LoginRequiredMixin, ProfileIDMixin, generic.CreateView):
     template_name_suffix = "_create"
     """Make the view use the template ``calingen/event_create.html``."""
 
-    def form_valid(self, form):
+    def form_valid(self, form):  # pragma: nocover
         """Inject the user's :class:`~calingen.models.profile.Profile` into the form.
 
         Every user does have only one :class:`~calingen.models.profile.Profile`
