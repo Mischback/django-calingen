@@ -40,13 +40,13 @@ urlpatterns = [
     ),
     path(
         "<int:profile_id>/events/",
-        web.CalenderEntryListYearView.as_view(),
+        web.CalenderEntryListView.as_view(),
         kwargs={"target_year": datetime.datetime.now().year},
         name="calender-entry-list-year",
     ),
     path(
         "<int:profile_id>/events/<int:target_year>/",
-        web.CalenderEntryListYearView.as_view(),
+        web.CalenderEntryListView.as_view(),
         name="calender-entry-list-year",
     ),
 ]

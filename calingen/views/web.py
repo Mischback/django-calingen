@@ -21,7 +21,7 @@ from calingen.models.profile import Profile
 from calingen.views.mixins import CalingenRestrictToUserMixin
 
 
-class CalenderEntryListYearView(
+class CalenderEntryListView(
     LoginRequiredMixin,
     CalingenRestrictToUserMixin,
     TemplateView,
