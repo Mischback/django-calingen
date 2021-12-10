@@ -7,16 +7,35 @@ import datetime
 from unittest import mock, skip  # noqa: F401
 
 # Django imports
+from django.contrib.auth.models import User
 from django.test import override_settings, tag  # noqa: F401
 
 # app imports
-from calingen.models.event import Event
+from calingen.models.event import Event, EventQuerySet
 
 # local imports
-from ..util.testcases import CalingenTestCase
+from ..util.testcases import CalingenORMTestCase, CalingenTestCase
 
 
-@tag("models", "event")
+@tag("models", "event", "EventQuerySet")
+class EventQuerySetTest(CalingenORMTestCase):
+    def test_filter_by_user(self):
+        # Arrange (set up test environment)
+        alice = User.objects.get(pk=2)  # Alice!
+        alice_events = Event.objects.filter(profile__owner=alice).all()
+        bob = User.objects.get(pk=2)  # Alice!
+        bob_events = Event.objects.filter(profile__owner=bob).all()
+
+        # Act (actually perform what has to be done)
+        test_alice_events = EventQuerySet(Event).filter_by_user(alice)
+        test_bob_events = EventQuerySet(Event).filter_by_user(bob)
+
+        # Assert (verify the results)
+        self.assertQuerysetEqual(alice_events, test_alice_events, ordered=False)
+        self.assertQuerysetEqual(bob_events, test_bob_events, ordered=False)
+
+
+@tag("models", "event", "Event")
 class EventTest(CalingenTestCase):
     @mock.patch("calingen.models.event.CalenderEntry")
     @mock.patch("calingen.models.event.CalenderEntryList")
