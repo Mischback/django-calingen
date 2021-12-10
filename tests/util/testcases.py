@@ -4,6 +4,7 @@
 
 # Django imports
 from django.test import SimpleTestCase, TestCase
+from django.test.testcases import TransactionTestCase
 
 
 # Add documentation if there is acutally code!
@@ -38,4 +39,8 @@ class CalingenORMTestCase(TestCase):  # noqa: D101
             --output tests/util/fixtures/test_data.json
     """
 
+    fixtures = ["tests/util/fixtures/test_data.json"]
+
+
+class CalingenORMTransactionTestCase(TransactionTestCase):  # noqa: D101
     fixtures = ["tests/util/fixtures/test_data.json"]
