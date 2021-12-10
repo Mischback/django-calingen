@@ -3,6 +3,7 @@
 """Provides the API for plugins."""
 
 # Django imports
+from django.template.loader import render_to_string
 from django.utils.functional import classproperty
 
 
@@ -204,3 +205,26 @@ class LayoutProvider(metaclass=PluginMount):
         # the ``set`` is sorted on return (converting it to a list, but that's
         # fine with the current (only) consumer)
         return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
+
+    @classmethod
+    def render(cls, year, entries, *args, **kwargs):
+        """Return the rendered TeX source.
+
+        Returns
+        -------
+        str
+            The rendered TeX source.
+
+        Notes
+        -----
+        This is a very basic implementation of the (required) ``render()``
+        method.
+        """
+        layout_config = kwargs.get("layout_config", None)
+        context = {
+            "year": year,
+            "entries": entries,
+            "layout_config": layout_config,
+        }
+
+        return render_to_string(cls._template, context)
