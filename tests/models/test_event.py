@@ -73,6 +73,22 @@ class EventManagerTest(CalingenORMTestCase):
         # Assert (verify the results)
         self.assertEqual(alice_events, test_alice_events)
 
+    @mock.patch("calingen.models.event.CalenderEntryList")
+    def test_get_calender_entry_list(self, mock_calenderentrylist):
+        # Arrange (set up test environment)
+        mock_merge = mock.MagicMock()
+        mock_calenderentrylist.return_value.merge = mock_merge
+        alice = User.objects.get(pk=2)  # Alice!
+        alice_events = Event.objects.filter(profile__owner=alice).count()
+
+        # Act (actually perform what has to be done)
+        test_alice_events = (  # noqa: F841
+            Event.calingen_manager.get_calender_entry_list(user=alice)
+        )
+
+        # Assert (verify the results)
+        self.assertEqual(mock_merge.call_count, alice_events)
+
 
 @tag("models", "event", "Event")
 class EventTest(CalingenTestCase):
