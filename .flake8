@@ -22,6 +22,7 @@ ignore =
 per-file-ignores =
     calingen/forms/tex.py:W505
     calingen/models/profile.py:W505
+    calingen/views/generic.py:W505
     tests/forms/*.py:D
     tests/interfaces/*.py:D
     tests/models/*.py:D
