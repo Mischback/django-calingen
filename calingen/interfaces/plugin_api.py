@@ -2,6 +2,9 @@
 
 """Provides the API for plugins."""
 
+# Django imports
+from django.utils.functional import classproperty
+
 
 def fully_qualified_classname(class_or_instance):
     """Get the fully qualified Python path of a class (or instance).
@@ -137,3 +140,67 @@ class EventProvider(metaclass=PluginMount):
         raise NotImplementedError(
             "Has to be implemented by the actual provider"
         )  # pragma: nocover
+
+
+class LayoutProvider(metaclass=PluginMount):
+    """Mount point for plugins that provide layouts.
+
+    Plugins implementing this reference must provide the following methods:
+
+    - **render(year, entries)**: Actually renders the layout's templates with
+      the given context.
+
+    Plugins implementing this reference should provide the following attributes:
+
+    - **name**: A descriptive name of the layout, provided as :py:obj:`str`.
+    - **paper_size**: The size of the paper, provided as :py:obj:`str`, e.g.
+      ``"a4"``, ``"a5"``, etc.
+    - **orientation**: The orientation, provided as :py:obj:`str`, e.g.
+      ``"landscape"`` or ``"portrait"``.
+    """
+
+    @classproperty
+    def title(cls):
+        """Return the available plugins.
+
+        Returns
+        -------
+        str
+            The plugin's title is constructed from class attributes.
+
+        Notes
+        -----
+        The ``title`` is provided as a
+        :class:`~django.utils.functional.classproperty`.
+
+        If an actual layout implementation wishes to provide its title in a
+        different way, it may provide a specific implementation of this method.
+        """
+        return "{} ({}, {})".format(cls.name, cls.paper_size, cls.orientation)
+
+    @classmethod
+    def list_available_plugins(cls):
+        """Return the available plugins.
+
+        Returns
+        -------
+        set
+            The resulting :py:obj:`set` contains a 2-tuple for every plugin,
+            including its `qualified classname` and its **title** attribute.
+            The `qualified classname` is determined by
+            :func:`~calingen.interfaces.plugin_api.fully_qualified_classname`.
+
+        Notes
+        -----
+        Primary use case for this method is the usage in a Django view,
+        specifically :class:`~calingen.models.profile.ProfileForm` uses this
+        method to provide the choices of its field. That ``Form`` is then used
+        in the app's views, e.g. :class:`~calingen.views.profile.ProfileUpdateView`.
+        """
+        result = set()
+        for plugin in cls.plugins:
+            result.add((fully_qualified_classname(plugin), plugin.title))
+
+        # the ``set`` is sorted on return (converting it to a list, but that's
+        # fine with the current (only) consumer)
+        return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
