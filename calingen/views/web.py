@@ -15,19 +15,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 
 # app imports
-from calingen.interfaces.data_exchange import CalenderEntryList
-from calingen.models.event import Event
-from calingen.models.profile import Profile
-from calingen.views.mixins import (
-    CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
-)
+from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
 
 
-class CalenderEntryListYearView(
+class CalenderEntryListView(
     LoginRequiredMixin,
-    CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
+    RestrictToUserMixin,
+    AllCalenderEntriesMixin,
     TemplateView,
 ):
     """Provide a list view of all events in a given year.
@@ -41,23 +35,3 @@ class CalenderEntryListYearView(
     """
 
     template_name = "calingen/calender_entry_list_year.html"
-
-    def get_context_data(self, **kwargs):
-        """Just for linting."""
-        context = super().get_context_data(**kwargs)
-
-        # get the user's profile (required to process plugins)
-        profile = Profile.calingen_manager.get_profile(self.request.user)
-
-        all_entries = CalenderEntryList()
-        internal_events = Event.calingen_manager.get_calender_entry_list(
-            self.request.user
-        )
-        plugin_events = profile.resolve()
-        all_entries.merge(internal_events)
-        all_entries.merge(plugin_events)
-        entries = all_entries.sorted()
-
-        context["entries"] = entries
-
-        return context

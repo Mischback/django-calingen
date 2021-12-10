@@ -26,7 +26,7 @@ class CalingenListFieldTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = list_field.to_python(None)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual([], return_value)
 
     @mock.patch("calingen.forms.fields.CharField")
@@ -38,7 +38,7 @@ class CalingenListFieldTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = list_field.to_python("foo")
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(["foo"], return_value)
 
     @mock.patch("calingen.forms.fields.CharField")
@@ -50,7 +50,7 @@ class CalingenListFieldTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = list_field.to_python("foo, bar")
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(["foo", "bar"], return_value)
 
 

@@ -1,0 +1,138 @@
+[
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$260000$eM5nGgGx25vhOAZ2uRkji7$KTwUMK2fP46go0Ap2vqN+ZUAMePlnZ7ksVmOwyJ/QeA=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Alice",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-12-06T14:55:56.272",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$260000$zZNLLiz2C1WfnVNzUAGmAK$uEbWDXHG7+RcD0OKnS31HxYsuIwTWKAlXsShf8es1MQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Bob",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-12-06T14:56:04.309",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$260000$YDYY2xVWkkVRQMPzEScyfd$F3m2J6tCcogUmfBsgTkVQ/IReuGU/AlUHcXcmSwaNvE=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "Charly",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2021-12-06T14:56:17",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$260000$n8AScTqPGhPIAV9zzVZGEr$RriivK2/ibcnLGbkIrN8W3Rv/Bczj5V64om5tCmJjIk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Egon",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-12-06T16:12:19.053",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "calingen.profile",
+  "pk": 1,
+  "fields": {
+    "_event_provider": {},
+    "owner": 2
+  }
+},
+{
+  "model": "calingen.profile",
+  "pk": 2,
+  "fields": {
+    "_event_provider": {},
+    "owner": 3
+  }
+},
+{
+  "model": "calingen.profile",
+  "pk": 3,
+  "fields": {
+    "_event_provider": {},
+    "owner": 4
+  }
+},
+{
+  "model": "calingen.event",
+  "pk": 1,
+  "fields": {
+    "profile": 1,
+    "start": "2020-12-06T06:00:00",
+    "title": "Go and grab Candy!",
+    "category": "ANNUAL_ANNIVERSARY"
+  }
+},
+{
+  "model": "calingen.event",
+  "pk": 2,
+  "fields": {
+    "profile": 1,
+    "start": "2020-11-30T06:00:00",
+    "title": "Whatever is going on here",
+    "category": "ANNUAL_ANNIVERSARY"
+  }
+},
+{
+  "model": "calingen.event",
+  "pk": 3,
+  "fields": {
+    "profile": 1,
+    "start": "2022-01-01T06:00:00",
+    "title": "Finally a new year",
+    "category": "ANNUAL_ANNIVERSARY"
+  }
+},
+{
+  "model": "calingen.event",
+  "pk": 4,
+  "fields": {
+    "profile": 2,
+    "start": "1985-10-26T14:00:00",
+    "title": "Back to the Future",
+    "category": "ANNUAL_ANNIVERSARY"
+  }
+}
+]

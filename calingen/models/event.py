@@ -334,7 +334,7 @@ class Event(models.Model):
 class EventForm(forms.ModelForm):
     """Used to validate input for creating and updating `Event` instances."""
 
-    start = SplitDateTimeOptionalField()
+    start = SplitDateTimeOptionalField(help_text=Event.start.field.help_text)
 
     class Meta:  # noqa: D106
         model = Event

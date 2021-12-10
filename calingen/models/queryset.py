@@ -36,7 +36,7 @@ class CalingenQuerySet(QuerySet):
         Currently, this method does nothing on its own, but is kept to keep the
         app's specific QuerySets consistent.
         """
-        return self
+        return self  # pragma: nocover
 
     def filter_by_user(self, user):
         """Return a queryset filtered by the ``owner`` attribute.
@@ -59,4 +59,6 @@ class CalingenQuerySet(QuerySet):
         ensuring `row-level permissions`, because only owners are allowed to
         view (and modify) their events.
         """
-        raise NotImplementedError("Must be implemented by actual QuerySet")
+        raise NotImplementedError(
+            "Must be implemented by actual QuerySet"
+        )  # pragma: nocover

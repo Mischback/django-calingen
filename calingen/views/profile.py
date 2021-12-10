@@ -13,16 +13,13 @@ from django.views import generic
 
 # app imports
 from calingen.models.profile import Profile, ProfileForm
-from calingen.views.mixins import (
-    CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
-)
+from calingen.views.mixins import ProfileIDMixin, RestrictToUserMixin
 
 
 class ProfileDetailView(
     LoginRequiredMixin,
-    CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
+    RestrictToUserMixin,
+    ProfileIDMixin,
     generic.DetailView,
 ):
     """Provide details of a :class:`calingen.models.profile.Profile` instance.
@@ -109,8 +106,8 @@ class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
 
 class ProfileDeleteView(
     LoginRequiredMixin,
-    CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
+    RestrictToUserMixin,
+    ProfileIDMixin,
     generic.DeleteView,
 ):
     """Provide the generic class-based view implementation to delete `Profile` objects.
@@ -146,9 +143,9 @@ class ProfileDeleteView(
 
 
 class ProfileUpdateView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
-    CalingenUserProfileIDMixin,
+    ProfileIDMixin,
     generic.UpdateView,
 ):
     """Provide the generic class-based view implementation to add `Profile` objects.

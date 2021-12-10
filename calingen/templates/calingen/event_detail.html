@@ -15,16 +15,13 @@
     </tr>
     <tr>
       <td>Start Date & Time:</td>
-      <td>{{ event_item.timestamp|date:"c" }}</td>
+      <td>{{ event_item.start|date:"c" }}</td>
     </tr>
     <tr>
       <td>Category:</td>
       <td>{{ event_item.get_category_display }} [{{ event_item.category }}]</td>
     </tr>
-    <tr>
-      <td>Owner:</td>
-      <td>{{ event_item.owner }}</td>
-    </tr>
+
     <tr>
       <td>Actions:</td>
       <td>

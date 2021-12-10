@@ -10,15 +10,10 @@ from django.views import generic
 # app imports
 from calingen.models.event import Event, EventForm
 from calingen.models.profile import Profile
-from calingen.views.mixins import (
-    CalingenRestrictToUserMixin,
-    CalingenUserProfileIDMixin,
-)
+from calingen.views.mixins import ProfileIDMixin, RestrictToUserMixin
 
 
-class EventCreateView(
-    LoginRequiredMixin, CalingenUserProfileIDMixin, generic.CreateView
-):
+class EventCreateView(LoginRequiredMixin, ProfileIDMixin, generic.CreateView):
     """Provide the generic class-based view implementation to add `Event` objects.
 
     Notes
@@ -39,7 +34,7 @@ class EventCreateView(
     template_name_suffix = "_create"
     """Make the view use the template ``calingen/event_create.html``."""
 
-    def form_valid(self, form):
+    def form_valid(self, form):  # pragma: nocover
         """Inject the user's :class:`~calingen.models.profile.Profile` into the form.
 
         Every user does have only one :class:`~calingen.models.profile.Profile`
@@ -60,9 +55,9 @@ class EventCreateView(
 
 
 class EventDeleteView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
-    CalingenUserProfileIDMixin,
+    ProfileIDMixin,
     generic.DeleteView,
 ):
     """Provide the generic class-based view implementation to delete `Event` objects.
@@ -91,9 +86,9 @@ class EventDeleteView(
 
 
 class EventDetailView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
-    CalingenUserProfileIDMixin,
+    ProfileIDMixin,
     generic.DetailView,
 ):
     """Provide details of a :class:`calingen.models.event.Event` instance.
@@ -119,9 +114,9 @@ class EventDetailView(
 
 
 class EventListView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
-    CalingenUserProfileIDMixin,
+    ProfileIDMixin,
     generic.ListView,
 ):
     """Provide a list of :class:`calingen.models.event.Event` instances.
@@ -140,9 +135,9 @@ class EventListView(
 
 
 class EventUpdateView(
-    CalingenRestrictToUserMixin,
+    RestrictToUserMixin,
     LoginRequiredMixin,
-    CalingenUserProfileIDMixin,
+    ProfileIDMixin,
     generic.UpdateView,
 ):
     """Provide the generic class-based view implementation to update `Event` objects.

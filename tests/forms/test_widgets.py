@@ -26,7 +26,7 @@ class PluginWidgetTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = widget.decompress(None)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value, [None, None])
 
     @mock.patch("calingen.forms.widgets.MultiWidget")
@@ -39,7 +39,7 @@ class PluginWidgetTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = widget.decompress(test_value)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value, ["foo", []])
 
     @mock.patch("calingen.forms.widgets.MultiWidget")
@@ -52,7 +52,7 @@ class PluginWidgetTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = widget.decompress(test_value)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value, [[], "foo"])
 
     @mock.patch("calingen.forms.widgets.MultiWidget")
@@ -65,5 +65,5 @@ class PluginWidgetTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         return_value = widget.decompress(test_value)
 
-        # Assert (verify the results))
+        # Assert (verify the results)
         self.assertEqual(return_value, ["foo", "bar"])
