@@ -13,7 +13,11 @@ from django.views.generic import View
 from django.views.generic.base import ContextMixin
 
 # app imports
-from calingen.views.mixins import ProfileIDMixin, RestrictToUserMixin
+from calingen.views.mixins import (
+    AllCalenderEntriesMixin,
+    ProfileIDMixin,
+    RestrictToUserMixin,
+)
 
 # local imports
 from ..util.testcases import CalingenTestCase
@@ -41,6 +45,12 @@ class RestrictToUserMixinAppliedView(RestrictToUserMixin, QuerySetView):
 
 
 class UserProfileIDMixinAppliedView(ProfileIDMixin, ContextMixin, TestTemplateView):
+    pass
+
+
+class AllCalenderEntriesMixinAppliedView(
+    AllCalenderEntriesMixin, ContextMixin, TestTemplateView
+):
     pass
 
 
@@ -104,3 +114,31 @@ class ProfileIDMixinTest(CalingenTestCase):
         # Assert (verify the results))
         self.assertEqual(response.status_code, 200)
         self.assertTrue(mock_profile_manager.get_profile.called)
+
+
+@tag("views", "mixins", "AllCalenderEntriesMixin")
+class AllCalenderEntriesMixinTest(CalingenTestCase):
+
+    factory = RequestFactory()
+
+    @mock.patch("calingen.views.mixins.Event")
+    @mock.patch("calingen.views.mixins.Profile")
+    def test_mixin_resolves_profile_and_events(self, mock_profile, mock_event):
+        # Arrange (set up test environment)
+        mock_profile_manager = mock.PropertyMock()
+        mock_profile.calingen_manager = mock_profile_manager
+        mock_event_manager = mock.PropertyMock()
+        mock_event.calingen_manager = mock_event_manager
+        test_target_year = 2021
+        cbv = AllCalenderEntriesMixinAppliedView
+        request = self.factory.get("/rand")
+        request.user = "foo"
+        view = cbv.as_view()
+
+        # Act (actually perform what has to be done)
+        response = view(request, target_year=test_target_year)
+
+        # Assert (verify the results)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(mock_profile_manager.get_profile.called)
+        self.assertTrue(mock_event_manager.get_calender_entry_list.called)
