@@ -12,6 +12,7 @@ TOX_UTIL_ENV := $(TOX_WORK_DIR)/util
 TOX_TEST_DIR := $(TOX_WORK_DIR)/testing
 
 DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/development.txt
+DOCUMENTATION_REQUIREMENTS := requirements/common.txt requirements/documentation.txt
 
 
 # some make settings
@@ -132,6 +133,9 @@ util/pre-commit/update : $(TOX_UTIL_ENV)
 	tox -q -e util -- pre-commit autoupdate
 .PHONY : util/pre-commit/update
 
+util/tox : $(TOX_DJANGO_ENV) $(TOX_SPHINX_ENV) $(TOX_TEST_DIR) $(TOX_UTIL_ENV)
+.PHONY : util/tox
+
 
 # ### Sphinx-related commands
 
@@ -148,7 +152,7 @@ sphinx/serve/html : sphinx/build/html
 $(TOX_DJANGO_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
 	tox --recreate -e django
 
-$(TOX_SPHINX_ENV) : requirements/documentation.txt pyproject.toml
+$(TOX_SPHINX_ENV) : $(DOCUMENTATION_REQUIREMENTS) pyproject.toml
 	tox --recreate -e sphinx
 
 $(TOX_TEST_DIR) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
