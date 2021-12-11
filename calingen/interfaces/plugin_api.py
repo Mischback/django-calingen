@@ -215,7 +215,7 @@ class LayoutProvider(metaclass=PluginMount):
         return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
 
     @classmethod
-    def render(cls, year, entries, *args, **kwargs):
+    def render(cls, context, *args, **kwargs):
         """Return the rendered TeX source.
 
         Returns
@@ -228,11 +228,4 @@ class LayoutProvider(metaclass=PluginMount):
         This is a very basic implementation of the (required) ``render()``
         method.
         """
-        layout_config = kwargs.get("layout_config", None)
-        context = {
-            "year": year,
-            "entries": entries,
-            "layout_config": layout_config,
-        }
-
         return render_to_string(cls._template, context)

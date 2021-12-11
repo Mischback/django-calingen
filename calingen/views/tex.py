@@ -3,6 +3,7 @@
 """Provide views in the context of TeX rendering and compilation."""
 
 # Python imports
+import logging
 from io import StringIO
 
 # Django imports
@@ -11,7 +12,7 @@ from django.http.response import FileResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.module_loading import import_string
-from django.views.generic.base import View
+from django.views.generic.base import ContextMixin, View
 
 # app imports
 from calingen.exceptions import CalingenException
@@ -19,16 +20,42 @@ from calingen.forms.tex import TeXLayoutSelectionForm
 from calingen.views.generic import RequestEnabledFormView
 from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
 
+logger = logging.getLogger(__name__)
+
 
 class TeXGeneratorView(
-    LoginRequiredMixin, RestrictToUserMixin, AllCalenderEntriesMixin, View
+    LoginRequiredMixin, RestrictToUserMixin, AllCalenderEntriesMixin, ContextMixin, View
 ):
     """Use the layout's ``render()`` method to generate valid TeX source."""
 
     def get(self, request, *args, **kwargs):
         """Just for Linting."""
+        selected_layout = request.session.pop("selected_layout", None)
+        if selected_layout is None:
+            # This is most likely an edge case: The view is accessed with a
+            # GET request without a selected layout stored in the user's session.
+            # This could be caused by directly calling this view's url.
+            # Just redirect to the layout selection.
+            return redirect("tex-layout-selection")
+        logger.debug(selected_layout)
+        layout = import_string(selected_layout)
+
+        layout_configuration = request.session.pop("layout_configuration", None)
+
+        # FIXME: The target year must be provided elsewhere!
+        #        Idea: Include it into TeXLayoutSelectionForm, store it in the
+        #              session and retrieve it here!
+        # TODO: Same technique can be used for the layout configuration!
+        context = self.get_context_data(
+            target_year=2022, layout_configuration=layout_configuration, **kwargs
+        )
+        logger.debug("context:")
+        logger.debug(context)
+        # FIXME: The following is just for debugging!
+        context["ctx"] = context
+
         rendered = StringIO()
-        rendered.write("Super Awesome Foobar!")
+        rendered.write(layout.render(context))
         rendered.seek(0)
         response = FileResponse(
             rendered.read(), as_attachment=True, filename="foobar.txt"
