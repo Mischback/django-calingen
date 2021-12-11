@@ -37,7 +37,7 @@ class TeXGeneratorView(
         return response
 
 
-class TeXLayoutConfigurationView(RequestEnabledFormView):
+class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
     """Show configuration form for the selected layout.
 
     Warnings
@@ -130,7 +130,7 @@ class TeXLayoutConfigurationView(RequestEnabledFormView):
         return layout.configuration_form
 
 
-class TeXLayoutSelectionView(RequestEnabledFormView):
+class TeXLayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
     """Provide a list of availabe layouts.
 
     Warnings
