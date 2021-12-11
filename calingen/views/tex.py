@@ -2,15 +2,39 @@
 
 """Provide views in the context of TeX rendering and compilation."""
 
+# Python imports
+from io import StringIO
+
 # Django imports
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http.response import FileResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.module_loading import import_string
+from django.views.generic.base import View
 
 # app imports
 from calingen.exceptions import CalingenException
 from calingen.forms.tex import TeXLayoutSelectionForm
 from calingen.views.generic import RequestEnabledFormView
+from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
+
+
+class TeXGeneratorView(
+    LoginRequiredMixin, RestrictToUserMixin, AllCalenderEntriesMixin, View
+):
+    """Use the layout's ``render()`` method to generate valid TeX source."""
+
+    def get(self, request, *args, **kwargs):
+        """Just for Linting."""
+        rendered = StringIO()
+        rendered.write("Super Awesome Foobar!")
+        rendered.seek(0)
+        response = FileResponse(
+            rendered.read(), as_attachment=True, filename="foobar.txt"
+        )
+
+        return response
 
 
 class TeXLayoutConfigurationView(RequestEnabledFormView):
@@ -32,7 +56,7 @@ class TeXLayoutConfigurationView(RequestEnabledFormView):
     """
 
     template_name = "calingen/tex_layout_configuration.html"
-    success_url = reverse_lazy("homepage")
+    success_url = reverse_lazy("tex-generator")
 
     class NoConfigurationFormException(CalingenException):
         """Raised if the selected layout does not have a ``configuration_form``."""
@@ -69,9 +93,15 @@ class TeXLayoutConfigurationView(RequestEnabledFormView):
         try:
             return super().get(request, *args, **kwargs)
         except self.NoConfigurationFormException:
-            return redirect("event-list")
+            # As no layout specific configuration form is required, directly
+            # redirect to the tex generation.
+            return redirect("tex-generator")
         except self.NoLayoutSelectedException:
-            return redirect("homepage")
+            # This is most likely an edge case: The view is accessed with a
+            # GET request without a selected layout stored in the user's session.
+            # This could be caused by directly calling this view's url.
+            # Just redirect to the layout selection.
+            return redirect("tex-layout-selection")
 
     def get_form_class(self):
         """Provide the layout's configuration form.

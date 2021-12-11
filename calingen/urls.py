@@ -59,4 +59,9 @@ urlpatterns = [
         tex.TeXLayoutConfigurationView.as_view(),
         name="tex-layout-configuration",
     ),
+    path(
+        "generate/generator/",
+        tex.TeXGeneratorView.as_view(),
+        name="tex-generator",
+    ),
 ]
