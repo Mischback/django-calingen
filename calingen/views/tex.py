@@ -3,7 +3,6 @@
 """Provide views in the context of TeX rendering and compilation."""
 
 # Python imports
-import logging
 from datetime import date
 from io import StringIO
 
@@ -21,8 +20,6 @@ from calingen.forms.tex import TeXLayoutSelectionForm
 from calingen.views.generic import RequestEnabledFormView
 from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
 
-logger = logging.getLogger(__name__)
-
 
 class TeXGeneratorView(
     LoginRequiredMixin, RestrictToUserMixin, AllCalenderEntriesMixin, ContextMixin, View
@@ -30,7 +27,24 @@ class TeXGeneratorView(
     """Use the layout's ``render()`` method to generate valid TeX source."""
 
     def get(self, request, *args, **kwargs):
-        """Just for Linting."""
+        """Trigger rendering of the selected layout and return the result.
+
+        Notes
+        -----
+        The ``context`` that is passed to the layout's ``render()`` method
+        contains the following ``keys``:
+
+        - ``target_year``: The year to create the TeX layout for.
+        - ``layout_configuration``: If the layout provides a custom
+          implementation of :class:`calingen.forms.tex.TeXLayoutConfigurationForm`,
+          the fetched values will be provided here.
+        - ``entries``: All calender entries of the user's profile, resolved to
+          the ``target_year``, provided as a
+          :class:`calingen.interfaces.data_exchange.CalenderEntryList` object.
+
+        If there is no selected layout in the user's ``Session``, a redirect to
+        :class:`calingen.views.tex.TeXLayoutSelectionView` is performed.
+        """
         selected_layout = request.session.pop("selected_layout", None)
         if selected_layout is None:
             # This is most likely an edge case: The view is accessed with a
@@ -38,7 +52,6 @@ class TeXGeneratorView(
             # This could be caused by directly calling this view's url.
             # Just redirect to the layout selection.
             return redirect("tex-layout-selection")
-        logger.debug(selected_layout)
         layout = import_string(selected_layout)
 
         target_year = request.session.pop("target_year", date.today().year)
@@ -47,10 +60,6 @@ class TeXGeneratorView(
         context = self.get_context_data(
             target_year=target_year, layout_configuration=layout_configuration, **kwargs
         )
-        logger.debug("context:")
-        logger.debug(context)
-        # FIXME: The following is just for debugging!
-        context["ctx"] = context
 
         rendered = StringIO()
         rendered.write(layout.render(context))
@@ -112,8 +121,8 @@ class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         :meth:`~calingen.views.tex.TeXLayoutConfigurationView.get_form_class` is
         called, which will raise an exceptions that is handled here.
 
-        If there is not selected layout in the user's ``Session``, a redirect to
-        the user's profile overview is performed.
+        If there is no selected layout in the user's ``Session``, a redirect to
+        :class:`calingen.views.tex.TeXLayoutSelectionView` is performed.
         """
         try:
             return super().get(request, *args, **kwargs)
