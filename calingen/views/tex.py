@@ -3,11 +3,87 @@
 """Provide views in the context of TeX rendering and compilation."""
 
 # Django imports
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.module_loading import import_string
 
 # app imports
+from calingen.exceptions import CalingenException
 from calingen.forms.tex import TeXLayoutSelectionForm
 from calingen.views.generic import RequestEnabledFormView
+
+
+class TeXLayoutConfigurationView(RequestEnabledFormView):
+    """Show configuration form for the selected layout.
+
+    Warnings
+    --------
+    This view is not restricted to users with a
+    :class:`Calingen Profile <calingen.models.profile.Profile>` and can be
+    accessed by any user of the project.
+
+    However, on actual generation and compilation of the output, a
+    ``Profile`` is required.
+
+    Notes
+    -----
+    This is just the view to show and process the layout's implementation of
+    :class:`calingen.forms.tex.TeXLayoutConfigurationForm`.
+    """
+
+    template_name = "calingen/tex_layout_configuration.html"
+    success_url = reverse_lazy("homepage")
+
+    class NoConfigurationFormException(CalingenException):
+        """Raised if the selected layout does not have a ``configuration_form``."""
+
+    def form_valid(self, form):
+        """Trigger saving of the configuration values in the user's ``Session``."""
+        form.save_configuration()
+        return super().form_valid(form)
+
+    def get(self, request, *args, **kwargs):
+        """Handle a GET request to the view.
+
+        While processing the request, it is determined if the selected
+        implementation of :class:`calingen.interfaces.plugin_api.LayoutProvider`
+        uses a custon ``configuration_form``.
+
+        If no custom configuration is implemented by the layout, the request
+        is redirected to the generator.
+
+        Notes
+        -----
+        Determining the ``configuration_form`` is done implicitly while
+        traversing the view's hierarchy during processing the request. Several
+        methods are involved, but at some point
+        :meth:`~calingen.views.tex.TeXLayoutConfigurationView.get_form_class` is
+        called, which will raise an exceptions that is handled here.
+        """
+        try:
+            return super().get(request, *args, **kwargs)
+        except self.NoConfigurationFormException:
+            return redirect("homepage")
+
+    def get_form_class(self):
+        """Provide the layout's configuration form.
+
+        Notes
+        -----
+        Implementations of :class:`calingen.interfaces.plugin_api.LayoutProvider`
+        may provide a class attribute ``configuration_form`` with a subclass of
+        :class:`calingen.forms.tex.TeXLayoutConfigurationForm`.
+
+        If ``configuration_form`` is omitted, a custom exception is raised, that
+        will be handled in
+        :meth:`~calingen.views.tex.TeXLayoutConfigurationView.get`.
+        """
+        layout = import_string(self.request.session["selected_layout"])
+
+        if layout.configuration_form is None:
+            raise self.NoConfigurationFormException()
+
+        return layout.configuration_form
 
 
 class TeXLayoutSelectionView(RequestEnabledFormView):
@@ -34,7 +110,7 @@ class TeXLayoutSelectionView(RequestEnabledFormView):
 
     template_name = "calingen/tex_layout_selection.html"
     form_class = TeXLayoutSelectionForm
-    success_url = reverse_lazy("homepage")
+    success_url = reverse_lazy("tex-layout-configuration")
 
     def form_valid(self, form):
         """Trigger saving of the selected value in the user's ``Session``."""

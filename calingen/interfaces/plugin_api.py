@@ -160,6 +160,14 @@ class LayoutProvider(metaclass=PluginMount):
       ``"landscape"`` or ``"portrait"``.
     """
 
+    configuration_form = None
+    """Layouts may provide a custom form to fetch configuration values.
+
+    The specified form should be a subclass of
+    :class:`calingen.forms.tex.TeXLayoutConfigurationForm` and may implement
+    custom validation / cleaning logic.
+    """
+
     @classproperty
     def title(cls):
         """Return the available plugins.
