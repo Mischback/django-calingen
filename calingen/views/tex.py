@@ -37,6 +37,9 @@ class TeXLayoutConfigurationView(RequestEnabledFormView):
     class NoConfigurationFormException(CalingenException):
         """Raised if the selected layout does not have a ``configuration_form``."""
 
+    class NoLayoutSelectedException(CalingenException):
+        """Raised if there is no selected layout in the user's ``Session``."""
+
     def form_valid(self, form):
         """Trigger saving of the configuration values in the user's ``Session``."""
         form.save_configuration()
@@ -59,10 +62,15 @@ class TeXLayoutConfigurationView(RequestEnabledFormView):
         methods are involved, but at some point
         :meth:`~calingen.views.tex.TeXLayoutConfigurationView.get_form_class` is
         called, which will raise an exceptions that is handled here.
+
+        If there is not selected layout in the user's ``Session``, a redirect to
+        the user's profile overview is performed.
         """
         try:
             return super().get(request, *args, **kwargs)
         except self.NoConfigurationFormException:
+            return redirect("event-list")
+        except self.NoLayoutSelectedException:
             return redirect("homepage")
 
     def get_form_class(self):
@@ -77,9 +85,15 @@ class TeXLayoutConfigurationView(RequestEnabledFormView):
         If ``configuration_form`` is omitted, a custom exception is raised, that
         will be handled in
         :meth:`~calingen.views.tex.TeXLayoutConfigurationView.get`.
-        """
-        layout = import_string(self.request.session["selected_layout"])
 
+        If there is no selected layout in the user's ``Session``, a different
+        custom exception will cause a redirect to the user's profile overview.
+        """
+        selected_layout = self.request.session.get("selected_layout", None)
+        if selected_layout is None:
+            raise self.NoLayoutSelectedException()
+
+        layout = import_string(selected_layout)
         if layout.configuration_form is None:
             raise self.NoConfigurationFormException()
 
