@@ -2,8 +2,11 @@
 
 """Provide Form implementations in the context of TeX rendering and compilation."""
 
+# Python imports
+from datetime import date
+
 # Django imports
-from django.forms.fields import ChoiceField
+from django.forms.fields import ChoiceField, IntegerField
 from django.forms.widgets import RadioSelect
 
 # app imports
@@ -27,6 +30,9 @@ class TeXLayoutConfigurationForm(RequestEnabledForm):
 class TeXLayoutSelectionForm(RequestEnabledForm):
     """Select one of the available :class:`~calingen.interfaces.plugin_api.LayoutProvider` instances."""
 
+    target_year = IntegerField(min_value=date.min.year, max_value=date.max.year)
+    """Specify the year to create the TeX layout for."""
+
     layout = ChoiceField(
         choices=LayoutProvider.list_available_plugins, widget=RadioSelect
     )
@@ -41,4 +47,5 @@ class TeXLayoutSelectionForm(RequestEnabledForm):
 
     def save_selection(self):
         """Save the layout selection in the user's ``Session``."""
+        self.request.session["target_year"] = self.cleaned_data["target_year"]
         self.request.session["selected_layout"] = self.cleaned_data["layout"]

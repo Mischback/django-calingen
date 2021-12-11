@@ -4,6 +4,7 @@
 
 # Python imports
 import logging
+from datetime import date
 from io import StringIO
 
 # Django imports
@@ -40,14 +41,11 @@ class TeXGeneratorView(
         logger.debug(selected_layout)
         layout = import_string(selected_layout)
 
+        target_year = request.session.pop("target_year", date.today().year)
         layout_configuration = request.session.pop("layout_configuration", None)
 
-        # FIXME: The target year must be provided elsewhere!
-        #        Idea: Include it into TeXLayoutSelectionForm, store it in the
-        #              session and retrieve it here!
-        # TODO: Same technique can be used for the layout configuration!
         context = self.get_context_data(
-            target_year=2022, layout_configuration=layout_configuration, **kwargs
+            target_year=target_year, layout_configuration=layout_configuration, **kwargs
         )
         logger.debug("context:")
         logger.debug(context)
