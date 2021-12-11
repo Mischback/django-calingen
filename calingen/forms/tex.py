@@ -11,6 +11,19 @@ from calingen.forms.generic import RequestEnabledForm
 from calingen.interfaces.plugin_api import LayoutProvider
 
 
+class TeXLayoutConfigurationForm(RequestEnabledForm):
+    """Layout-specific configuration form.
+
+    Implementations of :class:`calingen.interfaces.plugin_api.LayoutProvider`
+    may provide a subclass of this form to fetch layout-specific configuration
+    values during the rendering process of a layout.
+    """
+
+    def save_configuration(self):
+        """Save the layout-specific configuration in the user's ``Session``."""
+        self.request.session["layout_configuration"] = self.cleaned_data
+
+
 class TeXLayoutSelectionForm(RequestEnabledForm):
     """Select one of the available :class:`~calingen.interfaces.plugin_api.LayoutProvider` instances."""
 
