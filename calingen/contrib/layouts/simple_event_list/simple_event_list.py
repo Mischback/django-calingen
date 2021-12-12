@@ -13,3 +13,8 @@ class SimpleEventList(LayoutProvider):
     paper_size = "a4"
     orientation = "portrait"
     _template = "simple_event_list/tex/simple_event_list.tex"
+
+    @classmethod
+    def prepare_context(cls, context):  # noqa: D102
+        context["ctx"] = context
+        return context
