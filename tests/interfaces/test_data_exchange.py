@@ -75,6 +75,22 @@ class CalenderEntryTest(CalingenTestCase):
         with self.assertRaises(CalenderEntry.CalenderEntryException):
             entry = CalenderEntry("foo", "bar", test_date, "BREAK")  # noqa: F841
 
+    @mock.patch("calingen.interfaces.data_exchange.EventCategory")
+    def test_constructor_accepts_event_category(self, mock_event_category):
+        # Arrange (set up test environment)
+        test_datetime = datetime.datetime(2021, 12, 12, 8, 15)
+        test_category = "TEST_CAT"
+        test_event_cat = mock.MagicMock()
+        mock_event_category.__getitem__.return_value = test_event_cat
+        mock_event_category.values = [test_category]
+
+        # Act (actually perform what has to be done)
+        entry = CalenderEntry("foo", test_category, test_datetime, ("foo", "bar"))
+
+        # Assert (verify the results)
+        self.assertEqual(entry.timestamp, test_datetime)
+        self.assertEqual(entry.category, test_event_cat)
+
     def test_eq_different_classes(self):
         # Arrange (set up test environment)
         class TestClass:
