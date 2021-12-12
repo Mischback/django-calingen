@@ -109,7 +109,7 @@ class CalenderEntry:
 
         # Use the (lazy) translatable category (if available)
         if category in EventCategory.values:
-            self.category = EventCategory[category].label  # pragma: nocover
+            self.category = EventCategory[category]  # pragma: nocover
         else:
             self.category = category
 

@@ -25,7 +25,7 @@
         {{ entry.title }}
       </td>
       <td>{{ entry.timestamp|date:"c" }}</td>
-      <td>{{ entry.category }}</td>
+      <td>{{ entry.category.label }}</td>
       <td>
         {% if entry.source.0 == "INTERNAL" %}
           <a href="{{ entry.source.1 }}">Event Detail</a>
