@@ -215,6 +215,29 @@ class LayoutProvider(metaclass=PluginMount):
         return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
 
     @classmethod
+    def prepare_context(cls, context):
+        """Pre-process the context before rendering.
+
+        Parameters
+        ----------
+        context : dict
+            The context, as provided by
+            :meth:`calingen.views.tex.TeXGeneratorView.get`.
+
+        Returns
+        -------
+        dict
+            The updated context.
+
+        Notes
+        -----
+        This default implementation does nothing. ``LayoutProvider``
+        implementations may override this method to apply necessary modifications
+        of the ``context``.
+        """
+        return context
+
+    @classmethod
     def render(cls, context, *args, **kwargs):
         """Return the rendered TeX source.
 
@@ -228,4 +251,7 @@ class LayoutProvider(metaclass=PluginMount):
         This is a very basic implementation of the (required) ``render()``
         method.
         """
+        # Apply a pre-processing step to the context
+        context = cls.prepare_context(context)
+
         return render_to_string(cls._template, context)
