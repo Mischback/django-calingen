@@ -1,1 +1,6 @@
-{{ event.timestamp }} - {{ event.title }} - {{ event.category }}
+
+{% if event.category.value in "ANNUAL_ANNIVERSARY HOLIDAY" %}
+  {{ event.timestamp|date:"SHORT_DATE_FORMAT" }} - {{ event.title }} - {{ event.category.label }}
+{% else %}
+  {{ event.timestamp|date:"SHORT_DATE_FORMAT" }}-{{ event.timestamp|date:"H:i" }} - {{ event.title }} - {{ event.category.label }}
+{% endif %}
