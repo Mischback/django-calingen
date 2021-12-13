@@ -9,13 +9,17 @@ from unittest import mock, skip  # noqa: F401
 from django.test import override_settings, tag  # noqa: F401
 
 # app imports
-from calingen.interfaces.plugin_api import EventProvider, fully_qualified_classname
+from calingen.interfaces.plugin_api import (
+    EventProvider,
+    LayoutProvider,
+    fully_qualified_classname,
+)
 
 # local imports
 from ..util.testcases import CalingenTestCase
 
 
-@tag("interfaces", "plugin")
+@tag("interfaces", "plugin", "EventProvider")
 class EventProviderTest(CalingenTestCase):
     def test_automatic_plugin_registration(self):
         """Just verify, that the `python sorcery` as described in the source file actually works."""
@@ -44,6 +48,24 @@ class EventProviderTest(CalingenTestCase):
 
         # Assert (verify the results)
         self.assertIn((mock.ANY, test_implementation_name), event_provider_list)
+
+
+@tag("interfaces", "plugin", "LayoutProvider")
+class LayoutProviderTest(CalingenTestCase):
+    def test_automatic_plugin_registration(self):
+        """Just verify, that the `python sorcery` as described in the source file actually works."""
+
+        # Arrange (set up test environment)
+        already_present_plugins = len(LayoutProvider.plugins)
+
+        # Act (actually perform what has to be done)
+        class LayoutProviderTestImplementation(LayoutProvider):
+            name = "do-not-care"
+            paper_size = "foo"
+            orientation = "bar"
+
+        # Assert (verify the results)
+        self.assertEqual(len(LayoutProvider.plugins), already_present_plugins + 1)
 
 
 @tag("interfaces", "utility")
