@@ -30,7 +30,9 @@ class TeXLayoutConfigurationForm(RequestEnabledForm):
 class TeXLayoutSelectionForm(RequestEnabledForm):
     """Select one of the available :class:`~calingen.interfaces.plugin_api.LayoutProvider` instances."""
 
-    target_year = IntegerField(min_value=date.min.year, max_value=date.max.year)
+    target_year = IntegerField(
+        initial=date.today().year + 1, min_value=date.min.year, max_value=date.max.year
+    )
     """Specify the year to create the TeX layout for."""
 
     layout = ChoiceField(
