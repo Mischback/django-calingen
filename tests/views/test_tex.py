@@ -84,3 +84,16 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         # Assert (verify the results)
         self.assertRedirects(response, reverse("tex-layout-selection"))
         mock_get_form_class.assert_called_once()
+
+    @mock.patch("calingen.views.tex.super")
+    def test_form_valid(self, mock_super):
+        # Arrange
+        test_form = mock.MagicMock()
+        cbv = TeXLayoutConfigurationView()
+
+        # Act
+        cbv.form_valid(test_form)
+
+        # Assert
+        test_form.save_configuration.assert_called_once()
+        mock_super.return_value.form_valid.assert_called_once()
