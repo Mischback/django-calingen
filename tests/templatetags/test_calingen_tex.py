@@ -28,6 +28,116 @@ class CalingenChecksTest(CalingenTestCase):
         # Assert (verify the results)
         self.assertEqual(return_value, output)
 
+    def test_escape_tex_ampersand(self):
+        # Arrange (set up test environment)
+        input = r"&"
+        output = r"\&"
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
+    def test_escape_tex_percent(self):
+        # Arrange (set up test environment)
+        input = r"%"
+        output = r"\%"
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
+    def test_escape_tex_dollar(self):
+        # Arrange (set up test environment)
+        input = r"$"
+        output = r"\$"
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
+    def test_escape_tex_hash(self):
+        # Arrange (set up test environment)
+        input = r"#"
+        output = r"\#"
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
+    def test_escape_tex_underscore(self):
+        # Arrange (set up test environment)
+        input = r"_"
+        output = r"\_"
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
+    def test_escape_tex_curly_left(self):
+        # Arrange (set up test environment)
+        input = r"{"
+        output = r"\{"
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
+    def test_escape_tex_curly_right(self):
+        # Arrange (set up test environment)
+        input = r"}"
+        output = r"\}"
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
+    def test_escape_tex_tilde(self):
+        # Arrange (set up test environment)
+        input = r"~"
+        output = r"\texttt{\~{}}"
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
+    def test_escape_tex_exp(self):
+        # Arrange (set up test environment)
+        input = r"^"
+        output = r"\^{}"
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
+    def test_escape_tex_backslash(self):
+        # Arrange (set up test environment)
+        input = r"\ "
+        output = r"$\backslash$ "
+
+        # Act (actually perform what has to be done)
+        return_value = escape_tex(input)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, output)
+
     def test_escape_tex_full(self):
         # Arrange (set up test environment)
         input = r"& % $ # _ { } ~ ^ \ \today"
