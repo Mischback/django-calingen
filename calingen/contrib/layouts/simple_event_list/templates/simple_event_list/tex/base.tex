@@ -46,6 +46,7 @@
     \renewcommand{\footrulewidth}{0.5pt}
 
 \begin{document}
+{% autoescape off %}
 {% block document %}
 %%% MAGIC STARTS HERE! %%%
 
@@ -53,4 +54,5 @@
 
 %%% END OF MAGIC! %%%
 {% endblock document %}
+{% endautoescape %}
 \end{document}
