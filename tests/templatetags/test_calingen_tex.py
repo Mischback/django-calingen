@@ -15,7 +15,7 @@ from calingen.templatetags.calingen_tex import escape_tex
 from ..util.testcases import CalingenTestCase
 
 
-@tag("templatetags", "calingen_tex", "current")
+@tag("templatetags", "calingen_tex")
 class CalingenChecksTest(CalingenTestCase):
     def test_escape_tex_empty(self):
         # Arrange (set up test environment)
@@ -142,7 +142,7 @@ class CalingenChecksTest(CalingenTestCase):
         # Arrange (set up test environment)
         input = r"& % $ # _ { } ~ ^ \ \today"
         output = (
-            r"\& \% \$ \# \_ \{  \} \texttt{\~{}} \^{} $\backslash$ $\backslash$today"
+            r"\& \% \$ \# \_ \{ \} \texttt{\~{}} \^{} $\backslash$ $\backslash$today"
         )
 
         # Act (actually perform what has to be done)
