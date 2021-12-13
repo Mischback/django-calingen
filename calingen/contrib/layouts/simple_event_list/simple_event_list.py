@@ -16,5 +16,20 @@ class SimpleEventList(LayoutProvider):
 
     @classmethod
     def prepare_context(cls, context):  # noqa: D102
-        context["ctx"] = context
+        entries = context.pop("entries")
+
+        # put each month's entries in a dedicated list
+        processed_entries = []
+        loop_month = entries[0].timestamp.month
+        month_list = []
+        for entry in entries:
+            if entry.timestamp.month != loop_month:
+                processed_entries.append(month_list)
+                month_list = []
+                loop_month = entry.timestamp.month
+            month_list.append(entry)
+        if month_list:
+            processed_entries.append(month_list)
+
+        context["entries"] = processed_entries
         return context

@@ -1,12 +1,13 @@
+{% extends "simple_event_list/tex/base.tex" %}
 
-Calender Entries for {{ target_year }}
-
-{% for e in entries %}
-{% with month_string=e.timestamp|date:"F" %}
-  {% ifchanged %}{{ month_string }}{% endifchanged %}
-{% endwith %}
-  {% include "simple_event_list/tex/single_entry_line.tex" with event=e %}
-{% endfor %}
-
------
-{{ ctx }}
+{% block document %}
+  \section*{Calender Entries for {{ target_year }} }
+  {% for month in entries %}
+    \subsection*{ {{ month.0.timestamp|date:"F" }} }
+    \begin{enumerate}
+    {% for entry in month %}
+      {% include "simple_event_list/tex/single_entry_line.tex" with event=entry %}
+    {% endfor %}
+    \end{enumerate}
+  {% endfor %}
+{% endblock document %}
