@@ -26,6 +26,7 @@ per-file-ignores =
     tests/forms/*.py:D
     tests/interfaces/*.py:D
     tests/models/*.py:D
+    tests/templatetags/*.py:D
     tests/views/*.py:D
     tests/test_checks.py:D
 
