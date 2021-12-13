@@ -10,6 +10,9 @@ from django.contrib.auth.models import User
 from django.test import Client, override_settings, tag  # noqa: F401
 from django.urls import reverse
 
+# app imports
+from calingen.views.tex import TeXLayoutSelectionView
+
 # local imports
 from ..util.testcases import CalingenORMTransactionTestCase
 
@@ -31,3 +34,16 @@ class TeXLayoutSelectionViewTest(CalingenORMTransactionTestCase):
         # Works ok.
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "calingen/tex_layout_selection.html")
+
+    @mock.patch("calingen.views.tex.super")
+    def test_form_valid(self, mock_super):
+        # Arrange
+        test_form = mock.MagicMock()
+        cbv = TeXLayoutSelectionView()
+
+        # Act
+        cbv.form_valid(test_form)
+
+        # Assert
+        test_form.save_selection.assert_called_once()
+        mock_super.return_value.form_valid.assert_called_once()
