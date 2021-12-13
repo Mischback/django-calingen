@@ -7,6 +7,7 @@ source = [
 ]
 omit = [
   "*/__init__.py",
+  "*/contrib/layouts/simple_event_list/apps.py",
   "*/migrations/*",
   "*/tests/util/*",
   "*/tests/runtests.py"
