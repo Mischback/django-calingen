@@ -67,6 +67,25 @@ class LayoutProviderTest(CalingenTestCase):
         # Assert (verify the results)
         self.assertEqual(len(LayoutProvider.plugins), already_present_plugins + 1)
 
+    def test_title_classattribute(self):
+        # Arrange (set up test environment)
+        test_name = "do-not-care"
+        test_paper = "foo"
+        test_orientation = "bar"
+
+        class LayoutProviderTestImplementation(LayoutProvider):
+            name = test_name
+            paper_size = test_paper
+            orientation = test_orientation
+
+        # Act (actually perform what has to be done)
+
+        # Assert (verify the results)
+        self.assertEqual(
+            LayoutProviderTestImplementation.title,
+            "{} ({}, {})".format(test_name, test_paper, test_orientation),
+        )
+
 
 @tag("interfaces", "utility")
 class UtilityFunctionTest(CalingenTestCase):
