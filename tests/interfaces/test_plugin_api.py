@@ -7,6 +7,7 @@ from unittest import mock, skip  # noqa: F401
 
 # Django imports
 from django.test import override_settings, tag  # noqa: F401
+from django.utils.functional import classproperty
 
 # app imports
 from calingen.interfaces.plugin_api import (
@@ -85,6 +86,23 @@ class LayoutProviderTest(CalingenTestCase):
             LayoutProviderTestImplementation.title,
             "{} ({}, {})".format(test_name, test_paper, test_orientation),
         )
+
+    def test_list_available_plugins(self):
+        """Verify that LayoutProvider instances are listed."""
+
+        # Arrange (set up test environment)
+        test_implementation_title = "TestImplementation"
+
+        class LayoutProviderTestImplementation_list_plugins_test(LayoutProvider):
+            @classproperty
+            def title(cls):
+                return test_implementation_title
+
+        # Act (actually perform what has to be done)
+        layout_provider_list = LayoutProvider.list_available_plugins()
+
+        # Assert (verify the results)
+        self.assertIn((mock.ANY, test_implementation_title), layout_provider_list)
 
 
 @tag("interfaces", "utility")
