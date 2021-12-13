@@ -104,6 +104,26 @@ class LayoutProviderTest(CalingenTestCase):
         # Assert (verify the results)
         self.assertIn((mock.ANY, test_implementation_title), layout_provider_list)
 
+    @mock.patch("calingen.interfaces.plugin_api.render_to_string")
+    def test_render(self, mock_render_to_string):
+        # Arrange (set up test environment)
+        test_context = mock.MagicMock()
+        mock_render_to_string.return_value = "foo"
+        test_template = mock.ANY
+
+        class LayoutProviderTestImplementation(LayoutProvider):
+            name = "do-not-care"
+            paper_size = "foo"
+            orientation = "bar"
+            _template = test_template
+
+        # Act (actually perform what has to be done)
+        render_result = LayoutProviderTestImplementation.render(test_context)
+
+        # Assert (verify the results)
+        self.assertEqual(render_result, "foo")
+        mock_render_to_string.assert_called_once_with(test_template, test_context)
+
 
 @tag("interfaces", "utility")
 class UtilityFunctionTest(CalingenTestCase):

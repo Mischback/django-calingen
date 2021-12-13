@@ -235,7 +235,7 @@ class LayoutProvider(metaclass=PluginMount):
         implementations may override this method to apply necessary modifications
         of the ``context``.
         """
-        return context
+        return context  # pragma: nocover
 
     @classmethod
     def render(cls, context, *args, **kwargs):
