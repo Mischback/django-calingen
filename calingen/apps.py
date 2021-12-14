@@ -36,7 +36,10 @@ class CalingenConfig(AppConfig):
         # delay app imports until now, to make sure everything else is ready
         # app imports
         from calingen import settings as app_default_settings
-        from calingen.checks import check_config_value_event_provider_notification
+        from calingen.checks import (
+            check_config_value_event_provider_notification,
+            check_session_enabled,
+        )
 
         # inject app-specific settings
         # see https://stackoverflow.com/a/47154840
@@ -48,6 +51,7 @@ class CalingenConfig(AppConfig):
 
         # register app-specific check functions
         register_check(check_config_value_event_provider_notification)
+        register_check(check_session_enabled)
 
         # load the external event providers
         for provider in settings.CALINGEN_EXTERNAL_EVENT_PROVIDER:
