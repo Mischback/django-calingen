@@ -255,3 +255,33 @@ class LayoutProvider(metaclass=PluginMount):
         context = cls.prepare_context(context)
 
         return render_to_string(cls._template, context)
+
+
+class TeXCompilerProvider(metaclass=PluginMount):
+    """Mount point for plugins that provide means to compile TeX to documents.
+
+    Plugins implementing this reference must provide the following attributes
+    and methods:
+
+    - **title** : The title of the provider, provided as :py:obj:`str`.
+    """
+
+    @classmethod
+    def list_available_plugins(cls):
+        """Return the available plugins.
+
+        Returns
+        -------
+        set
+            The resulting :py:obj:`set` contains a 2-tuple for every plugin,
+            including its `qualified classname` and its **title** attribute.
+            The `qualified classname` is determined by
+            :func:`~calingen.interfaces.plugin_api.fully_qualified_classname`.
+        """
+        result = set()
+        for plugin in cls.plugins:
+            result.add((fully_qualified_classname(plugin), plugin.title))
+
+        # the ``set`` is sorted on return (converting it to a list, but that's
+        # fine with the current (only) consumer)
+        return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
