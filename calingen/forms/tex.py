@@ -24,7 +24,9 @@ class TeXLayoutConfigurationForm(RequestEnabledForm):
 
     def save_configuration(self):
         """Save the layout-specific configuration in the user's ``Session``."""
-        self.request.session["layout_configuration"] = self.cleaned_data
+        self.request.session[
+            "layout_configuration"
+        ] = self.cleaned_data  # pragma: nocover
 
 
 class TeXLayoutSelectionForm(RequestEnabledForm):
@@ -49,5 +51,9 @@ class TeXLayoutSelectionForm(RequestEnabledForm):
 
     def save_selection(self):
         """Save the layout selection in the user's ``Session``."""
-        self.request.session["target_year"] = self.cleaned_data["target_year"]
-        self.request.session["selected_layout"] = self.cleaned_data["layout"]
+        self.request.session["target_year"] = self.cleaned_data[
+            "target_year"
+        ]  # pragma: nocover
+        self.request.session["selected_layout"] = self.cleaned_data[
+            "layout"
+        ]  # pragma: nocover
