@@ -4,11 +4,10 @@
 
 # Python imports
 from datetime import date
-from io import StringIO
 
 # Django imports
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http.response import FileResponse
+from django.http.response import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.module_loading import import_string
@@ -25,6 +24,9 @@ class TeXGeneratorView(
     LoginRequiredMixin, RestrictToUserMixin, AllCalenderEntriesMixin, ContextMixin, View
 ):
     """Use the layout's ``render()`` method to generate valid TeX source."""
+
+    class NoLayoutSelectedException(CalingenException):
+        """Raised if there is no selected layout in the user's ``Session``."""
 
     def get(self, request, *args, **kwargs):
         """Trigger rendering of the selected layout and return the result.
@@ -45,30 +47,33 @@ class TeXGeneratorView(
         If there is no selected layout in the user's ``Session``, a redirect to
         :class:`calingen.views.tex.TeXLayoutSelectionView` is performed.
         """
-        selected_layout = request.session.pop("selected_layout", None)
+        try:
+            self.layout = self._get_layout()
+        except self.NoLayoutSelectedException:
+            return redirect("tex-layout-selection")
+
+        self.render_context = self._prepare_context(*args, **kwargs)
+
+        return HttpResponse(self.layout.render(self.render_context))
+
+    def _get_layout(self):
+        selected_layout = self.request.session.pop("selected_layout", None)
         if selected_layout is None:
             # This is most likely an edge case: The view is accessed with a
             # GET request without a selected layout stored in the user's session.
             # This could be caused by directly calling this view's url.
             # Just redirect to the layout selection.
-            return redirect("tex-layout-selection")
-        layout = import_string(selected_layout)
+            raise self.NoLayoutSelectedException()
 
-        target_year = request.session.pop("target_year", date.today().year)
-        layout_configuration = request.session.pop("layout_configuration", None)
+        return import_string(selected_layout)
 
-        context = self.get_context_data(
+    def _prepare_context(self, *args, **kwargs):
+        target_year = self.request.session.pop("target_year", date.today().year)
+        layout_configuration = self.request.session.pop("layout_configuration", None)
+
+        return self.get_context_data(
             target_year=target_year, layout_configuration=layout_configuration, **kwargs
         )
-
-        rendered = StringIO()
-        rendered.write(layout.render(context))
-        rendered.seek(0)
-        response = FileResponse(
-            rendered.read(), as_attachment=True, filename="foobar.txt"
-        )
-
-        return response
 
 
 class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
