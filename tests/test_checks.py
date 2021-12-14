@@ -9,7 +9,10 @@ from unittest import mock, skip  # noqa: F401
 from django.test import override_settings, tag  # noqa: F401
 
 # app imports
-from calingen.checks import check_config_value_event_provider_notification
+from calingen.checks import (
+    check_config_value_event_provider_notification,
+    check_session_enabled,
+)
 
 # local imports
 from .util.testcases import CalingenTestCase
@@ -84,3 +87,28 @@ class CalingenChecksTest(CalingenTestCase):
         # Assert (verify the results)
         self.assertNotEqual(return_value, [])
         self.assertEqual(len(return_value), 1)
+
+    @tag("config", "middleware", "sessions")
+    @override_settings(MIDDLEWARE=[])
+    def test_e002_missing_middleware(self):
+        # Arrange (set up test environment)
+
+        # Act (actually perform what has to be done)
+        return_value = check_session_enabled(None)
+
+        # Assert (verify the results)
+        self.assertNotEqual(return_value, [])
+        self.assertEqual(len(return_value), 1)
+
+    @tag("config", "middleware", "sessions")
+    @override_settings(
+        MIDDLEWARE=["django.contrib.sessions.middleware.SessionMiddleware"]
+    )
+    def test_e002_setting_is_valid(self):
+        # Arrange (set up test environment)
+
+        # Act (actually perform what has to be done)
+        return_value = check_session_enabled(None)
+
+        # Assert (verify the results)
+        self.assertEqual(return_value, [])
