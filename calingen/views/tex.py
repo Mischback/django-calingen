@@ -33,17 +33,6 @@ class TeXGeneratorView(
 
         Notes
         -----
-        The ``context`` that is passed to the layout's ``render()`` method
-        contains the following ``keys``:
-
-        - ``target_year``: The year to create the TeX layout for.
-        - ``layout_configuration``: If the layout provides a custom
-          implementation of :class:`calingen.forms.tex.TeXLayoutConfigurationForm`,
-          the fetched values will be provided here.
-        - ``entries``: All calender entries of the user's profile, resolved to
-          the ``target_year``, provided as a
-          :class:`calingen.interfaces.data_exchange.CalenderEntryList` object.
-
         If there is no selected layout in the user's ``Session``, a redirect to
         :class:`calingen.views.tex.TeXLayoutSelectionView` is performed.
         """
@@ -57,6 +46,13 @@ class TeXGeneratorView(
         return HttpResponse(self.layout.render(self.render_context))
 
     def _get_layout(self):
+        """Return the :class:`~calingen.interfaces.plugin_api.LayoutProvider` implementation.
+
+        Notes
+        -----
+        If there is no selected layout in the user's ``Session``, a different
+        custom exception will cause a redirect to the user's profile overview.
+        """
         selected_layout = self.request.session.pop("selected_layout", None)
         if selected_layout is None:
             # This is most likely an edge case: The view is accessed with a
@@ -68,6 +64,21 @@ class TeXGeneratorView(
         return import_string(selected_layout)
 
     def _prepare_context(self, *args, **kwargs):
+        """Prepare the context passed to the layout's rendering method.
+
+        Notes
+        -----
+        The ``context`` that is passed to the layout's ``render()`` method
+        contains the following ``keys``:
+
+        - ``target_year``: The year to create the TeX layout for.
+        - ``layout_configuration``: If the layout provides a custom
+          implementation of :class:`calingen.forms.tex.TeXLayoutConfigurationForm`,
+          the fetched values will be provided here.
+        - ``entries``: All calender entries of the user's profile, resolved to
+          the ``target_year``, provided as a
+          :class:`calingen.interfaces.data_exchange.CalenderEntryList` object.
+        """
         target_year = self.request.session.pop("target_year", date.today().year)
         layout_configuration = self.request.session.pop("layout_configuration", None)
 
