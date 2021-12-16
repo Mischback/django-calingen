@@ -76,6 +76,7 @@ jobs:
 
   layout-compilation:
     name: Verify that TexLayouts are compilable
+    needs: linting
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies (TeX)
