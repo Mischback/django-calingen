@@ -74,3 +74,33 @@ def check_session_enabled(*args, **kwargs):
         )
 
     return errors
+
+
+def check_required_compiler_setting(*args, **kwargs):
+    """Verify that ``settings.CALINGEN_TEX_COMPILER`` is provided.
+
+    Returns
+    -------
+    list
+        A list of :djangodoc:`Messages <topics/checks/#messages>`.
+
+    Notes
+    -----
+    See documentation of this setting in
+    :attr:`calingen.settings.CALINGEN_TEX_COMPILER`.
+    """
+    errors = []
+    if settings.CALINGEN_TEX_COMPILER is None:
+        errors.append(
+            Error(
+                '"CALINGEN_TEX_COMPILER" must not be None',
+                hint=(
+                    "This is a required setting and may not be None! "
+                    "Consider using calingen.contrib.compiler.noop.compiler.NoOpCompiler "
+                    "as configuration value."
+                ),
+                id="calingen.e003",
+            )
+        )
+
+    return errors
