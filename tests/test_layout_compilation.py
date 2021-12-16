@@ -3,9 +3,9 @@
 """Provide tests for calingen.checks."""
 
 # Python imports
-import os
-import subprocess  # nosec: required for TeX compilation
-import tempfile
+# import os
+# import subprocess  # nosec: required for TeX compilation
+# import tempfile
 from unittest import mock, skip  # noqa: F401
 
 # Django imports
@@ -33,27 +33,30 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
         rendered_tex = SimpleEventList.render(test_context)
 
         # Act
-        with tempfile.TemporaryDirectory() as tempdir:
-            # determine expected filenames
-            test_input_filename = os.path.join(tempdir, test_filebasename + ".tex")
-            test_output_filename = os.path.join(tempdir, test_filebasename + ".pdf")
+        return_value = self.run_compilation(rendered_tex, test_filebasename)
 
-            with open(test_input_filename, "x", encoding="utf-8") as f:
-                f.write(rendered_tex)
+        # Assert
+        self.assertTrue(return_value)
+        # with tempfile.TemporaryDirectory() as tempdir:
+        #     # determine expected filenames
+        #     test_input_filename = os.path.join(tempdir, test_filebasename + ".tex")
+        #     test_output_filename = os.path.join(tempdir, test_filebasename + ".pdf")
 
-            args = [
-                "lualatex",
-                "--interaction=batchmode",
-                "--output-directory={}".format(tempdir),
-                test_input_filename,
-            ]
+        #     with open(test_input_filename, "x", encoding="utf-8") as f:
+        #         f.write(rendered_tex)
 
-            try:
-                subprocess.check_call(args)  # nosec: Required for TeX compilation
+        #     args = [
+        #         "lualatex",
+        #         "--interaction=batchmode",
+        #         "--output-directory={}".format(tempdir),
+        #         test_input_filename,
+        #     ]
 
-            except subprocess.CalledProcessError as err:
-                print("Handle this Error!")
-                raise err
+        #     try:
+        #         subprocess.check_call(args)  # nosec: Required for TeX compilation
 
-            # Assert
-            self.assertTrue(os.path.exists(test_output_filename))
+        #     except subprocess.CalledProcessError as err:
+        #         print("Handle this Error!")
+        #         raise err
+
+        #     return os.path.exists(test_output_filename)

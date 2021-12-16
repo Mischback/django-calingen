@@ -2,6 +2,11 @@
 
 """Provides app-specific test classes."""
 
+# Python imports
+import os
+import subprocess  # nosec: required for TeX compilation
+import tempfile
+
 # Django imports
 from django.test import SimpleTestCase, TestCase, tag
 from django.test.testcases import TransactionTestCase
@@ -49,3 +54,29 @@ class CalingenORMTransactionTestCase(TransactionTestCase):  # noqa: D101
 @tag("requires_system_tex")
 class CalingenTeXLayoutCompilationTestCase(CalingenORMTestCase):
     """These tests require a working TeX installation on the system and are skipped by default."""
+
+    def run_compilation(self, rendered_tex, test_filebasename):
+        """Execute the actual compilation with lualatex."""
+        with tempfile.TemporaryDirectory() as tempdir:
+            # determine expected filenames
+            test_input_filename = os.path.join(tempdir, test_filebasename + ".tex")
+            test_output_filename = os.path.join(tempdir, test_filebasename + ".pdf")
+
+            with open(test_input_filename, "x", encoding="utf-8") as f:
+                f.write(rendered_tex)
+
+            args = [
+                "lualatex",
+                "--interaction=batchmode",
+                "--output-directory={}".format(tempdir),
+                test_input_filename,
+            ]
+
+            try:
+                subprocess.check_call(args)  # nosec: Required for TeX compilation
+
+            except subprocess.CalledProcessError as err:
+                print("Handle this Error!")
+                raise err
+
+            return os.path.exists(test_output_filename)
