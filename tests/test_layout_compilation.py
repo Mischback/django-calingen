@@ -38,12 +38,14 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
             with open(os.path.join(tempdir, test_filename), "x", encoding="utf-8") as f:
                 f.write(rendered_tex)
 
-            args = ["lualatex", "-interaction=batchmode", test_filename]
+            args = [
+                "lualatex",
+                "-interaction=batchmode",
+                os.path.join(tempdir, test_filename),
+            ]
 
             try:
-                print(
-                    subprocess.check_output(args)  # nosec: Required for TeX compilation
-                )
+                subprocess.check_call(args)  # nosec: Required for TeX compilation
             except subprocess.CalledProcessError as err:
                 try:
                     print(
