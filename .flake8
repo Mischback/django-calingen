@@ -29,6 +29,7 @@ per-file-ignores =
     tests/templatetags/*.py:D
     tests/views/*.py:D
     tests/test_checks.py:D
+    tests/test_layout_compilation.py:D
 
 # ...and limit flake8 to the project's very own source code
 exclude =
