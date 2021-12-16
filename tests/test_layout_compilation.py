@@ -28,40 +28,32 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
         test_context["target_year"] = 2021
         test_context["layout_configuration"] = None
 
-        test_filename = "foo.tex"
-        test_output_filename = "foo.pdf"
+        test_filebasename = "foo"
 
         rendered_tex = SimpleEventList.render(test_context)
 
         # Act
         with tempfile.TemporaryDirectory() as tempdir:
-            with open(os.path.join(tempdir, test_filename), "x", encoding="utf-8") as f:
+            # determine expected filenames
+            test_input_filename = os.path.join(tempdir, test_filebasename, ".tex")
+            test_output_filename = os.path.join(tempdir, test_filebasename, ".pdf")
+
+            with open(test_input_filename, "x", encoding="utf-8") as f:
                 f.write(rendered_tex)
 
             args = [
                 "lualatex",
-                # "--interaction=batchmode",
-                "--interaction=errorstopmode",
+                "--interaction=batchmode",
                 "--output-directory={}".format(tempdir),
-                os.path.join(tempdir, test_filename),
+                test_input_filename,
             ]
 
             try:
                 subprocess.check_call(args)  # nosec: Required for TeX compilation
-                print(
-                    subprocess.check_output(  # nosec: debugging
-                        ["ls", "-lah", "{}".format(tempdir)]
-                    )
-                )
-            except subprocess.CalledProcessError as err:
-                try:
-                    print(
-                        subprocess.check_output(  # nosec: debugging
-                            ["ls", "-lah", tempdir]
-                        )
-                    )
-                except FileNotFoundError:
-                    raise err
 
-        # Assert
-        self.assertTrue(os.path.exists(os.path.join(tempdir, test_output_filename)))
+            except subprocess.CalledProcessError as err:
+                print("Handle this Error!")
+                raise err
+
+            # Assert
+            self.assertTrue(os.path.exists(test_output_filename))
