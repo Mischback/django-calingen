@@ -40,7 +40,8 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
 
             args = [
                 "lualatex",
-                "-interaction=batchmode",
+                # "-interaction=batchmode",
+                "-interaction=errorstopmode",
                 os.path.join(tempdir, test_filename),
             ]
 
