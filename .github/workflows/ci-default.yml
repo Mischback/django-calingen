@@ -92,9 +92,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox coveralls coverage[toml]
       - name: Initialize tox environment
-        run: |
-          tox -e testing
-          coverage erase
+        run: tox -e testing
+      - name: Clean initialization
+        run: coverage erase
       - name: Run the corresponding test suite
         run: make ci/test/texlayoutcompilation
       - name: Prepare coverage result
