@@ -48,8 +48,10 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
 
             try:
                 subprocess.check_call(args)  # nosec: Required for TeX compilation
-                subprocess.check_output(  # nosec: debugging
-                    ["ls", "-lah", "{}".format(tempdir)]
+                print(
+                    subprocess.check_output(  # nosec: debugging
+                        ["ls", "-lah", "{}".format(tempdir)]
+                    )
                 )
             except subprocess.CalledProcessError as err:
                 try:
