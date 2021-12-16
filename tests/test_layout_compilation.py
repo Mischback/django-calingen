@@ -35,8 +35,8 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
         # Act
         with tempfile.TemporaryDirectory() as tempdir:
             # determine expected filenames
-            test_input_filename = os.path.join(tempdir, test_filebasename, ".tex")
-            test_output_filename = os.path.join(tempdir, test_filebasename, ".pdf")
+            test_input_filename = os.path.join(tempdir, test_filebasename + ".tex")
+            test_output_filename = os.path.join(tempdir, test_filebasename + ".pdf")
 
             with open(test_input_filename, "x", encoding="utf-8") as f:
                 f.write(rendered_tex)
