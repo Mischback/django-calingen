@@ -41,14 +41,10 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
             args = ["lualatex", "-interaction=batchmode", test_filename]
 
             try:
-                subprocess.check_call(args)  # nosec: Required for TeX compilation
+                subprocess.check_output(args)  # nosec: Required for TeX compilation
             except subprocess.CalledProcessError as err:
                 try:
-                    with open(
-                        os.path.join(tempdir, "foo.log"), "r", encoding="utf-8"
-                    ) as log:
-                        logfile = log.read()
-                        print(logfile)
+                    subprocess.check_output(["ls", "-lah", tempdir])  # nosec: debugging
                 except FileNotFoundError:
                     raise err
 
