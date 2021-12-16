@@ -6,7 +6,7 @@ on:
   push:
     branches: [development]
   pull_request:
-    branches: [main]
+    branches: [development]
 
 jobs:
   linting:
@@ -74,9 +74,40 @@ jobs:
           COVERALLS_FLAG_NAME: OS_${{ matrix.os }}-Python_${{ matrix.python-version }}
           COVERALLS_PARALLEL: true
 
+  layout-compilation:
+    name: Verify that TexLayouts are compilable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies (TeX)
+        run: sudo apt-get install -y texlive-base texlive-latex-recommended
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies (Python)
+        run: |
+          python -m pip install --upgrade pip
+          pip install tox coveralls coverage[toml]
+      - name: Initialize tox environment
+        run: |
+          tox -e testing
+          coverage erase
+      - name: Run the corresponding test suite
+        run: make ci/test/texlayoutcompilation
+      - name: Prepare coverage result
+        run: |
+          coverage combine --append
+          coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_FLAG_NAME: layout-compilation
+          COVERALLS_PARALLEL: true
+
   finish:
     name: Indicate completion to Coveralls.io
-    needs: testing
+    needs: [testing, layout-compilation]
     runs-on: ubuntu-latest
     steps:
       - name: Finished coverage collection
