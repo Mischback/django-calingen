@@ -222,7 +222,7 @@ class LayoutProvider(metaclass=PluginMount):
         ----------
         context : dict
             The context, as provided by
-            :meth:`calingen.views.tex.TeXGeneratorView.get`.
+            :meth:`calingen.views.tex.TeXCompilerView.get`.
 
         Returns
         -------
@@ -314,7 +314,7 @@ class TeXCompilerProvider(metaclass=PluginMount):
         Notes
         -----
         This method is called from
-        :meth:`TeXGeneratorView's get() method <calingen.views.tex.TeXGeneratorView.get>`.
+        :meth:`TeXCompilerView's get() method <calingen.views.tex.TeXCompilerView.get>`.
         """
         raise NotImplementedError(
             "Has to be implemented by the actual provider"

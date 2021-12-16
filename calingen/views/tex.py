@@ -20,7 +20,7 @@ from calingen.views.generic import RequestEnabledFormView
 from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
 
 
-class TeXGeneratorView(
+class TeXCompilerView(
     LoginRequiredMixin, RestrictToUserMixin, AllCalenderEntriesMixin, ContextMixin, View
 ):
     """Use the layout's ``render()`` method to generate valid TeX source."""
