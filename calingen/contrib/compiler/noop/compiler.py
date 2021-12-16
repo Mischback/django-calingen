@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: MIT
 
-"""The actual package with the plugin's payload."""
+"""The actual module with the plugin's payload."""
 
+
+# Django imports
+from django.http.response import HttpResponse
 
 # app imports
 from calingen.interfaces.plugin_api import TeXCompilerProvider
@@ -14,4 +17,10 @@ class NoOpCompiler(TeXCompilerProvider):
 
     @classmethod
     def get_response(cls, tex_source):  # noqa: D102
-        raise NotImplementedError("Just verify that the compiler is called!")
+        return HttpResponse(
+            tex_source,
+            headers={
+                "Content-Type": "application/x-tex",
+                "Content-Disposition": 'attachment; filename="foo.tex"',
+            },
+        )  # pragma: nocover
