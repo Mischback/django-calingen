@@ -1,6 +1,6 @@
-
+{% load calingen_tex %}
 {% if event.category.value in "ANNUAL_ANNIVERSARY HOLIDAY" %}
-  \item[] {{ event.timestamp|date:"SHORT_DATE_FORMAT" }} - {{ event.title }} ({{ event.category.label }})
+  \item[] {{ event.timestamp|date:"SHORT_DATE_FORMAT" }} - {{ event.title|escape_tex }} ({{ event.category.label|escape_tex }})
 {% else %}
-  \item[] {{ event.timestamp|date:"SHORT_DATE_FORMAT" }}, {{ event.timestamp|date:"H:i" }} - {{ event.title }} ({{ event.category.label }})
+  \item[] {{ event.timestamp|date:"SHORT_DATE_FORMAT" }}, {{ event.timestamp|date:"H:i" }} - {{ event.title|escape_tex }} ({{ event.category.label|escape_tex }})
 {% endif %}
