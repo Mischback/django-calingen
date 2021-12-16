@@ -24,4 +24,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox tox-gh-actions
       - name: Run the corresponding test suite
-        run: ci/test/texlayoutcompilation
+        run: make ci/test/texlayoutcompilation
