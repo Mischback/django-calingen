@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies (TeX)
-        run: sudo apt-get install -y texlive-base texlive-latex-recommended
+        run: sudo apt-get install -y texlive-base texlive-latex-recommended texlive-lang-german
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Setup Python
