@@ -4,7 +4,7 @@
 
 # Python imports
 import os
-import subprocess  # nosec: this is on purpose, just for development
+import subprocess  # nosec: required for TeX compilation
 import tempfile
 from unittest import mock, skip  # noqa: F401
 
@@ -40,14 +40,7 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
 
             args = ["lualatex", "-interaction=batchmode", test_filename]
 
-            subprocess.run(
-                args,
-                shell=False,  # nosec: this is on purpose, just for development
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                check=True,
-                cwd=tempdir,
-            )
+            subprocess.check_call(args)  # nosec: Required for TeX compilation
 
         # Assert
         self.assertTrue(os.path.exists(os.path.join(tempdir, test_output_filename)))
