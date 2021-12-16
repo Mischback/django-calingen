@@ -108,7 +108,7 @@ class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
     """
 
     template_name = "calingen/tex_layout_configuration.html"
-    success_url = reverse_lazy("tex-generator")
+    success_url = reverse_lazy("tex-compiler")
 
     class NoConfigurationFormException(CalingenException):
         """Raised if the selected layout does not have a ``configuration_form``."""
@@ -147,7 +147,7 @@ class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         except self.NoConfigurationFormException:
             # As no layout specific configuration form is required, directly
             # redirect to the tex generation.
-            return redirect("tex-generator")
+            return redirect("tex-compiler")
         except self.NoLayoutSelectedException:
             # This is most likely an edge case: The view is accessed with a
             # GET request without a selected layout stored in the user's session.
