@@ -264,6 +264,11 @@ class TeXCompilerProvider(metaclass=PluginMount):
     and methods:
 
     - **title** : The title of the provider, provided as :py:obj:`str`.
+    - **get_response()** : A classmethod that accepts a :py:obj:`str`, which
+      will be the rendered TeX layout as provided by
+      :meth:`LayoutProvider.render() <calingen.interfaces.plugin_api.LayoutProvider.render>`.
+      The method **must return** a valid
+      :djangoapi:`Django Response object <request-response/#httpresponse-objects>`.
     """
 
     @classmethod
@@ -285,3 +290,32 @@ class TeXCompilerProvider(metaclass=PluginMount):
         # the ``set`` is sorted on return (converting it to a list, but that's
         # fine with the current (only) consumer)
         return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
+
+    @classmethod
+    def get_response(cls, tex_source):
+        """Get the compiler's HTTP response.
+
+        This is the compiler's main interface to other components of the app.
+
+        It should be used to actually trigger the compilation of the provided
+        TeX source and then return a valid
+        :djangoapi:`Django Response object <request-response/#httpresponse-objects>`.
+
+        Parameters
+        ----------
+        tex_source : str
+            The TeX source as provided by
+            :meth:`LayoutProvider.render() <calingen.interfaces.plugin_api.LayoutProvider.render>`.
+
+        Returns
+        -------
+        :djangoapi:`Django Response object <request-response/#httpresponse-objects>`
+
+        Notes
+        -----
+        This method is called from
+        :meth:`TeXGeneratorView's get() method <calingen.views.tex.TeXGeneratorView.get>`.
+        """
+        raise NotImplementedError(
+            "Has to be implemented by the actual provider"
+        )  # pragma: nocover

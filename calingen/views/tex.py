@@ -6,8 +6,8 @@
 from datetime import date
 
 # Django imports
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http.response import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.module_loading import import_string
@@ -43,15 +43,17 @@ class TeXGeneratorView(
 
         self.render_context = self._prepare_context(*args, **kwargs)
 
-        return HttpResponse(self.layout.render(self.render_context))
+        self.compiler = import_string(settings.CALINGEN_TEX_COMPILER)
+
+        return self.compiler.get_response(self.layout.render(self.render_context))
 
     def _get_layout(self):
         """Return the :class:`~calingen.interfaces.plugin_api.LayoutProvider` implementation.
 
         Notes
         -----
-        If there is no selected layout in the user's ``Session``, a different
-        custom exception will cause a redirect to the user's profile overview.
+        If there is no selected layout in the user's ``Session``, a custom
+        exception will cause a redirect to the user's profile overview.
         """
         selected_layout = self.request.session.pop("selected_layout", None)
         if selected_layout is None:
