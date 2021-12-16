@@ -11,6 +11,11 @@ import tempfile
 from django.test import SimpleTestCase, TestCase, tag
 from django.test.testcases import TransactionTestCase
 
+# app imports
+from calingen.interfaces.data_exchange import CalenderEntryList
+from calingen.models.event import Event
+from calingen.models.profile import Profile
+
 
 # Add documentation if there is acutally code!
 class CalingenTestCase(SimpleTestCase):  # noqa: D101
@@ -80,3 +85,17 @@ class CalingenTeXLayoutCompilationTestCase(CalingenORMTestCase):
                 raise err
 
             return os.path.exists(test_output_filename)
+
+    def get_entries(self, target_year):
+        """Fetch some entries from the fixture."""
+        profile = Profile.calingen_manager.get(pk=1)  # Alice
+
+        all_entries = CalenderEntryList()
+        internal_events = Event.calingen_manager.get_calender_entry_list(
+            user=profile.owner, year=target_year
+        )
+        plugin_events = profile.resolve(year=target_year)
+        all_entries.merge(internal_events)
+        all_entries.merge(plugin_events)
+
+        return all_entries.sorted()

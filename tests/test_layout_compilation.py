@@ -37,26 +37,24 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
 
         # Assert
         self.assertTrue(return_value)
-        # with tempfile.TemporaryDirectory() as tempdir:
-        #     # determine expected filenames
-        #     test_input_filename = os.path.join(tempdir, test_filebasename + ".tex")
-        #     test_output_filename = os.path.join(tempdir, test_filebasename + ".pdf")
 
-        #     with open(test_input_filename, "x", encoding="utf-8") as f:
-        #         f.write(rendered_tex)
+    @modify_settings(
+        INSTALLED_APPS={"append": "calingen.contrib.layouts.simple_event_list"}
+    )
+    def test_simple_event_list_with_events(self):
+        # Arrange
+        test_target_year = 2021
+        test_context = {}
+        test_context["entries"] = self.get_entries(test_target_year)
+        test_context["target_year"] = test_target_year
+        test_context["layout_configuration"] = None
 
-        #     args = [
-        #         "lualatex",
-        #         "--interaction=batchmode",
-        #         "--output-directory={}".format(tempdir),
-        #         test_input_filename,
-        #     ]
+        test_filebasename = "foo"
 
-        #     try:
-        #         subprocess.check_call(args)  # nosec: Required for TeX compilation
+        rendered_tex = SimpleEventList.render(test_context)
 
-        #     except subprocess.CalledProcessError as err:
-        #         print("Handle this Error!")
-        #         raise err
+        # Act
+        return_value = self.run_compilation(rendered_tex, test_filebasename)
 
-        #     return os.path.exists(test_output_filename)
+        # Assert
+        self.assertTrue(return_value)
