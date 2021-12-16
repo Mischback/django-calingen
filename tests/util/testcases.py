@@ -3,7 +3,7 @@
 """Provides app-specific test classes."""
 
 # Django imports
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase, TestCase, tag
 from django.test.testcases import TransactionTestCase
 
 
@@ -44,3 +44,8 @@ class CalingenORMTestCase(TestCase):  # noqa: D101
 
 class CalingenORMTransactionTestCase(TransactionTestCase):  # noqa: D101
     fixtures = ["tests/util/fixtures/test_data.json"]
+
+
+@tag("requires_system_tex")
+class CalingenTeXLayoutCompilationTestCase(CalingenORMTestCase):
+    """These tests require a working TeX installation on the system and are skipped by default."""

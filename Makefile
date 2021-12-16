@@ -30,6 +30,11 @@ doc: sphinx/serve/html
 .PHONY : doc
 
 
+ci/test/texlayoutcompilation :
+	$(MAKE) dev/test test_command="-t requires_system_tex"
+.PHONY : ci/test/texlayoutcompilation
+
+
 clean : $(TOX_UTIL_ENV)
 	- tox -q -e util -- coverage erase
 	rm -rf docs/build/*
