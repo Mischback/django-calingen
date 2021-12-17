@@ -65,6 +65,8 @@ class CalendarWeek:
             return
 
         if reference.year != date_of_day.year:
+            # Translation of month names
+            # https://stackoverflow.com/a/6991918
             self.month_string = (
                 "{month_ref} {year_ref}/{month_this} {year_this}".format(
                     month_ref=_date(reference, "F"),
@@ -74,6 +76,8 @@ class CalendarWeek:
                 )
             )
         else:
+            # Translation of month names
+            # https://stackoverflow.com/a/6991918
             self.month_string = "{month_ref}/{month_this}".format(
                 month_ref=_date(reference, "F"),
                 month_this=_date(date_of_day, "F"),
@@ -91,6 +95,8 @@ class CalendarWeek:
 
         # as this method is only executed once (per week), just apply the month
         # of the given day
+        # Translation of month names
+        # https://stackoverflow.com/a/6991918
         self.month_string = _date(date_of_day, "F")
 
         # Population of the week object is a one-time operation, so provide the
