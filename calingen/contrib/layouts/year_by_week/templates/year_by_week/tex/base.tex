@@ -75,9 +75,11 @@
 
 \begin{document}
 %%% MAGIC STARTS HERE! %%%
+{% autoescape off %}
 {% block tex-documentbody %}
     \pagestyle{empty}       % generally remove page numbers
     CONTENT GOES HERE!
 {% endblock tex-documentbody %}
+{% endautoescape %}
 %%% END OF MAGIC! %%%
 \end{document}
