@@ -8,6 +8,9 @@
 # database stored in tests/test.sqlite
 tests/test.sqlite
 
+# the layout compilation tests place the rendered TeX sources into tmp_compilation
+tmp_compilation
+
 # ignore Sphinx's build directory
 docs/build
 

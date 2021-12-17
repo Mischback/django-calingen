@@ -28,12 +28,12 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
         test_context["target_year"] = 2021
         test_context["layout_configuration"] = None
 
-        test_filebasename = "foo"
+        test_filename = "simple_event_list_empty.tex"
 
         rendered_tex = SimpleEventList.render(test_context)
 
         # Act
-        return_value = self.run_compilation(rendered_tex, test_filebasename)
+        return_value = self.write_tex_to_tmp(rendered_tex, test_filename)
 
         # Assert
         self.assertTrue(return_value)
@@ -49,12 +49,12 @@ class CalingenContribLayoutCompilationTest(CalingenTeXLayoutCompilationTestCase)
         test_context["target_year"] = test_target_year
         test_context["layout_configuration"] = None
 
-        test_filebasename = "foo"
+        test_filename = "simple_event_list_full.tex"
 
         rendered_tex = SimpleEventList.render(test_context)
 
         # Act
-        return_value = self.run_compilation(rendered_tex, test_filebasename)
+        return_value = self.write_tex_to_tmp(rendered_tex, test_filename)
 
         # Assert
         self.assertTrue(return_value)

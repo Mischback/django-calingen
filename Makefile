@@ -38,6 +38,7 @@ ci/test/texlayoutcompilation :
 clean : $(TOX_UTIL_ENV)
 	- tox -q -e util -- coverage erase
 	rm -rf docs/build/*
+	rm -rf tmp_compilation
 	find . -iname "*.pyc" -delete
 	find . -iname "__pycache__" -delete
 	find . -iname ".coverage.*" -delete

@@ -4,10 +4,10 @@
 
 # Python imports
 import os
-import subprocess  # nosec: required for TeX compilation
-import tempfile
+from pathlib import Path
 
 # Django imports
+from django.conf import settings
 from django.test import SimpleTestCase, TestCase, tag
 from django.test.testcases import TransactionTestCase
 
@@ -60,32 +60,6 @@ class CalingenORMTransactionTestCase(TransactionTestCase):  # noqa: D101
 class CalingenTeXLayoutCompilationTestCase(CalingenORMTestCase):
     """These tests require a working TeX installation on the system and are skipped by default."""
 
-    def run_compilation(self, rendered_tex, test_filebasename):
-        """Execute the actual compilation with lualatex."""
-        with tempfile.TemporaryDirectory() as tempdir:
-            # determine expected filenames
-            test_input_filename = os.path.join(tempdir, test_filebasename + ".tex")
-            test_output_filename = os.path.join(tempdir, test_filebasename + ".pdf")
-
-            with open(test_input_filename, "x", encoding="utf-8") as f:
-                f.write(rendered_tex)
-
-            args = [
-                "lualatex",
-                "--interaction=batchmode",
-                "--output-directory={}".format(tempdir),
-                test_input_filename,
-            ]
-
-            try:
-                subprocess.check_call(args)  # nosec: Required for TeX compilation
-
-            except subprocess.CalledProcessError as err:
-                print("Handle this Error!")
-                raise err
-
-            return os.path.exists(test_output_filename)
-
     def get_entries(self, target_year):
         """Fetch some entries from the fixture."""
         profile = Profile.calingen_manager.get(pk=1)  # Alice
@@ -99,3 +73,15 @@ class CalingenTeXLayoutCompilationTestCase(CalingenORMTestCase):
         all_entries.merge(plugin_events)
 
         return all_entries.sorted()
+
+    def write_tex_to_tmp(self, rendered_tex, tex_filename):
+        """Create a TeX source file for compilation."""
+        working_dir_path = os.path.join(settings.PROJECT_ROOT, "tmp_compilation")
+        Path(working_dir_path).mkdir(parents=True, exist_ok=True)
+
+        fullpath = os.path.join(working_dir_path, tex_filename)
+
+        with open(fullpath, "x", encoding="utf-8") as output_file:
+            output_file.write(rendered_tex)
+
+        return os.path.exists(fullpath)
