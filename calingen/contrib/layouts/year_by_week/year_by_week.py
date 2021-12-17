@@ -120,7 +120,7 @@ class YearByWeek(LayoutProvider):
     def prepare_context(cls, context):  # noqa: D102
         # values from the context for processing
         target_year = context.get("target_year")
-        entries = context.get("entries")
+        entries = context.get("entries", [])
 
         # The first day of the calendar is the monday before [YEAR]-01-01
         # date().weekday() = 0 for Mondays, 6 for Sundays
