@@ -7,6 +7,7 @@ import logging
 from datetime import date, timedelta
 
 # app imports
+from calingen.constants import EventCategory
 from calingen.interfaces.plugin_api import LayoutProvider
 
 logger = logging.getLogger(__name__)
@@ -15,8 +16,18 @@ logger = logging.getLogger(__name__)
 class CalendarDay:
     """Layout-specific class to manage calendar days."""
 
-    def __init__(self, date):
+    def __init__(self, date, date_entries):
         self.date = date
+
+        # filter date_entries into categories
+        self.holidays = [
+            x.title for x in date_entries if x.category == EventCategory.HOLIDAY
+        ]
+        self.annuals = [
+            x.title
+            for x in date_entries
+            if x.category == EventCategory.ANNUAL_ANNIVERSARY
+        ]
 
 
 class CalendarWeek:
@@ -101,8 +112,9 @@ class YearByWeek(LayoutProvider):
 
     @classmethod
     def prepare_context(cls, context):  # noqa: D102
-        # get the target year from context
+        # values from the context for processing
         target_year = context.get("target_year")
+        entries = context.get("entries")
 
         # The first day of the calendar is the monday before [YEAR]-01-01
         # date().weekday() = 0 for Mondays, 6 for Sundays
@@ -123,14 +135,23 @@ class YearByWeek(LayoutProvider):
         # initialize the invariant
         day = first_yearday
         while day < last_yearday:
-            # logger.debug(day)
-
             if day.weekday() == 0:
                 if not this_week.is_empty:
                     weeklist.append(this_week)
                     this_week = CalendarWeek()
 
-            this_day = CalendarDay(day)
+            # This may look rather complex but is nothing more than filtering
+            # the "entries" by day and feeding a list of entries into the
+            # constructor of the CalendarDay class.
+            this_day = CalendarDay(
+                day,
+                [
+                    x
+                    for x in entries
+                    if x.timestamp.date().day == day.day
+                    and x.timestamp.date().month == day.month
+                ],
+            )
             this_week.add_day(this_day)
 
             # increment the invariant
@@ -139,6 +160,6 @@ class YearByWeek(LayoutProvider):
         if not this_week.is_empty:
             weeklist.append(this_week)
 
-        logger.debug(weeklist)
+        # logger.debug(weeklist)
 
         raise NotImplementedError("to be done")
