@@ -12,6 +12,13 @@ from calingen.interfaces.plugin_api import LayoutProvider
 logger = logging.getLogger(__name__)
 
 
+class CalendarDay:
+    """Layout-specific class to manage calendar days."""
+
+    def __init__(self, date):
+        self.date = date
+
+
 class CalendarWeek:
     """Layout-specific class to manage calendar weeks."""
 
@@ -25,49 +32,49 @@ class CalendarWeek:
 
     def add_day(self, day):
         """Add a layout-specific day object to this week."""
-        self.populate_week(day)
+        self.populate_week(day.date)
 
         self.days.append(day)
 
-        self.check_turnover(day)
+        self.check_turnover(day.date)
 
     @property
     def is_empty(self):
         """Flag to indicate, if this object already contains days."""
         return not self.days
 
-    def _check_turnover(self, date_day):
-        reference = self.days[0]
+    def _check_turnover(self, date_of_day):
+        reference = self.days[0].date
 
         # no turnover, just return
-        if reference.month == date_day.month:
+        if reference.month == date_of_day.month:
             return
 
-        if reference.year != date_day.year:
+        if reference.year != date_of_day.year:
             self.month_string = (
                 "{month_ref} {year_ref}/{month_this} {year_this}".format(
                     month_ref=reference.strftime("%B"),
                     year_ref=reference.year,
-                    month_this=date_day.strftime("%B"),
-                    year_this=date_day.year,
+                    month_this=date_of_day.strftime("%B"),
+                    year_this=date_of_day.year,
                 )
             )
         else:
             self.month_string = "{month_ref}/{month_this}".format(
                 month_ref=reference.strftime("%B"),
-                month_this=date_day.strftime("%B"),
+                month_this=date_of_day.strftime("%B"),
             )
         # Turnovers may happen only once per week, so provide noop() method
         # after first usage.
         self.check_turnover = self._noop
 
-    def _populate_week(self, date_day):
+    def _populate_week(self, date_of_day):
         # isocalendar() returns a tuple of (year, week, weekday)
-        self.calendarweek = date_day.isocalendar()[1]
+        self.calendarweek = date_of_day.isocalendar()[1]
 
         # as this method is only executed once (per week), just apply the month
         # of the given day
-        self.month_string = date_day.strftime("%B")
+        self.month_string = date_of_day.strftime("%B")
 
         # Population of the week object is a one-time operation, so provide the
         # noop() method after the first usage.
@@ -78,7 +85,7 @@ class CalendarWeek:
         pass
 
     def __repr__(self):  # noqa: D105
-        return "<CalendarWeek [{}]>".format(self.calendarweek)
+        return "<CalendarWeek [{}] {}>".format(self.calendarweek, self.days[0].date)
 
     def __str__(self):  # noqa: D105
         return "[{}]".format(self.calendarweek)
@@ -123,12 +130,14 @@ class YearByWeek(LayoutProvider):
                     weeklist.append(this_week)
                     this_week = CalendarWeek()
 
-            this_week.add_day(day)
+            this_day = CalendarDay(day)
+            this_week.add_day(this_day)
 
             # increment the invariant
             day = day + timedelta(days=1)
         # append the final week to the result list
-        weeklist.append(this_week)
+        if not this_week.is_empty:
+            weeklist.append(this_week)
 
         logger.debug(weeklist)
 
