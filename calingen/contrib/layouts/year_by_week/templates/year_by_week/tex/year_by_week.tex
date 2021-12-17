@@ -1,4 +1,5 @@
 {% extends 'year_by_week/tex/base.tex' %}
+{% load calingen_tex %}
 {% block tex-documentclass %}
 \documentclass[a5paper, 10pt]{article}
 {% endblock %}
@@ -118,8 +119,8 @@
         \newline%
     % BEGIN MONDAY
         \begin{minipage}[c]{\textwidth}%
-            \WeekOnDoublePageDayMetaLeft{ {{ w.days.0.date.day|stringformat:'02d' }} }{ {{ w.days.0.date|date:"l" }} }{ {% for h in w.days.0.holidays %}{{ h }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
-            \WeekOnDoublePageMainSpace{ {% for b in w.days.0.annuals %}{{ b }} \\ {% endfor %} }
+            \WeekOnDoublePageDayMetaLeft{ {{ w.days.0.date.day|stringformat:'02d' }} }{ {{ w.days.0.date|date:"l" }} }{ {% for h in w.days.0.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.0.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
         \end{minipage}%
         \newline%
         \rule{\textwidth}{\WeekOnDoublePageDaySeperatorThickness}%
@@ -128,8 +129,8 @@
         \newline%
     % BEGIN TUESDAY
         \begin{minipage}[c]{\textwidth}%
-            \WeekOnDoublePageDayMetaLeft{ {{ w.days.1.date.day|stringformat:'02d' }} }{ {{ w.days.1.date|date:"l" }} }{ {% for h in w.days.1.holidays %}{{ h }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
-            \WeekOnDoublePageMainSpace{ {% for b in w.days.1.annuals %}{{ b }} \\ {% endfor %} }
+            \WeekOnDoublePageDayMetaLeft{ {{ w.days.1.date.day|stringformat:'02d' }} }{ {{ w.days.1.date|date:"l" }} }{ {% for h in w.days.1.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.1.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
         \end{minipage}%
         \newline%
         \rule{\textwidth}{\WeekOnDoublePageDaySeperatorThickness}%
@@ -138,8 +139,8 @@
         \newline%
     % BEGIN WEDNESDAY
         \begin{minipage}[c]{\textwidth}%
-            \WeekOnDoublePageDayMetaLeft{ {{ w.days.2.date.day|stringformat:'02d' }} }{ {{ w.days.2.date|date:"l" }} }{ {% for h in w.days.2.holidays %}{{ h }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
-            \WeekOnDoublePageMainSpace{ {% for b in w.days.2.annuals %}{{ b }} \\ {% endfor %} }
+            \WeekOnDoublePageDayMetaLeft{ {{ w.days.2.date.day|stringformat:'02d' }} }{ {{ w.days.2.date|date:"l" }} }{ {% for h in w.days.2.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.2.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
         \end{minipage}%
     % END WEDNESDAY
     \end{minipage}%                                                             -> END OF LEFT PAGE
@@ -156,8 +157,8 @@
         \newline%
     % BEGIN THURSDAY
         \begin{minipage}[c]{\textwidth}%
-            \WeekOnDoublePageDayMetaRight{ {{ w.days.3.date.day|stringformat:'02d' }} }{ {{ w.days.3.date|date:"l" }} }{ {% for h in w.days.3.holidays %}{{ h }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
-            \WeekOnDoublePageMainSpace{ {% for b in w.days.3.annuals %}{{ b }} \\ {% endfor %} }
+            \WeekOnDoublePageDayMetaRight{ {{ w.days.3.date.day|stringformat:'02d' }} }{ {{ w.days.3.date|date:"l" }} }{ {% for h in w.days.3.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.3.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
         \end{minipage}%
         \newline%
         \rule{\textwidth}{\WeekOnDoublePageDaySeperatorThickness}%
@@ -166,8 +167,8 @@
         \newline%
     % BEGIN FRIDAY
         \begin{minipage}[c]{\textwidth}%
-            \WeekOnDoublePageDayMetaRight{ {{ w.days.4.date.day|stringformat:'02d' }} }{ {{ w.days.4.date|date:"l" }} }{ {% for h in w.days.4.holidays %}{{ h }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
-            \WeekOnDoublePageMainSpace{ {% for b in w.days.4.annuals %}{{ b }} \\ {% endfor %} }
+            \WeekOnDoublePageDayMetaRight{ {{ w.days.4.date.day|stringformat:'02d' }} }{ {{ w.days.4.date|date:"l" }} }{ {% for h in w.days.4.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.4.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
         \end{minipage}%
         \newline%
         \rule{\textwidth}{\WeekOnDoublePageDaySeperatorThickness}%
@@ -176,13 +177,13 @@
         \newline%
     % BEGIN WEEKEND - SATURDAY
         \begin{minipage}[c]{0.5\textwidth}%
-            \WeekOnDoublePageDayMetaRight{ {{ w.days.5.date.day|stringformat:'02d' }} }{ {{ w.days.5.date|date:"l" }} }{ {% for h in w.days.5.holidays %}{{ h }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
-            \WeekOnDoublePageMainSpace{ {% for b in w.days.5.annuals %}{{ b }} \\ {% endfor %} }
+            \WeekOnDoublePageDayMetaRight{ {{ w.days.5.date.day|stringformat:'02d' }} }{ {{ w.days.5.date|date:"l" }} }{ {% for h in w.days.5.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.5.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
         \end{minipage}%
     % END SATURDAY - BEGIN SUNDAY
         \begin{minipage}[c]{0.5\textwidth}%
-            \WeekOnDoublePageDayMetaRight{ {{ w.days.6.date.day|stringformat:'02d' }} }{ {{ w.days.6.date|date:"l" }} }{ {% for h in w.days.6.holidays %}{{ h }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
-            \WeekOnDoublePageMainSpace{ {% for b in w.days.6.annuals %}{{ b }} \\ {% endfor %} }
+            \WeekOnDoublePageDayMetaRight{ {{ w.days.6.date.day|stringformat:'02d' }} }{ {{ w.days.6.date|date:"l" }} }{ {% for h in w.days.6.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.6.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
         \end{minipage}%
     % END SUNDAY - END WEEKEND
     \end{minipage}%
