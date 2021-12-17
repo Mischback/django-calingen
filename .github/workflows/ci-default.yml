@@ -82,6 +82,7 @@ jobs:
       - name: Install dependencies (TeX)
         run: |
           sudo apt-get install -y texlive-base
+          sudo tlmgr init-usertree
           sudo tlmgr install inputenc babel csquotes DeJaVuSans fontenc geometry fancyhdr
       - name: Checkout code
         uses: actions/checkout@v2
