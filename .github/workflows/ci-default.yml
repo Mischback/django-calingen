@@ -81,7 +81,8 @@ jobs:
     steps:
       - name: Install dependencies (TeX)
         run: |
-          sudo apt-get install -y texlive-base texlive-latex-recommended
+          sudo apt-get install -y texlive-base
+          sudo tlmgr inputenc babel csquotes DeJaVuSans fontenc geometry fancyhdr
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Setup Python
