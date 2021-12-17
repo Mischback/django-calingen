@@ -102,10 +102,12 @@ class CalendarWeek:
         pass
 
     def __repr__(self):  # noqa: D105
-        return "<CalendarWeek [{}] {}>".format(self.calendarweek, self.days[0].date)
+        return "<CalendarWeek [{}] {}>".format(
+            self.calendarweek, self.days[0].date
+        )  # pragma: nocover
 
     def __str__(self):  # noqa: D105
-        return "[{}]".format(self.calendarweek)
+        return "[{}]".format(self.calendarweek)  # pragma: nocover
 
 
 class YearByWeek(LayoutProvider):
