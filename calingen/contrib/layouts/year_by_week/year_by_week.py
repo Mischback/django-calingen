@@ -6,6 +6,9 @@
 import logging
 from datetime import date, timedelta
 
+# Django imports
+from django.template.defaultfilters import date as _date
+
 # app imports
 from calingen.constants import EventCategory
 from calingen.interfaces.plugin_api import LayoutProvider
@@ -64,20 +67,23 @@ class CalendarWeek:
         if reference.year != date_of_day.year:
             self.month_string = (
                 "{month_ref} {year_ref}/{month_this} {year_this}".format(
-                    month_ref=reference.strftime("%B"),
+                    month_ref=_date(reference, "F"),
                     year_ref=reference.year,
-                    month_this=date_of_day.strftime("%B"),
+                    month_this=_date(date_of_day, "F"),
                     year_this=date_of_day.year,
                 )
             )
         else:
             self.month_string = "{month_ref}/{month_this}".format(
-                month_ref=reference.strftime("%B"),
-                month_this=date_of_day.strftime("%B"),
+                month_ref=_date(reference, "F"),
+                month_this=_date(date_of_day, "F"),
             )
+
         # Turnovers may happen only once per week, so provide noop() method
         # after first usage.
         self.check_turnover = self._noop
+
+        logger.debug(self.month_string)
 
     def _populate_week(self, date_of_day):
         # isocalendar() returns a tuple of (year, week, weekday)
@@ -85,7 +91,7 @@ class CalendarWeek:
 
         # as this method is only executed once (per week), just apply the month
         # of the given day
-        self.month_string = date_of_day.strftime("%B")
+        self.month_string = _date(date_of_day, "F")
 
         # Population of the week object is a one-time operation, so provide the
         # noop() method after the first usage.
