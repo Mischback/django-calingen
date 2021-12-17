@@ -160,6 +160,6 @@ class YearByWeek(LayoutProvider):
         if not this_week.is_empty:
             weeklist.append(this_week)
 
-        # logger.debug(weeklist)
+        context["weeklist"] = weeklist
 
-        raise NotImplementedError("to be done")
+        return context
