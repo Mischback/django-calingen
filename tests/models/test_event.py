@@ -96,7 +96,7 @@ class EventManagerTest(CalingenORMTestCase):
 
 @tag("models", "event", "Event")
 class EventTest(CalingenTestCase):
-    @mock.patch("calingen.models.event.CalenderEntry")
+    @mock.patch("calingen.models.event.CalendarEntry")
     @mock.patch("calingen.models.event.CalenderEntryList")
     def test_resolve_applies_given_year_in_CalenderEntry(self, mock_cel, mock_ce):
         """Given year is applied to the resolved CalenderEntryList."""
@@ -114,7 +114,7 @@ class EventTest(CalingenTestCase):
         self.assertIsInstance(return_value, mock.MagicMock)
 
     @mock.patch("calingen.models.event.datetime")
-    @mock.patch("calingen.models.event.CalenderEntry")
+    @mock.patch("calingen.models.event.CalendarEntry")
     @mock.patch("calingen.models.event.CalenderEntryList")
     def test_resolve_applies_current_year_in_CalenderEntry(
         self, mock_cel, mock_ce, mock_datetime

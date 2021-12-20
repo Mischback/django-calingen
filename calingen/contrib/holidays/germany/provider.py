@@ -15,7 +15,7 @@ from dateutil.rrule import WE, YEARLY, rrule
 from calingen.constants import EventCategory
 from calingen.interfaces.data_exchange import (
     SOURCE_EXTERNAL,
-    CalenderEntry,
+    CalendarEntry,
     CalenderEntryList,
 )
 from calingen.interfaces.plugin_api import EventProvider
@@ -158,7 +158,7 @@ class GermanyFederal(EventProvider):
         result = CalenderEntryList()
         for i in cls.holidays:
             result.add(
-                CalenderEntry(
+                CalendarEntry(
                     i[0],
                     i[1],
                     i[2].between(

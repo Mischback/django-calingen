@@ -13,7 +13,7 @@ from django.test import override_settings, tag  # noqa: F401
 from dateutil import parser
 
 # app imports
-from calingen.interfaces.data_exchange import CalenderEntry, CalenderEntryList
+from calingen.interfaces.data_exchange import CalendarEntry, CalenderEntryList
 
 # local imports
 from ..util.testcases import CalingenTestCase
@@ -28,7 +28,7 @@ class CalenderEntryTest(CalingenTestCase):
         test_datetime = datetime.datetime(2021, 12, 2, 14, 48)
 
         # Act (actually perform what has to be done)
-        entry = CalenderEntry("foo", "bar", test_datetime, ("foo", "bar"))
+        entry = CalendarEntry("foo", "bar", test_datetime, ("foo", "bar"))
 
         # Assert (verify the results)
         self.assertEqual(entry.timestamp, test_datetime, ("foo", "bar"))
@@ -38,7 +38,7 @@ class CalenderEntryTest(CalingenTestCase):
         test_date = datetime.date(2021, 12, 2)
 
         # Act (actually perform what has to be done)
-        entry = CalenderEntry("foo", "bar", test_date, ("foo", "bar"))
+        entry = CalendarEntry("foo", "bar", test_date, ("foo", "bar"))
 
         # Assert (verify the results)
         self.assertEqual(entry.timestamp.date(), test_date)
@@ -50,7 +50,7 @@ class CalenderEntryTest(CalingenTestCase):
         test_datetime_str = test_datetime.__str__()
 
         # Act (actually perform what has to be done)
-        entry = CalenderEntry("foo", "bar", test_datetime_str, ("foo", "bar"))
+        entry = CalendarEntry("foo", "bar", test_datetime_str, ("foo", "bar"))
 
         # Assert (verify the results)
         self.assertEqual(entry.timestamp, test_datetime)
@@ -62,7 +62,7 @@ class CalenderEntryTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         # Assert (verify the results)
         with self.assertRaises(parser._parser.ParserError):
-            entry = CalenderEntry(  # noqa: F841
+            entry = CalendarEntry(  # noqa: F841
                 "foo", "bar", test_datetime_str, ("foo", "bar")
             )
 
@@ -72,8 +72,8 @@ class CalenderEntryTest(CalingenTestCase):
 
         # Act (actually perform what has to be done)
         # Assert (verify the results)
-        with self.assertRaises(CalenderEntry.CalendarEntryException):
-            entry = CalenderEntry("foo", "bar", test_date, "BREAK")  # noqa: F841
+        with self.assertRaises(CalendarEntry.CalendarEntryException):
+            entry = CalendarEntry("foo", "bar", test_date, "BREAK")  # noqa: F841
 
     @mock.patch("calingen.interfaces.data_exchange.EventCategory")
     def test_constructor_accepts_event_category(self, mock_event_category):
@@ -85,7 +85,7 @@ class CalenderEntryTest(CalingenTestCase):
         mock_event_category.values = [test_category]
 
         # Act (actually perform what has to be done)
-        entry = CalenderEntry("foo", test_category, test_datetime, ("foo", "bar"))
+        entry = CalendarEntry("foo", test_category, test_datetime, ("foo", "bar"))
 
         # Assert (verify the results)
         self.assertEqual(entry.timestamp, test_datetime)
@@ -97,7 +97,7 @@ class CalenderEntryTest(CalingenTestCase):
             pass
 
         test_class = TestClass()
-        entry = CalenderEntry(
+        entry = CalendarEntry(
             "foo", "bar", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -115,7 +115,7 @@ class CalenderEntryTest(CalingenTestCase):
             pass
 
         test_class = TestClass()
-        entry = CalenderEntry(
+        entry = CalendarEntry(
             "foo", "bar", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -130,10 +130,10 @@ class CalenderEntryTest(CalingenTestCase):
 
     def test_lt_timestamp(self):
         # Arrange (set up test environment)
-        entry_1 = CalenderEntry(
+        entry_1 = CalendarEntry(
             "aaa", "bbb", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
-        entry_2 = CalenderEntry(
+        entry_2 = CalendarEntry(
             "aaa", "bbb", datetime.datetime(2020, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -145,10 +145,10 @@ class CalenderEntryTest(CalingenTestCase):
 
     def test_lt_category(self):
         # Arrange (set up test environment)
-        entry_1 = CalenderEntry(
+        entry_1 = CalendarEntry(
             "aaa", "zzz", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
-        entry_2 = CalenderEntry(
+        entry_2 = CalendarEntry(
             "aaa", "bbb", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -160,10 +160,10 @@ class CalenderEntryTest(CalingenTestCase):
 
     def test_lt_title(self):
         # Arrange (set up test environment)
-        entry_1 = CalenderEntry(
+        entry_1 = CalendarEntry(
             "zzz", "bbb", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
-        entry_2 = CalenderEntry(
+        entry_2 = CalendarEntry(
             "aaa", "bbb", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -213,13 +213,13 @@ class CalenderEntryListTest(CalingenTestCase):
     def test_merge_merges_distinct_sets(self):
         """merge() correctly merges two distinct CalenderEntryList instances."""
         # Arrange (set up test environment)
-        cal_entry_one = CalenderEntry(
+        cal_entry_one = CalendarEntry(
             title="foo",
             category="foo",
             timestamp=datetime.datetime.now(),
             source=("foo", "bar"),
         )
-        cal_entry_two = CalenderEntry(
+        cal_entry_two = CalendarEntry(
             title="bar",
             category="bar",
             timestamp=datetime.datetime.now(),
@@ -242,13 +242,13 @@ class CalenderEntryListTest(CalingenTestCase):
     def test_merge_merges_non_distinct_sets(self):
         """merge() correctly merges two non distinct CalenderEntryList instances."""
         # Arrange (set up test environment)
-        cal_entry_one = CalenderEntry(
+        cal_entry_one = CalendarEntry(
             title="foo",
             category="foo",
             timestamp=datetime.datetime.now(),
             source=("foo", "bar"),
         )
-        cal_entry_two = CalenderEntry(
+        cal_entry_two = CalendarEntry(
             title="bar",
             category="bar",
             timestamp=datetime.datetime.now(),

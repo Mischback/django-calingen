@@ -17,7 +17,7 @@ from calingen.exceptions import CalingenException
 from calingen.forms.fields import SplitDateTimeOptionalField
 from calingen.interfaces.data_exchange import (
     SOURCE_INTERNAL,
-    CalenderEntry,
+    CalendarEntry,
     CalenderEntryList,
 )
 from calingen.models.profile import Profile
@@ -320,7 +320,7 @@ class Event(models.Model):
         # The following statement works on that assumption and simply uses the
         # specified year parameter with the (stored) values of month and day.
         result.add(
-            CalenderEntry(
+            CalendarEntry(
                 self.title,
                 self.category,
                 datetime.date(year, self.start.month, self.start.day),

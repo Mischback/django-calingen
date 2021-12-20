@@ -21,7 +21,7 @@ SOURCE_EXTERNAL = "EXTERNAL"
 
 
 @total_ordering
-class CalenderEntry:
+class CalendarEntry:
     """Data structure to pass calender entries around.
 
     Parameters
@@ -61,7 +61,7 @@ class CalenderEntry:
 
     Raises
     ------
-    CalenderEntry.CalendarEntryException
+    CalendarEntry.CalendarEntryException
         Raised if ``source`` was not provided as :py:obj:`tuple`
     dateutil.parser._parser.ParserError
         Raised if ``timestamp`` is provided as :py:obj:`str` and could not be
@@ -135,21 +135,21 @@ class CalenderEntry:
         """Check equality with ``other`` object."""
         # see https://stackoverflow.com/a/2909119
         # see https://stackoverflow.com/a/8796908
-        if isinstance(other, CalenderEntry):
+        if isinstance(other, CalendarEntry):
             return self.__key() == other.__key()  # pragma: nocover
         return NotImplemented
 
     def __lt__(self, other):
         """Provide `less than` comparison with ``other`` object."""
         # see https://stackoverflow.com/a/8796908
-        if isinstance(other, CalenderEntry):
+        if isinstance(other, CalendarEntry):
             return self.__key() < other.__key()
         return NotImplemented
 
     def __repr__(self):
         """Provide an instance's `representation`."""
         # see https://stackoverflow.com/a/12448200
-        return "<CalenderEntry(title={}, category={}, start={}, source={})>".format(
+        return "<CalendarEntry(title={}, category={}, start={}, source={})>".format(
             self.title.__repr__(),
             self.category.__repr__(),
             self.timestamp.__repr__(),
@@ -187,17 +187,17 @@ class CalenderEntryList:
     Warnings
     --------
     While objects of this class are intended to store / handle instances of
-    :class:`~calingen.interfaces.data_exchange.CalenderEntry`, this is **not**
+    :class:`~calingen.interfaces.data_exchange.CalendarEntry`, this is **not**
     enforced or validated (EAFP).
 
     Notes
     -----
     This class is a close companion of
-    :class:`~calingen.interfaces.data_exchange.CalenderEntry` instances.
+    :class:`~calingen.interfaces.data_exchange.CalendarEntry` instances.
 
     Internally, the app expects the result of any ``resolve()`` operation to be
     an instance of this class with a set (or list) of
-    :class:`~calingen.interfaces.data_exchange.CalenderEntry` instances.
+    :class:`~calingen.interfaces.data_exchange.CalendarEntry` instances.
     """
 
     class CalenderEntryListException(CallingenInterfaceException):
@@ -210,11 +210,11 @@ class CalenderEntryList:
         return len(self._entries)  # pragma: nocover
 
     def add(self, entry):
-        """Add a :class:`~calingen.interfaces.data_exchange.CalenderEntry` to the list.
+        """Add a :class:`~calingen.interfaces.data_exchange.CalendarEntry` to the list.
 
         Parameters
         ----------
-        entry : CalenderEntry
+        entry : CalendarEntry
             The entry to be added to this class's list.
 
         Raises
@@ -257,7 +257,7 @@ class CalenderEntryList:
         -------
         list
             The sorted list of
-            :class:`~calingen.interfaces.data_exchange.CalenderEntry`.
+            :class:`~calingen.interfaces.data_exchange.CalendarEntry`.
 
         Warnings
         --------

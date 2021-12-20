@@ -85,7 +85,7 @@ class EventProvider(metaclass=PluginMount):
       :class:`calingen.interfaces.data_exchange.CalenderEntryList` containing
       the `Events` of the requested year with their corresponding meta
       information as specified by
-      :class:`calingen.interfaces.data_exchange.CalenderEntry`.
+      :class:`calingen.interfaces.data_exchange.CalendarEntry`.
     """
 
     @classmethod
@@ -128,12 +128,12 @@ class EventProvider(metaclass=PluginMount):
         -------
         :class:`calingen.interfaces.data_exchange.CalenderEntryList`
             Wraps the actual events, provided as
-            :class:`calingen.interfaces.data_exchange.CalenderEntry` into one
+            :class:`calingen.interfaces.data_exchange.CalendarEntry` into one
             single object.
 
         Notes
         -----
-        Neither :class:`~calingen.interfaces.data_exchange.CalenderEntry` nor
+        Neither :class:`~calingen.interfaces.data_exchange.CalendarEntry` nor
         :class:`~calingen.interfaces.data_exchange.CalenderEntryList` perform
         any validation on its data. Don't sticking to the specified and expected
         types will crash later and _might_ be hard to debug.
