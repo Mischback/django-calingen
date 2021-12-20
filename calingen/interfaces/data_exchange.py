@@ -61,7 +61,7 @@ class CalenderEntry:
 
     Raises
     ------
-    CalenderEntry.CalenderEntryException
+    CalenderEntry.CalendarEntryException
         Raised if ``source`` was not provided as :py:obj:`tuple`
     dateutil.parser._parser.ParserError
         Raised if ``timestamp`` is provided as :py:obj:`str` and could not be
@@ -100,7 +100,7 @@ class CalenderEntry:
     a minimum. See the source code for further details!
     """
 
-    class CalenderEntryException(CallingenInterfaceException):
+    class CalendarEntryException(CallingenInterfaceException):
         """Class-specific exception, raised on failures in this class's methods."""
 
     def __init__(self, title, category, timestamp, source):
@@ -129,7 +129,7 @@ class CalenderEntry:
         if isinstance(source, tuple):
             self.source = source
         else:
-            raise self.CalenderEntryException("source must be provided as tuple")
+            raise self.CalendarEntryException("source must be provided as tuple")
 
     def __eq__(self, other):
         """Check equality with ``other`` object."""

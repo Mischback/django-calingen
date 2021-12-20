@@ -72,7 +72,7 @@ class CalenderEntryTest(CalingenTestCase):
 
         # Act (actually perform what has to be done)
         # Assert (verify the results)
-        with self.assertRaises(CalenderEntry.CalenderEntryException):
+        with self.assertRaises(CalenderEntry.CalendarEntryException):
             entry = CalenderEntry("foo", "bar", test_date, "BREAK")  # noqa: F841
 
     @mock.patch("calingen.interfaces.data_exchange.EventCategory")
