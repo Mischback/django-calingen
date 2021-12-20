@@ -91,7 +91,7 @@ class EventManager(models.Manager):
     :class:`~calingen.models.event.EventQuerySet`.
     """
 
-    def get_calender_entry_list(self, user=None, year=None):
+    def get_calendar_entry_list(self, user=None, year=None):
         """Return all instances as :class:`~calingen.interfaces.data_exchange.CalendarEntryList`.
 
         Parameters

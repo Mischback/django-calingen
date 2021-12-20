@@ -87,7 +87,7 @@ class EventManagerTest(CalingenORMTestCase):
 
         # Act (actually perform what has to be done)
         test_alice_events = (  # noqa: F841
-            Event.calingen_manager.get_calender_entry_list(user=alice)
+            Event.calingen_manager.get_calendar_entry_list(user=alice)
         )
 
         # Assert (verify the results)

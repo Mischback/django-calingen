@@ -87,7 +87,7 @@ class AllCalenderEntriesMixin:
         profile = Profile.calingen_manager.get_profile(self.request.user)
 
         all_entries = CalendarEntryList()
-        internal_events = Event.calingen_manager.get_calender_entry_list(
+        internal_events = Event.calingen_manager.get_calendar_entry_list(
             user=self.request.user, year=context["target_year"]
         )
         plugin_events = profile.resolve(year=context["target_year"])

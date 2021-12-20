@@ -65,7 +65,7 @@ class CalingenTeXLayoutCompilationTestCase(CalingenORMTestCase):
         profile = Profile.calingen_manager.get(pk=1)  # Alice
 
         all_entries = CalendarEntryList()
-        internal_events = Event.calingen_manager.get_calender_entry_list(
+        internal_events = Event.calingen_manager.get_calendar_entry_list(
             user=profile.owner, year=target_year
         )
         plugin_events = profile.resolve(year=target_year)
