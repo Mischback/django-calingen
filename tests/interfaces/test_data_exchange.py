@@ -207,7 +207,7 @@ class CalenderEntryListTest(CalingenTestCase):
 
         # Act (actually perform what has to be done)
         # Assert (verify the results)
-        with self.assertRaises(CalenderEntryList.CalenderEntryListException):
+        with self.assertRaises(CalenderEntryList.CalendarEntryListException):
             cal_entry_list.add(None)
 
     def test_merge_merges_distinct_sets(self):

@@ -200,7 +200,7 @@ class CalenderEntryList:
     :class:`~calingen.interfaces.data_exchange.CalendarEntry` instances.
     """
 
-    class CalenderEntryListException(CallingenInterfaceException):
+    class CalendarEntryListException(CallingenInterfaceException):
         """Class-specific exception, raised on failures in this class's methods."""
 
     def __init__(self):  # noqa: D107
@@ -219,7 +219,7 @@ class CalenderEntryList:
 
         Raises
         ------
-        CalenderEntryList.CalenderEntryListException
+        CalenderEntryList.CalendarEntryListException
             Raised if no entry is provided.
 
         Warnings
@@ -227,7 +227,7 @@ class CalenderEntryList:
         There is no validation of the input type!
         """
         if entry is None:
-            raise self.CalenderEntryListException("An entry is required")
+            raise self.CalendarEntryListException("An entry is required")
 
         self._entries.add(entry)
 
