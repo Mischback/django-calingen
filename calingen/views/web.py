@@ -15,13 +15,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 
 # app imports
-from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
+from calingen.views.mixins import AllCalendarEntriesMixin, RestrictToUserMixin
 
 
 class CalendarEntryListView(
     LoginRequiredMixin,
     RestrictToUserMixin,
-    AllCalenderEntriesMixin,
+    AllCalendarEntriesMixin,
     TemplateView,
 ):
     """Provide a list view of all events in a given year.

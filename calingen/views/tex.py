@@ -17,11 +17,11 @@ from django.views.generic.base import ContextMixin, View
 from calingen.exceptions import CalingenException
 from calingen.forms.tex import TeXLayoutSelectionForm
 from calingen.views.generic import RequestEnabledFormView
-from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
+from calingen.views.mixins import AllCalendarEntriesMixin, RestrictToUserMixin
 
 
 class TeXCompilerView(
-    LoginRequiredMixin, RestrictToUserMixin, AllCalenderEntriesMixin, ContextMixin, View
+    LoginRequiredMixin, RestrictToUserMixin, AllCalendarEntriesMixin, ContextMixin, View
 ):
     """Use the layout's ``render()`` method to generate valid TeX source."""
 

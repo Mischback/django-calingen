@@ -72,7 +72,7 @@ class ProfileIDMixin:
         return context
 
 
-class AllCalenderEntriesMixin:
+class AllCalendarEntriesMixin:
     """Add all :class:`~calingen.interfaces.data_exchange.CalendarEntry` of the ``request.user``.
 
     This mixin uses ``get_context_data()`` to provide all of the user's
