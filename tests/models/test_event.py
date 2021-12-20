@@ -78,7 +78,7 @@ class EventManagerTest(CalingenORMTestCase):
         self.assertEqual(alice_events, test_alice_events)
 
     @mock.patch("calingen.models.event.CalendarEntryList")
-    def test_get_calender_entry_list(self, mock_calendarentrylist):
+    def test_get_calendar_entry_list(self, mock_calendarentrylist):
         # Arrange (set up test environment)
         mock_merge = mock.MagicMock()
         mock_calendarentrylist.return_value.merge = mock_merge
@@ -98,7 +98,7 @@ class EventManagerTest(CalingenORMTestCase):
 class EventTest(CalingenTestCase):
     @mock.patch("calingen.models.event.CalendarEntry")
     @mock.patch("calingen.models.event.CalendarEntryList")
-    def test_resolve_applies_given_year_in_CalenderEntry(self, mock_cel, mock_ce):
+    def test_resolve_applies_given_year_in_CalendarEntry(self, mock_cel, mock_ce):
         """Given year is applied to the resolved CalendarEntryList."""
         # Arrange (set up test environment)
         event = Event()
@@ -116,7 +116,7 @@ class EventTest(CalingenTestCase):
     @mock.patch("calingen.models.event.datetime")
     @mock.patch("calingen.models.event.CalendarEntry")
     @mock.patch("calingen.models.event.CalendarEntryList")
-    def test_resolve_applies_current_year_in_CalenderEntry(
+    def test_resolve_applies_current_year_in_CalendarEntry(
         self, mock_cel, mock_ce, mock_datetime
     ):
         """Resolving CalendarEntryList with current year if not specified."""

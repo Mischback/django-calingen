@@ -130,7 +130,7 @@ class ProfileTest(CalingenTestCase):
     @mock.patch(
         "calingen.models.profile.Profile.event_provider", new_callable=mock.PropertyMock
     )
-    def test_resolve_applies_given_year_in_CalenderEntry(
+    def test_resolve_applies_given_year_in_CalendarEntry(
         self, mock_event_provider, mock_cel, mock_import_string
     ):
         """Resolving CalendarEntryList with given year."""
@@ -154,7 +154,7 @@ class ProfileTest(CalingenTestCase):
     @mock.patch(
         "calingen.models.profile.Profile.event_provider", new_callable=mock.PropertyMock
     )
-    def test_resolve_applies_current_year_in_CalenderEntry(
+    def test_resolve_applies_current_year_in_CalendarEntry(
         self, mock_event_provider, mock_cel, mock_datetime, mock_import_string
     ):
         """Resolving CalendarEntryList with current year if not specified."""
