@@ -2,10 +2,11 @@ Welcome to django-calingen's documentation!
 ===========================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :maxdepth: 2
+    :caption: Contents:
 
-   api/index
+    user-doc
+    api/index
 
 
 Indices and tables
