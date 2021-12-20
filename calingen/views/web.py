@@ -6,7 +6,7 @@ These views are not model-specific (see
 :mod:`calingen.views.event` and :mod:`calingen.views.profile`), but provide
 representations of the app's data.
 
-Please note: The focus of calingen is to create analogous, paper-based calender
+Please note: The focus of calingen is to create analogous, paper-based calendar
 pages. These views are provided as convenience!
 """
 
@@ -18,7 +18,7 @@ from django.views.generic.base import TemplateView
 from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
 
 
-class CalenderEntryListView(
+class CalendarEntryListView(
     LoginRequiredMixin,
     RestrictToUserMixin,
     AllCalenderEntriesMixin,
