@@ -34,4 +34,4 @@ class CalendarEntryListView(
     optimization.
     """
 
-    template_name = "calingen/calender_entry_list_year.html"
+    template_name = "calingen/calendar_entry_list_year.html"
