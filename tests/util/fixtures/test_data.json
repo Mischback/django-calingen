@@ -3,8 +3,8 @@
   "model": "auth.user",
   "pk": 2,
   "fields": {
-    "password": "pbkdf2_sha256$260000$eM5nGgGx25vhOAZ2uRkji7$KTwUMK2fP46go0Ap2vqN+ZUAMePlnZ7ksVmOwyJ/QeA=",
-    "last_login": null,
+    "password": "pbkdf2_sha256$320000$IaxfVcrUzadgSnZvzThAcv$IY1+TghgyFnWY/RahcQUvxCkasHKxGKP02A1UG5bBYA=",
+    "last_login": "2021-12-11T17:21:41.374",
     "is_superuser": false,
     "username": "Alice",
     "first_name": "",
@@ -39,8 +39,8 @@
   "model": "auth.user",
   "pk": 4,
   "fields": {
-    "password": "pbkdf2_sha256$260000$YDYY2xVWkkVRQMPzEScyfd$F3m2J6tCcogUmfBsgTkVQ/IReuGU/AlUHcXcmSwaNvE=",
-    "last_login": null,
+    "password": "pbkdf2_sha256$320000$NpSqE9Z97eSxL7sfgBragg$OUNXF3E4PRLRMIMB8eDuEjlPTo4eOqKWsucQQFRJ7Ts=",
+    "last_login": "2021-12-11T14:17:51.324",
     "is_superuser": true,
     "username": "Charly",
     "first_name": "",
@@ -75,7 +75,12 @@
   "model": "calingen.profile",
   "pk": 1,
   "fields": {
-    "_event_provider": {},
+    "_event_provider": {
+      "active": [
+        "calingen.contrib.holidays.germany.provider.GermanyFederal"
+      ],
+      "unavailable": []
+    },
     "owner": 2
   }
 },
@@ -132,6 +137,16 @@
     "profile": 2,
     "start": "1985-10-26T14:00:00",
     "title": "Back to the Future",
+    "category": "ANNUAL_ANNIVERSARY"
+  }
+},
+{
+  "model": "calingen.event",
+  "pk": 5,
+  "fields": {
+    "profile": 1,
+    "start": "2021-02-14T06:00:00",
+    "title": "X Special Chars: & % $ # _ { } ~ ^ \\ baz",
     "category": "ANNUAL_ANNIVERSARY"
   }
 }

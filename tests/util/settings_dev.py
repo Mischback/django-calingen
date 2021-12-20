@@ -7,6 +7,8 @@ from django.utils.translation import gettext_noop as _
 from .settings_test import *
 
 INSTALLED_APPS += [
+    "calingen.contrib.layouts.simple_event_list",
+    "calingen.contrib.layouts.year_by_week",
     "debug_toolbar",
 ]
 

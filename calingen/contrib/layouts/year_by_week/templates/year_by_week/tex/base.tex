@@ -1,0 +1,85 @@
+{% block tex-documentclass %}
+\documentclass[a4paper, 10pt]{article}
+    % FONT SIZES
+    %   \miniscule      (5pt)
+    %   \tiny           (6pt)
+    %   \scriptsize     (7pt)
+    %   \footnotesize   (8pt)
+    %   \small          (9pt)
+    %   \normalsize     (10pt)
+    %   \large          (11pt)
+    %   \Large          (12pt)
+    %   \LARGE          (14pt)
+    %   \huge           (17pt)
+    %   \Huge           (20pt)
+    %   \HUGE           (25pt)
+{% endblock tex-documentclass %}
+
+{% block tex-packages %}
+    % TODO: Is there a specific, really needed order of using the packages?
+
+    %%%%% PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % used for manipulating page margins
+    \usepackage[
+        nomarginpar,
+        %showframe,
+        margin=1cm]{geometry}
+    % TODO: Evaluate every option!
+    % TODO: margin=1 should not be used here, instead provide a specific
+    %   geometry-setting in the real document!
+
+    % set the input encoding
+    \usepackage[utf8]{inputenc}
+    % TODO: Check, if this pacakge is really necessary!
+
+    % switch to German
+    \usepackage[ngerman]{babel}
+    \usepackage[babel, german=quotes]{csquotes}
+    % TODO: How can this be be localized?!
+
+    % introduce colors (yeah!)
+    % TODO: predefine colors and make them selectable during template creation
+    \usepackage{xcolor}
+        \definecolor{papercolor}{rgb}{1, 1, 1}
+        \definecolor{defaultcalendarfontcolor}{rgb}{0.5, 0.5, 0.5}
+        \definecolor{weekendcellcolor}{rgb}{0.95, 0.95, 0.95}
+        \definecolor{holidaycellcolor}{rgb}{0.97, 0.97, 0.97}
+    % TODO: weekendcellcolor and holidaycellcolor do only matter in the
+    %   specific context of the yearly-foldout. Does it make sense to define
+    %   them here? Or can they defined as 'light grey' and reused later?
+    % TODO: Is chaining of \definecolor possible?
+    %   \definecolor{lightgrey}{rgb}{0.95, 0.95, 0.95}
+    %   \definecolor{weekendcellcolor}{lightgrey}
+
+    {% block tex-font %}
+        {% comment %}
+        TODO: Is a Django-block the really useful way to do this?
+            What should be achieved is: Make the font selectable during the
+            creation process.
+        {% endcomment %}
+    % switch font to DejaVuSans
+    \usepackage{DejaVuSans}
+    \renewcommand*{\familydefault}{\sfdefault}
+    {% endblock tex-font %}
+    \usepackage[T1]{fontenc}
+
+    {% block tex-additional-packages %}
+    % Additional packages go here!
+    {% endblock tex-additional-packages %}
+{% endblock tex-packages %}
+
+{% block tex-definitions %}
+% Document specific TeX-definitions go here!
+{% endblock tex-definitions %}
+
+\begin{document}
+%%% MAGIC STARTS HERE! %%%
+{% autoescape off %}
+{% block tex-documentbody %}
+    \pagestyle{empty}       % generally remove page numbers
+    CONTENT GOES HERE!
+{% endblock tex-documentbody %}
+{% endautoescape %}
+%%% END OF MAGIC! %%%
+\end{document}

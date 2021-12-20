@@ -7,6 +7,7 @@ source = [
 ]
 omit = [
   "*/__init__.py",
+  "*/contrib/layouts/simple_event_list/apps.py",
   "*/migrations/*",
   "*/tests/util/*",
   "*/tests/runtests.py"
@@ -20,7 +21,7 @@ fail_under = 95
 
 # ### DJLINT ###
 [tool.djlint]
-ignore = "T028"
+ignore = "T028,H030,H031"
 
 
 # ### ISORT ###

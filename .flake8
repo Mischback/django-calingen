@@ -20,12 +20,16 @@ ignore =
     E501,
 
 per-file-ignores =
+    calingen/forms/tex.py:W505
     calingen/models/profile.py:W505
+    calingen/views/generic.py:W505
     tests/forms/*.py:D
-    tests/interfaces/*.py:D,
+    tests/interfaces/*.py:D
     tests/models/*.py:D
+    tests/templatetags/*.py:D
     tests/views/*.py:D
     tests/test_checks.py:D
+    tests/test_layout_compilation.py:D
 
 # ...and limit flake8 to the project's very own source code
 exclude =

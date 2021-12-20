@@ -74,9 +74,50 @@ jobs:
           COVERALLS_FLAG_NAME: OS_${{ matrix.os }}-Python_${{ matrix.python-version }}
           COVERALLS_PARALLEL: true
 
+  layout-compilation:
+    name: Verify that TexLayouts are compilable
+    needs: linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install tox coveralls coverage[toml]
+      # This runs the complete test suite again, so linux/python 3.9 is included
+      # two times. Deal with it!
+      - name: Create TeX Files
+        run: make ci/test/texlayoutcompilation
+      - name: Compile TeX Files
+        uses: xu-cheng/latex-action@v2
+        with:
+          working_directory: tmp_compilation
+          root_file: "*.tex"
+          glob_root_file: true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: compiled_layouts
+          path: tmp_compilation/
+          if-no-files-found: error
+          retention-days: 1
+      - name: Prepare coverage result
+        run: |
+          coverage combine --append
+          coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_FLAG_NAME: layout-compilation
+          COVERALLS_PARALLEL: true
+
   finish:
     name: Indicate completion to Coveralls.io
-    needs: testing
+    needs: [testing, layout-compilation]
     runs-on: ubuntu-latest
     steps:
       - name: Finished coverage collection

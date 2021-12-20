@@ -46,6 +46,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
 ]
 
+CALINGEN_TEX_COMPILER = "calingen.contrib.compiler.noop.compiler.NoOpCompiler"
+
 ROOT_URLCONF = "tests.util.urls_dev"
 
 SECRET_KEY = "only-for-development"  # nosec: this is on purpose, just for development

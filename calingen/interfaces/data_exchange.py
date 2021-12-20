@@ -107,9 +107,9 @@ class CalenderEntry:
         # documentation of the costructor is in the class's docstring!
         self.title = title
 
-        # Use the (lazy) translatable category (if available)
+        # Use the predefined category (if available)
         if category in EventCategory.values:
-            self.category = EventCategory[category].label  # pragma: nocover
+            self.category = EventCategory[category]
         else:
             self.category = category
 

@@ -1,0 +1,58 @@
+\documentclass[10pt]{article}
+    % FONT SIZES
+    %   \miniscule      (5pt)
+    %   \tiny           (6pt)
+    %   \scriptsize     (7pt)
+    %   \footnotesize   (8pt)
+    %   \small          (9pt)
+    %   \normalsize     (10pt)
+    %   \large          (11pt)
+    %   \Large          (12pt)
+    %   \LARGE          (14pt)
+    %   \huge           (17pt)
+    %   \Huge           (20pt)
+    %   \HUGE           (25pt)
+
+    %%%%% PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % set the input encoding
+    \usepackage[utf8]{inputenc}
+    % TODO: Check, if this pacakge is really necessary!
+
+    % switch to German
+    \usepackage[ngerman]{babel}
+    \usepackage[babel, german=quotes]{csquotes}
+    % TODO: How can this be be localized?!
+
+    % switch font to DejaVuSans
+    \usepackage{DejaVuSans}
+    \renewcommand*{\familydefault}{\sfdefault}
+
+    \usepackage[T1]{fontenc}
+
+    % Additional packages go here!
+    %%% LAYOUT SPECIFIC!
+    \usepackage[a4paper,
+                top=2cm,
+                right=1cm,
+                bottom=2cm,
+                left=1.5cm]{geometry}
+    \usepackage{fancyhdr}
+    \pagestyle{fancy}
+    \fancyhf{}
+    \lhead{Simple Event List}
+    \rfoot{\tiny{generated with \textbf{django-calingen} using layout \textbf{simple-event-list}}}
+    \renewcommand{\headrulewidth}{0.5pt}
+    \renewcommand{\footrulewidth}{0.5pt}
+
+\begin{document}
+{% autoescape off %}
+{% block document %}
+%%% MAGIC STARTS HERE! %%%
+
+    \section*{Simple Event List}
+
+%%% END OF MAGIC! %%%
+{% endblock document %}
+{% endautoescape %}
+\end{document}

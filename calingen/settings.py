@@ -8,6 +8,27 @@ values.
 The settings may be provided in the project's settings module.
 """
 
+CALINGEN_TEX_COMPILER = None
+"""Set the project's TeX compiler.
+
+**Default value:** ``None``
+
+Warnings
+--------
+This is a mandatory parameter for project's including
+:class:`~calingen.views.tex.TeXCompilerView`.
+
+``None`` is not a valid configuration option here. If you do not want your  project
+to provide actual TeX compilation, you may provide the (included)
+:class:`~calingen.contrib.compiler.noop.compiler.NoOpCompiler` by providing
+``"calingen.contrib.compiler.noop.compiler.NoOpCompiler"`` for this setting.
+
+Notes
+-----
+Provide a dotted Python path to a
+:class:`~calingen.interfaces.plugin_api.TeXCompilerProvider` implementation.
+"""
+
 CALINGEN_EXTERNAL_EVENT_PROVIDER = []
 """Determines the available event providers.
 

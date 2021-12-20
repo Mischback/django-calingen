@@ -118,6 +118,16 @@ def app_tests(
     verbosity: int,
 ) -> int:
     """Get the TestRunner and runs the tests."""
+    # provide a list of tags, that are excluded by default
+    default_excluded_tags = ["requires_system_tex"]
+
+    for excluded in default_excluded_tags:
+        try:
+            if excluded in tags:
+                default_excluded_tags.remove(excluded)
+        except TypeError:
+            pass
+
     # prepare the actual test environment
     setup(disable_optimisation, enable_migrations, enable_timing, verbosity)
 
@@ -127,8 +137,7 @@ def app_tests(
     TestRunner = get_runner(settings)
 
     test_runner = TestRunner(
-        verbosity=verbosity,
-        tags=tags,
+        verbosity=verbosity, tags=tags, exclude_tags=default_excluded_tags
     )
 
     failures = test_runner.run_tests(["."])
