@@ -17,11 +17,11 @@ from django.views.generic.base import ContextMixin, View
 from calingen.exceptions import CalingenException
 from calingen.forms.tex import TeXLayoutSelectionForm
 from calingen.views.generic import RequestEnabledFormView
-from calingen.views.mixins import AllCalenderEntriesMixin, RestrictToUserMixin
+from calingen.views.mixins import AllCalendarEntriesMixin, RestrictToUserMixin
 
 
 class TeXCompilerView(
-    LoginRequiredMixin, RestrictToUserMixin, AllCalenderEntriesMixin, ContextMixin, View
+    LoginRequiredMixin, RestrictToUserMixin, AllCalendarEntriesMixin, ContextMixin, View
 ):
     """Use the layout's ``render()`` method to generate valid TeX source."""
 
@@ -77,9 +77,9 @@ class TeXCompilerView(
         - ``layout_configuration``: If the layout provides a custom
           implementation of :class:`calingen.forms.tex.TeXLayoutConfigurationForm`,
           the fetched values will be provided here.
-        - ``entries``: All calender entries of the user's profile, resolved to
+        - ``entries``: All calendar entries of the user's profile, resolved to
           the ``target_year``, provided as a
-          :class:`calingen.interfaces.data_exchange.CalenderEntryList` object.
+          :class:`calingen.interfaces.data_exchange.CalendarEntryList` object.
         """
         target_year = self.request.session.pop("target_year", date.today().year)
         layout_configuration = self.request.session.pop("layout_configuration", None)

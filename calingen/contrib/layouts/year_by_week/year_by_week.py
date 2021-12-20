@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-""":class:`~calingen.interfaces.plugin_api.LayoutProvider` implementation for a year's calender."""
+""":class:`~calingen.interfaces.plugin_api.LayoutProvider` implementation for a year's calendar."""
 
 # Python imports
 import logging

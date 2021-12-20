@@ -12,7 +12,7 @@ from django.test import SimpleTestCase, TestCase, tag
 from django.test.testcases import TransactionTestCase
 
 # app imports
-from calingen.interfaces.data_exchange import CalenderEntryList
+from calingen.interfaces.data_exchange import CalendarEntryList
 from calingen.models.event import Event
 from calingen.models.profile import Profile
 
@@ -64,8 +64,8 @@ class CalingenTeXLayoutCompilationTestCase(CalingenORMTestCase):
         """Fetch some entries from the fixture."""
         profile = Profile.calingen_manager.get(pk=1)  # Alice
 
-        all_entries = CalenderEntryList()
-        internal_events = Event.calingen_manager.get_calender_entry_list(
+        all_entries = CalendarEntryList()
+        internal_events = Event.calingen_manager.get_calendar_entry_list(
             user=profile.owner, year=target_year
         )
         plugin_events = profile.resolve(year=target_year)

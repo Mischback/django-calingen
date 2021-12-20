@@ -51,7 +51,7 @@ Notes
 The user may activate implementations of
 :class:`~calingen.interfaces.plugin_api.EventProvider` in his
 :class:`~calingen.models.profile.Profile`. These events will then get included
-while generating his calender inlays.
+while generating his calendar inlays.
 
 However, the administrator may choose to disable certain plugins _after_ the
 user has activated them. The corresponding ``EventProvider`` will then not be

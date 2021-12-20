@@ -6,7 +6,7 @@
 from django.core.exceptions import ImproperlyConfigured
 
 # app imports
-from calingen.interfaces.data_exchange import CalenderEntryList
+from calingen.interfaces.data_exchange import CalendarEntryList
 from calingen.models.event import Event
 from calingen.models.profile import Profile
 
@@ -72,11 +72,11 @@ class ProfileIDMixin:
         return context
 
 
-class AllCalenderEntriesMixin:
-    """Add all :class:`~calingen.interfaces.data_exchange.CalenderEntry` of the ``request.user``.
+class AllCalendarEntriesMixin:
+    """Add all :class:`~calingen.interfaces.data_exchange.CalendarEntry` of the ``request.user``.
 
     This mixin uses ``get_context_data()`` to provide all of the user's
-    :class:`~calingen.interfaces.data_exchange.CalenderEntry` instances for
+    :class:`~calingen.interfaces.data_exchange.CalendarEntry` instances for
     the context.
     """
 
@@ -86,8 +86,8 @@ class AllCalenderEntriesMixin:
         # get the user's profile (required to process plugins)
         profile = Profile.calingen_manager.get_profile(self.request.user)
 
-        all_entries = CalenderEntryList()
-        internal_events = Event.calingen_manager.get_calender_entry_list(
+        all_entries = CalendarEntryList()
+        internal_events = Event.calingen_manager.get_calendar_entry_list(
             user=self.request.user, year=context["target_year"]
         )
         plugin_events = profile.resolve(year=context["target_year"])

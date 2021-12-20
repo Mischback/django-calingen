@@ -15,7 +15,7 @@ from django.utils.translation import gettext_lazy as _
 
 # app imports
 from calingen.forms.fields import PluginField
-from calingen.interfaces.data_exchange import CalenderEntryList
+from calingen.interfaces.data_exchange import CalendarEntryList
 from calingen.interfaces.plugin_api import EventProvider
 from calingen.models.queryset import CalingenQuerySet
 
@@ -242,7 +242,7 @@ class Profile(models.Model):
         return reverse("profile", args=[self.id])  # pragma: nocover
 
     def resolve(self, year=None):
-        """Combine all event providers results for a given year into one :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
+        """Combine all event providers results for a given year into one :class:`~calingen.interfaces.data_exchange.CalendarEntryList`.
 
         Parameters
         ----------
@@ -252,13 +252,13 @@ class Profile(models.Model):
 
         Returns
         -------
-        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+        :class:`~calingen.interfaces.data_exchange.CalendarEntryList`
             A single instance including all events from all active providers.
         """
         if year is None:
             year = datetime.datetime.now().year
 
-        result = CalenderEntryList()
+        result = CalendarEntryList()
         for provider in self.event_provider["active"]:
             provider_instance = import_string(provider)
             result.merge(provider_instance.resolve(year))

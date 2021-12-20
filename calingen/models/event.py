@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide the app's central class to store and manage calender entries."""
+"""Provide the app's central class to store and manage calendar entries."""
 
 # Python imports
 import datetime
@@ -17,8 +17,8 @@ from calingen.exceptions import CalingenException
 from calingen.forms.fields import SplitDateTimeOptionalField
 from calingen.interfaces.data_exchange import (
     SOURCE_INTERNAL,
-    CalenderEntry,
-    CalenderEntryList,
+    CalendarEntry,
+    CalendarEntryList,
 )
 from calingen.models.profile import Profile
 from calingen.models.queryset import CalingenQuerySet
@@ -91,8 +91,8 @@ class EventManager(models.Manager):
     :class:`~calingen.models.event.EventQuerySet`.
     """
 
-    def get_calender_entry_list(self, user=None, year=None):
-        """Return all instances as :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
+    def get_calendar_entry_list(self, user=None, year=None):
+        """Return all instances as :class:`~calingen.interfaces.data_exchange.CalendarEntryList`.
 
         Parameters
         ----------
@@ -104,11 +104,11 @@ class EventManager(models.Manager):
 
         Returns
         -------
-        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+        :class:`~calingen.interfaces.data_exchange.CalendarEntryList`
             All :class:`~calingen.models.event.Event` instances of ``user``,
-            converted into a ``CalenderEntryList``.
+            converted into a ``CalendarEntryList``.
         """
-        result = CalenderEntryList()
+        result = CalendarEntryList()
         for event in self.get_user_events_qs(user).iterator():
             result.merge(event.resolve(year))
 
@@ -171,7 +171,7 @@ class EventManager(models.Manager):
 
 
 class Event(models.Model):
-    """Represents one event in a user's calender.
+    """Represents one event in a user's calendar.
 
     Warnings
     --------
@@ -305,14 +305,14 @@ class Event(models.Model):
 
         Returns
         -------
-        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
-            The method returns a ``CalenderEntryList`` with entries for the
+        :class:`~calingen.interfaces.data_exchange.CalendarEntryList`
+            The method returns a ``CalendarEntryList`` with entries for the
             given ``year``.
         """
         if year is None:
             year = datetime.datetime.now().year
 
-        result = CalenderEntryList()
+        result = CalendarEntryList()
 
         # The current state of the app just includes the categories
         # ANNUAL_ANNIVERSARY and HOLIDAY. Both of them are implicitly expected
@@ -320,7 +320,7 @@ class Event(models.Model):
         # The following statement works on that assumption and simply uses the
         # specified year parameter with the (stored) values of month and day.
         result.add(
-            CalenderEntry(
+            CalendarEntry(
                 self.title,
                 self.category,
                 datetime.date(year, self.start.month, self.start.day),

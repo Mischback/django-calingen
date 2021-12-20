@@ -14,7 +14,7 @@ from django.views.generic.base import ContextMixin
 
 # app imports
 from calingen.views.mixins import (
-    AllCalenderEntriesMixin,
+    AllCalendarEntriesMixin,
     ProfileIDMixin,
     RestrictToUserMixin,
 )
@@ -48,8 +48,8 @@ class UserProfileIDMixinAppliedView(ProfileIDMixin, ContextMixin, TestTemplateVi
     pass
 
 
-class AllCalenderEntriesMixinAppliedView(
-    AllCalenderEntriesMixin, ContextMixin, TestTemplateView
+class AllCalendarEntriesMixinAppliedView(
+    AllCalendarEntriesMixin, ContextMixin, TestTemplateView
 ):
     pass
 
@@ -116,8 +116,8 @@ class ProfileIDMixinTest(CalingenTestCase):
         self.assertTrue(mock_profile_manager.get_profile.called)
 
 
-@tag("views", "mixins", "AllCalenderEntriesMixin")
-class AllCalenderEntriesMixinTest(CalingenTestCase):
+@tag("views", "mixins", "AllCalendarEntriesMixin")
+class AllCalendarEntriesMixinTest(CalingenTestCase):
 
     factory = RequestFactory()
 
@@ -130,7 +130,7 @@ class AllCalenderEntriesMixinTest(CalingenTestCase):
         mock_event_manager = mock.PropertyMock()
         mock_event.calingen_manager = mock_event_manager
         test_target_year = 2021
-        cbv = AllCalenderEntriesMixinAppliedView
+        cbv = AllCalendarEntriesMixinAppliedView
         request = self.factory.get("/rand")
         request.user = "foo"
         view = cbv.as_view()
@@ -141,4 +141,4 @@ class AllCalenderEntriesMixinTest(CalingenTestCase):
         # Assert (verify the results)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(mock_profile_manager.get_profile.called)
-        self.assertTrue(mock_event_manager.get_calender_entry_list.called)
+        self.assertTrue(mock_event_manager.get_calendar_entry_list.called)

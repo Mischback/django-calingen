@@ -13,22 +13,22 @@ from django.test import override_settings, tag  # noqa: F401
 from dateutil import parser
 
 # app imports
-from calingen.interfaces.data_exchange import CalenderEntry, CalenderEntryList
+from calingen.interfaces.data_exchange import CalendarEntry, CalendarEntryList
 
 # local imports
 from ..util.testcases import CalingenTestCase
 
 
-@tag("interfaces", "data", "calenderentry")
-class CalenderEntryTest(CalingenTestCase):
-    """Provide tests for the CalenderEntry class."""
+@tag("interfaces", "data", "calendarentry")
+class CalendarEntryTest(CalingenTestCase):
+    """Provide tests for the CalendarEntry class."""
 
     def test_constructor_accepts_datetime(self):
         # Arrange (set up test environment)
         test_datetime = datetime.datetime(2021, 12, 2, 14, 48)
 
         # Act (actually perform what has to be done)
-        entry = CalenderEntry("foo", "bar", test_datetime, ("foo", "bar"))
+        entry = CalendarEntry("foo", "bar", test_datetime, ("foo", "bar"))
 
         # Assert (verify the results)
         self.assertEqual(entry.timestamp, test_datetime, ("foo", "bar"))
@@ -38,7 +38,7 @@ class CalenderEntryTest(CalingenTestCase):
         test_date = datetime.date(2021, 12, 2)
 
         # Act (actually perform what has to be done)
-        entry = CalenderEntry("foo", "bar", test_date, ("foo", "bar"))
+        entry = CalendarEntry("foo", "bar", test_date, ("foo", "bar"))
 
         # Assert (verify the results)
         self.assertEqual(entry.timestamp.date(), test_date)
@@ -50,7 +50,7 @@ class CalenderEntryTest(CalingenTestCase):
         test_datetime_str = test_datetime.__str__()
 
         # Act (actually perform what has to be done)
-        entry = CalenderEntry("foo", "bar", test_datetime_str, ("foo", "bar"))
+        entry = CalendarEntry("foo", "bar", test_datetime_str, ("foo", "bar"))
 
         # Assert (verify the results)
         self.assertEqual(entry.timestamp, test_datetime)
@@ -62,7 +62,7 @@ class CalenderEntryTest(CalingenTestCase):
         # Act (actually perform what has to be done)
         # Assert (verify the results)
         with self.assertRaises(parser._parser.ParserError):
-            entry = CalenderEntry(  # noqa: F841
+            entry = CalendarEntry(  # noqa: F841
                 "foo", "bar", test_datetime_str, ("foo", "bar")
             )
 
@@ -72,8 +72,8 @@ class CalenderEntryTest(CalingenTestCase):
 
         # Act (actually perform what has to be done)
         # Assert (verify the results)
-        with self.assertRaises(CalenderEntry.CalenderEntryException):
-            entry = CalenderEntry("foo", "bar", test_date, "BREAK")  # noqa: F841
+        with self.assertRaises(CalendarEntry.CalendarEntryException):
+            entry = CalendarEntry("foo", "bar", test_date, "BREAK")  # noqa: F841
 
     @mock.patch("calingen.interfaces.data_exchange.EventCategory")
     def test_constructor_accepts_event_category(self, mock_event_category):
@@ -85,7 +85,7 @@ class CalenderEntryTest(CalingenTestCase):
         mock_event_category.values = [test_category]
 
         # Act (actually perform what has to be done)
-        entry = CalenderEntry("foo", test_category, test_datetime, ("foo", "bar"))
+        entry = CalendarEntry("foo", test_category, test_datetime, ("foo", "bar"))
 
         # Assert (verify the results)
         self.assertEqual(entry.timestamp, test_datetime)
@@ -97,7 +97,7 @@ class CalenderEntryTest(CalingenTestCase):
             pass
 
         test_class = TestClass()
-        entry = CalenderEntry(
+        entry = CalendarEntry(
             "foo", "bar", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -115,7 +115,7 @@ class CalenderEntryTest(CalingenTestCase):
             pass
 
         test_class = TestClass()
-        entry = CalenderEntry(
+        entry = CalendarEntry(
             "foo", "bar", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -130,10 +130,10 @@ class CalenderEntryTest(CalingenTestCase):
 
     def test_lt_timestamp(self):
         # Arrange (set up test environment)
-        entry_1 = CalenderEntry(
+        entry_1 = CalendarEntry(
             "aaa", "bbb", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
-        entry_2 = CalenderEntry(
+        entry_2 = CalendarEntry(
             "aaa", "bbb", datetime.datetime(2020, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -145,10 +145,10 @@ class CalenderEntryTest(CalingenTestCase):
 
     def test_lt_category(self):
         # Arrange (set up test environment)
-        entry_1 = CalenderEntry(
+        entry_1 = CalendarEntry(
             "aaa", "zzz", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
-        entry_2 = CalenderEntry(
+        entry_2 = CalendarEntry(
             "aaa", "bbb", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -160,10 +160,10 @@ class CalenderEntryTest(CalingenTestCase):
 
     def test_lt_title(self):
         # Arrange (set up test environment)
-        entry_1 = CalenderEntry(
+        entry_1 = CalendarEntry(
             "zzz", "bbb", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
-        entry_2 = CalenderEntry(
+        entry_2 = CalendarEntry(
             "aaa", "bbb", datetime.datetime(2021, 12, 2, 15, 4), ("foo", "bar")
         )
 
@@ -174,14 +174,14 @@ class CalenderEntryTest(CalingenTestCase):
         self.assertLessEqual(entry_2, entry_1)
 
 
-@tag("interfaces", "data", "calenderentrylist")
-class CalenderEntryListTest(CalingenTestCase):
-    """Provide tests for the CalenderEntryList class."""
+@tag("interfaces", "data", "calendarentrylist")
+class CalendarEntryListTest(CalingenTestCase):
+    """Provide tests for the CalendarEntryList class."""
 
     def test_constructor_initializes_set(self):
         """Constructor initializes _entries."""
         # Arrange (set up test environment)
-        cal_entry_list = CalenderEntryList()
+        cal_entry_list = CalendarEntryList()
 
         # Act (actually perform what has to be done)
 
@@ -191,7 +191,7 @@ class CalenderEntryListTest(CalingenTestCase):
     def test_add_adds_provided_entry(self):
         """add() appends provided entry to _entries."""
         # Arrange (set up test environment)
-        cal_entry_list = CalenderEntryList()
+        cal_entry_list = CalendarEntryList()
         test_entry = "foo"
 
         # Act (actually perform what has to be done)
@@ -203,33 +203,33 @@ class CalenderEntryListTest(CalingenTestCase):
     def test_add_rejects_none(self):
         """add() rejects if parameter is None."""
         # Arrange (set up test environment)
-        cal_entry_list = CalenderEntryList()
+        cal_entry_list = CalendarEntryList()
 
         # Act (actually perform what has to be done)
         # Assert (verify the results)
-        with self.assertRaises(CalenderEntryList.CalenderEntryListException):
+        with self.assertRaises(CalendarEntryList.CalendarEntryListException):
             cal_entry_list.add(None)
 
     def test_merge_merges_distinct_sets(self):
-        """merge() correctly merges two distinct CalenderEntryList instances."""
+        """merge() correctly merges two distinct CalendarEntryList instances."""
         # Arrange (set up test environment)
-        cal_entry_one = CalenderEntry(
+        cal_entry_one = CalendarEntry(
             title="foo",
             category="foo",
             timestamp=datetime.datetime.now(),
             source=("foo", "bar"),
         )
-        cal_entry_two = CalenderEntry(
+        cal_entry_two = CalendarEntry(
             title="bar",
             category="bar",
             timestamp=datetime.datetime.now(),
             source=("foo", "bar"),
         )
 
-        cal_entry_list_target = CalenderEntryList()
+        cal_entry_list_target = CalendarEntryList()
         cal_entry_list_target.add(cal_entry_one)
 
-        cal_entry_list_second = CalenderEntryList()
+        cal_entry_list_second = CalendarEntryList()
         cal_entry_list_second.add(cal_entry_two)
 
         # Act (actually perform what has to be done)
@@ -240,25 +240,25 @@ class CalenderEntryListTest(CalingenTestCase):
         self.assertIn(cal_entry_two, cal_entry_list_target._entries)
 
     def test_merge_merges_non_distinct_sets(self):
-        """merge() correctly merges two non distinct CalenderEntryList instances."""
+        """merge() correctly merges two non distinct CalendarEntryList instances."""
         # Arrange (set up test environment)
-        cal_entry_one = CalenderEntry(
+        cal_entry_one = CalendarEntry(
             title="foo",
             category="foo",
             timestamp=datetime.datetime.now(),
             source=("foo", "bar"),
         )
-        cal_entry_two = CalenderEntry(
+        cal_entry_two = CalendarEntry(
             title="bar",
             category="bar",
             timestamp=datetime.datetime.now(),
             source=("foo", "bar"),
         )
 
-        cal_entry_list_target = CalenderEntryList()
+        cal_entry_list_target = CalendarEntryList()
         cal_entry_list_target.add(cal_entry_one)
 
-        cal_entry_list_second = CalenderEntryList()
+        cal_entry_list_second = CalendarEntryList()
         cal_entry_list_second.add(cal_entry_two)
         cal_entry_list_second.add(cal_entry_one)
 

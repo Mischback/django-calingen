@@ -21,8 +21,8 @@ SOURCE_EXTERNAL = "EXTERNAL"
 
 
 @total_ordering
-class CalenderEntry:
-    """Data structure to pass calender entries around.
+class CalendarEntry:
+    """Data structure to pass calendar entries around.
 
     Parameters
     ----------
@@ -61,7 +61,7 @@ class CalenderEntry:
 
     Raises
     ------
-    CalenderEntry.CalenderEntryException
+    CalendarEntry.CalendarEntryException
         Raised if ``source`` was not provided as :py:obj:`tuple`
     dateutil.parser._parser.ParserError
         Raised if ``timestamp`` is provided as :py:obj:`str` and could not be
@@ -78,29 +78,29 @@ class CalenderEntry:
     **equal**.
 
     The implementation of
-    :class:`calingen.interfaces.data_exchange.CalenderEntryList` relies
+    :class:`calingen.interfaces.data_exchange.CalendarEntryList` relies
     internally on a ``set``, which means the entries are unique. So, only
-    one of the events will be present in the resulting ``CalenderEntryList``.
+    one of the events will be present in the resulting ``CalendarEntryList``.
 
     Notes
     -----
-    Instances of this class are single, self-contained entries in a calender.
+    Instances of this class are single, self-contained entries in a calendar.
     They provide an abstraction and common interface to events provided by the
     app's user (instances of :class:`~calingen.models.event.Event`) and events
     provided by plugins (implementations of
     :class:`~calingen.interfaces.plugin_api.EventProvider`).
 
     However, there is no real case of using this class without and accompanying
-    :class:`~calingen.interfaces.data_exchange.CalenderEntryList`. Actually,
+    :class:`~calingen.interfaces.data_exchange.CalendarEntryList`. Actually,
     all ``resolve()`` operations are required to return an instance of
-    :class:`~calingen.interfaces.data_exchange.CalenderEntryList` with instances
+    :class:`~calingen.interfaces.data_exchange.CalendarEntryList` with instances
     of this class as its payload.
 
     As you can see, the documentation of the class's `magic methods` is kept at
     a minimum. See the source code for further details!
     """
 
-    class CalenderEntryException(CallingenInterfaceException):
+    class CalendarEntryException(CallingenInterfaceException):
         """Class-specific exception, raised on failures in this class's methods."""
 
     def __init__(self, title, category, timestamp, source):
@@ -129,27 +129,27 @@ class CalenderEntry:
         if isinstance(source, tuple):
             self.source = source
         else:
-            raise self.CalenderEntryException("source must be provided as tuple")
+            raise self.CalendarEntryException("source must be provided as tuple")
 
     def __eq__(self, other):
         """Check equality with ``other`` object."""
         # see https://stackoverflow.com/a/2909119
         # see https://stackoverflow.com/a/8796908
-        if isinstance(other, CalenderEntry):
+        if isinstance(other, CalendarEntry):
             return self.__key() == other.__key()  # pragma: nocover
         return NotImplemented
 
     def __lt__(self, other):
         """Provide `less than` comparison with ``other`` object."""
         # see https://stackoverflow.com/a/8796908
-        if isinstance(other, CalenderEntry):
+        if isinstance(other, CalendarEntry):
             return self.__key() < other.__key()
         return NotImplemented
 
     def __repr__(self):
         """Provide an instance's `representation`."""
         # see https://stackoverflow.com/a/12448200
-        return "<CalenderEntry(title={}, category={}, start={}, source={})>".format(
+        return "<CalendarEntry(title={}, category={}, start={}, source={})>".format(
             self.title.__repr__(),
             self.category.__repr__(),
             self.timestamp.__repr__(),
@@ -174,33 +174,33 @@ class CalenderEntry:
         return (self.timestamp, self.category, self.title)  # pragma: nocover
 
 
-class CalenderEntryList:
-    """A list of calender entries.
+class CalendarEntryList:
+    """A list of calendar entries.
 
     Attributes
     ----------
     _entries : set
-        This attribute stores the list of calender entries. It is implemented
+        This attribute stores the list of calendar entries. It is implemented
         as a :py:obj:`set`, which makes it mutable and unordered. Primarily a
         :py:obj:`set` is used to ensure that all included items are **unique**.
 
     Warnings
     --------
     While objects of this class are intended to store / handle instances of
-    :class:`~calingen.interfaces.data_exchange.CalenderEntry`, this is **not**
+    :class:`~calingen.interfaces.data_exchange.CalendarEntry`, this is **not**
     enforced or validated (EAFP).
 
     Notes
     -----
     This class is a close companion of
-    :class:`~calingen.interfaces.data_exchange.CalenderEntry` instances.
+    :class:`~calingen.interfaces.data_exchange.CalendarEntry` instances.
 
     Internally, the app expects the result of any ``resolve()`` operation to be
     an instance of this class with a set (or list) of
-    :class:`~calingen.interfaces.data_exchange.CalenderEntry` instances.
+    :class:`~calingen.interfaces.data_exchange.CalendarEntry` instances.
     """
 
-    class CalenderEntryListException(CallingenInterfaceException):
+    class CalendarEntryListException(CallingenInterfaceException):
         """Class-specific exception, raised on failures in this class's methods."""
 
     def __init__(self):  # noqa: D107
@@ -210,16 +210,16 @@ class CalenderEntryList:
         return len(self._entries)  # pragma: nocover
 
     def add(self, entry):
-        """Add a :class:`~calingen.interfaces.data_exchange.CalenderEntry` to the list.
+        """Add a :class:`~calingen.interfaces.data_exchange.CalendarEntry` to the list.
 
         Parameters
         ----------
-        entry : CalenderEntry
+        entry : CalendarEntry
             The entry to be added to this class's list.
 
         Raises
         ------
-        CalenderEntryList.CalenderEntryListException
+        CalendarEntryList.CalendarEntryListException
             Raised if no entry is provided.
 
         Warnings
@@ -227,16 +227,16 @@ class CalenderEntryList:
         There is no validation of the input type!
         """
         if entry is None:
-            raise self.CalenderEntryListException("An entry is required")
+            raise self.CalendarEntryListException("An entry is required")
 
         self._entries.add(entry)
 
     def merge(self, entry_list_instance):
-        """Merge two instances of ``CalenderEntryList``.
+        """Merge two instances of ``CalendarEntryList``.
 
         Parameters
         ----------
-        entry_list_instance : CalenderEntryList
+        entry_list_instance : CalendarEntryList
             The instance to be merged into this one.
 
         Warnings
@@ -257,7 +257,7 @@ class CalenderEntryList:
         -------
         list
             The sorted list of
-            :class:`~calingen.interfaces.data_exchange.CalenderEntry`.
+            :class:`~calingen.interfaces.data_exchange.CalendarEntry`.
 
         Warnings
         --------

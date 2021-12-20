@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add model ``Event``, including views for _CRUD_
 - add model ``Profile``, including views for _CRUD_
 - add module ``interfaces``
-  - add ``data_exchange`` interfaces, to pass calender entries or list of them
+  - add ``data_exchange`` interfaces, to pass calendar entries or list of them
     between different components of the application
   - add a generic plugin api
   - add a plugin api to provide events
