@@ -18,7 +18,7 @@ from calingen.forms.fields import SplitDateTimeOptionalField
 from calingen.interfaces.data_exchange import (
     SOURCE_INTERNAL,
     CalendarEntry,
-    CalenderEntryList,
+    CalendarEntryList,
 )
 from calingen.models.profile import Profile
 from calingen.models.queryset import CalingenQuerySet
@@ -92,7 +92,7 @@ class EventManager(models.Manager):
     """
 
     def get_calender_entry_list(self, user=None, year=None):
-        """Return all instances as :class:`~calingen.interfaces.data_exchange.CalenderEntryList`.
+        """Return all instances as :class:`~calingen.interfaces.data_exchange.CalendarEntryList`.
 
         Parameters
         ----------
@@ -104,11 +104,11 @@ class EventManager(models.Manager):
 
         Returns
         -------
-        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
+        :class:`~calingen.interfaces.data_exchange.CalendarEntryList`
             All :class:`~calingen.models.event.Event` instances of ``user``,
-            converted into a ``CalenderEntryList``.
+            converted into a ``CalendarEntryList``.
         """
-        result = CalenderEntryList()
+        result = CalendarEntryList()
         for event in self.get_user_events_qs(user).iterator():
             result.merge(event.resolve(year))
 
@@ -305,14 +305,14 @@ class Event(models.Model):
 
         Returns
         -------
-        :class:`~calingen.interfaces.data_exchange.CalenderEntryList`
-            The method returns a ``CalenderEntryList`` with entries for the
+        :class:`~calingen.interfaces.data_exchange.CalendarEntryList`
+            The method returns a ``CalendarEntryList`` with entries for the
             given ``year``.
         """
         if year is None:
             year = datetime.datetime.now().year
 
-        result = CalenderEntryList()
+        result = CalendarEntryList()
 
         # The current state of the app just includes the categories
         # ANNUAL_ANNIVERSARY and HOLIDAY. Both of them are implicitly expected

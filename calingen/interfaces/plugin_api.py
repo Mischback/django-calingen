@@ -82,7 +82,7 @@ class EventProvider(metaclass=PluginMount):
     - **title** : The title of the provider, provided as :py:obj:`str`.
     - **resolve(year)** : A classmethod that accepts a **year** (:py:obj:`int`)
       as parameter and returns an instance of
-      :class:`calingen.interfaces.data_exchange.CalenderEntryList` containing
+      :class:`calingen.interfaces.data_exchange.CalendarEntryList` containing
       the `Events` of the requested year with their corresponding meta
       information as specified by
       :class:`calingen.interfaces.data_exchange.CalendarEntry`.
@@ -126,7 +126,7 @@ class EventProvider(metaclass=PluginMount):
 
         Returns
         -------
-        :class:`calingen.interfaces.data_exchange.CalenderEntryList`
+        :class:`calingen.interfaces.data_exchange.CalendarEntryList`
             Wraps the actual events, provided as
             :class:`calingen.interfaces.data_exchange.CalendarEntry` into one
             single object.
@@ -134,7 +134,7 @@ class EventProvider(metaclass=PluginMount):
         Notes
         -----
         Neither :class:`~calingen.interfaces.data_exchange.CalendarEntry` nor
-        :class:`~calingen.interfaces.data_exchange.CalenderEntryList` perform
+        :class:`~calingen.interfaces.data_exchange.CalendarEntryList` perform
         any validation on its data. Don't sticking to the specified and expected
         types will crash later and _might_ be hard to debug.
         """

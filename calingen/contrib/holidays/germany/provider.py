@@ -16,7 +16,7 @@ from calingen.constants import EventCategory
 from calingen.interfaces.data_exchange import (
     SOURCE_EXTERNAL,
     CalendarEntry,
-    CalenderEntryList,
+    CalendarEntryList,
 )
 from calingen.interfaces.plugin_api import EventProvider
 
@@ -155,7 +155,7 @@ class GermanyFederal(EventProvider):
     @classmethod
     def resolve(cls, year):  # noqa: D102
 
-        result = CalenderEntryList()
+        result = CalendarEntryList()
         for i in cls.holidays:
             result.add(
                 CalendarEntry(

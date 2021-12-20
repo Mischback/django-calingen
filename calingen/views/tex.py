@@ -79,7 +79,7 @@ class TeXCompilerView(
           the fetched values will be provided here.
         - ``entries``: All calender entries of the user's profile, resolved to
           the ``target_year``, provided as a
-          :class:`calingen.interfaces.data_exchange.CalenderEntryList` object.
+          :class:`calingen.interfaces.data_exchange.CalendarEntryList` object.
         """
         target_year = self.request.session.pop("target_year", date.today().year)
         layout_configuration = self.request.session.pop("layout_configuration", None)

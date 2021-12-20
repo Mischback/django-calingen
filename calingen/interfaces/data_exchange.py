@@ -78,9 +78,9 @@ class CalendarEntry:
     **equal**.
 
     The implementation of
-    :class:`calingen.interfaces.data_exchange.CalenderEntryList` relies
+    :class:`calingen.interfaces.data_exchange.CalendarEntryList` relies
     internally on a ``set``, which means the entries are unique. So, only
-    one of the events will be present in the resulting ``CalenderEntryList``.
+    one of the events will be present in the resulting ``CalendarEntryList``.
 
     Notes
     -----
@@ -91,9 +91,9 @@ class CalendarEntry:
     :class:`~calingen.interfaces.plugin_api.EventProvider`).
 
     However, there is no real case of using this class without and accompanying
-    :class:`~calingen.interfaces.data_exchange.CalenderEntryList`. Actually,
+    :class:`~calingen.interfaces.data_exchange.CalendarEntryList`. Actually,
     all ``resolve()`` operations are required to return an instance of
-    :class:`~calingen.interfaces.data_exchange.CalenderEntryList` with instances
+    :class:`~calingen.interfaces.data_exchange.CalendarEntryList` with instances
     of this class as its payload.
 
     As you can see, the documentation of the class's `magic methods` is kept at
@@ -174,7 +174,7 @@ class CalendarEntry:
         return (self.timestamp, self.category, self.title)  # pragma: nocover
 
 
-class CalenderEntryList:
+class CalendarEntryList:
     """A list of calender entries.
 
     Attributes
@@ -219,7 +219,7 @@ class CalenderEntryList:
 
         Raises
         ------
-        CalenderEntryList.CalendarEntryListException
+        CalendarEntryList.CalendarEntryListException
             Raised if no entry is provided.
 
         Warnings
@@ -232,11 +232,11 @@ class CalenderEntryList:
         self._entries.add(entry)
 
     def merge(self, entry_list_instance):
-        """Merge two instances of ``CalenderEntryList``.
+        """Merge two instances of ``CalendarEntryList``.
 
         Parameters
         ----------
-        entry_list_instance : CalenderEntryList
+        entry_list_instance : CalendarEntryList
             The instance to be merged into this one.
 
         Warnings

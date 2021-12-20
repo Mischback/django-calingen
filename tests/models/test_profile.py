@@ -126,14 +126,14 @@ class ProfileTest(CalingenTestCase):
         self.assertEqual(return_value["newly_unavailable"], ["foo.bar.buhu"])
 
     @mock.patch("calingen.models.profile.import_string")
-    @mock.patch("calingen.models.profile.CalenderEntryList")
+    @mock.patch("calingen.models.profile.CalendarEntryList")
     @mock.patch(
         "calingen.models.profile.Profile.event_provider", new_callable=mock.PropertyMock
     )
     def test_resolve_applies_given_year_in_CalenderEntry(
         self, mock_event_provider, mock_cel, mock_import_string
     ):
-        """Resolving CalenderEntryList with given year."""
+        """Resolving CalendarEntryList with given year."""
         # Arrange (set up test environment)
         test_active_provider = "foo.bar.buhu"
         profile = Profile()
@@ -150,14 +150,14 @@ class ProfileTest(CalingenTestCase):
 
     @mock.patch("calingen.models.profile.import_string")
     @mock.patch("calingen.models.profile.datetime")
-    @mock.patch("calingen.models.profile.CalenderEntryList")
+    @mock.patch("calingen.models.profile.CalendarEntryList")
     @mock.patch(
         "calingen.models.profile.Profile.event_provider", new_callable=mock.PropertyMock
     )
     def test_resolve_applies_current_year_in_CalenderEntry(
         self, mock_event_provider, mock_cel, mock_datetime, mock_import_string
     ):
-        """Resolving CalenderEntryList with current year if not specified."""
+        """Resolving CalendarEntryList with current year if not specified."""
         # Arrange (set up test environment)
         test_active_provider = "foo.bar.buhu"
         profile = Profile()

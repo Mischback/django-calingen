@@ -77,11 +77,11 @@ class EventManagerTest(CalingenORMTestCase):
         # Assert (verify the results)
         self.assertEqual(alice_events, test_alice_events)
 
-    @mock.patch("calingen.models.event.CalenderEntryList")
-    def test_get_calender_entry_list(self, mock_calenderentrylist):
+    @mock.patch("calingen.models.event.CalendarEntryList")
+    def test_get_calender_entry_list(self, mock_calendarentrylist):
         # Arrange (set up test environment)
         mock_merge = mock.MagicMock()
-        mock_calenderentrylist.return_value.merge = mock_merge
+        mock_calendarentrylist.return_value.merge = mock_merge
         alice = User.objects.get(pk=2)  # Alice!
         alice_events = Event.objects.filter(profile__owner=alice).count()
 
@@ -97,9 +97,9 @@ class EventManagerTest(CalingenORMTestCase):
 @tag("models", "event", "Event")
 class EventTest(CalingenTestCase):
     @mock.patch("calingen.models.event.CalendarEntry")
-    @mock.patch("calingen.models.event.CalenderEntryList")
+    @mock.patch("calingen.models.event.CalendarEntryList")
     def test_resolve_applies_given_year_in_CalenderEntry(self, mock_cel, mock_ce):
-        """Given year is applied to the resolved CalenderEntryList."""
+        """Given year is applied to the resolved CalendarEntryList."""
         # Arrange (set up test environment)
         event = Event()
         event.title = "foo"
@@ -115,11 +115,11 @@ class EventTest(CalingenTestCase):
 
     @mock.patch("calingen.models.event.datetime")
     @mock.patch("calingen.models.event.CalendarEntry")
-    @mock.patch("calingen.models.event.CalenderEntryList")
+    @mock.patch("calingen.models.event.CalendarEntryList")
     def test_resolve_applies_current_year_in_CalenderEntry(
         self, mock_cel, mock_ce, mock_datetime
     ):
-        """Resolving CalenderEntryList with current year if not specified."""
+        """Resolving CalendarEntryList with current year if not specified."""
         # Arrange (set up test environment)
         event = Event()
         event.title = "foo"

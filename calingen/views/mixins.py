@@ -6,7 +6,7 @@
 from django.core.exceptions import ImproperlyConfigured
 
 # app imports
-from calingen.interfaces.data_exchange import CalenderEntryList
+from calingen.interfaces.data_exchange import CalendarEntryList
 from calingen.models.event import Event
 from calingen.models.profile import Profile
 
@@ -86,7 +86,7 @@ class AllCalenderEntriesMixin:
         # get the user's profile (required to process plugins)
         profile = Profile.calingen_manager.get_profile(self.request.user)
 
-        all_entries = CalenderEntryList()
+        all_entries = CalendarEntryList()
         internal_events = Event.calingen_manager.get_calender_entry_list(
             user=self.request.user, year=context["target_year"]
         )
