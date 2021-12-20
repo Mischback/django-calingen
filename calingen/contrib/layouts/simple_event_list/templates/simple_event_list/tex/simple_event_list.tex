@@ -1,7 +1,7 @@
 {% extends "simple_event_list/tex/base.tex" %}
 
 {% block document %}
-  \section*{Calender Entries for {{ target_year }} }
+  \section*{Calendar Entries for {{ target_year }} }
   {% for month in entries %}
     \subsection*{ {{ month.0.timestamp|date:"F" }} }
     \begin{enumerate}
