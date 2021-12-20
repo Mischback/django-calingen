@@ -130,7 +130,7 @@ Generate Calendar Inlays
 This is what you came for, isn't it?
 
 Ok, let's get this straight: This documentation will most likely not answer
-all questions regarding the generation of calender inlays, as this is the part
+all questions regarding the generation of calendar inlays, as this is the part
 of the application that may differ widely, based on the actual installed
 layouts and the provided compiler.
 
