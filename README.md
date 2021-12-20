@@ -9,4 +9,4 @@
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/Mischback/django-calingen)](https://www.codefactor.io/repository/github/mischback/django-calingen)
 
 **django-calingen** is a pluggable Django application to generate analogous,
-legacy, paper-based calender inlays - thus **cal**ender **in**lay **gen**erator.
+legacy, paper-based calendar inlays - thus **cal**ender **in**lay **gen**erator.

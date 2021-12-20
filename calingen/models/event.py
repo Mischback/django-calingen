@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide the app's central class to store and manage calender entries."""
+"""Provide the app's central class to store and manage calendar entries."""
 
 # Python imports
 import datetime
@@ -171,7 +171,7 @@ class EventManager(models.Manager):
 
 
 class Event(models.Model):
-    """Represents one event in a user's calender.
+    """Represents one event in a user's calendar.
 
     Warnings
     --------

@@ -77,7 +77,7 @@ class TeXCompilerView(
         - ``layout_configuration``: If the layout provides a custom
           implementation of :class:`calingen.forms.tex.TeXLayoutConfigurationForm`,
           the fetched values will be provided here.
-        - ``entries``: All calender entries of the user's profile, resolved to
+        - ``entries``: All calendar entries of the user's profile, resolved to
           the ``target_year``, provided as a
           :class:`calingen.interfaces.data_exchange.CalendarEntryList` object.
         """

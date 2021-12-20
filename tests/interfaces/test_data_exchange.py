@@ -19,9 +19,9 @@ from calingen.interfaces.data_exchange import CalendarEntry, CalendarEntryList
 from ..util.testcases import CalingenTestCase
 
 
-@tag("interfaces", "data", "calenderentry")
-class CalenderEntryTest(CalingenTestCase):
-    """Provide tests for the CalenderEntry class."""
+@tag("interfaces", "data", "calendarentry")
+class CalendarEntryTest(CalingenTestCase):
+    """Provide tests for the CalendarEntry class."""
 
     def test_constructor_accepts_datetime(self):
         # Arrange (set up test environment)

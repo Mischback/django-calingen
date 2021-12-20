@@ -116,7 +116,7 @@ class ProfileIDMixinTest(CalingenTestCase):
         self.assertTrue(mock_profile_manager.get_profile.called)
 
 
-@tag("views", "mixins", "AllCalenderEntriesMixin")
+@tag("views", "mixins", "AllCalendarEntriesMixin")
 class AllCalenderEntriesMixinTest(CalingenTestCase):
 
     factory = RequestFactory()

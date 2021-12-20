@@ -22,7 +22,7 @@ SOURCE_EXTERNAL = "EXTERNAL"
 
 @total_ordering
 class CalendarEntry:
-    """Data structure to pass calender entries around.
+    """Data structure to pass calendar entries around.
 
     Parameters
     ----------
@@ -84,7 +84,7 @@ class CalendarEntry:
 
     Notes
     -----
-    Instances of this class are single, self-contained entries in a calender.
+    Instances of this class are single, self-contained entries in a calendar.
     They provide an abstraction and common interface to events provided by the
     app's user (instances of :class:`~calingen.models.event.Event`) and events
     provided by plugins (implementations of
@@ -175,12 +175,12 @@ class CalendarEntry:
 
 
 class CalendarEntryList:
-    """A list of calender entries.
+    """A list of calendar entries.
 
     Attributes
     ----------
     _entries : set
-        This attribute stores the list of calender entries. It is implemented
+        This attribute stores the list of calendar entries. It is implemented
         as a :py:obj:`set`, which makes it mutable and unordered. Primarily a
         :py:obj:`set` is used to ensure that all included items are **unique**.
 
