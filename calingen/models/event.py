@@ -293,7 +293,7 @@ class Event(models.Model):
         str
             The absolute URL for instances of this model.
         """
-        return reverse("event-detail", args=[self.id])  # pragma: nocover
+        return reverse("calingen:event-detail", args=[self.id])  # pragma: nocover
 
     def resolve(self, year=None):
         """Resolve this object's ``start`` for a given ``year``.

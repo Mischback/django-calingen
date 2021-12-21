@@ -108,7 +108,7 @@ class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
     """
 
     template_name = "calingen/tex_layout_configuration.html"
-    success_url = reverse_lazy("tex-compiler")
+    success_url = reverse_lazy("calingen:tex-compiler")
 
     class NoConfigurationFormException(CalingenException):
         """Raised if the selected layout does not have a ``configuration_form``."""
@@ -206,7 +206,7 @@ class TeXLayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
 
     template_name = "calingen/tex_layout_selection.html"
     form_class = TeXLayoutSelectionForm
-    success_url = reverse_lazy("tex-layout-configuration")
+    success_url = reverse_lazy("calingen:tex-layout-configuration")
 
     def form_valid(self, form):
         """Trigger saving of the selected value in the user's ``Session``."""

@@ -131,7 +131,7 @@ class ProfileDeleteView(
     configuration (:mod:`calingen.urls`) uses the more explicit ``"profile_id"``.
     """
 
-    success_url = reverse_lazy("profile-add")
+    success_url = reverse_lazy("calingen:profile-add")
     """The URL to redirect to after successfully deleting the instance.
 
     Warnings
