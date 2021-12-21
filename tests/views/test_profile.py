@@ -31,11 +31,12 @@ class ProfileCreateViewTest(CalingenORMTransactionTestCase):
         expected_profile_id = 4
 
         # Act (actually perform what has to be done)
-        response = self.client.post(reverse("profile-add"), follow=True)
+        response = self.client.post(reverse("calingen:profile-add"), follow=True)
 
         # Assert (verify the results)
         self.assertRedirects(
-            response, reverse("profile", kwargs={"profile_id": expected_profile_id})
+            response,
+            reverse("calingen:profile", kwargs={"profile_id": expected_profile_id}),
         )
 
     def test_profile_already_exists(self):
@@ -47,9 +48,10 @@ class ProfileCreateViewTest(CalingenORMTransactionTestCase):
         expected_profile_id = 1
 
         # Act (actually perform what has to be done)
-        response = self.client.post(reverse("profile-add"), follow=True)
+        response = self.client.post(reverse("calingen:profile-add"), follow=True)
 
         # Assert (verify the results)
         self.assertRedirects(
-            response, reverse("profile", kwargs={"profile_id": expected_profile_id})
+            response,
+            reverse("calingen:profile", kwargs={"profile_id": expected_profile_id}),
         )

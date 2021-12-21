@@ -11,6 +11,8 @@ from django.urls import path
 # app imports
 from calingen.views import base, event, profile, tex, web
 
+# see: https://docs.djangoproject.com/en/4.0/topics/http/urls/#url-namespaces
+app_name = "calingen"
 urlpatterns = [
     path("", base.homepage, name="homepage"),
     path("event/", event.EventListView.as_view(), name="event-list"),

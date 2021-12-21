@@ -239,7 +239,7 @@ class Profile(models.Model):
         str
             The absolute URL for instances of this model.
         """
-        return reverse("profile", args=[self.id])  # pragma: nocover
+        return reverse("calingen:profile", args=[self.id])  # pragma: nocover
 
     def resolve(self, year=None):
         """Combine all event providers results for a given year into one :class:`~calingen.interfaces.data_exchange.CalendarEntryList`.

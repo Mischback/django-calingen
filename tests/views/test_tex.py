@@ -31,7 +31,9 @@ class TeXLayoutSelectionViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.post(reverse("tex-layout-selection"), follow=True)
+        response = self.client.post(
+            reverse("calingen:tex-layout-selection"), follow=True
+        )
 
         # Assert (verify the results)
         # The actual verification, that an empty POST don't proceed to the next
@@ -67,10 +69,12 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("tex-layout-configuration"), follow=True)
+        response = self.client.get(
+            reverse("calingen:tex-layout-configuration"), follow=True
+        )
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("tex-layout-selection"))
+        self.assertRedirects(response, reverse("calingen:tex-layout-selection"))
         mock_get_form_class.assert_called_once()
 
     @mock.patch(
@@ -84,10 +88,12 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("tex-layout-configuration"), follow=True)
+        response = self.client.get(
+            reverse("calingen:tex-layout-configuration"), follow=True
+        )
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("tex-layout-selection"))
+        self.assertRedirects(response, reverse("calingen:tex-layout-selection"))
         mock_get_form_class.assert_called_once()
 
     @mock.patch("calingen.views.tex.super")
@@ -163,10 +169,10 @@ class TeXCompilerViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("tex-compiler"), follow=True)
+        response = self.client.get(reverse("calingen:tex-compiler"), follow=True)
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("tex-layout-selection"))
+        self.assertRedirects(response, reverse("calingen:tex-layout-selection"))
         mock_get_layout.assert_called_once()
 
     @mock.patch("calingen.views.tex.import_string")
@@ -221,7 +227,7 @@ class TeXCompilerViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("tex-compiler"), follow=True)
+        response = self.client.get(reverse("calingen:tex-compiler"), follow=True)
 
         # Assert (verify the results)
         self.assertContains(response, "foo")

@@ -81,7 +81,7 @@ class EventDeleteView(
     configuration (:mod:`calingen.urls`) uses the more explicit ``"event_id"``.
     """
 
-    success_url = reverse_lazy("event-list")
+    success_url = reverse_lazy("calingen:event-list")
     """The URL to redirect to after successfully deleting the instance."""
 
 

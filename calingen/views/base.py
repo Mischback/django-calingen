@@ -28,7 +28,7 @@ def homepage(request):
 
     # If there is no Profile, redirect to the view to add one
     if profile is None:
-        return redirect("profile-add")
+        return redirect("calingen:profile-add")
 
     # redirect to the user's Profile
-    return redirect("profile", profile_id=profile.id)
+    return redirect("calingen:profile", profile_id=profile.id)

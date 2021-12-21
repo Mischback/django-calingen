@@ -101,7 +101,9 @@ class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
             return super().form_valid(form)
         except IntegrityError:
             # The requesting user already has a profile, simply redirect him
-            return redirect("profile", Profile.objects.get(owner=self.request.user).id)
+            return redirect(
+                "calingen:profile", Profile.objects.get(owner=self.request.user).id
+            )
 
 
 class ProfileDeleteView(
@@ -131,7 +133,7 @@ class ProfileDeleteView(
     configuration (:mod:`calingen.urls`) uses the more explicit ``"profile_id"``.
     """
 
-    success_url = reverse_lazy("profile-add")
+    success_url = reverse_lazy("calingen:profile-add")
     """The URL to redirect to after successfully deleting the instance.
 
     Warnings

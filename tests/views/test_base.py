@@ -26,10 +26,10 @@ class CalingenHomepageTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("homepage"), follow=True)
+        response = self.client.get(reverse("calingen:homepage"), follow=True)
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("profile-add"))
+        self.assertRedirects(response, reverse("calingen:profile-add"))
 
     def test_profile_available(self):
         # Arrange (set up test environment)
@@ -39,7 +39,9 @@ class CalingenHomepageTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("homepage"), follow=True)
+        response = self.client.get(reverse("calingen:homepage"), follow=True)
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("profile", args=[self.profile.id]))
+        self.assertRedirects(
+            response, reverse("calingen:profile", args=[self.profile.id])
+        )
