@@ -39,7 +39,7 @@ class TeXCompilerView(
         try:
             self.layout = self._get_layout()
         except self.NoLayoutSelectedException:
-            return redirect("tex-layout-selection")
+            return redirect("calingen:tex-layout-selection")
 
         self.render_context = self._prepare_context(*args, **kwargs)
 
@@ -147,13 +147,13 @@ class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         except self.NoConfigurationFormException:
             # As no layout specific configuration form is required, directly
             # redirect to the tex generation.
-            return redirect("tex-compiler")
+            return redirect("calingen:tex-compiler")
         except self.NoLayoutSelectedException:
             # This is most likely an edge case: The view is accessed with a
             # GET request without a selected layout stored in the user's session.
             # This could be caused by directly calling this view's url.
             # Just redirect to the layout selection.
-            return redirect("tex-layout-selection")
+            return redirect("calingen:tex-layout-selection")
 
     def get_form_class(self):
         """Provide the layout's configuration form.
