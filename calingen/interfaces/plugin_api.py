@@ -2,9 +2,19 @@
 
 """Provides the API for plugins."""
 
+# Python imports
+from datetime import datetime
+
 # Django imports
 from django.template.loader import render_to_string
 from django.utils.functional import classproperty
+
+# app imports
+from calingen.interfaces.data_exchange import (
+    SOURCE_EXTERNAL,
+    CalendarEntry,
+    CalendarEntryList,
+)
 
 
 def fully_qualified_classname(class_or_instance):
@@ -138,9 +148,19 @@ class EventProvider(metaclass=PluginMount):
         any validation on its data. Don't sticking to the specified and expected
         types will crash later and _might_ be hard to debug.
         """
-        raise NotImplementedError(
-            "Has to be implemented by the actual provider"
-        )  # pragma: nocover
+        result = CalendarEntryList()
+        for entry in cls.entries:
+            result.add(
+                CalendarEntry(
+                    entry[0],
+                    entry[1],
+                    entry[2].between(
+                        datetime(year, 1, 1), datetime(year, 12, 31), inc=True
+                    )[0],
+                    (SOURCE_EXTERNAL, cls.title),
+                )
+            )
+        return result
 
 
 class LayoutProvider(metaclass=PluginMount):
