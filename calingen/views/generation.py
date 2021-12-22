@@ -39,7 +39,7 @@ class CompilerView(
         try:
             self.layout = self._get_layout()
         except self.NoLayoutSelectedException:
-            return redirect("calingen:tex-layout-selection")
+            return redirect("calingen:layout-selection")
 
         self.render_context = self._prepare_context(*args, **kwargs)
 
@@ -108,7 +108,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
     """
 
     template_name = "calingen/layout_configuration.html"
-    success_url = reverse_lazy("calingen:tex-compiler")
+    success_url = reverse_lazy("calingen:compilation")
 
     class NoConfigurationFormException(CalingenException):
         """Raised if the selected layout does not have a ``configuration_form``."""
@@ -147,13 +147,13 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         except self.NoConfigurationFormException:
             # As no layout specific configuration form is required, directly
             # redirect to the compilation.
-            return redirect("calingen:tex-compiler")
+            return redirect("calingen:compilation")
         except self.NoLayoutSelectedException:
             # This is most likely an edge case: The view is accessed with a
             # GET request without a selected layout stored in the user's session.
             # This could be caused by directly calling this view's url.
             # Just redirect to the layout selection.
-            return redirect("calingen:tex-layout-selection")
+            return redirect("calingen:layout-selection")
 
     def get_form_class(self):
         """Provide the layout's configuration form.
@@ -206,7 +206,7 @@ class LayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
 
     template_name = "calingen/layout_selection.html"
     form_class = LayoutSelectionForm
-    success_url = reverse_lazy("calingen:tex-layout-configuration")
+    success_url = reverse_lazy("calingen:layout-configuration")
 
     def form_valid(self, form):
         """Trigger saving of the selected value in the user's ``Session``."""

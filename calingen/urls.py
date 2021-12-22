@@ -54,16 +54,16 @@ urlpatterns = [
     path(
         "generate/select-layout/",
         generation.LayoutSelectionView.as_view(),
-        name="tex-layout-selection",
+        name="layout-selection",
     ),
     path(
         "generate/configure-layout/",
         generation.LayoutConfigurationView.as_view(),
-        name="tex-layout-configuration",
+        name="layout-configuration",
     ),
     path(
-        "generate/generator/",
+        "generate/compilation/",
         generation.CompilerView.as_view(),
-        name="tex-compiler",
+        name="compilation",
     ),
 ]

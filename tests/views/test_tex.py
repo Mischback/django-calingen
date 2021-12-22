@@ -31,9 +31,7 @@ class LayoutSelectionViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.post(
-            reverse("calingen:tex-layout-selection"), follow=True
-        )
+        response = self.client.post(reverse("calingen:layout-selection"), follow=True)
 
         # Assert (verify the results)
         # The actual verification, that an empty POST don't proceed to the next
@@ -70,11 +68,11 @@ class LayoutConfigurationViewTest(CalingenORMTestCase):
 
         # Act (actually perform what has to be done)
         response = self.client.get(
-            reverse("calingen:tex-layout-configuration"), follow=True
+            reverse("calingen:layout-configuration"), follow=True
         )
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("calingen:tex-layout-selection"))
+        self.assertRedirects(response, reverse("calingen:layout-selection"))
         mock_get_form_class.assert_called_once()
 
     @mock.patch(
@@ -89,11 +87,11 @@ class LayoutConfigurationViewTest(CalingenORMTestCase):
 
         # Act (actually perform what has to be done)
         response = self.client.get(
-            reverse("calingen:tex-layout-configuration"), follow=True
+            reverse("calingen:layout-configuration"), follow=True
         )
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("calingen:tex-layout-selection"))
+        self.assertRedirects(response, reverse("calingen:layout-selection"))
         mock_get_form_class.assert_called_once()
 
     @mock.patch("calingen.views.generation.super")
@@ -169,10 +167,10 @@ class CompilerViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("calingen:tex-compiler"), follow=True)
+        response = self.client.get(reverse("calingen:compilation"), follow=True)
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("calingen:tex-layout-selection"))
+        self.assertRedirects(response, reverse("calingen:layout-selection"))
         mock_get_layout.assert_called_once()
 
     @mock.patch("calingen.views.generation.import_string")
@@ -227,7 +225,7 @@ class CompilerViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("calingen:tex-compiler"), follow=True)
+        response = self.client.get(reverse("calingen:compilation"), follow=True)
 
         # Assert (verify the results)
         self.assertContains(response, "foo")
