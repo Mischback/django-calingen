@@ -15,7 +15,7 @@ from django.views.generic.base import ContextMixin, View
 
 # app imports
 from calingen.exceptions import CalingenException
-from calingen.forms.tex import LayoutSelectionForm
+from calingen.forms.generation import LayoutSelectionForm
 from calingen.views.generic import RequestEnabledFormView
 from calingen.views.mixins import AllCalendarEntriesMixin, RestrictToUserMixin
 
@@ -75,7 +75,7 @@ class CompilerView(
 
         - ``target_year``: The year to create the TeX layout for.
         - ``layout_configuration``: If the layout provides a custom
-          implementation of :class:`calingen.forms.tex.LayoutConfigurationForm`,
+          implementation of :class:`calingen.forms.generation.LayoutConfigurationForm`,
           the fetched values will be provided here.
         - ``entries``: All calendar entries of the user's profile, resolved to
           the ``target_year``, provided as a
@@ -104,7 +104,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
     Notes
     -----
     This is just the view to show and process the layout's implementation of
-    :class:`calingen.forms.tex.LayoutConfigurationForm`.
+    :class:`calingen.forms.generation.LayoutConfigurationForm`.
     """
 
     template_name = "calingen/layout_configuration.html"
@@ -162,7 +162,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         -----
         Implementations of :class:`calingen.interfaces.plugin_api.LayoutProvider`
         may provide a class attribute ``configuration_form`` with a subclass of
-        :class:`calingen.forms.tex.LayoutConfigurationForm`.
+        :class:`calingen.forms.generation.LayoutConfigurationForm`.
 
         If ``configuration_form`` is omitted, a custom exception is raised, that
         will be handled in
@@ -197,7 +197,7 @@ class LayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
     Notes
     -----
     This is just the view to show and process the
-    :class:`calingen.forms.tex.LayoutSelectionForm`.
+    :class:`calingen.forms.generation.LayoutSelectionForm`.
 
     Relevant logic, that affects the actual creation, rendering and compilation
     of TeX-templates is provided in the corresponding
