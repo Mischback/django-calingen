@@ -197,11 +197,19 @@ class LayoutProvider(metaclass=PluginMount):
       By providing these attributes, the ``title`` can be provided automatically
       by :meth:`~calingen.interfaces.plugin_api.LayoutProvider.title` in a
       unified way throughout the application.
-    - **layout_type** (:py:obj:`str`): This required class attribute determines
-      which compiler is used to actually compile the rendered source, provided
-      by the plugin, to its final product.
-      TODO: This needs more context, especially: How is this picked up by the
-      compiler? How does this interact with the app's settings?
+    - **layout_type** (:py:obj:`str`): This required class attribute specifies
+      the source language of the rendered result and is used in
+      :class:`calingen.views.generation.CompilerView` to determine
+      which compiler is to be used to actually compile the rendered source to
+      its final product.
+
+      The actual mapping of ``layout_type`` to compiler is done in the
+      app-specific setting :py:data:`~calingen.settings.CALINGEN_COMPILER`.
+
+      ``layout_type`` may not be ``"default"``, as this is a special key used
+      internally in :class:`~calingen.views.generation.CompilerView` and
+      specifies the fallback compiler for the case that there is no dedicated
+      compiler available for the ``layout_type`` of a layout.
 
     Plugins implementing this reference **can** provide implementations of the
     following methods:

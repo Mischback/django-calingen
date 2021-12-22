@@ -8,6 +8,36 @@ values.
 The settings may be provided in the project's settings module.
 """
 
+CALINGEN_COMPILER = {
+    "default": "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler",
+}
+"""Configuration of the compiler plugins.
+
+This setting determines the mapping of available instances of
+:class:`~calingen.interfaces.plugin_api.CompilerProvider` and their association
+with source files, as determined by ``layout_type`` provided by implementations
+of :class:`~calingen.interfaces.plugin_api.LayoutProvider`.
+
+**Default value:** ``{ "default": "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler" }``
+
+Notes
+-----
+More mappings may be added by specifying this setting in a project's settings
+module.
+
+The accepted *keys* are of type :py:obj:`str` and should match whatever the
+project's layouts (that is: implementations of
+:class:`calingen.interfaces.plugin_api.LayoutProvider`) provide with their
+respective ``layout_type`` attributes. If a given ``layout_type`` is not found
+in this setting, the ``default`` compiler is used.
+
+The expected *values* are of type :py:obj:`str` and should specify a dotted
+Python path to an implementation of
+:class:`calingen.interfaces.plugin_api.CompilerProvider`.
+
+This setting is evaluated in :class:`calingen.views.generation.CompilerView`.
+"""
+
 CALINGEN_EXTERNAL_EVENT_PROVIDER = []
 """Determines the available event providers.
 
