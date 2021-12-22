@@ -2,9 +2,19 @@
 
 """Provides the API for plugins."""
 
+# Python imports
+from datetime import datetime
+
 # Django imports
 from django.template.loader import render_to_string
 from django.utils.functional import classproperty
+
+# app imports
+from calingen.interfaces.data_exchange import (
+    SOURCE_EXTERNAL,
+    CalendarEntry,
+    CalendarEntryList,
+)
 
 
 def fully_qualified_classname(class_or_instance):
@@ -133,14 +143,38 @@ class EventProvider(metaclass=PluginMount):
 
         Notes
         -----
-        Neither :class:`~calingen.interfaces.data_exchange.CalendarEntry` nor
-        :class:`~calingen.interfaces.data_exchange.CalendarEntryList` perform
-        any validation on its data. Don't sticking to the specified and expected
-        types will crash later and _might_ be hard to debug.
+        This is the default implementation of the ``resolve()`` method. It makes
+        some assumptions about the internal structure of an actual
+        implementation of :class:`~calingen.interfaces.plugin_api.EventProvider`:
+
+        - A class variable ``entries`` provides a :py:obj:`list` of
+          :py:obj:`tuple` instances with the following structure:
+          ``(title, category, recurrence)``:
+
+            - ``title``: :py:obj:`str`
+            - ``category``: :py:obj:`str`, but it is recommended to rely on a
+              predefined value from :class:`calingen.constants.EventCategory`
+            - ``recurrence``: :class:`dateutil.rrule.rrule`
+
+        - A class variable ``title`` (:py:obj:`str`). This is already a required
+          parameter of the :class:`~calingen.interfaces.plugin_api.EventProvider`
+          implementation itsself and is used to populate the ``source``
+          attribute of the returned
+          :class:`~calingen.interfaces.data_exchange.CalenderEntry` instances.
         """
-        raise NotImplementedError(
-            "Has to be implemented by the actual provider"
-        )  # pragma: nocover
+        result = CalendarEntryList()
+        for entry in cls.entries:
+            result.add(
+                CalendarEntry(
+                    entry[0],
+                    entry[1],
+                    entry[2].between(
+                        datetime(year, 1, 1), datetime(year, 12, 31), inc=True
+                    )[0],
+                    (SOURCE_EXTERNAL, cls.title),
+                )
+            )
+        return result
 
 
 class LayoutProvider(metaclass=PluginMount):

@@ -13,11 +13,6 @@ from dateutil.rrule import WE, YEARLY, rrule
 
 # app imports
 from calingen.constants import EventCategory
-from calingen.interfaces.data_exchange import (
-    SOURCE_EXTERNAL,
-    CalendarEntry,
-    CalendarEntryList,
-)
 from calingen.interfaces.plugin_api import EventProvider
 
 # The following constants simply provide all the available German Holidays
@@ -150,24 +145,7 @@ class GermanyFederal(EventProvider):
 
     title = _("German Federal Holidays")
 
-    holidays = FEDERAL_HOLIDAYS
-
-    @classmethod
-    def resolve(cls, year):  # noqa: D102
-
-        result = CalendarEntryList()
-        for i in cls.holidays:
-            result.add(
-                CalendarEntry(
-                    i[0],
-                    i[1],
-                    i[2].between(
-                        datetime(year, 1, 1), datetime(year, 12, 31), inc=True
-                    )[0],
-                    (SOURCE_EXTERNAL, cls.title),
-                )
-            )
-        return result
+    entries = FEDERAL_HOLIDAYS
 
 
 class BadenWuerttemberg(GermanyFederal):
@@ -175,7 +153,7 @@ class BadenWuerttemberg(GermanyFederal):
 
     title = _("Holidays of Baden-Württemberg")
 
-    holidays = FEDERAL_HOLIDAYS + [HEILIGE_DREI_KOENIGE, FRONLEICHNAM, ALLERHEILIGEN]
+    entries = FEDERAL_HOLIDAYS + [HEILIGE_DREI_KOENIGE, FRONLEICHNAM, ALLERHEILIGEN]
 
 
 class Bayern(GermanyFederal):
@@ -183,7 +161,7 @@ class Bayern(GermanyFederal):
 
     title = _("Holidays of Bayern")
 
-    holidays = FEDERAL_HOLIDAYS + [
+    entries = FEDERAL_HOLIDAYS + [
         HEILIGE_DREI_KOENIGE,
         FRONLEICHNAM,
         MARIA_HIMMELFAHRT,
@@ -196,7 +174,7 @@ class Berlin(GermanyFederal):
 
     title = _("Holidays of Berlin")
 
-    holidays = FEDERAL_HOLIDAYS + [FRAUENTAG]
+    entries = FEDERAL_HOLIDAYS + [FRAUENTAG]
 
 
 class Brandenburg(GermanyFederal):
@@ -204,7 +182,7 @@ class Brandenburg(GermanyFederal):
 
     title = _("Holidays of Brandenburg")
 
-    holidays = FEDERAL_HOLIDAYS + [REFORMATIONSTAG]
+    entries = FEDERAL_HOLIDAYS + [REFORMATIONSTAG]
 
 
 class Bremen(Brandenburg):
@@ -242,7 +220,7 @@ class Hessen(GermanyFederal):
 
     title = _("Holidays of Hessen")
 
-    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM]
+    entries = FEDERAL_HOLIDAYS + [FRONLEICHNAM]
 
 
 class NordrheinWestphalen(GermanyFederal):
@@ -250,7 +228,7 @@ class NordrheinWestphalen(GermanyFederal):
 
     title = _("Holidays of Nordrhein-Westphalen")
 
-    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM, ALLERHEILIGEN]
+    entries = FEDERAL_HOLIDAYS + [FRONLEICHNAM, ALLERHEILIGEN]
 
 
 class RheinlandPfalz(NordrheinWestphalen):
@@ -264,7 +242,7 @@ class Saarland(GermanyFederal):
 
     title = _("Holidays of Saarland")
 
-    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM, ALLERHEILIGEN, MARIA_HIMMELFAHRT]
+    entries = FEDERAL_HOLIDAYS + [FRONLEICHNAM, ALLERHEILIGEN, MARIA_HIMMELFAHRT]
 
 
 class Sachsen(GermanyFederal):
@@ -272,7 +250,7 @@ class Sachsen(GermanyFederal):
 
     title = _("Holidays of Sachsen")
 
-    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM, BUSS_UND_BETTAG]
+    entries = FEDERAL_HOLIDAYS + [FRONLEICHNAM, BUSS_UND_BETTAG]
 
 
 class SachsenAnhalt(GermanyFederal):
@@ -280,7 +258,7 @@ class SachsenAnhalt(GermanyFederal):
 
     title = _("Holidays of Sachsen-Anhalt")
 
-    holidays = FEDERAL_HOLIDAYS + [HEILIGE_DREI_KOENIGE, REFORMATIONSTAG]
+    entries = FEDERAL_HOLIDAYS + [HEILIGE_DREI_KOENIGE, REFORMATIONSTAG]
 
 
 class Thueringen(GermanyFederal):
@@ -288,4 +266,4 @@ class Thueringen(GermanyFederal):
 
     title = _("Holidays of Thüringen")
 
-    holidays = FEDERAL_HOLIDAYS + [FRONLEICHNAM, WELTKINDERTAG, REFORMATIONSTAG]
+    entries = FEDERAL_HOLIDAYS + [FRONLEICHNAM, WELTKINDERTAG, REFORMATIONSTAG]
