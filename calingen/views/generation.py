@@ -37,15 +37,16 @@ class CompilerView(
         :class:`calingen.views.generation.LayoutSelectionView` is performed.
         """
         try:
-            self.layout = self._get_layout()
+            layout = self._get_layout()
         except self.NoLayoutSelectedException:
             return redirect("calingen:layout-selection")
 
-        self.render_context = self._prepare_context(*args, **kwargs)
+        render_context = self._prepare_context(*args, **kwargs)
+        rendered_source = layout.render(render_context)
 
-        self.compiler = import_string(settings.CALINGEN_TEX_COMPILER)
+        compiler = import_string(settings.CALINGEN_TEX_COMPILER)
 
-        return self.compiler.get_response(self.layout.render(self.render_context))
+        return compiler.get_response(rendered_source)
 
     def _get_layout(self):
         """Return the :class:`~calingen.interfaces.plugin_api.LayoutProvider` implementation.
