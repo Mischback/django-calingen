@@ -44,6 +44,7 @@ class CompilerView(
         render_context = self._prepare_context(*args, **kwargs)
         rendered_source = layout.render(render_context)
 
+        # TODO: Choose the compiler based on layout.layout_type
         compiler = import_string(settings.CALINGEN_TEX_COMPILER)
 
         return compiler.get_response(rendered_source)
