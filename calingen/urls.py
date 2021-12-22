@@ -58,7 +58,7 @@ urlpatterns = [
     ),
     path(
         "generate/configure-layout/",
-        tex.TeXLayoutConfigurationView.as_view(),
+        tex.LayoutConfigurationView.as_view(),
         name="tex-layout-configuration",
     ),
     path(

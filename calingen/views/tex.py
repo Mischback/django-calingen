@@ -89,7 +89,7 @@ class CompilerView(
         )
 
 
-class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
+class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
     """Show configuration form for the selected layout.
 
     Warnings
@@ -107,7 +107,7 @@ class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
     :class:`calingen.forms.tex.TeXLayoutConfigurationForm`.
     """
 
-    template_name = "calingen/tex_layout_configuration.html"
+    template_name = "calingen/layout_configuration.html"
     success_url = reverse_lazy("calingen:tex-compiler")
 
     class NoConfigurationFormException(CalingenException):
@@ -136,7 +136,7 @@ class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         Determining the ``configuration_form`` is done implicitly while
         traversing the view's hierarchy during processing the request. Several
         methods are involved, but at some point
-        :meth:`~calingen.views.tex.TeXLayoutConfigurationView.get_form_class` is
+        :meth:`~calingen.views.tex.LayoutConfigurationView.get_form_class` is
         called, which will raise an exceptions that is handled here.
 
         If there is no selected layout in the user's ``Session``, a redirect to
@@ -166,7 +166,7 @@ class TeXLayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
 
         If ``configuration_form`` is omitted, a custom exception is raised, that
         will be handled in
-        :meth:`~calingen.views.tex.TeXLayoutConfigurationView.get`.
+        :meth:`~calingen.views.tex.LayoutConfigurationView.get`.
 
         If there is no selected layout in the user's ``Session``, a different
         custom exception will cause a redirect to the user's profile overview.

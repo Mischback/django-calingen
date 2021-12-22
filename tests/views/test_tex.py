@@ -14,7 +14,7 @@ from django.urls import reverse
 # app imports
 from calingen.views.tex import (
     CompilerView,
-    TeXLayoutConfigurationView,
+    LayoutConfigurationView,
     TeXLayoutSelectionView,
 )
 
@@ -56,11 +56,11 @@ class TeXLayoutSelectionViewTest(CalingenORMTestCase):
         mock_super.return_value.form_valid.assert_called_once()
 
 
-@tag("views", "tex", "TeXLayoutConfigurationView")
-class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
+@tag("views", "tex", "LayoutConfigurationView")
+class LayoutConfigurationViewTest(CalingenORMTestCase):
     @mock.patch(
-        "calingen.views.tex.TeXLayoutConfigurationView.get_form_class",
-        side_effect=TeXLayoutConfigurationView.NoLayoutSelectedException(),
+        "calingen.views.tex.LayoutConfigurationView.get_form_class",
+        side_effect=LayoutConfigurationView.NoLayoutSelectedException(),
     )
     def test_error_if_no_layout_is_selected(self, mock_get_form_class):
         # Arrange (set up test environment)
@@ -78,8 +78,8 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         mock_get_form_class.assert_called_once()
 
     @mock.patch(
-        "calingen.views.tex.TeXLayoutConfigurationView.get_form_class",
-        side_effect=TeXLayoutConfigurationView.NoConfigurationFormException(),
+        "calingen.views.tex.LayoutConfigurationView.get_form_class",
+        side_effect=LayoutConfigurationView.NoConfigurationFormException(),
     )
     def test_error_if_no_configuration_is_required(self, mock_get_form_class):
         # Arrange (set up test environment)
@@ -100,7 +100,7 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
     def test_form_valid(self, mock_super):
         # Arrange
         test_form = mock.MagicMock()
-        cbv = TeXLayoutConfigurationView()
+        cbv = LayoutConfigurationView()
 
         # Act
         cbv.form_valid(test_form)
@@ -113,12 +113,12 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         # Arrange
         test_request = mock.MagicMock()
         test_request.session.get.return_value = None
-        cbv = TeXLayoutConfigurationView()
+        cbv = LayoutConfigurationView()
         cbv.request = test_request
 
         # Act
         # Assert
-        with self.assertRaises(TeXLayoutConfigurationView.NoLayoutSelectedException):
+        with self.assertRaises(LayoutConfigurationView.NoLayoutSelectedException):
             cbv.get_form_class()
 
     @mock.patch("calingen.views.tex.import_string")
@@ -129,12 +129,12 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         test_layout = mock.MagicMock()
         test_layout.configuration_form = None
         mock_import_string.return_value = test_layout
-        cbv = TeXLayoutConfigurationView()
+        cbv = LayoutConfigurationView()
         cbv.request = test_request
 
         # Act
         # Assert
-        with self.assertRaises(TeXLayoutConfigurationView.NoConfigurationFormException):
+        with self.assertRaises(LayoutConfigurationView.NoConfigurationFormException):
             cbv.get_form_class()
 
     @mock.patch("calingen.views.tex.import_string")
@@ -146,7 +146,7 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         test_layout = mock.MagicMock()
         test_layout.configuration_form = test_layout_form
         mock_import_string.return_value = test_layout
-        cbv = TeXLayoutConfigurationView()
+        cbv = LayoutConfigurationView()
         cbv.request = test_request
 
         # Act
