@@ -180,18 +180,46 @@ class EventProvider(metaclass=PluginMount):
 class LayoutProvider(metaclass=PluginMount):
     """Mount point for plugins that provide layouts.
 
-    Plugins implementing this reference must provide the following methods:
+    Plugins implementing this reference **must** provide the following
+    attributes:
 
-    - **render(year, entries)**: Actually renders the layout's templates with
-      the given context.
+    - **title** (:py:obj:`str`): The ``title`` will be used to represent the
+      plugin in the app's views. It **must be** provided as a class attribute
+      resolving to a :py:obj:`str`. However, it is recommended to provide the
+      following class attributes instead:
 
-    Plugins implementing this reference should provide the following attributes:
+        - **name** (:py:obj:`str`): A descriptive name of the layout.
+        - **paper_size** (:py:obj:`str`): The size of the paper, e.g. ``"a4"``,
+          ``"a5"``, etc.
+        - **orientation** (:py:obj:`str`): The orientation, e.g. ``"landscape"``
+          or ``"portrait"``.
 
-    - **name**: A descriptive name of the layout, provided as :py:obj:`str`.
-    - **paper_size**: The size of the paper, provided as :py:obj:`str`, e.g.
-      ``"a4"``, ``"a5"``, etc.
-    - **orientation**: The orientation, provided as :py:obj:`str`, e.g.
-      ``"landscape"`` or ``"portrait"``.
+      By providing these attributes, the ``title`` can be provided automatically
+      by :meth:`~calingen.interfaces.plugin_api.LayoutProvider.title` in a
+      unified way throughout the application.
+    - **layout_type** (:py:obj:`str`): This required class attribute determines
+      which compiler is used to actually compile the rendered source, provided
+      by the plugin, to its final product.
+      TODO: This needs more context, especially: How is this picked up by the
+      compiler? How does this interact with the app's settings?
+
+    Plugins implementing this reference **can** provide implementations of the
+    following methods:
+
+    - **prepare_context(context)** (:py:obj:`dict`): This method performs
+      pre-processing of the ``context``. If an actual layout needs data in a
+      different structure than provided by
+      :class:`calingen.views.tex.TeXCompilerView`, this method may be
+      re-implemented by the actual layout. See
+      :meth:`~calingen.interfaces.plugin_api.LayoutProvider.prepare_context` for
+      additional details.
+    - **render(year, entries)** (:py:obj:`str`): Actually renders the layout's
+      templates with the given context. This method may be re-implemented by
+      actual layouts, though it is pretty generic as it is and should work for
+      most use cases. It calls
+      :meth:`~calingen.interfaces.plugin_api.LayoutProvider.prepare_context` for
+      pre-processing of the context. It is recommended to rely on
+      ``prepare_context()`` in actual layout implementations.
     """
 
     configuration_form = None
@@ -204,7 +232,7 @@ class LayoutProvider(metaclass=PluginMount):
 
     @classproperty
     def title(cls):
-        """Return the available plugins.
+        """Return the plugin's human-readable title.
 
         Returns
         -------
@@ -217,7 +245,9 @@ class LayoutProvider(metaclass=PluginMount):
         :class:`~django.utils.functional.classproperty`.
 
         If an actual layout implementation wishes to provide its title in a
-        different way, it may provide a specific implementation of this method.
+        different way, it may provide a specific implementation of this method
+        or provide a plain ``title`` class attribute, resolving to a
+        :py:obj:`str` (TODO: NEEDS VERIFICATION!).
         """
         return "{} ({}, {})".format(cls.name, cls.paper_size, cls.orientation)
 
