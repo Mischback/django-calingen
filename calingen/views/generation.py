@@ -34,7 +34,7 @@ class CompilerView(
         Notes
         -----
         If there is no selected layout in the user's ``Session``, a redirect to
-        :class:`calingen.views.tex.LayoutSelectionView` is performed.
+        :class:`calingen.views.generation.LayoutSelectionView` is performed.
         """
         try:
             self.layout = self._get_layout()
@@ -136,11 +136,11 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         Determining the ``configuration_form`` is done implicitly while
         traversing the view's hierarchy during processing the request. Several
         methods are involved, but at some point
-        :meth:`~calingen.views.tex.LayoutConfigurationView.get_form_class` is
+        :meth:`~calingen.views.generation.LayoutConfigurationView.get_form_class` is
         called, which will raise an exceptions that is handled here.
 
         If there is no selected layout in the user's ``Session``, a redirect to
-        :class:`calingen.views.tex.LayoutSelectionView` is performed.
+        :class:`calingen.views.generation.LayoutSelectionView` is performed.
         """
         try:
             return super().get(request, *args, **kwargs)
@@ -166,7 +166,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
 
         If ``configuration_form`` is omitted, a custom exception is raised, that
         will be handled in
-        :meth:`~calingen.views.tex.LayoutConfigurationView.get`.
+        :meth:`~calingen.views.generation.LayoutConfigurationView.get`.
 
         If there is no selected layout in the user's ``Session``, a different
         custom exception will cause a redirect to the user's profile overview.
