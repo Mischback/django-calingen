@@ -75,7 +75,7 @@ class CompilerView(
 
         - ``target_year``: The year to create the TeX layout for.
         - ``layout_configuration``: If the layout provides a custom
-          implementation of :class:`calingen.forms.tex.TeXLayoutConfigurationForm`,
+          implementation of :class:`calingen.forms.tex.LayoutConfigurationForm`,
           the fetched values will be provided here.
         - ``entries``: All calendar entries of the user's profile, resolved to
           the ``target_year``, provided as a
@@ -104,7 +104,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
     Notes
     -----
     This is just the view to show and process the layout's implementation of
-    :class:`calingen.forms.tex.TeXLayoutConfigurationForm`.
+    :class:`calingen.forms.tex.LayoutConfigurationForm`.
     """
 
     template_name = "calingen/layout_configuration.html"
@@ -162,7 +162,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         -----
         Implementations of :class:`calingen.interfaces.plugin_api.LayoutProvider`
         may provide a class attribute ``configuration_form`` with a subclass of
-        :class:`calingen.forms.tex.TeXLayoutConfigurationForm`.
+        :class:`calingen.forms.tex.LayoutConfigurationForm`.
 
         If ``configuration_form`` is omitted, a custom exception is raised, that
         will be handled in

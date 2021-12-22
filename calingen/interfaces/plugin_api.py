@@ -226,7 +226,7 @@ class LayoutProvider(metaclass=PluginMount):
     """Layouts may provide a custom form to fetch configuration values.
 
     The specified form should be a subclass of
-    :class:`calingen.forms.tex.TeXLayoutConfigurationForm` and may implement
+    :class:`calingen.forms.tex.LayoutConfigurationForm` and may implement
     custom validation / cleaning logic.
     """
 

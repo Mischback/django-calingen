@@ -14,7 +14,7 @@ from calingen.forms.generic import RequestEnabledForm
 from calingen.interfaces.plugin_api import LayoutProvider
 
 
-class TeXLayoutConfigurationForm(RequestEnabledForm):
+class LayoutConfigurationForm(RequestEnabledForm):
     """Layout-specific configuration form.
 
     Implementations of :class:`calingen.interfaces.plugin_api.LayoutProvider`
