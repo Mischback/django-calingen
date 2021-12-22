@@ -321,7 +321,7 @@ class LayoutProvider(metaclass=PluginMount):
         return render_to_string(cls._template, context)
 
 
-class TeXCompilerProvider(metaclass=PluginMount):
+class CompilerProvider(metaclass=PluginMount):
     """Mount point for plugins that provide means to compile TeX to documents.
 
     Plugins implementing this reference must provide the following attributes

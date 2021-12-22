@@ -7,10 +7,10 @@
 from django.http.response import HttpResponse
 
 # app imports
-from calingen.interfaces.plugin_api import TeXCompilerProvider
+from calingen.interfaces.plugin_api import CompilerProvider
 
 
-class NoOpCompiler(TeXCompilerProvider):
+class NoOpCompiler(CompilerProvider):
     """Do not compile TeX sources, but just return them in a view for copy/paste."""
 
     title = "NoOpCompiler"

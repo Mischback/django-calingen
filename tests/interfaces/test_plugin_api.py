@@ -11,9 +11,9 @@ from django.utils.functional import classproperty
 
 # app imports
 from calingen.interfaces.plugin_api import (
+    CompilerProvider,
     EventProvider,
     LayoutProvider,
-    TeXCompilerProvider,
     fully_qualified_classname,
 )
 
@@ -126,34 +126,32 @@ class LayoutProviderTest(CalingenTestCase):
         mock_render_to_string.assert_called_once_with(test_template, test_context)
 
 
-@tag("interfaces", "plugin", "TeXCompilerProvider")
-class TeXCompilerProviderTest(CalingenTestCase):
+@tag("interfaces", "plugin", "CompilerProvider")
+class CompilerProviderTest(CalingenTestCase):
     def test_automatic_plugin_registration(self):
         """Just verify, that the `python sorcery` as described in the source file actually works."""
 
         # Arrange (set up test environment)
-        already_present_plugins = len(TeXCompilerProvider.plugins)
+        already_present_plugins = len(CompilerProvider.plugins)
 
         # Act (actually perform what has to be done)
-        class TeXCompilerProviderTestImplementation(TeXCompilerProvider):
+        class CompilerProviderTestImplementation(CompilerProvider):
             title = "do-not-care"
 
         # Assert (verify the results)
-        self.assertEqual(len(TeXCompilerProvider.plugins), already_present_plugins + 1)
+        self.assertEqual(len(CompilerProvider.plugins), already_present_plugins + 1)
 
     def test_list_available_plugins(self):
-        """Verify that TeXCompilerProvider instances are listed."""
+        """Verify that CompilerProvider instances are listed."""
 
         # Arrange (set up test environment)
         test_implementation_title = "TestImplementation"
 
-        class TeXCompilerProviderTestImplementation_list_plugins_test(
-            TeXCompilerProvider
-        ):
+        class CompilerProviderTestImplementation_list_plugins_test(CompilerProvider):
             title = test_implementation_title
 
         # Act (actually perform what has to be done)
-        layout_provider_list = TeXCompilerProvider.list_available_plugins()
+        layout_provider_list = CompilerProvider.list_available_plugins()
 
         # Assert (verify the results)
         self.assertIn((mock.ANY, test_implementation_title), layout_provider_list)
