@@ -53,7 +53,7 @@ urlpatterns = [
     ),
     path(
         "generate/select-layout/",
-        tex.TeXLayoutSelectionView.as_view(),
+        tex.LayoutSelectionView.as_view(),
         name="tex-layout-selection",
     ),
     path(

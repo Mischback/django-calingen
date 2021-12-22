@@ -34,7 +34,7 @@ class CompilerView(
         Notes
         -----
         If there is no selected layout in the user's ``Session``, a redirect to
-        :class:`calingen.views.tex.TeXLayoutSelectionView` is performed.
+        :class:`calingen.views.tex.LayoutSelectionView` is performed.
         """
         try:
             self.layout = self._get_layout()
@@ -140,7 +140,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         called, which will raise an exceptions that is handled here.
 
         If there is no selected layout in the user's ``Session``, a redirect to
-        :class:`calingen.views.tex.TeXLayoutSelectionView` is performed.
+        :class:`calingen.views.tex.LayoutSelectionView` is performed.
         """
         try:
             return super().get(request, *args, **kwargs)
@@ -182,7 +182,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
         return layout.configuration_form
 
 
-class TeXLayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
+class LayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
     """Provide a list of availabe layouts.
 
     Warnings
@@ -204,7 +204,7 @@ class TeXLayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
     :class:`~django.forms.Form` instance.
     """
 
-    template_name = "calingen/tex_layout_selection.html"
+    template_name = "calingen/layout_selection.html"
     form_class = TeXLayoutSelectionForm
     success_url = reverse_lazy("calingen:tex-layout-configuration")
 

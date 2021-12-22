@@ -15,15 +15,15 @@ from django.urls import reverse
 from calingen.views.tex import (
     CompilerView,
     LayoutConfigurationView,
-    TeXLayoutSelectionView,
+    LayoutSelectionView,
 )
 
 # local imports
 from ..util.testcases import CalingenORMTestCase
 
 
-@tag("views", "tex", "TeXLayoutSelectionView")
-class TeXLayoutSelectionViewTest(CalingenORMTestCase):
+@tag("views", "tex", "LayoutSelectionView")
+class LayoutSelectionViewTest(CalingenORMTestCase):
     def test_form_must_contain_data(self):
         # Arrange (set up test environment)
         self.user = User.objects.get(pk=2)
@@ -40,13 +40,13 @@ class TeXLayoutSelectionViewTest(CalingenORMTestCase):
         # step is done by checking the used template!
         # Works ok.
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "calingen/tex_layout_selection.html")
+        self.assertTemplateUsed(response, "calingen/layout_selection.html")
 
     @mock.patch("calingen.views.tex.super")
     def test_form_valid(self, mock_super):
         # Arrange
         test_form = mock.MagicMock()
-        cbv = TeXLayoutSelectionView()
+        cbv = LayoutSelectionView()
 
         # Act
         cbv.form_valid(test_form)
