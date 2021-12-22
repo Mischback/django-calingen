@@ -46,7 +46,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
 ]
 
-CALINGEN_TEX_COMPILER = "calingen.contrib.compiler.noop.compiler.NoOpCompiler"
+CALINGEN_TEX_COMPILER = (
+    "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler"
+)
 
 ROOT_URLCONF = "tests.util.urls_dev"
 
