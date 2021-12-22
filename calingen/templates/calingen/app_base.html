@@ -86,9 +86,15 @@
         background-color: #900;
         color: #eee;
       }
+      pre {
+        margin: 1em 2em;
+        padding: 1em;
+        background-color: #eee;
+      }
     </style>
   </head>
   <body>
+{% block html-body %}
     <div id="calingen_nav">
       <div>
         <ul>
@@ -137,5 +143,6 @@ foobar
     <div id="calingen_footer">
       2021 by <a href="https://github.com/Mischback/django-calingen">Mischback</a>
     </div>
+{% endblock html-body %}
   </body>
 </html>
