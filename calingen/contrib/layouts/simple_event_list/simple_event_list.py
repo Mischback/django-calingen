@@ -12,6 +12,7 @@ class SimpleEventList(LayoutProvider):
     name = "Simple Event List"
     paper_size = "a4"
     orientation = "portrait"
+    layout_type = "tex"
     _template = "simple_event_list/tex/simple_event_list.tex"
 
     @classmethod

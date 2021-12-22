@@ -122,6 +122,7 @@ class YearByWeek(LayoutProvider):
     name = "Year by Week"
     paper_size = "a5"
     orientation = "portrait"
+    layout_type = "tex"
     _template = "year_by_week/tex/year_by_week.tex"
 
     @classmethod
