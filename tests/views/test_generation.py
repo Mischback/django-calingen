@@ -22,7 +22,7 @@ from calingen.views.generation import (
 from ..util.testcases import CalingenORMTestCase
 
 
-@tag("views", "tex", "LayoutSelectionView")
+@tag("views", "generation", "LayoutSelectionView")
 class LayoutSelectionViewTest(CalingenORMTestCase):
     def test_form_must_contain_data(self):
         # Arrange (set up test environment)
@@ -54,7 +54,7 @@ class LayoutSelectionViewTest(CalingenORMTestCase):
         mock_super.return_value.form_valid.assert_called_once()
 
 
-@tag("views", "tex", "LayoutConfigurationView")
+@tag("views", "generation", "LayoutConfigurationView")
 class LayoutConfigurationViewTest(CalingenORMTestCase):
     @mock.patch(
         "calingen.views.generation.LayoutConfigurationView.get_form_class",
@@ -154,7 +154,7 @@ class LayoutConfigurationViewTest(CalingenORMTestCase):
         self.assertEqual(return_value, test_layout_form)
 
 
-@tag("views", "tex", "CompilerView")
+@tag("views", "generation", "CompilerView")
 class CompilerViewTest(CalingenORMTestCase):
     @mock.patch(
         "calingen.views.generation.CompilerView._get_layout",
