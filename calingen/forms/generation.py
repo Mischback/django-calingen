@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide Form implementations in the context of TeX rendering and compilation."""
+"""Provide Form implementations in the context of rendering and compilation."""
 
 # Python imports
 from datetime import date
@@ -35,7 +35,7 @@ class LayoutSelectionForm(RequestEnabledForm):
     target_year = IntegerField(
         initial=date.today().year + 1, min_value=date.min.year, max_value=date.max.year
     )
-    """Specify the year to create the TeX layout for."""
+    """Specify the year to create the layout for."""
 
     layout = ChoiceField(
         choices=LayoutProvider.list_available_plugins, widget=RadioSelect

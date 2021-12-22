@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide views in the context of TeX rendering and compilation."""
+"""Provide views in the context of layout rendering and compilation."""
 
 # Python imports
 from datetime import date
@@ -23,7 +23,7 @@ from calingen.views.mixins import AllCalendarEntriesMixin, RestrictToUserMixin
 class CompilerView(
     LoginRequiredMixin, RestrictToUserMixin, AllCalendarEntriesMixin, ContextMixin, View
 ):
-    """Use the layout's ``render()`` method to generate valid TeX source."""
+    """Use the layout's ``render()`` method to generate valid source."""
 
     class NoLayoutSelectedException(CalingenException):
         """Raised if there is no selected layout in the user's ``Session``."""
@@ -73,7 +73,7 @@ class CompilerView(
         The ``context`` that is passed to the layout's ``render()`` method
         contains the following ``keys``:
 
-        - ``target_year``: The year to create the TeX layout for.
+        - ``target_year``: The year to create the layout for.
         - ``layout_configuration``: If the layout provides a custom
           implementation of :class:`calingen.forms.generation.LayoutConfigurationForm`,
           the fetched values will be provided here.
@@ -146,7 +146,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
             return super().get(request, *args, **kwargs)
         except self.NoConfigurationFormException:
             # As no layout specific configuration form is required, directly
-            # redirect to the tex generation.
+            # redirect to the compilation.
             return redirect("calingen:tex-compiler")
         except self.NoLayoutSelectedException:
             # This is most likely an edge case: The view is accessed with a
@@ -200,7 +200,7 @@ class LayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
     :class:`calingen.forms.generation.LayoutSelectionForm`.
 
     Relevant logic, that affects the actual creation, rendering and compilation
-    of TeX-templates is provided in the corresponding
+    of layouts is provided in the corresponding
     :class:`~django.forms.Form` instance.
     """
 

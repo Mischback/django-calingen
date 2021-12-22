@@ -11,14 +11,14 @@ from calingen.interfaces.plugin_api import CompilerProvider
 
 
 class NoOpCompiler(CompilerProvider):
-    """Do not compile TeX sources, but just return them in a view for copy/paste."""
+    """Do not compile sources, but just return them in a view for copy/paste."""
 
     title = "NoOpCompiler"
 
     @classmethod
-    def get_response(cls, tex_source):  # noqa: D102
+    def get_response(cls, source):  # noqa: D102
         return HttpResponse(
-            tex_source,
+            source,
             headers={
                 "Content-Type": "application/x-tex",
                 "Content-Disposition": 'attachment; filename="foo.tex"',

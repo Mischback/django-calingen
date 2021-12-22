@@ -303,12 +303,12 @@ class LayoutProvider(metaclass=PluginMount):
 
     @classmethod
     def render(cls, context, *args, **kwargs):
-        """Return the rendered TeX source.
+        """Return the rendered source.
 
         Returns
         -------
         str
-            The rendered TeX source.
+            The rendered source.
 
         Notes
         -----
@@ -322,14 +322,14 @@ class LayoutProvider(metaclass=PluginMount):
 
 
 class CompilerProvider(metaclass=PluginMount):
-    """Mount point for plugins that provide means to compile TeX to documents.
+    """Mount point for plugins that provide means to compile layouts to documents.
 
     Plugins implementing this reference must provide the following attributes
     and methods:
 
     - **title** : The title of the provider, provided as :py:obj:`str`.
     - **get_response()** : A classmethod that accepts a :py:obj:`str`, which
-      will be the rendered TeX layout as provided by
+      will be the rendered layout source as provided by
       :meth:`LayoutProvider.render() <calingen.interfaces.plugin_api.LayoutProvider.render>`.
       The method **must return** a valid
       :djangoapi:`Django Response object <request-response/#httpresponse-objects>`.
@@ -356,19 +356,19 @@ class CompilerProvider(metaclass=PluginMount):
         return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
 
     @classmethod
-    def get_response(cls, tex_source):
+    def get_response(cls, source):
         """Get the compiler's HTTP response.
 
         This is the compiler's main interface to other components of the app.
 
         It should be used to actually trigger the compilation of the provided
-        TeX source and then return a valid
+        source and then return a valid
         :djangoapi:`Django Response object <request-response/#httpresponse-objects>`.
 
         Parameters
         ----------
-        tex_source : str
-            The TeX source as provided by
+        source : str
+            The source as provided by
             :meth:`LayoutProvider.render() <calingen.interfaces.plugin_api.LayoutProvider.render>`.
 
         Returns
