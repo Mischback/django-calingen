@@ -63,7 +63,7 @@ urlpatterns = [
     ),
     path(
         "generate/generator/",
-        tex.TeXCompilerView.as_view(),
+        tex.CompilerView.as_view(),
         name="tex-compiler",
     ),
 ]

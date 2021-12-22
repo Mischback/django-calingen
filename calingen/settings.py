@@ -16,7 +16,7 @@ CALINGEN_TEX_COMPILER = None
 Warnings
 --------
 This is a mandatory parameter for project's including
-:class:`~calingen.views.tex.TeXCompilerView`.
+:class:`~calingen.views.tex.CompilerView`.
 
 ``None`` is not a valid configuration option here. If you do not want your  project
 to provide actual TeX compilation, you may provide the (included)

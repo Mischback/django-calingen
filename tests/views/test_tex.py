@@ -13,7 +13,7 @@ from django.urls import reverse
 
 # app imports
 from calingen.views.tex import (
-    TeXCompilerView,
+    CompilerView,
     TeXLayoutConfigurationView,
     TeXLayoutSelectionView,
 )
@@ -156,11 +156,11 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         self.assertEqual(return_value, test_layout_form)
 
 
-@tag("views", "tex", "TeXCompilerView")
-class TeXCompilerViewTest(CalingenORMTestCase):
+@tag("views", "tex", "CompilerView")
+class CompilerViewTest(CalingenORMTestCase):
     @mock.patch(
-        "calingen.views.tex.TeXCompilerView._get_layout",
-        side_effect=TeXCompilerView.NoLayoutSelectedException(),
+        "calingen.views.tex.CompilerView._get_layout",
+        side_effect=CompilerView.NoLayoutSelectedException(),
     )
     def test_error_if_no_layout_is_selected(self, mock_get_layout):
         # Arrange (set up test environment)
@@ -182,7 +182,7 @@ class TeXCompilerViewTest(CalingenORMTestCase):
         test_request.session.pop.return_value = "foo.bar"
         test_layout = mock.MagicMock()
         mock_import_string.return_value = test_layout
-        cbv = TeXCompilerView()
+        cbv = CompilerView()
         cbv.request = test_request
 
         # Act
@@ -191,13 +191,13 @@ class TeXCompilerViewTest(CalingenORMTestCase):
         # Assert
         self.assertEqual(return_value, test_layout)
 
-    @mock.patch("calingen.views.tex.TeXCompilerView.get_context_data")
+    @mock.patch("calingen.views.tex.CompilerView.get_context_data")
     def test_prepare_context(self, mock_get_context_data):
         # Arrange
         test_request = mock.MagicMock()
         test_request.session.pop.return_value = "foo"
         mock_kwargs = mock.MagicMock()
-        cbv = TeXCompilerView()
+        cbv = CompilerView()
         cbv.request = test_request
 
         # Act
@@ -211,8 +211,8 @@ class TeXCompilerViewTest(CalingenORMTestCase):
         )
 
     @mock.patch("calingen.views.tex.import_string")
-    @mock.patch("calingen.views.tex.TeXCompilerView._prepare_context")
-    @mock.patch("calingen.views.tex.TeXCompilerView._get_layout")
+    @mock.patch("calingen.views.tex.CompilerView._prepare_context")
+    @mock.patch("calingen.views.tex.CompilerView._get_layout")
     def test_compilation(
         self, mock_get_layout, mock_prepare_context, mock_import_string
     ):

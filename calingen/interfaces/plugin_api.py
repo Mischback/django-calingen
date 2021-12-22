@@ -209,7 +209,7 @@ class LayoutProvider(metaclass=PluginMount):
     - **prepare_context(context)** (:py:obj:`dict`): This method performs
       pre-processing of the ``context``. If an actual layout needs data in a
       different structure than provided by
-      :class:`calingen.views.tex.TeXCompilerView`, this method may be
+      :class:`calingen.views.tex.CompilerView`, this method may be
       re-implemented by the actual layout. See
       :meth:`~calingen.interfaces.plugin_api.LayoutProvider.prepare_context` for
       additional details.
@@ -286,7 +286,7 @@ class LayoutProvider(metaclass=PluginMount):
         ----------
         context : dict
             The context, as provided by
-            :meth:`calingen.views.tex.TeXCompilerView.get`.
+            :meth:`calingen.views.tex.CompilerView.get`.
 
         Returns
         -------
@@ -378,7 +378,7 @@ class TeXCompilerProvider(metaclass=PluginMount):
         Notes
         -----
         This method is called from
-        :meth:`TeXCompilerView's get() method <calingen.views.tex.TeXCompilerView.get>`.
+        :meth:`CompilerView's get() method <calingen.views.tex.CompilerView.get>`.
         """
         raise NotImplementedError(
             "Has to be implemented by the actual provider"
