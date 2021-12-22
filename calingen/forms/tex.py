@@ -29,7 +29,7 @@ class LayoutConfigurationForm(RequestEnabledForm):
         ] = self.cleaned_data  # pragma: nocover
 
 
-class TeXLayoutSelectionForm(RequestEnabledForm):
+class LayoutSelectionForm(RequestEnabledForm):
     """Select one of the available :class:`~calingen.interfaces.plugin_api.LayoutProvider` instances."""
 
     target_year = IntegerField(

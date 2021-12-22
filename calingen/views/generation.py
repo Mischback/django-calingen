@@ -15,7 +15,7 @@ from django.views.generic.base import ContextMixin, View
 
 # app imports
 from calingen.exceptions import CalingenException
-from calingen.forms.tex import TeXLayoutSelectionForm
+from calingen.forms.tex import LayoutSelectionForm
 from calingen.views.generic import RequestEnabledFormView
 from calingen.views.mixins import AllCalendarEntriesMixin, RestrictToUserMixin
 
@@ -197,7 +197,7 @@ class LayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
     Notes
     -----
     This is just the view to show and process the
-    :class:`calingen.forms.tex.TeXLayoutSelectionForm`.
+    :class:`calingen.forms.tex.LayoutSelectionForm`.
 
     Relevant logic, that affects the actual creation, rendering and compilation
     of TeX-templates is provided in the corresponding
@@ -205,7 +205,7 @@ class LayoutSelectionView(LoginRequiredMixin, RequestEnabledFormView):
     """
 
     template_name = "calingen/layout_selection.html"
-    form_class = TeXLayoutSelectionForm
+    form_class = LayoutSelectionForm
     success_url = reverse_lazy("calingen:tex-layout-configuration")
 
     def form_valid(self, form):
