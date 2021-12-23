@@ -28,7 +28,7 @@ class CompilerView(
     class NoLayoutSelectedException(CalingenException):
         """Raised if there is no selected layout in the user's ``Session``."""
 
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         """Trigger rendering of the selected layout and return the result.
 
         Notes
@@ -46,7 +46,7 @@ class CompilerView(
 
         try:
             compiler = import_string(settings.CALINGEN_COMPILER[layout.layout_type])
-        except KeyError:
+        except (KeyError, ImportError):
             compiler = import_string(settings.CALINGEN_COMPILER["default"])
 
         return compiler.get_response(rendered_source)
