@@ -27,18 +27,31 @@ logger = getLogger(__name__)
 class CompilerView(
     LoginRequiredMixin, RestrictToUserMixin, AllCalendarEntriesMixin, ContextMixin, View
 ):
-    """Use the layout's ``render()`` method to generate valid source."""
+    """Render the selected layout and pass the result to a compiler."""
 
     class NoLayoutSelectedException(CalingenException):
         """Raised if there is no selected layout in the user's ``Session``."""
 
     def get(self, *args, **kwargs):
-        """Trigger rendering of the selected layout and return the result.
+        """Render the selected layout and call the compiler on the result.
+
+        The actual response to the GET request is provided by the implementation
+        of :meth:`calingen.interfaces.plugin_api.CompilerProvider.get_response`.
 
         Notes
         -----
         If there is no selected layout in the user's ``Session``, a redirect to
         :class:`calingen.views.generation.LayoutSelectionView` is performed.
+
+        The method retrieves the
+        :class:`compiler instance <calingen.interfaces.plugin_api.CompilerProvider>`
+        from the project's settings module
+        (:attr:`~calingen.settings.CALINGEN_COMPILER`). It will resort to the
+        configured ``"default"`` compiler, if no specific compiler for the
+        selected ``layout_type`` (as defined by the implementation of
+        :class:`~calingen.interfaces.plugin_api.LayoutProvider`) is set or if
+        the specified compiler can not be imported. In that case a log message
+        (of level warn) is emitted.
         """
         try:
             layout = self._get_layout()
