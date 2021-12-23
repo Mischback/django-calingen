@@ -4,6 +4,7 @@
 
 # Python imports
 from datetime import date
+from logging import getLogger
 
 # Django imports
 from django.conf import settings
@@ -18,6 +19,9 @@ from calingen.exceptions import CalingenException
 from calingen.forms.generation import LayoutSelectionForm
 from calingen.views.generic import RequestEnabledFormView
 from calingen.views.mixins import AllCalendarEntriesMixin, RestrictToUserMixin
+
+# get a module level logger
+logger = getLogger(__name__)
 
 
 class CompilerView(
@@ -46,7 +50,14 @@ class CompilerView(
 
         try:
             compiler = import_string(settings.CALINGEN_COMPILER[layout.layout_type])
-        except (KeyError, ImportError):
+        except KeyError:
+            compiler = import_string(settings.CALINGEN_COMPILER["default"])
+        except ImportError:
+            logger.warn(
+                "Could not import {}, using default compiler".format(
+                    settings.CALINGEN_COMPILER[layout.layout_type]
+                )
+            )
             compiler = import_string(settings.CALINGEN_COMPILER["default"])
 
         return compiler.get_response(rendered_source)
