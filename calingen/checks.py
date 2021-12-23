@@ -8,7 +8,7 @@ logical checks in combination with other project settings.
 
 # Django imports
 from django.conf import settings
-from django.core.checks import Critical, Error
+from django.core.checks import Error
 from django.utils.module_loading import import_string
 
 
@@ -106,31 +106,32 @@ def check_config_value_compiler(*args, **kwargs):
 
     try:
         temp = config_value["default"]
-    except KeyError:
+    except (KeyError, TypeError):
         errors.append(
-            Critical(
+            Error(
                 '"CALINGEN_COMPILER" does not provide a "default" compiler',
                 hint=(
                     "CALINGEN_COMPILER must provide a default compiler. It is "
                     "recommended to use a compiler that can handle all types "
                     "of layouts."
                 ),
-                id="calingen.c003",
+                id="calingen.e003",
             )
         )
+        return errors
 
     try:
         import_string(temp)
     except ImportError:
         errors.append(
-            Critical(
+            Error(
                 'CALINGEN_COMPILER["default"] could not be imported',
                 hint=(
                     "The specified compiler could not be imported. Make sure "
                     "to provide a full dotted Python path to the compiler "
                     "implementation."
                 ),
-                id="calingen.c004",
+                id="calingen.e004",
             )
         )
 
