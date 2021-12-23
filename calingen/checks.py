@@ -8,7 +8,8 @@ logical checks in combination with other project settings.
 
 # Django imports
 from django.conf import settings
-from django.core.checks import Error
+from django.core.checks import Critical, Error
+from django.utils.module_loading import import_string
 
 
 def check_config_value_event_provider_notification(*args, **kwargs):
@@ -70,6 +71,66 @@ def check_session_enabled(*args, **kwargs):
                     "SessionMiddleware, you may safely ignore this check."
                 ),
                 id="calingen.e002",
+            )
+        )
+
+    return errors
+
+
+def check_config_value_compiler(*args, **kwargs):
+    """Validate :attr:`~calingen.settings.CALINGEN_COMPILER` setting.
+
+    Returns
+    -------
+    list
+        A list of :djangodoc:`Messages <topics/checks/#messages>`.
+
+    Warnings
+    --------
+    This check does not verify the importability *(is this a word?)* of all
+    configured compilers. It just ensures the presence of the ``"default"``
+    compiler and its importability.
+
+    Notes
+    -----
+    :attr:`~calingen.settings.CALINGEN_COMPILER` is a required configuration
+    value and **must** be provided in the project's settings module. It is
+    injected with a sane default value, if not provided.
+
+    This check ensures, that ``CALINGEN_COMPILER["default"]`` is provided and
+    that the provided compiler (instance of
+    :class:`calingen.interfaces.plugin_api.CompilerProvider`) is importable.
+    """
+    errors = []
+    config_value = settings.CALINGEN_COMPILER
+
+    try:
+        temp = config_value["default"]
+    except KeyError:
+        errors.append(
+            Critical(
+                '"CALINGEN_COMPILER" does not provide a "default" compiler',
+                hint=(
+                    "CALINGEN_COMPILER must provide a default compiler. It is "
+                    "recommended to use a compiler that can handle all types "
+                    "of layouts."
+                ),
+                id="calingen.c003",
+            )
+        )
+
+    try:
+        import_string(temp)
+    except ImportError:
+        errors.append(
+            Critical(
+                'CALINGEN_COMPILER["default"] could not be imported',
+                hint=(
+                    "The specified compiler could not be imported. Make sure "
+                    "to provide a full dotted Python path to the compiler "
+                    "implementation."
+                ),
+                id="calingen.c004",
             )
         )
 

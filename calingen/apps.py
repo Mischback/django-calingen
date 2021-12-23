@@ -37,6 +37,7 @@ class CalingenConfig(AppConfig):
         # app imports
         from calingen import settings as app_default_settings
         from calingen.checks import (
+            check_config_value_compiler,
             check_config_value_event_provider_notification,
             check_session_enabled,
         )
@@ -50,6 +51,7 @@ class CalingenConfig(AppConfig):
                 setattr(settings, name, value)
 
         # register app-specific check functions
+        register_check(check_config_value_compiler)
         register_check(check_config_value_event_provider_notification)
         register_check(check_session_enabled)
 
