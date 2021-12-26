@@ -208,16 +208,20 @@ class CompilerViewTest(CalingenORMTestCase):
             target_year="foo", layout_configuration="foo", **mock_kwargs
         )
 
+    @override_settings(
+        CALINGEN_COMPILER={"default": "default.compiler", "test-type": "foo.bar"}
+    )
     @mock.patch("calingen.views.generation.import_string")
     @mock.patch("calingen.views.generation.CompilerView._prepare_context")
     @mock.patch("calingen.views.generation.CompilerView._get_layout")
-    def test_compilation(
+    def test_use_specified_compiler(
         self, mock_get_layout, mock_prepare_context, mock_import_string
     ):
         # Arrange (set up test environment)
         mock_compiler = mock.MagicMock()
         mock_compiler.get_response.return_value = HttpResponse("foo")
         mock_layout = mock.MagicMock()
+        mock_layout.layout_type = "test-type"
         mock_get_layout.return_value = mock_layout
         mock_import_string.return_value = mock_compiler
         self.user = User.objects.get(pk=2)
@@ -231,6 +235,67 @@ class CompilerViewTest(CalingenORMTestCase):
         self.assertContains(response, "foo")
         mock_get_layout.assert_called_once()
         mock_prepare_context.assert_called_once()
-        mock_layout.render.assert_called_once()
         mock_layout.render.assert_called_once_with(mock_prepare_context.return_value)
+        mock_import_string.assert_called_once_with("foo.bar")
+        mock_compiler.get_response.assert_called_once()
+
+    @override_settings(CALINGEN_COMPILER={"default": "default.compiler"})
+    @mock.patch("calingen.views.generation.import_string")
+    @mock.patch("calingen.views.generation.CompilerView._prepare_context")
+    @mock.patch("calingen.views.generation.CompilerView._get_layout")
+    def test_fallback_to_default_compiler(
+        self, mock_get_layout, mock_prepare_context, mock_import_string
+    ):
+        # Arrange (set up test environment)
+        mock_compiler = mock.MagicMock()
+        mock_compiler.get_response.return_value = HttpResponse("foo")
+        mock_layout = mock.MagicMock()
+        mock_layout.layout_type = "test-type"
+        mock_get_layout.return_value = mock_layout
+        mock_import_string.return_value = mock_compiler
+        self.user = User.objects.get(pk=2)
+        self.client = Client()
+        self.client.force_login(self.user)
+
+        # Act (actually perform what has to be done)
+        response = self.client.get(reverse("calingen:compilation"), follow=True)
+
+        # Assert (verify the results)
+        self.assertContains(response, "foo")
+        mock_get_layout.assert_called_once()
+        mock_prepare_context.assert_called_once()
+        mock_layout.render.assert_called_once_with(mock_prepare_context.return_value)
+        mock_import_string.assert_called_once_with("default.compiler")
+        mock_compiler.get_response.assert_called_once()
+
+    @override_settings(
+        CALINGEN_COMPILER={"default": "default.compiler", "test-type": "foo.bar"}
+    )
+    @mock.patch("calingen.views.generation.import_string")
+    @mock.patch("calingen.views.generation.CompilerView._prepare_context")
+    @mock.patch("calingen.views.generation.CompilerView._get_layout")
+    def test_unimportable_compiler_fallback(
+        self, mock_get_layout, mock_prepare_context, mock_import_string
+    ):
+        # Arrange (set up test environment)
+        mock_compiler = mock.MagicMock()
+        mock_compiler.get_response.return_value = HttpResponse("foo")
+        mock_layout = mock.MagicMock()
+        mock_layout.layout_type = "test-type"
+        mock_get_layout.return_value = mock_layout
+        mock_import_string.side_effect = [ImportError("test"), mock_compiler]
+        self.user = User.objects.get(pk=2)
+        self.client = Client()
+        self.client.force_login(self.user)
+
+        # Act (actually perform what has to be done)
+        response = self.client.get(reverse("calingen:compilation"), follow=True)
+
+        # Assert (verify the results)
+        self.assertContains(response, "foo")
+        mock_get_layout.assert_called_once()
+        mock_prepare_context.assert_called_once()
+        mock_layout.render.assert_called_once_with(mock_prepare_context.return_value)
+        mock_import_string.assert_any_call("foo.bar")
+        mock_import_string.assert_called_with("default.compiler")
         mock_compiler.get_response.assert_called_once()
