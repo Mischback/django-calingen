@@ -180,7 +180,7 @@ class CalingenChecksTest(CalingenTestCase):
         self.assertEqual(len(return_value), 1)
         self.assertEqual(return_value[0].id, "calingen.e004")
 
-    @tag("config", "compiler", "current")
+    @tag("config", "compiler")
     @override_settings(CALINGEN_COMPILER={"default": "bar"})
     @mock.patch("calingen.checks.import_string")
     def test_calingen_compiler_valid(self, mock_import_string):
