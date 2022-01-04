@@ -47,6 +47,11 @@ CALINGEN_EXTERNAL_EVENT_PROVIDER = [
     "calingen.contrib.holidays.germany",
 ]
 
+CALINGEN_COMPILER = {
+    "default": "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler",
+    "html": "calingen.contrib.compiler.html_or_download.compiler.HtmlOrDownloadCompiler",
+}
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
