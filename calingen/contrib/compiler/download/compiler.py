@@ -14,10 +14,10 @@ SOURCE_TYPE_LOOKUP = {
 }
 
 
-class NoOpCompiler(CompilerProvider):
-    """Do not compile sources, but just return them in a view for copy/paste."""
+class DownloadCompiler(CompilerProvider):
+    """Do not compile sources, but provide them as file download."""
 
-    title = "NoOpCompiler"
+    title = "DownloadCompiler"
 
     @classmethod
     def get_response(cls, source, layout_type=None):  # noqa: D102
