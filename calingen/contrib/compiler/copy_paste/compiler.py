@@ -16,7 +16,7 @@ class CopyPasteCompiler(CompilerProvider):
     title = "CopyPasteCompiler"
 
     @classmethod
-    def get_response(cls, source):  # noqa: D102
+    def get_response(cls, source, *args, **kwargs):  # noqa: D102
         context = {"rendered_source": source}
         return render(
             None,
