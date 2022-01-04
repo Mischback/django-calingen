@@ -364,7 +364,7 @@ class CompilerProvider(metaclass=PluginMount):
         return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
 
     @classmethod
-    def get_response(cls, source):
+    def get_response(cls, source, *args, **kwargs):
         """Get the compiler's HTTP response.
 
         This is the compiler's main interface to other components of the app.
@@ -386,7 +386,10 @@ class CompilerProvider(metaclass=PluginMount):
         Notes
         -----
         This method is called from
-        :meth:`CompilerView's get() method <calingen.views.generation.CompilerView.get>`.
+        :meth:`CompilerView's get() method <calingen.views.generation.CompilerView.get>`
+        with an additional keyword argument ``layout_type``, exposing the
+        :attr:`~calingen.interfaces.plugin_api.LayoutProvider.layout_type`
+        attribute of the layout.
         """
         raise NotImplementedError(
             "Has to be implemented by the actual provider"

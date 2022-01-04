@@ -73,7 +73,7 @@ class CompilerView(
             )
             compiler = import_string(settings.CALINGEN_COMPILER["default"])
 
-        return compiler.get_response(rendered_source)
+        return compiler.get_response(rendered_source, layout_type=layout.layout_type)
 
     def _get_layout(self):
         """Return the :class:`~calingen.interfaces.plugin_api.LayoutProvider` implementation.
