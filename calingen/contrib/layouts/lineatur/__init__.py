@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""A simple list of all events."""
+"""Different kinds of ruled paper."""
 
 # local imports
 from .lineatur import Lineatur  # noqa: F401

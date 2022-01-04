@@ -7,7 +7,11 @@ from calingen.interfaces.plugin_api import LayoutProvider
 
 
 class Lineatur(LayoutProvider):
-    """A very simple implementation of a list of events."""
+    """Provide different kinds of ruled paper.
+
+    The term *lineatur* can be translated (loosely) to *ruled paper*. It
+    describes the lines or grids on paper, usually used for notes.
+    """
 
     name = "Lineatur"
     paper_size = "various"
