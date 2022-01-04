@@ -9,6 +9,10 @@ from django.http.response import HttpResponse
 # app imports
 from calingen.interfaces.plugin_api import CompilerProvider
 
+SOURCE_TYPE_LOOKUP = {
+    "tex": ("tex", "application/x-tex"),
+}
+
 
 class NoOpCompiler(CompilerProvider):
     """Do not compile sources, but just return them in a view for copy/paste."""
@@ -16,11 +20,17 @@ class NoOpCompiler(CompilerProvider):
     title = "NoOpCompiler"
 
     @classmethod
-    def get_response(cls, source):  # noqa: D102
+    def get_response(cls, source, layout_type=None):  # noqa: D102
+        if layout_type is not None:
+            content_type = SOURCE_TYPE_LOOKUP[layout_type][1]
+            file_extension = SOURCE_TYPE_LOOKUP[layout_type][0]
+
         return HttpResponse(
             source,
             headers={
-                "Content-Type": "application/x-tex",
-                "Content-Disposition": 'attachment; filename="foo.tex"',
+                "Content-Type": content_type,
+                "Content-Disposition": 'attachment; filename="calingen_generated_source.{}"'.format(
+                    file_extension
+                ),
             },
         )  # pragma: nocover
