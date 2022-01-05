@@ -4,15 +4,28 @@
 
 # Django imports
 from django.forms import CharField
+from django.utils.translation import gettext_lazy as _
 
 # app imports
 from calingen.forms.generation import LayoutConfigurationForm
 from calingen.interfaces.plugin_api import LayoutProvider
 
 
-class LineaturForm(LayoutConfigurationForm):  # noqa: D101
+class LineaturForm(LayoutConfigurationForm):
+    """Configuration form for the Lineatur layout.
+
+    This is actually a subclass of
+    :class:`calingen.forms.generation.LayoutConfigurationForm` and exposes some
+    options to adjust the generated page, e.g. the format of the paper, margins
+    and the actual grid.
+    """
+
     caption = CharField(
-        max_length=150, required=False, empty_value="", help_text="to be done"
+        label=_("Caption"),
+        help_text=_("An optional caption, placed in the top right (outer) corner"),
+        max_length=150,
+        required=False,
+        empty_value="",
     )
 
 
