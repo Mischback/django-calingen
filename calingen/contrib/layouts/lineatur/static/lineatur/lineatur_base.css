@@ -23,8 +23,8 @@
 .paperB6 .page { width: 125mm; height: 176mm; }
 .paperB7 .page { width: 88mm; height: 125mm; }
 
-.paperLetter .page { width: 8.5in; height: 11.0in; }
-.paperGovLetter .page { width: 8.0in; height: 10.5in; }
-.paperLegal .page { width: 8.5in; height: 14.0in; }
+.paperLetter .page { width: 8.5in; height: 11in; }
+.paperGovLetter .page { width: 8in; height: 10.5in; }
+.paperLegal .page { width: 8.5in; height: 14in; }
 .paperLedger .page { width: 17in; height: 11in; }
 .paperTabloid .page { width: 11in; height: 17in; }
