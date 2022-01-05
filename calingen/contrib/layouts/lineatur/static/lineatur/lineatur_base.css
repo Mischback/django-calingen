@@ -1,6 +1,75 @@
 /* SPDX-License-Identifier: MIT */
 
+* {
+  /* turn of scrolling for authentic preview */
+  overflow: visible;
+  /* reset all margins and paddings */
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  text-align: center;
+  /* this is all about printable templates, so let's use pt-based sizes all the
+   * way.
+   */
+  font-size: 11pt;
+  font-family: sans-serif;
+}
+
+/* turn off print margins, see ".page-inner" */
+@page {
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  /* TODO: "color" should be user-definable! */
+  color: #000;
+  background-color: #fff;
+  display: inline-block;
+  position: relative;
+}
+
+/* This is the actual content container */
+.page-inner {
+  position: absolute;
+
+  /* TODO: With these values, the "printable" area might be determined.
+   *       This should be user-definable!
+   */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  text-align: left;
+}
+
+@media print {
+  /* make sure that only content of ".page"-container gets printed */
+  .page {
+    overflow: hidden;
+  }
+}
+
+/* in-browser preview with a nice background */
+@media screen {
+
+  body {
+    padding: 20px;
+    background-color: #222;
+  }
+  .page {
+    margin: 1em;
+    box-shadow: .75mm .75mm 3mm rgba(0,0,0,.35),
+                .33mm .33mm 1.5mm rgba(0,0,0,.2);
+  }
+}
+
 /* Pre-define common paper sizes.
+ *
+ * These are picked up in PaperSizes and provided in LineaturForm .
  *
  * Most of them are based on ISO 216.
  * Values taken from https://en.wikipedia.org/wiki/Paper_size
