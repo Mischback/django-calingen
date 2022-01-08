@@ -64,7 +64,10 @@ skip_glob = [
 legacy_tox_ini = """
 [tox]
 envlist =
+  # Python 3.7 is not supported by Django >= 4.0
+  # Python 3.7 on Windows does not provide the required SQLite extension by default
   py37-django{31,32}-{linux,macos}
+  # Python 3.8 on Windows does not provide the required SQLite extension by default
   py38-django{31,32,40}-{linux,macos}
   py{39,310}-django{31,32,40}-{linux,macos,windows}
 
