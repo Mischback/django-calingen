@@ -64,14 +64,19 @@ skip_glob = [
 legacy_tox_ini = """
 [tox]
 envlist =
-  py37-django{31,32}
-  py{38,39,310}-django{31,32,40}
+  py37-django{31,32}-{linux,macos}
+  py38-django{31,32,40}-{linux,macos}
+  py{39,310}-django{31,32,40}-{linux,macos,windows}
 
 skipsdist = true
 skip_missing_interpreters = true
 minversion = 3.24.0
 
 [testenv]
+platform =
+  linux: linux
+  macos: darwin
+  windows: win32
 setenv =
   PYTHONDONTWRITEBYTECODE=1
 deps:
@@ -89,6 +94,12 @@ python =
   3.8: py38
   3.9: py39
   3.10: py310
+
+[gh-actions:env]
+PLATFORM =
+  ubuntu-latest: linux
+  macos-latest: macos
+  windows-latest: windows
 
 [testenv:django]
 basepython = python3
