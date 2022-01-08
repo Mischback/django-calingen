@@ -1,10 +1,20 @@
-{% load static %}
+{% load static l10n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>CalInGen: Lineatur</title>
     <link rel="stylesheet" type="text/css" href="{% static "lineatur/lineatur_base.css" %}" />
+    <style>
+      {% localize off %}
+      .page-inner {
+        top: {{ layout_configuration.page_margin_top }}{{ layout_configuration.length_unit }};
+        right: {{ layout_configuration.page_margin_right }}{{ layout_configuration.length_unit }};
+        bottom: {{ layout_configuration.page_margin_bottom }}{{ layout_configuration.length_unit }};
+        left: {{ layout_configuration.page_margin_left }}{{ layout_configuration.length_unit }};
+      }
+      {% endlocalize %}
+    </style>
   </head>
 
   <body class="{{ layout_configuration.paper_size }}">

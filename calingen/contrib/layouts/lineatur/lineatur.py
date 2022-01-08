@@ -4,7 +4,7 @@
 
 # Django imports
 from django.db.models import TextChoices
-from django.forms import CharField, ChoiceField
+from django.forms import CharField, ChoiceField, FloatField
 from django.utils.translation import gettext_lazy as _
 
 # app imports
@@ -38,6 +38,20 @@ class PaperSize(TextChoices):
     TABLOID = "paperTabloid", _("Tabloid (11.0in x 17.0in)")
 
 
+class LengthUnits(TextChoices):
+    """Provide CSS absolute length units.
+
+    Taken from here:
+    https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units#lengths
+    """
+
+    CM = "cm", _("Centimeters")
+    MM = "mm", _("Millimeters")
+    IN = "in", _("Inches")
+    PT = "pt", _("Points (1/72th of 1in)")
+    PX = "px", _("Pixels (1/96th of 1in")
+
+
 class LineaturForm(LayoutConfigurationForm):
     """Configuration form for the Lineatur layout.
 
@@ -60,6 +74,43 @@ class LineaturForm(LayoutConfigurationForm):
         help_text=_("The paper size to be used"),
         choices=PaperSize.choices,
         required=True,
+        initial=PaperSize.A5,
+    )
+
+    length_unit = ChoiceField(
+        label=_("Unit of lengths"),
+        help_text=_("Determine the unit for specified lengths"),
+        choices=LengthUnits.choices,
+        required=True,
+        initial=LengthUnits.CM,
+    )
+
+    page_margin_top = FloatField(
+        label=_("Margin (top)"),
+        help_text=_("Space between the page's and the content's top edges"),
+        required=True,
+        initial=0,
+    )
+
+    page_margin_right = FloatField(
+        label=_("Margin (right)"),
+        help_text=_("Space between the page's and the content's right edges"),
+        required=True,
+        initial=0,
+    )
+
+    page_margin_bottom = FloatField(
+        label=_("Margin (bottom)"),
+        help_text=_("Space between the page's and the content's bottom edges"),
+        required=True,
+        initial=0,
+    )
+
+    page_margin_left = FloatField(
+        label=_("Margin (left)"),
+        help_text=_("Space between the page's and the content's top edges"),
+        required=True,
+        initial=0,
     )
 
 
