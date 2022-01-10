@@ -57,7 +57,7 @@ class LineaturTypes(TextChoices):
 
     BLANK = "blank", _("blank")
     # DOTTED = "dotted", _("dotted")
-    # LINED = "lined", _("lined")
+    LINED = "lined", _("lined")
     SQUARED = "squared", _("squared")
 
 
