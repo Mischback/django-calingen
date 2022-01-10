@@ -78,6 +78,8 @@ class LineaturForm(LayoutConfigurationForm):
     and the actual grid.
     """
 
+    template_name = "lineatur/config_form.html"
+
     caption = CharField(
         label=_("Caption"),
         help_text=_("An optional caption, placed in the specified position"),
