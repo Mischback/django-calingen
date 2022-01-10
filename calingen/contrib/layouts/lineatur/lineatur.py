@@ -4,7 +4,7 @@
 
 # Django imports
 from django.db.models import TextChoices
-from django.forms import CharField, ChoiceField, FloatField
+from django.forms import CharField, ChoiceField, FloatField, IntegerField
 from django.utils.translation import gettext_lazy as _
 
 # app imports
@@ -52,6 +52,15 @@ class LengthUnits(TextChoices):
     PX = "px", _("Pixels (1/96th of 1in")
 
 
+class LineaturTypes(TextChoices):
+    """Provide different types of grids."""
+
+    BLANK = "blank", _("blank")
+    # DOTTED = "dotted", _("dotted")
+    # LINED = "lined", _("lined")
+    SQUARED = "squared", _("squared")
+
+
 class LineaturForm(LayoutConfigurationForm):
     """Configuration form for the Lineatur layout.
 
@@ -75,6 +84,36 @@ class LineaturForm(LayoutConfigurationForm):
         choices=PaperSize.choices,
         required=True,
         initial=PaperSize.A5,
+    )
+
+    lineatur_type = ChoiceField(
+        label=_("Type of Grid to generate"),
+        help_text=_("Determine which grid is generated"),
+        choices=LineaturTypes.choices,
+        required=True,
+        initial=LineaturTypes.BLANK,
+    )
+
+    lineatur_spacing_x = FloatField(
+        label=_("Grid horizontal spacing"),
+        help_text=_("The horizontal spacing of the grid"),
+        required=True,
+        initial=0.5,
+    )
+
+    lineatur_spacing_y = FloatField(
+        label=_("Grid vertical spacing"),
+        help_text=_("The vertical spacing of the grid"),
+        required=True,
+        initial=0.5,
+    )
+
+    lineatur_stroke_width = IntegerField(
+        label=_("Width of the grid strokes"),
+        help_text=_("The width of the grid strokes specified in pixels"),
+        required=True,
+        initial=1,
+        min_value=0,
     )
 
     length_unit = ChoiceField(
