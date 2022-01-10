@@ -140,14 +140,14 @@ class LineaturForm(LayoutConfigurationForm):
 
     lineatur_spacing_x = FloatField(
         label=_("Grid horizontal spacing"),
-        help_text=_("The horizontal spacing of the grid"),
+        help_text=_("The horizontal spacing of the grid. See Unit of lengths."),
         required=True,
         initial=0.5,
     )
 
     lineatur_spacing_y = FloatField(
         label=_("Grid vertical spacing"),
-        help_text=_("The vertical spacing of the grid"),
+        help_text=_("The vertical spacing of the grid. See Unit of lengths."),
         required=True,
         initial=0.5,
     )
@@ -162,28 +162,40 @@ class LineaturForm(LayoutConfigurationForm):
 
     page_margin_top = FloatField(
         label=_("Margin (top)"),
-        help_text=_("Space between the page's and the content's top edges"),
+        help_text=_(
+            "Space between the page's and the content's top edges. "
+            "See Unit of lengths."
+        ),
         required=True,
         initial=0,
     )
 
     page_margin_right = FloatField(
         label=_("Margin (right)"),
-        help_text=_("Space between the page's and the content's right edges"),
+        help_text=_(
+            "Space between the page's and the content's right edges. "
+            "See Unit of lengths."
+        ),
         required=True,
         initial=0,
     )
 
     page_margin_bottom = FloatField(
         label=_("Margin (bottom)"),
-        help_text=_("Space between the page's and the content's bottom edges"),
+        help_text=_(
+            "Space between the page's and the content's bottom edges. "
+            "See Unit of lengths."
+        ),
         required=True,
         initial=0,
     )
 
     page_margin_left = FloatField(
         label=_("Margin (left)"),
-        help_text=_("Space between the page's and the content's left edges"),
+        help_text=_(
+            "Space between the page's and the content's left edges. "
+            "See Unit of lengths."
+        ),
         required=True,
         initial=0,
     )
