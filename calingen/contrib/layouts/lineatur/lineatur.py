@@ -94,6 +94,14 @@ class LineaturForm(LayoutConfigurationForm):
         initial=LineaturTypes.BLANK,
     )
 
+    length_unit = ChoiceField(
+        label=_("Unit of lengths"),
+        help_text=_("Determine the unit for specified lengths"),
+        choices=LengthUnits.choices,
+        required=True,
+        initial=LengthUnits.CM,
+    )
+
     lineatur_spacing_x = FloatField(
         label=_("Grid horizontal spacing"),
         help_text=_("The horizontal spacing of the grid"),
@@ -114,14 +122,6 @@ class LineaturForm(LayoutConfigurationForm):
         required=True,
         initial=1,
         min_value=0,
-    )
-
-    length_unit = ChoiceField(
-        label=_("Unit of lengths"),
-        help_text=_("Determine the unit for specified lengths"),
-        choices=LengthUnits.choices,
-        required=True,
-        initial=LengthUnits.CM,
     )
 
     page_margin_top = FloatField(
@@ -147,7 +147,7 @@ class LineaturForm(LayoutConfigurationForm):
 
     page_margin_left = FloatField(
         label=_("Margin (left)"),
-        help_text=_("Space between the page's and the content's top edges"),
+        help_text=_("Space between the page's and the content's left edges"),
         required=True,
         initial=0,
     )
