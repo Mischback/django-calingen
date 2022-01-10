@@ -56,7 +56,7 @@ class LineaturTypes(TextChoices):
     """Provide different types of grids."""
 
     BLANK = "blank", _("blank")
-    # DOTTED = "dotted", _("dotted")
+    DOTTED = "dotted", _("dotted")
     LINED = "lined", _("lined")
     SQUARED = "squared", _("squared")
 
