@@ -61,6 +61,14 @@ class LineaturTypes(TextChoices):
     SQUARED = "squared", _("squared")
 
 
+class CaptionPositionChoices(TextChoices):
+    """Where to put the caption."""
+
+    LEFT = "left", _("left")
+    CENTER = "center", _("center")
+    RIGHT = "right", _("right")
+
+
 class LineaturForm(LayoutConfigurationForm):
     """Configuration form for the Lineatur layout.
 
@@ -72,11 +80,39 @@ class LineaturForm(LayoutConfigurationForm):
 
     caption = CharField(
         label=_("Caption"),
-        help_text=_("An optional caption, placed in the top right (outer) corner"),
+        help_text=_("An optional caption, placed in the specified position"),
         max_length=150,
         required=False,
         empty_value="",
     )
+
+    caption_position = ChoiceField(
+        label=_("Position of the Caption"),
+        help_text=_("Where to put the caption"),
+        choices=CaptionPositionChoices.choices,
+        required=True,
+        initial=CaptionPositionChoices.RIGHT,
+    )
+
+    caption_size = IntegerField(
+        label=_("Size of the Caption"),
+        help_text=_("Size in pt of the caption"),
+        required=True,
+        initial=16,
+        min_value=1,
+    )
+
+    caption_font = CharField(
+        label=_("Font Family of the Caption"),
+        help_text=_(
+            "Specify the font to use; will be passed to a CSS font-family attribute; "
+            "You may specify system fonts; default: sans-serif."
+        ),
+        required="False",
+        empty_value="sans-serif",
+    )
+
+    # caption_color
 
     paper_size = ChoiceField(
         label=_("Paper Size"),
