@@ -171,6 +171,14 @@ class LineaturForm(LayoutConfigurationForm):
         initial=0.5,
     )
 
+    lineatur_color = ChoiceField(
+        label=_("Grid Color"),
+        help_text=_("The color to render the selected grid"),
+        choices=ColorChoices.choices,
+        required=True,
+        initial=ColorChoices.LIGHT_GREY,
+    )
+
     lineatur_stroke_width = IntegerField(
         label=_("Width of the grid strokes"),
         help_text=_("The width of the grid strokes specified in pixels"),
