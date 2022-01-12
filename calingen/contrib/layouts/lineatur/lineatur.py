@@ -215,4 +215,4 @@ class Lineatur(LayoutProvider):
     orientation = "portrait"
     layout_type = "html"
     configuration_form = LineaturForm
-    _template = "lineatur/base.html"
+    _template = "lineatur/layout.html"
