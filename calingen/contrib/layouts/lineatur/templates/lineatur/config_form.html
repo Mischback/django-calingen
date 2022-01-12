@@ -1,9 +1,3 @@
-{% for hidden_field in form.hidden_fields %}
-{{ hidden_field }}
-{% endfor %}
-
-THIS IS THE SPECIFIC CONFIG FORM TEMPLATE
-
 {% if form.non_field_errors %}
 <div class="non-field-errors">
   {% for error in form.non_field_errors %}
@@ -12,19 +6,32 @@ THIS IS THE SPECIFIC CONFIG FORM TEMPLATE
 </div>
 {% endif %}
 
-{% for field in form.visible_fields %}
-<div class="field-group">
-  {{ field.label_tag }}
-  {% if field.errors %}
-    <div class="field-errors">
-      {% for error in field.errors %}
-        {{ error }}
-      {% endfor %}
-    </div>
-  {% endif %}
-  {{ field }}
-  {% if field.help_text %}
-    <small>{{ field.help_text }}</small>
-  {% endif %}
+<div>
+  {% include "lineatur/form_field_group.html" with field=form.paper_size %}
+  {% include "lineatur/form_field_group.html" with field=form.length_unit %}
 </div>
+
+<div>
+  {% include "lineatur/form_field_group.html" with field=form.caption %}
+  {% include "lineatur/form_field_group.html" with field=form.caption_position %}
+  {% include "lineatur/form_field_group.html" with field=form.caption_size %}
+  {% include "lineatur/form_field_group.html" with field=form.caption_font %}
+</div>
+
+<div>
+  {% include "lineatur/form_field_group.html" with field=form.lineatur_type %}
+  {% include "lineatur/form_field_group.html" with field=form.lineatur_spacing_x %}
+  {% include "lineatur/form_field_group.html" with field=form.lineatur_spacing_y %}
+  {% include "lineatur/form_field_group.html" with field=form.lineatur_stroke_width %}
+</div>
+
+<div>
+  {% include "lineatur/form_field_group.html" with field=form.page_margin_top %}
+  {% include "lineatur/form_field_group.html" with field=form.page_margin_right %}
+  {% include "lineatur/form_field_group.html" with field=form.page_margin_bottom %}
+  {% include "lineatur/form_field_group.html" with field=form.page_margin_left %}
+</div>
+
+{% for hidden_field in form.hidden_fields %}
+{{ hidden_field }}
 {% endfor %}
