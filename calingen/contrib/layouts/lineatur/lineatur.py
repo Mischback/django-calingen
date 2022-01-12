@@ -69,6 +69,17 @@ class CaptionPositionChoices(TextChoices):
     RIGHT = "right", _("right")
 
 
+class ColorChoices(TextChoices):
+    """Pre-defined colors to use in the generated output."""
+
+    BLACK = "rgb(0,0,0)", _("black")
+    DARK_GREY = "rgb(64,64,64)", _("dark grey")
+    LIGHT_GREY = "rgb(128,128,128)", _("light grey")
+    RED = "rgb(255,0,0)", _("red")
+    GREEN = "rgb(0,255,0)", _("green")
+    BLUE = "rgb(0,0,255)", _("blue")
+
+
 class LineaturForm(LayoutConfigurationForm):
     """Configuration form for the Lineatur layout.
 
@@ -114,7 +125,13 @@ class LineaturForm(LayoutConfigurationForm):
         empty_value="sans-serif",
     )
 
-    # caption_color
+    caption_color = ChoiceField(
+        label=_("Caption Text Color"),
+        help_text=_("The color to be used for the caption."),
+        choices=ColorChoices.choices,
+        required=True,
+        initial=ColorChoices.LIGHT_GREY,
+    )
 
     paper_size = ChoiceField(
         label=_("Paper Size"),
