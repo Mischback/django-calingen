@@ -190,7 +190,7 @@ envdir = {toxworkdir}/util
 setenv =
   PYTHONDONTWRITEBYTECODE=1
   FLIT_USERNAME=__token__
-  FLIT_INDEX_URL=https://test.pypi.org/legacy/
+  # FLIT_INDEX_URL=https://test.pypi.org/legacy/
 passenv =
   FLIT_PASSWORD
 skip_install = true
