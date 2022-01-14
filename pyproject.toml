@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "django-calingen"
-authors = [{name = "Mischback", email = "mischback.dev@gmail.com"}]
+authors = [{name = "Mischback"}]
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = [
@@ -189,6 +189,10 @@ deps =
 envdir = {toxworkdir}/util
 setenv =
   PYTHONDONTWRITEBYTECODE=1
+  FLIT_USERNAME=__token__
+  FLIT_INDEX_URL=https://test.pypi.org/legacy/
+passenv =
+  FLIT_PASSWORD
 skip_install = true
 commands =
   {posargs:pre-commit run}
