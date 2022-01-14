@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide tests for calingen.templatetags.calingen_tex."""
+"""Provide tests for calingen.templatetags.calingen_escape."""
 
 # Python imports
 from unittest import mock, skip  # noqa: F401
@@ -9,13 +9,13 @@ from unittest import mock, skip  # noqa: F401
 from django.test import override_settings, tag  # noqa: F401
 
 # app imports
-from calingen.templatetags.calingen_tex import escape_tex
+from calingen.templatetags.calingen_escape import escape_tex
 
 # local imports
 from ..util.testcases import CalingenTestCase
 
 
-@tag("templatetags", "calingen_tex")
+@tag("templatetags", "calingen_escape")
 class CalingenChecksTest(CalingenTestCase):
     def test_escape_tex_empty(self):
         # Arrange (set up test environment)
