@@ -150,6 +150,14 @@ util/flit : $(TOX_UTIL_ENV)
 	tox -q -e util -- flit $(flit_argument)
 .PHONY : util/flit
 
+util/flit/build :
+	$(MAKE) util/flit flit_argument="build"
+.PHONY : util/flit/build
+
+util/flit/publish :
+	$(MAKE) util/flit flit_argument="publish"
+.PHONY : util/flit/publish
+
 util/tox : $(TOX_DJANGO_ENV) $(TOX_SPHINX_ENV) $(TOX_TEST_DIR) $(TOX_UTIL_ENV)
 .PHONY : util/tox
 
