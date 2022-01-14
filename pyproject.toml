@@ -132,7 +132,6 @@ commands =
 basepython = python3
 deps =
   coverage[toml]
-  coveragepy-lcov
   pre-commit
 envdir = {toxworkdir}/util
 setenv =
