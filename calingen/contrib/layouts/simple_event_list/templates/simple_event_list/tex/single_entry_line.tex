@@ -1,4 +1,4 @@
-{% load calingen_tex %}
+{% load calingen_escape %}
 {% if event.category.value in "ANNUAL_ANNIVERSARY HOLIDAY" %}
   \item[] {{ event.timestamp|date:"SHORT_DATE_FORMAT" }} - {{ event.title|escape_tex }} ({{ event.category.label|escape_tex }})
 {% else %}
