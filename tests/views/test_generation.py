@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide tests for calingen.views.tex."""
+"""Provide tests for calingen.views.generation."""
 
 # Python imports
 from unittest import mock, skip  # noqa: F401
@@ -12,18 +12,18 @@ from django.test import Client, override_settings, tag  # noqa: F401
 from django.urls import reverse
 
 # app imports
-from calingen.views.tex import (
-    TeXCompilerView,
-    TeXLayoutConfigurationView,
-    TeXLayoutSelectionView,
+from calingen.views.generation import (
+    CompilerView,
+    LayoutConfigurationView,
+    LayoutSelectionView,
 )
 
 # local imports
 from ..util.testcases import CalingenORMTestCase
 
 
-@tag("views", "tex", "TeXLayoutSelectionView")
-class TeXLayoutSelectionViewTest(CalingenORMTestCase):
+@tag("views", "generation", "LayoutSelectionView")
+class LayoutSelectionViewTest(CalingenORMTestCase):
     def test_form_must_contain_data(self):
         # Arrange (set up test environment)
         self.user = User.objects.get(pk=2)
@@ -31,22 +31,20 @@ class TeXLayoutSelectionViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.post(
-            reverse("calingen:tex-layout-selection"), follow=True
-        )
+        response = self.client.post(reverse("calingen:layout-selection"), follow=True)
 
         # Assert (verify the results)
         # The actual verification, that an empty POST don't proceed to the next
         # step is done by checking the used template!
         # Works ok.
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "calingen/tex_layout_selection.html")
+        self.assertTemplateUsed(response, "calingen/layout_selection.html")
 
-    @mock.patch("calingen.views.tex.super")
+    @mock.patch("calingen.views.generation.super")
     def test_form_valid(self, mock_super):
         # Arrange
         test_form = mock.MagicMock()
-        cbv = TeXLayoutSelectionView()
+        cbv = LayoutSelectionView()
 
         # Act
         cbv.form_valid(test_form)
@@ -56,11 +54,11 @@ class TeXLayoutSelectionViewTest(CalingenORMTestCase):
         mock_super.return_value.form_valid.assert_called_once()
 
 
-@tag("views", "tex", "TeXLayoutConfigurationView")
-class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
+@tag("views", "generation", "LayoutConfigurationView")
+class LayoutConfigurationViewTest(CalingenORMTestCase):
     @mock.patch(
-        "calingen.views.tex.TeXLayoutConfigurationView.get_form_class",
-        side_effect=TeXLayoutConfigurationView.NoLayoutSelectedException(),
+        "calingen.views.generation.LayoutConfigurationView.get_form_class",
+        side_effect=LayoutConfigurationView.NoLayoutSelectedException(),
     )
     def test_error_if_no_layout_is_selected(self, mock_get_form_class):
         # Arrange (set up test environment)
@@ -70,16 +68,16 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
 
         # Act (actually perform what has to be done)
         response = self.client.get(
-            reverse("calingen:tex-layout-configuration"), follow=True
+            reverse("calingen:layout-configuration"), follow=True
         )
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("calingen:tex-layout-selection"))
+        self.assertRedirects(response, reverse("calingen:layout-selection"))
         mock_get_form_class.assert_called_once()
 
     @mock.patch(
-        "calingen.views.tex.TeXLayoutConfigurationView.get_form_class",
-        side_effect=TeXLayoutConfigurationView.NoConfigurationFormException(),
+        "calingen.views.generation.LayoutConfigurationView.get_form_class",
+        side_effect=LayoutConfigurationView.NoConfigurationFormException(),
     )
     def test_error_if_no_configuration_is_required(self, mock_get_form_class):
         # Arrange (set up test environment)
@@ -89,18 +87,18 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
 
         # Act (actually perform what has to be done)
         response = self.client.get(
-            reverse("calingen:tex-layout-configuration"), follow=True
+            reverse("calingen:layout-configuration"), follow=True
         )
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("calingen:tex-layout-selection"))
+        self.assertRedirects(response, reverse("calingen:layout-selection"))
         mock_get_form_class.assert_called_once()
 
-    @mock.patch("calingen.views.tex.super")
+    @mock.patch("calingen.views.generation.super")
     def test_form_valid(self, mock_super):
         # Arrange
         test_form = mock.MagicMock()
-        cbv = TeXLayoutConfigurationView()
+        cbv = LayoutConfigurationView()
 
         # Act
         cbv.form_valid(test_form)
@@ -113,15 +111,15 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         # Arrange
         test_request = mock.MagicMock()
         test_request.session.get.return_value = None
-        cbv = TeXLayoutConfigurationView()
+        cbv = LayoutConfigurationView()
         cbv.request = test_request
 
         # Act
         # Assert
-        with self.assertRaises(TeXLayoutConfigurationView.NoLayoutSelectedException):
+        with self.assertRaises(LayoutConfigurationView.NoLayoutSelectedException):
             cbv.get_form_class()
 
-    @mock.patch("calingen.views.tex.import_string")
+    @mock.patch("calingen.views.generation.import_string")
     def test_get_form_class_no_form(self, mock_import_string):
         # Arrange
         test_request = mock.MagicMock()
@@ -129,15 +127,15 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         test_layout = mock.MagicMock()
         test_layout.configuration_form = None
         mock_import_string.return_value = test_layout
-        cbv = TeXLayoutConfigurationView()
+        cbv = LayoutConfigurationView()
         cbv.request = test_request
 
         # Act
         # Assert
-        with self.assertRaises(TeXLayoutConfigurationView.NoConfigurationFormException):
+        with self.assertRaises(LayoutConfigurationView.NoConfigurationFormException):
             cbv.get_form_class()
 
-    @mock.patch("calingen.views.tex.import_string")
+    @mock.patch("calingen.views.generation.import_string")
     def test_get_form_class_return_form(self, mock_import_string):
         # Arrange
         test_request = mock.MagicMock()
@@ -146,7 +144,7 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         test_layout = mock.MagicMock()
         test_layout.configuration_form = test_layout_form
         mock_import_string.return_value = test_layout
-        cbv = TeXLayoutConfigurationView()
+        cbv = LayoutConfigurationView()
         cbv.request = test_request
 
         # Act
@@ -156,11 +154,11 @@ class TeXLayoutConfigurationViewTest(CalingenORMTestCase):
         self.assertEqual(return_value, test_layout_form)
 
 
-@tag("views", "tex", "TeXCompilerView")
-class TeXCompilerViewTest(CalingenORMTestCase):
+@tag("views", "generation", "CompilerView")
+class CompilerViewTest(CalingenORMTestCase):
     @mock.patch(
-        "calingen.views.tex.TeXCompilerView._get_layout",
-        side_effect=TeXCompilerView.NoLayoutSelectedException(),
+        "calingen.views.generation.CompilerView._get_layout",
+        side_effect=CompilerView.NoLayoutSelectedException(),
     )
     def test_error_if_no_layout_is_selected(self, mock_get_layout):
         # Arrange (set up test environment)
@@ -169,20 +167,20 @@ class TeXCompilerViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("calingen:tex-compiler"), follow=True)
+        response = self.client.get(reverse("calingen:compilation"), follow=True)
 
         # Assert (verify the results)
-        self.assertRedirects(response, reverse("calingen:tex-layout-selection"))
+        self.assertRedirects(response, reverse("calingen:layout-selection"))
         mock_get_layout.assert_called_once()
 
-    @mock.patch("calingen.views.tex.import_string")
+    @mock.patch("calingen.views.generation.import_string")
     def test_get_layout_return_imported_layout(self, mock_import_string):
         # Arrange
         test_request = mock.MagicMock()
         test_request.session.pop.return_value = "foo.bar"
         test_layout = mock.MagicMock()
         mock_import_string.return_value = test_layout
-        cbv = TeXCompilerView()
+        cbv = CompilerView()
         cbv.request = test_request
 
         # Act
@@ -191,13 +189,13 @@ class TeXCompilerViewTest(CalingenORMTestCase):
         # Assert
         self.assertEqual(return_value, test_layout)
 
-    @mock.patch("calingen.views.tex.TeXCompilerView.get_context_data")
+    @mock.patch("calingen.views.generation.CompilerView.get_context_data")
     def test_prepare_context(self, mock_get_context_data):
         # Arrange
         test_request = mock.MagicMock()
         test_request.session.pop.return_value = "foo"
         mock_kwargs = mock.MagicMock()
-        cbv = TeXCompilerView()
+        cbv = CompilerView()
         cbv.request = test_request
 
         # Act
@@ -210,16 +208,20 @@ class TeXCompilerViewTest(CalingenORMTestCase):
             target_year="foo", layout_configuration="foo", **mock_kwargs
         )
 
-    @mock.patch("calingen.views.tex.import_string")
-    @mock.patch("calingen.views.tex.TeXCompilerView._prepare_context")
-    @mock.patch("calingen.views.tex.TeXCompilerView._get_layout")
-    def test_compilation(
+    @override_settings(
+        CALINGEN_COMPILER={"default": "default.compiler", "test-type": "foo.bar"}
+    )
+    @mock.patch("calingen.views.generation.import_string")
+    @mock.patch("calingen.views.generation.CompilerView._prepare_context")
+    @mock.patch("calingen.views.generation.CompilerView._get_layout")
+    def test_use_specified_compiler(
         self, mock_get_layout, mock_prepare_context, mock_import_string
     ):
         # Arrange (set up test environment)
         mock_compiler = mock.MagicMock()
         mock_compiler.get_response.return_value = HttpResponse("foo")
         mock_layout = mock.MagicMock()
+        mock_layout.layout_type = "test-type"
         mock_get_layout.return_value = mock_layout
         mock_import_string.return_value = mock_compiler
         self.user = User.objects.get(pk=2)
@@ -227,12 +229,73 @@ class TeXCompilerViewTest(CalingenORMTestCase):
         self.client.force_login(self.user)
 
         # Act (actually perform what has to be done)
-        response = self.client.get(reverse("calingen:tex-compiler"), follow=True)
+        response = self.client.get(reverse("calingen:compilation"), follow=True)
 
         # Assert (verify the results)
         self.assertContains(response, "foo")
         mock_get_layout.assert_called_once()
         mock_prepare_context.assert_called_once()
-        mock_layout.render.assert_called_once()
         mock_layout.render.assert_called_once_with(mock_prepare_context.return_value)
+        mock_import_string.assert_called_once_with("foo.bar")
+        mock_compiler.get_response.assert_called_once()
+
+    @override_settings(CALINGEN_COMPILER={"default": "default.compiler"})
+    @mock.patch("calingen.views.generation.import_string")
+    @mock.patch("calingen.views.generation.CompilerView._prepare_context")
+    @mock.patch("calingen.views.generation.CompilerView._get_layout")
+    def test_fallback_to_default_compiler(
+        self, mock_get_layout, mock_prepare_context, mock_import_string
+    ):
+        # Arrange (set up test environment)
+        mock_compiler = mock.MagicMock()
+        mock_compiler.get_response.return_value = HttpResponse("foo")
+        mock_layout = mock.MagicMock()
+        mock_layout.layout_type = "test-type"
+        mock_get_layout.return_value = mock_layout
+        mock_import_string.return_value = mock_compiler
+        self.user = User.objects.get(pk=2)
+        self.client = Client()
+        self.client.force_login(self.user)
+
+        # Act (actually perform what has to be done)
+        response = self.client.get(reverse("calingen:compilation"), follow=True)
+
+        # Assert (verify the results)
+        self.assertContains(response, "foo")
+        mock_get_layout.assert_called_once()
+        mock_prepare_context.assert_called_once()
+        mock_layout.render.assert_called_once_with(mock_prepare_context.return_value)
+        mock_import_string.assert_called_once_with("default.compiler")
+        mock_compiler.get_response.assert_called_once()
+
+    @override_settings(
+        CALINGEN_COMPILER={"default": "default.compiler", "test-type": "foo.bar"}
+    )
+    @mock.patch("calingen.views.generation.import_string")
+    @mock.patch("calingen.views.generation.CompilerView._prepare_context")
+    @mock.patch("calingen.views.generation.CompilerView._get_layout")
+    def test_unimportable_compiler_fallback(
+        self, mock_get_layout, mock_prepare_context, mock_import_string
+    ):
+        # Arrange (set up test environment)
+        mock_compiler = mock.MagicMock()
+        mock_compiler.get_response.return_value = HttpResponse("foo")
+        mock_layout = mock.MagicMock()
+        mock_layout.layout_type = "test-type"
+        mock_get_layout.return_value = mock_layout
+        mock_import_string.side_effect = [ImportError("test"), mock_compiler]
+        self.user = User.objects.get(pk=2)
+        self.client = Client()
+        self.client.force_login(self.user)
+
+        # Act (actually perform what has to be done)
+        response = self.client.get(reverse("calingen:compilation"), follow=True)
+
+        # Assert (verify the results)
+        self.assertContains(response, "foo")
+        mock_get_layout.assert_called_once()
+        mock_prepare_context.assert_called_once()
+        mock_layout.render.assert_called_once_with(mock_prepare_context.return_value)
+        mock_import_string.assert_any_call("foo.bar")
+        mock_import_string.assert_called_with("default.compiler")
         mock_compiler.get_response.assert_called_once()

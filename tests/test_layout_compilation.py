@@ -3,9 +3,6 @@
 """Provide tests for calingen.checks."""
 
 # Python imports
-# import os
-# import subprocess  # nosec: required for TeX compilation
-# import tempfile
 from unittest import mock, skip  # noqa: F401
 
 # Django imports

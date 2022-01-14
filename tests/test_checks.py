@@ -10,8 +10,8 @@ from django.test import override_settings, tag  # noqa: F401
 
 # app imports
 from calingen.checks import (
+    check_config_value_compiler,
     check_config_value_event_provider_notification,
-    check_required_compiler_setting,
     check_session_enabled,
 )
 
@@ -115,24 +115,80 @@ class CalingenChecksTest(CalingenTestCase):
         self.assertEqual(return_value, [])
 
     @tag("config", "compiler")
-    @override_settings(CALINGEN_TEX_COMPILER=None)
-    def test_e003_missing(self):
+    @override_settings(CALINGEN_COMPILER=None)
+    def test_calingen_compiler_none(self):
         # Arrange (set up test environment)
 
         # Act (actually perform what has to be done)
-        return_value = check_required_compiler_setting(None)
+        return_value = check_config_value_compiler(None)
 
         # Assert (verify the results)
         self.assertNotEqual(return_value, [])
         self.assertEqual(len(return_value), 1)
+        self.assertEqual(return_value[0].id, "calingen.e003")
 
     @tag("config", "compiler")
-    @override_settings(CALINGEN_TEX_COMPILER="foo.bar")
-    def test_e003_setting_is_valid(self):
+    @override_settings(CALINGEN_COMPILER="foo")
+    def test_calingen_compiler_string(self):
         # Arrange (set up test environment)
 
         # Act (actually perform what has to be done)
-        return_value = check_required_compiler_setting(None)
+        return_value = check_config_value_compiler(None)
+
+        # Assert (verify the results)
+        self.assertNotEqual(return_value, [])
+        self.assertEqual(len(return_value), 1)
+        self.assertEqual(return_value[0].id, "calingen.e003")
+
+    @tag("config", "compiler")
+    @override_settings(CALINGEN_COMPILER={})
+    def test_calingen_compiler_empty_dict(self):
+        # Arrange (set up test environment)
+
+        # Act (actually perform what has to be done)
+        return_value = check_config_value_compiler(None)
+
+        # Assert (verify the results)
+        self.assertNotEqual(return_value, [])
+        self.assertEqual(len(return_value), 1)
+        self.assertEqual(return_value[0].id, "calingen.e003")
+
+    @tag("config", "compiler")
+    @override_settings(CALINGEN_COMPILER={"foo": "bar"})
+    def test_calingen_compiler_missing_default(self):
+        # Arrange (set up test environment)
+
+        # Act (actually perform what has to be done)
+        return_value = check_config_value_compiler(None)
+
+        # Assert (verify the results)
+        self.assertNotEqual(return_value, [])
+        self.assertEqual(len(return_value), 1)
+        self.assertEqual(return_value[0].id, "calingen.e003")
+
+    @tag("config", "compiler")
+    @override_settings(CALINGEN_COMPILER={"default": "bar"})
+    @mock.patch("calingen.checks.import_string", side_effect=ImportError())
+    def test_calingen_compiler_unimportable_default(self, mock_import_string):
+        # Arrange (set up test environment)
+
+        # Act (actually perform what has to be done)
+        return_value = check_config_value_compiler(None)
+
+        # Assert (verify the results)
+        self.assertNotEqual(return_value, [])
+        self.assertEqual(len(return_value), 1)
+        self.assertEqual(return_value[0].id, "calingen.e004")
+
+    @tag("config", "compiler")
+    @override_settings(CALINGEN_COMPILER={"default": "bar"})
+    @mock.patch("calingen.checks.import_string")
+    def test_calingen_compiler_valid(self, mock_import_string):
+        # Arrange (set up test environment)
+        mock_import_string.return_value = "foo"
+
+        # Act (actually perform what has to be done)
+        return_value = check_config_value_compiler(None)
 
         # Assert (verify the results)
         self.assertEqual(return_value, [])

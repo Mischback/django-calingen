@@ -9,6 +9,7 @@ from .settings_test import *
 INSTALLED_APPS += [
     "calingen.contrib.layouts.simple_event_list",
     "calingen.contrib.layouts.year_by_week",
+    "calingen.contrib.layouts.lineatur",
     "debug_toolbar",
 ]
 
@@ -45,6 +46,11 @@ MIDDLEWARE = [
 CALINGEN_EXTERNAL_EVENT_PROVIDER = [
     "calingen.contrib.holidays.germany",
 ]
+
+CALINGEN_COMPILER = {
+    "default": "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler",
+    "html": "calingen.contrib.compiler.html_or_download.compiler.HtmlOrDownloadCompiler",
+}
 
 LOGGING = {
     "version": 1,

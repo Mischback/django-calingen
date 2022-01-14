@@ -1,0 +1,47 @@
+{% load static l10n %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CalInGen: Lineatur</title>
+    <link rel="stylesheet" type="text/css" href="{% static "lineatur/lineatur_base.css" %}" />
+    <style>
+      {% localize off %}
+      .page-inner {
+        top: {{ layout_configuration.page_margin_top }}{{ layout_configuration.length_unit }};
+        right: {{ layout_configuration.page_margin_right }}{{ layout_configuration.length_unit }};
+        bottom: {{ layout_configuration.page_margin_bottom }}{{ layout_configuration.length_unit }};
+        left: {{ layout_configuration.page_margin_left }}{{ layout_configuration.length_unit }};
+
+        background-repeat: repeat;
+        background-position: 0 0;
+        {% if layout_configuration.lineatur_type == "dotted" %}
+        background-image: url('data:image/svg+xml;utf-8, <svg xmlns="http://www.w3.org/2000/svg" width="{{ layout_configuration.lineatur_spacing_x }}{{ layout_configuration.length_unit }}" height="{{ layout_configuration.lineatur_spacing_y }}{{ layout_configuration.length_unit }}"><line x1="0" y1="0" x2="{{ layout_configuration.lineatur_stroke_width }}" y2="{{ layout_configuration.lineatur_stroke_width }}" stroke="{{ layout_configuration.lineatur_color }}" stroke-width="{{ layout_configuration.lineatur_stroke_width }}"></line></svg>');
+        {% elif layout_configuration.lineatur_type == "lined" %}
+        background-image: url('data:image/svg+xml;utf-8, <svg xmlns="http://www.w3.org/2000/svg" width="{{ layout_configuration.lineatur_spacing_x }}{{ layout_configuration.length_unit }}" height="{{ layout_configuration.lineatur_spacing_y }}{{ layout_configuration.length_unit }}"><line x1="0" y1="0" x2="100%" y2="0" stroke="{{ layout_configuration.lineatur_color }}" stroke-width="{{ layout_configuration.lineatur_stroke_width }}"></line></svg>');
+        {% elif layout_configuration.lineatur_type == "squared" %}
+        background-image: url('data:image/svg+xml;utf-8, <svg xmlns="http://www.w3.org/2000/svg" width="{{ layout_configuration.lineatur_spacing_x }}{{ layout_configuration.length_unit }}" height="{{ layout_configuration.lineatur_spacing_y }}{{ layout_configuration.length_unit }}"><line x1="0" y1="0" x2="100%" y2="0" stroke="{{ layout_configuration.lineatur_color }}" stroke-width="{{ layout_configuration.lineatur_stroke_width }}"></line><line x1="0" y1="0" x2="0" y2="100%" stroke="{{ layout_configuration.lineatur_color }}" stroke-width="{{ layout_configuration.lineatur_stroke_width }}"></line></svg>');
+        {% else %}
+        background-image: none;
+        {% endif %}
+      }
+      .headline {
+        font-family: "{{ layout_configuration.caption_font }}";
+        font-size: {{ layout_configuration.caption_size }}pt;
+        text-align: {{ layout_configuration.caption_position }};
+        color: {{ layout_configuration.caption_color }};
+      }
+      {% endlocalize %}
+    </style>
+  </head>
+
+  <body class="{{ layout_configuration.paper_size }}">
+
+    <div class="page">
+      <div class="page-inner">
+        <div class="headline">{{ layout_configuration.caption }}</div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -180,31 +180,67 @@ class EventProvider(metaclass=PluginMount):
 class LayoutProvider(metaclass=PluginMount):
     """Mount point for plugins that provide layouts.
 
-    Plugins implementing this reference must provide the following methods:
+    Plugins implementing this reference **must** provide the following
+    attributes:
 
-    - **render(year, entries)**: Actually renders the layout's templates with
-      the given context.
+    - **title** (:py:obj:`str`): The ``title`` will be used to represent the
+      plugin in the app's views. It **must be** provided as a class attribute
+      resolving to a :py:obj:`str`. However, it is recommended to provide the
+      following class attributes instead:
 
-    Plugins implementing this reference should provide the following attributes:
+        - **name** (:py:obj:`str`): A descriptive name of the layout.
+        - **paper_size** (:py:obj:`str`): The size of the paper, e.g. ``"a4"``,
+          ``"a5"``, etc.
+        - **orientation** (:py:obj:`str`): The orientation, e.g. ``"landscape"``
+          or ``"portrait"``.
 
-    - **name**: A descriptive name of the layout, provided as :py:obj:`str`.
-    - **paper_size**: The size of the paper, provided as :py:obj:`str`, e.g.
-      ``"a4"``, ``"a5"``, etc.
-    - **orientation**: The orientation, provided as :py:obj:`str`, e.g.
-      ``"landscape"`` or ``"portrait"``.
+      By providing these attributes, the ``title`` can be provided automatically
+      by :meth:`~calingen.interfaces.plugin_api.LayoutProvider.title` in a
+      unified way throughout the application.
+    - **layout_type** (:py:obj:`str`): This required class attribute specifies
+      the source language of the rendered result and is used in
+      :class:`calingen.views.generation.CompilerView` to determine
+      which compiler is to be used to actually compile the rendered source to
+      its final product.
+
+      The actual mapping of ``layout_type`` to compiler is done in the
+      app-specific setting :py:data:`~calingen.settings.CALINGEN_COMPILER`.
+
+      ``layout_type`` may not be ``"default"``, as this is a special key used
+      internally in :class:`~calingen.views.generation.CompilerView` and
+      specifies the fallback compiler for the case that there is no dedicated
+      compiler available for the ``layout_type`` of a layout.
+
+    Plugins implementing this reference **can** provide implementations of the
+    following methods:
+
+    - **prepare_context(context)** (:py:obj:`dict`): This method performs
+      pre-processing of the ``context``. If an actual layout needs data in a
+      different structure than provided by
+      :class:`calingen.views.generation.CompilerView`, this method may be
+      re-implemented by the actual layout. See
+      :meth:`~calingen.interfaces.plugin_api.LayoutProvider.prepare_context` for
+      additional details.
+    - **render(year, entries)** (:py:obj:`str`): Actually renders the layout's
+      templates with the given context. This method may be re-implemented by
+      actual layouts, though it is pretty generic as it is and should work for
+      most use cases. It calls
+      :meth:`~calingen.interfaces.plugin_api.LayoutProvider.prepare_context` for
+      pre-processing of the context. It is recommended to rely on
+      ``prepare_context()`` in actual layout implementations.
     """
 
     configuration_form = None
     """Layouts may provide a custom form to fetch configuration values.
 
     The specified form should be a subclass of
-    :class:`calingen.forms.tex.TeXLayoutConfigurationForm` and may implement
+    :class:`calingen.forms.generation.LayoutConfigurationForm` and may implement
     custom validation / cleaning logic.
     """
 
     @classproperty
     def title(cls):
-        """Return the available plugins.
+        """Return the plugin's human-readable title.
 
         Returns
         -------
@@ -217,7 +253,9 @@ class LayoutProvider(metaclass=PluginMount):
         :class:`~django.utils.functional.classproperty`.
 
         If an actual layout implementation wishes to provide its title in a
-        different way, it may provide a specific implementation of this method.
+        different way, it may provide a specific implementation of this method
+        or provide a plain ``title`` class attribute, resolving to a
+        :py:obj:`str` (TODO: NEEDS VERIFICATION!).
         """
         return "{} ({}, {})".format(cls.name, cls.paper_size, cls.orientation)
 
@@ -256,7 +294,7 @@ class LayoutProvider(metaclass=PluginMount):
         ----------
         context : dict
             The context, as provided by
-            :meth:`calingen.views.tex.TeXCompilerView.get`.
+            :meth:`calingen.views.generation.CompilerView.get`.
 
         Returns
         -------
@@ -273,12 +311,12 @@ class LayoutProvider(metaclass=PluginMount):
 
     @classmethod
     def render(cls, context, *args, **kwargs):
-        """Return the rendered TeX source.
+        """Return the rendered source.
 
         Returns
         -------
         str
-            The rendered TeX source.
+            The rendered source.
 
         Notes
         -----
@@ -291,15 +329,15 @@ class LayoutProvider(metaclass=PluginMount):
         return render_to_string(cls._template, context)
 
 
-class TeXCompilerProvider(metaclass=PluginMount):
-    """Mount point for plugins that provide means to compile TeX to documents.
+class CompilerProvider(metaclass=PluginMount):
+    """Mount point for plugins that provide means to compile layouts to documents.
 
     Plugins implementing this reference must provide the following attributes
     and methods:
 
     - **title** : The title of the provider, provided as :py:obj:`str`.
     - **get_response()** : A classmethod that accepts a :py:obj:`str`, which
-      will be the rendered TeX layout as provided by
+      will be the rendered layout source as provided by
       :meth:`LayoutProvider.render() <calingen.interfaces.plugin_api.LayoutProvider.render>`.
       The method **must return** a valid
       :djangoapi:`Django Response object <request-response/#httpresponse-objects>`.
@@ -326,19 +364,19 @@ class TeXCompilerProvider(metaclass=PluginMount):
         return sorted(result, key=lambda plugin_tuple: plugin_tuple[1])
 
     @classmethod
-    def get_response(cls, tex_source):
+    def get_response(cls, source, *args, **kwargs):
         """Get the compiler's HTTP response.
 
         This is the compiler's main interface to other components of the app.
 
         It should be used to actually trigger the compilation of the provided
-        TeX source and then return a valid
+        source and then return a valid
         :djangoapi:`Django Response object <request-response/#httpresponse-objects>`.
 
         Parameters
         ----------
-        tex_source : str
-            The TeX source as provided by
+        source : str
+            The source as provided by
             :meth:`LayoutProvider.render() <calingen.interfaces.plugin_api.LayoutProvider.render>`.
 
         Returns
@@ -348,7 +386,10 @@ class TeXCompilerProvider(metaclass=PluginMount):
         Notes
         -----
         This method is called from
-        :meth:`TeXCompilerView's get() method <calingen.views.tex.TeXCompilerView.get>`.
+        :meth:`CompilerView's get() method <calingen.views.generation.CompilerView.get>`
+        with an additional keyword argument ``layout_type``, exposing the
+        :attr:`~calingen.interfaces.plugin_api.LayoutProvider.layout_type`
+        attribute of the layout.
         """
         raise NotImplementedError(
             "Has to be implemented by the actual provider"

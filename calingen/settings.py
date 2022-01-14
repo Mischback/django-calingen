@@ -8,25 +8,34 @@ values.
 The settings may be provided in the project's settings module.
 """
 
-CALINGEN_TEX_COMPILER = None
-"""Set the project's TeX compiler.
+CALINGEN_COMPILER = {
+    "default": "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler",
+}
+"""Configuration of the compiler plugins.
 
-**Default value:** ``None``
+This setting determines the mapping of available instances of
+:class:`~calingen.interfaces.plugin_api.CompilerProvider` and their association
+with source files, as determined by ``layout_type`` provided by implementations
+of :class:`~calingen.interfaces.plugin_api.LayoutProvider`.
 
-Warnings
---------
-This is a mandatory parameter for project's including
-:class:`~calingen.views.tex.TeXCompilerView`.
-
-``None`` is not a valid configuration option here. If you do not want your  project
-to provide actual TeX compilation, you may provide the (included)
-:class:`~calingen.contrib.compiler.noop.compiler.NoOpCompiler` by providing
-``"calingen.contrib.compiler.noop.compiler.NoOpCompiler"`` for this setting.
+**Default value:** ``{ "default": "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler" }``
 
 Notes
 -----
-Provide a dotted Python path to a
-:class:`~calingen.interfaces.plugin_api.TeXCompilerProvider` implementation.
+More mappings may be added by specifying this setting in a project's settings
+module.
+
+The accepted *keys* are of type :py:obj:`str` and should match whatever the
+project's layouts (that is: implementations of
+:class:`calingen.interfaces.plugin_api.LayoutProvider`) provide with their
+respective ``layout_type`` attributes. If a given ``layout_type`` is not found
+in this setting, the ``default`` compiler is used.
+
+The expected *values* are of type :py:obj:`str` and should specify a dotted
+Python path to an implementation of
+:class:`calingen.interfaces.plugin_api.CompilerProvider`.
+
+This setting is evaluated in :class:`calingen.views.generation.CompilerView`.
 """
 
 CALINGEN_EXTERNAL_EVENT_PROVIDER = []

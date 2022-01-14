@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide Form implementations in the context of TeX rendering and compilation."""
+"""Provide Form implementations in the context of rendering and compilation."""
 
 # Python imports
 from datetime import date
@@ -14,7 +14,7 @@ from calingen.forms.generic import RequestEnabledForm
 from calingen.interfaces.plugin_api import LayoutProvider
 
 
-class TeXLayoutConfigurationForm(RequestEnabledForm):
+class LayoutConfigurationForm(RequestEnabledForm):
     """Layout-specific configuration form.
 
     Implementations of :class:`calingen.interfaces.plugin_api.LayoutProvider`
@@ -29,13 +29,13 @@ class TeXLayoutConfigurationForm(RequestEnabledForm):
         ] = self.cleaned_data  # pragma: nocover
 
 
-class TeXLayoutSelectionForm(RequestEnabledForm):
+class LayoutSelectionForm(RequestEnabledForm):
     """Select one of the available :class:`~calingen.interfaces.plugin_api.LayoutProvider` instances."""
 
     target_year = IntegerField(
         initial=date.today().year + 1, min_value=date.min.year, max_value=date.max.year
     )
-    """Specify the year to create the TeX layout for."""
+    """Specify the year to create the layout for."""
 
     layout = ChoiceField(
         choices=LayoutProvider.list_available_plugins, widget=RadioSelect

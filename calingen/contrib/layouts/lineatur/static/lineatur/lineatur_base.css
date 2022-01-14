@@ -1,0 +1,99 @@
+/* SPDX-License-Identifier: MIT */
+
+* {
+  /* turn of scrolling for authentic preview */
+  overflow: visible;
+  /* reset all margins and paddings */
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  text-align: center;
+  /* this is all about printable templates, so let's use pt-based sizes all the
+   * way.
+   */
+  font-size: 11pt;
+  font-family: sans-serif;
+}
+
+/* turn off print margins, see ".page-inner" */
+@page {
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  /* TODO: "color" should be user-definable! */
+  color: #000;
+  background-color: #fff;
+  display: inline-block;
+  position: relative;
+}
+
+/* This is the actual content container */
+.page-inner {
+  position: absolute;
+
+  /* TODO: With these values, the "printable" area might be determined.
+   *       This should be user-definable!
+   */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  text-align: left;
+}
+
+@media print {
+  /* make sure that only content of ".page"-container gets printed */
+  .page {
+    overflow: hidden;
+  }
+}
+
+/* in-browser preview with a nice background */
+@media screen {
+
+  body {
+    padding: 20px;
+    background-color: #222;
+  }
+  .page {
+    margin: 1em;
+    box-shadow: .75mm .75mm 3mm rgba(0,0,0,.35),
+                .33mm .33mm 1.5mm rgba(0,0,0,.2);
+  }
+}
+
+/* Pre-define common paper sizes.
+ *
+ * These are picked up in PaperSizes and provided in LineaturForm .
+ *
+ * Most of them are based on ISO 216.
+ * Values taken from https://en.wikipedia.org/wiki/Paper_size
+ */
+.paperA0 .page { width: 841mm; height: 1189mm; }
+.paperA1 .page { width: 594mm; height: 841mm; }
+.paperA2 .page { width: 420mm; height: 594mm; }
+.paperA3 .page { width: 297mm; height: 420mm; }
+.paperA4 .page { width: 210mm; height: 297mm; }
+.paperA5 .page { width: 148mm; height: 210mm; }
+.paperA6 .page { width: 105mm; height: 148mm; }
+.paperA7 .page { width:  74mm; height: 105mm; }
+
+.paperB0 .page { width: 1000mm; height: 1414mm; }
+.paperB1 .page { width: 707mm; height: 1000mm; }
+.paperB2 .page { width: 500mm; height: 707mm; }
+.paperB3 .page { width: 353mm; height: 500mm; }
+.paperB4 .page { width: 250mm; height: 353mm; }
+.paperB5 .page { width: 176mm; height: 250mm; }
+.paperB6 .page { width: 125mm; height: 176mm; }
+.paperB7 .page { width: 88mm; height: 125mm; }
+
+.paperLetter .page { width: 8.5in; height: 11in; }
+.paperGovLetter .page { width: 8in; height: 10.5in; }
+.paperLegal .page { width: 8.5in; height: 14in; }
+.paperLedger .page { width: 17in; height: 11in; }
+.paperTabloid .page { width: 11in; height: 17in; }

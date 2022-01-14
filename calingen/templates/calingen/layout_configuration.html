@@ -1,6 +1,6 @@
 {% extends "calingen/app_base.html" %}
 
-{% block page_title %}TeX: TeXLayoutConfigurationView{% endblock page_title %}
+{% block page_title %}LayoutConfigurationView{% endblock page_title %}
 
 {% block main %}
 <h2>Configure Layout</h2>
@@ -8,7 +8,7 @@
 <form method="post" novalidate class="calingen-form">
   {% csrf_token %}
 
-  {% include "calingen/includes/form.html" with form=form %}
+  {% include form.template_name with form=form %}
 
   <button type="submit" class="submit">Render Layout with Configuration</button>
   <button type="reset" class="cancel">Cancel</button>

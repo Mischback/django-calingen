@@ -86,9 +86,27 @@
         background-color: #900;
         color: #eee;
       }
+      form.calingen-form details {
+        margin-bottom: 2em;
+        /* border-bottom: 1px solid #999; */
+        box-shadow: 1px 1px 2px #999;
+      }
+      form.calingen-form details summary {
+        font-size: 1.25em;
+        background-color: #ccc;
+        border-bottom: 1px solid #999;
+        padding: 0.25em 0.5em;
+        font-weight: bold;
+      }
+      pre {
+        margin: 1em 2em;
+        padding: 1em;
+        background-color: #eee;
+      }
     </style>
   </head>
   <body>
+{% block html-body %}
     <div id="calingen_nav">
       <div>
         <ul>
@@ -110,7 +128,7 @@
       </div>
       <div>
         <ul>
-          <li><a href="{% url "calingen:tex-layout-selection" %}">Render Layout</a></li>
+          <li><a href="{% url "calingen:layout-selection" %}">Render Layout</a></li>
         </ul>
       </div>
       <div>
@@ -137,5 +155,6 @@ foobar
     <div id="calingen_footer">
       2021 by <a href="https://github.com/Mischback/django-calingen">Mischback</a>
     </div>
+{% endblock html-body %}
   </body>
 </html>

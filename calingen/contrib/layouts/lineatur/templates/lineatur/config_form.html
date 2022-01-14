@@ -1,0 +1,43 @@
+{% if form.non_field_errors %}
+<div class="non-field-errors">
+  {% for error in form.non_field_errors %}
+    {{ error }}
+  {% endfor %}
+</div>
+{% endif %}
+
+<details open="open">
+  <summary>General Settings</summary>
+  {% include "lineatur/form_field_group.html" with field=form.paper_size %}
+  {% include "lineatur/form_field_group.html" with field=form.length_unit %}
+</details>
+
+<details open="open">
+  <summary>Caption Settings</summary>
+  {% include "lineatur/form_field_group.html" with field=form.caption %}
+  {% include "lineatur/form_field_group.html" with field=form.caption_position %}
+  {% include "lineatur/form_field_group.html" with field=form.caption_size %}
+  {% include "lineatur/form_field_group.html" with field=form.caption_color %}
+  {% include "lineatur/form_field_group.html" with field=form.caption_font %}
+</details>
+
+<details>
+  <summary>Grid Settings</summary>
+  {% include "lineatur/form_field_group.html" with field=form.lineatur_type %}
+  {% include "lineatur/form_field_group.html" with field=form.lineatur_color %}
+  {% include "lineatur/form_field_group.html" with field=form.lineatur_spacing_x %}
+  {% include "lineatur/form_field_group.html" with field=form.lineatur_spacing_y %}
+  {% include "lineatur/form_field_group.html" with field=form.lineatur_stroke_width %}
+</details>
+
+<details>
+  <summary>Page Margins Settings</summary>
+  {% include "lineatur/form_field_group.html" with field=form.page_margin_top %}
+  {% include "lineatur/form_field_group.html" with field=form.page_margin_right %}
+  {% include "lineatur/form_field_group.html" with field=form.page_margin_bottom %}
+  {% include "lineatur/form_field_group.html" with field=form.page_margin_left %}
+</details>
+
+{% for hidden_field in form.hidden_fields %}
+{{ hidden_field }}
+{% endfor %}

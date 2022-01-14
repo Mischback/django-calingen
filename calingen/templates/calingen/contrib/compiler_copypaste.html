@@ -1,0 +1,9 @@
+{% extends "calingen/app_base.html" %}
+
+{% block page_title %}CopyPasteCompiler - Result{% endblock page_title %}
+
+{% block html-body %}
+<pre>
+{{ rendered_source|force_escape }}
+</pre>
+{% endblock html-body %}

@@ -9,7 +9,7 @@ import datetime
 from django.urls import path
 
 # app imports
-from calingen.views import base, event, profile, tex, web
+from calingen.views import base, event, generation, profile, web
 
 # see: https://docs.djangoproject.com/en/4.0/topics/http/urls/#url-namespaces
 app_name = "calingen"
@@ -53,17 +53,17 @@ urlpatterns = [
     ),
     path(
         "generate/select-layout/",
-        tex.TeXLayoutSelectionView.as_view(),
-        name="tex-layout-selection",
+        generation.LayoutSelectionView.as_view(),
+        name="layout-selection",
     ),
     path(
         "generate/configure-layout/",
-        tex.TeXLayoutConfigurationView.as_view(),
-        name="tex-layout-configuration",
+        generation.LayoutConfigurationView.as_view(),
+        name="layout-configuration",
     ),
     path(
-        "generate/generator/",
-        tex.TeXCompilerView.as_view(),
-        name="tex-compiler",
+        "generate/compilation/",
+        generation.CompilerView.as_view(),
+        name="compilation",
     ),
 ]
