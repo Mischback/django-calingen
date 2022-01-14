@@ -11,8 +11,9 @@ TOX_SPHINX_ENV := $(TOX_WORK_DIR)/sphinx
 TOX_UTIL_ENV := $(TOX_WORK_DIR)/util
 TOX_TEST_DIR := $(TOX_WORK_DIR)/testing
 
-DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/development.txt
+DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/coverage.txt requirements/development.txt
 DOCUMENTATION_REQUIREMENTS := requirements/common.txt requirements/documentation.txt
+UTIL_REQUIREMENTS := requirements/coverage.txt requirements/util.txt
 
 
 # some make settings
@@ -168,5 +169,5 @@ $(TOX_SPHINX_ENV) : $(DOCUMENTATION_REQUIREMENTS) pyproject.toml
 $(TOX_TEST_DIR) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
 	tox --recreate -e testing
 
-$(TOX_UTIL_ENV) : pyproject.toml .pre-commit-config.yaml
+$(TOX_UTIL_ENV) : $(UTIL_REQUIREMENTS) pyproject.toml .pre-commit-config.yaml
 	tox --recreate -e util
