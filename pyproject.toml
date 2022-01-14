@@ -1,3 +1,57 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "django-calingen"
+authors = [{name = "Mischback", email = "mischback.dev@gmail.com"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Django :: 3.1",
+  "Framework :: Django :: 3.2",
+  "Framework :: Django :: 4.0",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Office/Business :: Scheduling",
+  "Topic :: Printing",
+  "Topic :: Text Processing :: Markup :: HTML",
+  "Topic :: Text Processing :: Markup :: LaTeX"
+]
+requires-python = ">=3.7"
+dependencies = [
+  "Django >=3.1",
+  "python-dateutil >=2.8"
+]
+dynamic = ["version", "description"]
+
+[project.urls]
+Source = "https://github.com/Mischback/django-calingen"
+
+[tool.flit.module]
+name = "calingen"
+
+[tool.flit.sdist]
+exclude = [
+  ".github/",
+  ".vscode/",
+  "docs/",
+  "requirements/",
+  "tests/",
+  ".editorconfig",
+  ".flake8",
+  ".gitignore",
+  ".pre-commit-config.yaml",
+  "Makefile"
+]
+
+
 # ### COVERAGE ###
 [tool.coverage.run]
 branch = true

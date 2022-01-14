@@ -29,3 +29,6 @@ __pycache__/
 
 # ignore the compiled language files
 *.mo
+
+# ignore flit's build directory
+dist
