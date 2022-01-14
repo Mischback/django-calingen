@@ -83,7 +83,7 @@ platform =
 setenv =
   PYTHONDONTWRITEBYTECODE=1
 deps:
-  coverage[toml]
+  -r {toxinidir}/requirements/coverage.txt
   -r {toxinidir}/requirements/common.txt
   django31: Django>=3.1, <3.2
   django32: Django>=3.2, <4.0
@@ -131,8 +131,7 @@ commands =
 [testenv:util]
 basepython = python3
 deps =
-  coverage[toml]
-  pre-commit
+  -r {toxinidir}/requirements/util.txt
 envdir = {toxworkdir}/util
 setenv =
   PYTHONDONTWRITEBYTECODE=1
@@ -168,7 +167,7 @@ commands =
 basepython = {[testenv:django]basepython}
 deps =
   {[testenv:django]deps}
-  coverage[toml]
+  -r {toxinidir}/requirements/coverage.txt
 envdir = {toxworkdir}/testing
 setenv = {[testenv:django]setenv}
 skip_install = {[testenv:django]skip_install}
