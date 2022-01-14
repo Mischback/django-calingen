@@ -144,6 +144,11 @@ util/pre-commit/update : $(TOX_UTIL_ENV)
 	tox -q -e util -- pre-commit autoupdate
 .PHONY : util/pre-commit/update
 
+flit_argument ?= "--version"
+util/flit : $(TOX_UTIL_ENV)
+	tox -q -e util -- flit $(flit_argument)
+.PHONY : util/flit
+
 util/tox : $(TOX_DJANGO_ENV) $(TOX_SPHINX_ENV) $(TOX_TEST_DIR) $(TOX_UTIL_ENV)
 .PHONY : util/tox
 
