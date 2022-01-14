@@ -34,6 +34,9 @@ class EventCreateView(LoginRequiredMixin, ProfileIDMixin, generic.CreateView):
     template_name_suffix = "_create"
     """Make the view use the template ``calingen/event_create.html``."""
 
+    success_url = reverse_lazy("calingen:event-list")
+    """The URL to redirect to after successfully creating the instance."""
+
     def form_valid(self, form):  # pragma: nocover
         """Inject the user's :class:`~calingen.models.profile.Profile` into the form.
 
@@ -166,3 +169,6 @@ class EventUpdateView(
 
     template_name_suffix = "_update"
     """Make the view use the template ``calingen/event_update.html``."""
+
+    success_url = reverse_lazy("calingen:event-list")
+    """The URL to redirect to after successfully updating the instance."""
