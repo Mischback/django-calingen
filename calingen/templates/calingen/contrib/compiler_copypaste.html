@@ -4,6 +4,6 @@
 
 {% block html-body %}
 <pre>
-{{ rendered_source }}
+{{ rendered_source|force_escape }}
 </pre>
 {% endblock html-body %}
