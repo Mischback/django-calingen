@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""The actual module with the plugin's payload."""
+"""The actual implementation of the compiler."""
 
 
 # Django imports
