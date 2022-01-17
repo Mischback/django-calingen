@@ -4,9 +4,9 @@ name: CI default branch
 
 on:
   push:
-    branches: [packages]
+    branches: [packaging]
   pull_request:
-    branches: [packages]
+    branches: [packaging]
 
 jobs:
   linting-building:
