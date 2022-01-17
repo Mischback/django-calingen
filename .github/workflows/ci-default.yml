@@ -31,9 +31,9 @@ jobs:
         run: make util/flake8
       - name: Run bandit
         run: make util/bandit
-      - name: Build the Python Package
+      - name: Build Python Package
         run: make util/flit/build
-      - name: Upload Artifacts
+      - name: Upload *.whl
         uses: actions/upload-artifact@v2
         with:
           name: temporary_package
@@ -84,6 +84,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_FLAG_NAME: OS_${{ matrix.os }}-Python_${{ matrix.python-version }}
           COVERALLS_PARALLEL: true
+      - name: Install Python Package
+        uses: actions/download-artifact@v2
+        with:
+          name: temporary_package
+          path: dist/
+      - name: Verify presence of *.whl
+        run: ls -lah dist/
 
   layout-compilation:
     name: Verify that TexLayouts are compilable
