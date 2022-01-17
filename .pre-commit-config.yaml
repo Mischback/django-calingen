@@ -41,6 +41,10 @@ repos:
     rev: 0.6.8
     hooks:
       - id: djlint-django
+  - repo: https://github.com/pycqa/doc8
+    rev: 0.10.1
+    hooks:
+      - id: doc8
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
     hooks:

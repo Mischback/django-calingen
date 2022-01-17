@@ -127,6 +127,10 @@ util/djlint :
 	$(MAKE) util/pre-commit pre-commit_id="djlint-django" pre-commit_files="--all-files"
 .PHONY : util/djlint
 
+util/doc8 :
+	$(MAKE) util/pre-commit pre-commit_id="doc8" pre-commit_files="--all-files"
+.PHONY : util/doc8
+
 util/flake8 :
 	$(MAKE) util/pre-commit pre-commit_id="flake8" pre-commit_files="--all-files"
 .PHONY : util/flake8
