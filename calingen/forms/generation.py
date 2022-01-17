@@ -8,6 +8,7 @@ from datetime import date
 # Django imports
 from django.forms.fields import ChoiceField, IntegerField
 from django.forms.widgets import RadioSelect
+from django.utils.translation import gettext_lazy as _
 
 # app imports
 from calingen.forms.generic import RequestEnabledForm
@@ -33,12 +34,19 @@ class LayoutSelectionForm(RequestEnabledForm):
     """Select one of the available :class:`~calingen.interfaces.plugin_api.LayoutProvider` instances."""
 
     target_year = IntegerField(
-        initial=date.today().year + 1, min_value=date.min.year, max_value=date.max.year
+        label=_("Year"),
+        help_text=_("The year to generate the layout for"),
+        initial=date.today().year + 1,
+        min_value=date.min.year,
+        max_value=date.max.year,
     )
     """Specify the year to create the layout for."""
 
     layout = ChoiceField(
-        choices=LayoutProvider.list_available_plugins, widget=RadioSelect
+        label=_("Layout"),
+        help_text=_("Select the layout to be used"),
+        choices=LayoutProvider.list_available_plugins,
+        widget=RadioSelect,
     )
     """Presentation of the available :class:`~calingen.interfaces.plugin_api.LayoutProvider`.
 

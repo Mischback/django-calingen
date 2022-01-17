@@ -49,7 +49,7 @@ class LengthUnits(TextChoices):
     MM = "mm", _("Millimeters")
     IN = "in", _("Inches")
     PT = "pt", _("Points (1/72th of 1in)")
-    PX = "px", _("Pixels (1/96th of 1in")
+    PX = "px", _("Pixels (1/96th of 1in)")
 
 
 class LineaturTypes(TextChoices):
