@@ -4,12 +4,12 @@ name: CI default branch
 
 on:
   push:
-    branches: [development]
+    branches: [packages]
   pull_request:
-    branches: [development]
+    branches: [packages]
 
 jobs:
-  linting:
+  linting-building:
     name: Run linters
     runs-on: ubuntu-latest
     steps:
@@ -31,11 +31,19 @@ jobs:
         run: make util/flake8
       - name: Run bandit
         run: make util/bandit
-
+      - name: Build the Python Package
+        run: make util/flit/build
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: temporary_package
+          path: dist/*.whl
+          if-no-files-found: error
+          retention-days: 1
 
   testing:
     name: Run tests on ${{ matrix.os }} for ${{ matrix.python-version }}
-    needs: linting
+    needs: linting-building
     strategy:
       matrix:
         # "macos-latest" not included, because hosting on macos is not that common
@@ -79,7 +87,7 @@ jobs:
 
   layout-compilation:
     name: Verify that TexLayouts are compilable
-    needs: linting
+    needs: linting-building
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
