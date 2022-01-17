@@ -9,7 +9,7 @@ The settings may be provided in the project's settings module.
 """
 
 CALINGEN_COMPILER = {
-    "default": "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler",
+    "default": "calingen.contrib.compilers.copy_paste.compiler.CopyPasteCompiler",
 }
 """Configuration of the compiler plugins.
 
@@ -18,7 +18,7 @@ This setting determines the mapping of available instances of
 with source files, as determined by ``layout_type`` provided by implementations
 of :class:`~calingen.interfaces.plugin_api.LayoutProvider`.
 
-**Default value:** ``{ "default": "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler" }``
+**Default value:** ``{ "default": "calingen.contrib.compilers.copy_paste.compiler.CopyPasteCompiler" }``
 
 Notes
 -----
