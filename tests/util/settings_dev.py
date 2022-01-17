@@ -44,7 +44,7 @@ MIDDLEWARE = [
 ]
 
 CALINGEN_EXTERNAL_EVENT_PROVIDER = [
-    "calingen.contrib.holidays.germany",
+    "calingen.contrib.providers.germany",
 ]
 
 CALINGEN_COMPILER = {

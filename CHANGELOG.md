@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - ``EventProvider``: enable provision of (external) events
   - ``LayoutProvider``: enable inclusion of third-party layouts
   - ``CompilerProvider``: enable inclusion of third-party compilers
-- implement ``EventProvider`` for German holidays (``contrib.holidays.germany``)
+- implement ``EventProvider`` for German holidays (``contrib.providers.germany``)
 - implement three demonstration layouts (``contrib.layouts``):
   - ``lineatur``
   - ``simple_event_list``
