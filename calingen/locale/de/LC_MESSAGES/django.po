@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-17 03:02-0600\n"
+"POT-Creation-Date: 2022-01-17 03:15-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -255,209 +255,215 @@ msgstr ""
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:48
 msgid "Centimeters"
-msgstr ""
+msgstr "Zentimeter"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:49
 msgid "Millimeters"
-msgstr ""
+msgstr "Millimeter"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:50
 msgid "Inches"
-msgstr ""
+msgstr "Inches"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:51
 msgid "Points (1/72th of 1in)"
-msgstr ""
+msgstr "Punkt (1/72 eines Inches)"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:52
-msgid "Pixels (1/96th of 1in"
-msgstr ""
+msgid "Pixels (1/96th of 1in)"
+msgstr "Pixel (1/96 eines Inches)"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:58
 msgid "blank"
-msgstr ""
+msgstr "leer"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:59
 msgid "dotted"
-msgstr ""
+msgstr "punktiert"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:60
 msgid "lined"
-msgstr ""
+msgstr "liniert"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:61
 msgid "squared"
-msgstr ""
+msgstr "kariert"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:67
 msgid "left"
-msgstr ""
+msgstr "links"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:68
 msgid "center"
-msgstr ""
+msgstr "zentriert"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:69
 msgid "right"
-msgstr ""
+msgstr "rechts"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:75
 msgid "black"
-msgstr ""
+msgstr "schwarz"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:76
 msgid "dark grey"
-msgstr ""
+msgstr "dunkelgrau"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:77
 msgid "light grey"
-msgstr ""
+msgstr "hellgrau"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:78
 msgid "red"
-msgstr ""
+msgstr "rot"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:79
 msgid "green"
-msgstr ""
+msgstr "grün"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:80
 msgid "blue"
-msgstr ""
+msgstr "blau"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:95
 msgid "Caption"
-msgstr ""
+msgstr "Überschrift"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:96
 msgid "An optional caption, placed in the specified position"
-msgstr ""
+msgstr "Eine optionale Überschrift in der spezifizierten Position"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:103
 msgid "Position of the Caption"
-msgstr ""
+msgstr "Position der Überschrift"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:104
 msgid "Where to put the caption"
-msgstr ""
+msgstr "Wo soll die Überschrift platziert werden"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:111
 msgid "Size of the Caption"
-msgstr ""
+msgstr "Schriftgröße der Überschrift"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:112
 msgid "Size in pt of the caption"
-msgstr ""
+msgstr "Schriftgröße der Überschrift (in Punkt)"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:119
 msgid "Font Family of the Caption"
-msgstr ""
+msgstr "Schriftart der Überschrift"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:121
 msgid ""
 "Specify the font to use; will be passed to a CSS font-family attribute; You "
 "may specify system fonts; default: sans-serif."
 msgstr ""
+"Geben Sie die Schriftart an; wird als CSS font-family attribute angewendet; "
+"System-Schriftarten werden unterstützt; Standard-Wert: sans-serif"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:129
 msgid "Caption Text Color"
-msgstr ""
+msgstr "Schriftfarbe der Überschrift"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:130
 msgid "The color to be used for the caption."
-msgstr ""
+msgstr "Die Farbe der Überschrift"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:137
 msgid "Paper Size"
-msgstr ""
+msgstr "Größe des Papiers"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:138
 msgid "The paper size to be used"
-msgstr ""
+msgstr "Größe des Papiers"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:145
 msgid "Type of Grid to generate"
-msgstr ""
+msgstr "Typ der Lineatur"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:146
 msgid "Determine which grid is generated"
-msgstr ""
+msgstr "Welche Lineatur soll angewendet werden"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:153
 msgid "Unit of lengths"
-msgstr ""
+msgstr "Längeneinheit"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:154
 msgid "Determine the unit for specified lengths"
-msgstr ""
+msgstr "Legen Sie die Einheit für sämtliche Längen fest"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:161
 msgid "Grid horizontal spacing"
-msgstr ""
+msgstr "Horizontaler Abstand der Lineatur"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:162
 msgid "The horizontal spacing of the grid. See Unit of lengths."
-msgstr ""
+msgstr "Horizontaler Abstand der Lineatur, siehe auch Längeneinheit"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:168
 msgid "Grid vertical spacing"
-msgstr ""
+msgstr "Vertikaler Abstand der Lineatur"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:169
 msgid "The vertical spacing of the grid. See Unit of lengths."
-msgstr ""
+msgstr "Vertikaler Abstand der Lineatur, siehe auch Längeneinheit"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:175
 msgid "Grid Color"
-msgstr ""
+msgstr "Farbe der Lineatur"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:176
 msgid "The color to render the selected grid"
-msgstr ""
+msgstr "Farbe der Lineatur"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:183
 msgid "Width of the grid strokes"
-msgstr ""
+msgstr "Stärke der Lineatur"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:184
 msgid "The width of the grid strokes specified in pixels"
-msgstr ""
+msgstr "Definiert die breite der Striche der Lineatur (in Pixeln)"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:191
 msgid "Margin (top)"
-msgstr ""
+msgstr "Oberer Seitenrand"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:193
 msgid ""
 "Space between the page's and the content's top edges. See Unit of lengths."
 msgstr ""
+"Abstand zwischen oberer Kante des Blattes und dem zu bedruckenden Bereich"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:201
 msgid "Margin (right)"
-msgstr ""
+msgstr "Rechter Seitenrand"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:203
 msgid ""
 "Space between the page's and the content's right edges. See Unit of lengths."
 msgstr ""
+"Abstand zwischen rechter Kante des Blattes und dem zu bedruckenden Bereich"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:211
 msgid "Margin (bottom)"
-msgstr ""
+msgstr "Unterer Seitenrand"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:213
 msgid ""
 "Space between the page's and the content's bottom edges. See Unit of lengths."
 msgstr ""
+"Abstand zwischen unterer Kante des Blattes und dem zu bedruckenden Bereich"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:221
 msgid "Margin (left)"
-msgstr ""
+msgstr "Linker Seitenrand"
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:223
 msgid ""
 "Space between the page's and the content's left edges. See Unit of lengths."
 msgstr ""
+"Abstand zwischen linker Kante des Blattes und dem zu bedruckenden Bereich"
 
 #: calingen/models/event.py:225
 msgid "The start date and time for this recurring event."
