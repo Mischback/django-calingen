@@ -15,6 +15,15 @@ provide events, layouts and compilers as external plugins.
   of features is limited by what the project's host choose to offer - or
   specifically: How the project is configured.
 
+.. warning::
+  This user documentation refer to certain parts of the app under their default
+  name. Whenever the documentation mentions *"head to [somewhere]"* or
+  *"click [something]"*, this assumes the default templates and default
+  configuration of views.
+
+  Please try your best to find the appropriate link/button. These are
+  customizable by the project and may use other texts or formats.
+
 If you're hosting |calingen| yourself, you may want to visit the
 :ref:`administrator documentation <calingen-admin-doc-label>`. And if you feel
 like something important is missing: |calingen| is open source software and
@@ -145,14 +154,15 @@ Choose a Layout and Select the Year
 -----------------------------------
 
 Once you :ref:`configured your profile <calingen-user-doc-profile-label>`, head
-to **INSERT SOMETHING HERE**.
+to ``Render Layout``.
 
 You will be presented with a form, containing a field to enter your desired
-``target_year`` and a list of available layouts. Pick one and proceed.
+``Year`` (that is: the year to generate the layout for) and a list of available
+layouts. Pick one and proceed.
 
 .. warning::
   The availability of layouts is dependent on the Django project's
-  configuration. Your administrator will choose, which layouts are provided
+  configuration. Your administrator will choose which layouts are provided
   by activating them in the project's settings.
 
 .. note::
