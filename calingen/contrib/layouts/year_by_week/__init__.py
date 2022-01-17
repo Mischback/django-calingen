@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""A simple list of all events."""
+"""Implementation of :class:`~calingen.interfaces.plugin_api.LayoutProvider` that provides TeX-sources for a full year's calendar, presented by calendar weeks."""
 
 # local imports
 from .year_by_week import YearByWeek  # noqa: F401
