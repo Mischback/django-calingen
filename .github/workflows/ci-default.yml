@@ -10,7 +10,7 @@ on:
 
 jobs:
   linting-building:
-    name: Run linters
+    name: Run Linters and Build Package
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox tox-gh-actions
+          pip install tox
       - name: Run black
         run: make util/black
       # - name: Run mypy
@@ -49,16 +49,6 @@ jobs:
         # "macos-latest" not included, because hosting on macos is not that common
         os: [ubuntu-latest, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
-        exclude:
-          # See tox's envlist in pyproject.toml:
-          # Python 3.7 and 3.8 are excluded for Windows hosts, as the required
-          # JSON1 extension is not available (by default).
-          # Without these exclusions, runners would be requested which would
-          # actually do nothing.
-          - os: windows-latest
-            python-version: "3.7"
-          - os: windows-latest
-            python-version: "3.8"
     runs-on: ${{ matrix.os }}
 
     steps:
