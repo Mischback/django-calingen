@@ -6,6 +6,7 @@ Welcome to django-calingen's documentation!
     :caption: Contents:
 
     user-doc
+    developer/index
     api/index
 
 
