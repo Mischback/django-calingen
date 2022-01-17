@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-17 03:02-0600\n"
+"POT-Creation-Date: 2022-01-17 03:15-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -269,7 +269,7 @@ msgid "Points (1/72th of 1in)"
 msgstr ""
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:52
-msgid "Pixels (1/96th of 1in"
+msgid "Pixels (1/96th of 1in)"
 msgstr ""
 
 #: calingen/contrib/layouts/lineatur/lineatur.py:58
