@@ -9,8 +9,8 @@ on:
     branches: [development]
 
 jobs:
-  linting:
-    name: Run linters
+  linting-building:
+    name: Run Linters and Build Package
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox tox-gh-actions
+          pip install tox
       - name: Run black
         run: make util/black
       # - name: Run mypy
@@ -31,26 +31,24 @@ jobs:
         run: make util/flake8
       - name: Run bandit
         run: make util/bandit
-
+      - name: Build Python Package
+        run: make util/flit/build
+      - name: Upload *.whl
+        uses: actions/upload-artifact@v2
+        with:
+          name: temporary_package
+          path: dist/*.whl
+          if-no-files-found: error
+          retention-days: 1
 
   testing:
     name: Run tests on ${{ matrix.os }} for ${{ matrix.python-version }}
-    needs: linting
+    needs: linting-building
     strategy:
       matrix:
         # "macos-latest" not included, because hosting on macos is not that common
         os: [ubuntu-latest, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
-        exclude:
-          # See tox's envlist in pyproject.toml:
-          # Python 3.7 and 3.8 are excluded for Windows hosts, as the required
-          # JSON1 extension is not available (by default).
-          # Without these exclusions, runners would be requested which would
-          # actually do nothing.
-          - os: windows-latest
-            python-version: "3.7"
-          - os: windows-latest
-            python-version: "3.8"
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -76,10 +74,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_FLAG_NAME: OS_${{ matrix.os }}-Python_${{ matrix.python-version }}
           COVERALLS_PARALLEL: true
+      - name: Download *.whl
+        uses: actions/download-artifact@v2
+        with:
+          name: temporary_package
+          path: dist/
+      - name: Verify Package Installation
+        run: make ci/test/installation
 
   layout-compilation:
     name: Verify that TexLayouts are compilable
-    needs: linting
+    needs: linting-building
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

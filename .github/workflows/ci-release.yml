@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: MIT
+
+name: CI Release
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  build:
+    name: Release to PyPI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install tox tox-gh-actions
+      - name: Perform the release
+        run: make util/flit/publish
+        env:
+          FLIT_PASSWORD: ${{ secrets.PYPI_REPO_TOKEN }}

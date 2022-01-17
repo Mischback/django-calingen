@@ -11,8 +11,9 @@ TOX_SPHINX_ENV := $(TOX_WORK_DIR)/sphinx
 TOX_UTIL_ENV := $(TOX_WORK_DIR)/util
 TOX_TEST_DIR := $(TOX_WORK_DIR)/testing
 
-DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/development.txt
+DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/coverage.txt requirements/development.txt
 DOCUMENTATION_REQUIREMENTS := requirements/common.txt requirements/documentation.txt
+UTIL_REQUIREMENTS := requirements/coverage.txt requirements/util.txt
 
 
 # some make settings
@@ -30,6 +31,10 @@ doc: sphinx/serve/html
 .PHONY : doc
 
 
+ci/test/installation :
+	tox -q -e installation
+.PHONY : ci/test/installation
+
 ci/test/texlayoutcompilation :
 	$(MAKE) dev/test test_command="-t requires_system_tex"
 .PHONY : ci/test/texlayoutcompilation
@@ -39,6 +44,7 @@ clean : $(TOX_UTIL_ENV)
 	- tox -q -e util -- coverage erase
 	rm -rf docs/build/*
 	rm -rf tmp_compilation
+	rm -rf dist
 	find . -iname "*.pyc" -delete
 	find . -iname "__pycache__" -delete
 	find . -iname ".coverage.*" -delete
@@ -143,6 +149,19 @@ util/pre-commit/update : $(TOX_UTIL_ENV)
 	tox -q -e util -- pre-commit autoupdate
 .PHONY : util/pre-commit/update
 
+flit_argument ?= "--version"
+util/flit : $(TOX_UTIL_ENV)
+	tox -q -e util -- flit $(flit_argument)
+.PHONY : util/flit
+
+util/flit/build :
+	$(MAKE) util/flit flit_argument="build"
+.PHONY : util/flit/build
+
+util/flit/publish :
+	$(MAKE) util/flit flit_argument="publish"
+.PHONY : util/flit/publish
+
 util/tox : $(TOX_DJANGO_ENV) $(TOX_SPHINX_ENV) $(TOX_TEST_DIR) $(TOX_UTIL_ENV)
 .PHONY : util/tox
 
@@ -168,5 +187,5 @@ $(TOX_SPHINX_ENV) : $(DOCUMENTATION_REQUIREMENTS) pyproject.toml
 $(TOX_TEST_DIR) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
 	tox --recreate -e testing
 
-$(TOX_UTIL_ENV) : pyproject.toml .pre-commit-config.yaml
+$(TOX_UTIL_ENV) : $(UTIL_REQUIREMENTS) pyproject.toml .pre-commit-config.yaml
 	tox --recreate -e util
