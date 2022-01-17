@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: MIT
 
-"""CompilerProvider implementations."""
+"""Implementations of :class:`calingen.interfaces.plugin_api.CompilerProvider`."""
