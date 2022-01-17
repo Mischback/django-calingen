@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: MIT
 
-"""EventProvider implementations targeted at holidays."""
+"""Implementations of :class:`calingen.interfaces.plugin_api.EventProvider`."""
