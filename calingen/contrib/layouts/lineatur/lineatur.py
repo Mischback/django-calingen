@@ -1,6 +1,17 @@
 # SPDX-License-Identifier: MIT
 
-""":class:`~calingen.interfaces.plugin_api.LayoutProvider` implementation for various ruled paper outputs."""
+""":class:`~calingen.interfaces.plugin_api.LayoutProvider` implementation for various ruled paper outputs.
+
+More or less all of this module's source code is utility code, that is tied
+together in :class:`~calingen.contrib.layouts.lineatur.lineatur.LineaturForm`
+and actually used in the layout's templates.
+
+This may seem like a lot of boilerplate (and it is, in fact), but it
+demonstrates an easy way to actually implement
+:ref:`the LayoutProvider's ability to provide a layout specific configuration <calingen-dev-doc-plugins-layoutprovider-label>`
+as implemented by
+:attr:`calingen.interfaces.plugin_api.LayoutProvider.configuration_form`.
+"""
 
 # Django imports
 from django.db.models import TextChoices
