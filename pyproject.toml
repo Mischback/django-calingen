@@ -182,6 +182,12 @@ skip_install = {[testenv:django]skip_install}
 commands =
   django-admin createsuperuser --noinput --settings=tests.util.settings_dev --pythonpath=./
 
+[testenv:installation]
+basepython = {[testenv:util]basepython}
+skip_install = true
+commands =
+  pip install --no-index --find-links={toxinidir}/dist django-calingen
+
 [testenv:util]
 basepython = python3
 deps =

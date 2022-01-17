@@ -84,13 +84,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_FLAG_NAME: OS_${{ matrix.os }}-Python_${{ matrix.python-version }}
           COVERALLS_PARALLEL: true
-      - name: Install Python Package
+      - name: Download *.whl
         uses: actions/download-artifact@v2
         with:
           name: temporary_package
           path: dist/
-      - name: Verify presence of *.whl
-        run: ls -lah dist/
+      - name: Verify Package Installation
+        run: make ci/test/installation
 
   layout-compilation:
     name: Verify that TexLayouts are compilable

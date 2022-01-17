@@ -31,6 +31,10 @@ doc: sphinx/serve/html
 .PHONY : doc
 
 
+ci/test/installation :
+	tox -q -e installation
+.PHONY : ci/test/installation
+
 ci/test/texlayoutcompilation :
 	$(MAKE) dev/test test_command="-t requires_system_tex"
 .PHONY : ci/test/texlayoutcompilation
