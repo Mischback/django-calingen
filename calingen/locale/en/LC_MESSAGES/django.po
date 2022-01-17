@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-17 03:15-0600\n"
+"POT-Creation-Date: 2022-01-17 03:44-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -456,6 +456,22 @@ msgstr ""
 #: calingen/contrib/layouts/lineatur/lineatur.py:223
 msgid ""
 "Space between the page's and the content's left edges. See Unit of lengths."
+msgstr ""
+
+#: calingen/forms/generation.py:37
+msgid "Year"
+msgstr ""
+
+#: calingen/forms/generation.py:38
+msgid "The year to generate the layout for"
+msgstr ""
+
+#: calingen/forms/generation.py:44
+msgid "Layout"
+msgstr ""
+
+#: calingen/forms/generation.py:45
+msgid "Select the layout to be used"
 msgstr ""
 
 #: calingen/models/event.py:225

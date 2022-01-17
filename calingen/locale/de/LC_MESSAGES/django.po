@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-17 03:15-0600\n"
+"POT-Creation-Date: 2022-01-17 03:44-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -464,6 +464,22 @@ msgid ""
 "Space between the page's and the content's left edges. See Unit of lengths."
 msgstr ""
 "Abstand zwischen linker Kante des Blattes und dem zu bedruckenden Bereich"
+
+#: calingen/forms/generation.py:37
+msgid "Year"
+msgstr "Jahr"
+
+#: calingen/forms/generation.py:38
+msgid "The year to generate the layout for"
+msgstr "Das Jahr, für welches das Layout generiert werden soll"
+
+#: calingen/forms/generation.py:44
+msgid "Layout"
+msgstr "Layout"
+
+#: calingen/forms/generation.py:45
+msgid "Select the layout to be used"
+msgstr "Wählen Sie das zu nutzende Layout aus"
 
 #: calingen/models/event.py:225
 msgid "The start date and time for this recurring event."
