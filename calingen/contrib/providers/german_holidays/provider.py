@@ -1,6 +1,14 @@
 # SPDX-License-Identifier: MIT
 
-""":class:`~calingen.interfaces.plugin_api.EventProvider` implementations for german holidays."""
+"""The actual implementations of :class:`~calingen.interfaces.plugin_api.EventProvider`.
+
+The classes just collect the pre-defined holidays in their ``entries``
+class attribute.
+
+The pre-defined holidays use :py:obj:`dateutil.rrule.rrule` to define their
+recurrence. Most of Germany's holidays are based off the Easter date, so
+``rrule`` allows for easy definitions.
+"""
 
 # Python imports
 from datetime import datetime
@@ -23,81 +31,148 @@ NEUJAHR = (
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1)),
 )
+"""New Year, January, 1st."""
+
 HEILIGE_DREI_KOENIGE = (
     _("Epiphany"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 6)),
 )
+"""Epiphany, January, 6th."""
+
 FRAUENTAG = (
     _("Women's Day"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 3, 8)),
 )
+"""Women's Day, March, 8th."""
+
 KARFREITAG = (
     _("Good Friday"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=-2),
 )
+"""Good Friday, the Friday before Easter.
+
+Notes
+-----
+This holiday is based off the Easter date, which shifts from year to year.
+"""
+
 OSTER_SONNTAG = (
     _("Easter Sunday"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=0),
 )
+"""Easter Sunday.
+
+Notes
+-----
+This holiday is based off the Easter date, which shifts from year to year.
+"""
+
 OSTER_MONTAG = (
     _("Easter Monday"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=1),
 )
+"""Easter Monday, the Monday after Easter.
+
+Notes
+-----
+This holiday is based off the Easter date, which shifts from year to year.
+"""
+
 TAG_DER_ARBEIT = (
     _("Worker's Day"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 5, 1)),
 )
+"""Worker's Day, May, 1st."""
+
 CHRISTI_HIMMELFAHRT = (
     _("Ascension"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=39),
 )
+"""Ascension, the Thursday 39 days after Easter.
+
+Notes
+-----
+This holiday is based off the Easter date, which shifts from year to year.
+"""
+
 PFINGST_SONNTAG = (
-    _("Penecost Sunday"),
+    _("Pentecost Sunday"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=49),
 )
+"""Pentecost Sunday, the Sunday 49 days after Easter.
+
+Notes
+-----
+This holiday is based off the Easter date, which shifts from year to year.
+"""
+
 PFINGST_MONTAG = (
     _("Pentecost Monday"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=50),
 )
+"""Pentecost Monday, the Monday 50 days after Easter.
+
+Notes
+-----
+This holiday is based off the Easter date, which shifts from year to year.
+"""
+
 FRONLEICHNAM = (
     _("Corpus Christi"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 1, 1), byeaster=60),
 )
+"""Corpus Christi, the Thursday 60 days after Easter.
+
+Notes
+-----
+This holiday is based off the Easter date, which shifts from year to year.
+"""
+
 MARIA_HIMMELFAHRT = (
     _("Assumption of Mary"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 8, 15)),
 )
+"""Assumption of Mary, August, 15th."""
+
 WELTKINDERTAG = (
     _("Children's Day"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 9, 20)),
 )
+"""Children's Day, September, 20th."""
+
 TAG_DER_DEUTSCHEN_EINHEIT = (
     _("Day of German Unity"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 10, 3)),
 )
+"""Day of German Unity, October, 3rd."""
+
 REFORMATIONSTAG = (
     _("Reformation Day"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 10, 31)),
 )
+"""Reformation Day, October, 31st."""
+
 ALLERHEILIGEN = (
     _("All Hallows"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 11, 1)),
 )
+"""All Hallows, November, 1st."""
+
 BUSS_UND_BETTAG = (
     _("Day of Repetance"),
     EventCategory.HOLIDAY,
@@ -109,16 +184,21 @@ BUSS_UND_BETTAG = (
         bymonthday=(16, 17, 18, 19, 20, 21, 22),
     ),
 )
+"""Day of Repetance, the last Wednesday of November."""
+
 ERSTER_WEIHNACHTSTAG = (
     _("Christmas Day"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 12, 25)),
 )
+"""Christmas Day, December, 25th."""
+
 ZWEITER_WEIHNACHTSTAG = (
     _("Boxing Day"),
     EventCategory.HOLIDAY,
     rrule(freq=YEARLY, dtstart=datetime(1990, 12, 26)),
 )
+"""Boxing Day, December, 26th."""
 
 # The actual classes will use Germany's federal structure as a taxononmy.
 # However, there are some holidays that are applicable to all states, these are
