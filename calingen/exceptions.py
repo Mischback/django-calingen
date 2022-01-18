@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provides app-specific exceptions."""
+"""App-specific exceptions."""
 
 
 class CalingenException(Exception):
