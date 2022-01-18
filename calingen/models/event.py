@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide the app's central class to store and manage calendar entries."""
+"""App-specific ``Event`` model.
+
+Beside the actual :class:`calingen.models.event.Event` model, this module
+contains the related implementations of :class:`django.db.models.QuerySet`,
+:class:`django.db.models.Manager` and :class:`django.forms.ModelForm`.
+"""
 
 # Python imports
 import datetime
