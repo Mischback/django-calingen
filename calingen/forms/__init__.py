@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provides app-specific implementations of :class:`django.forms.Form` and related stuff like fields and widgets.
+"""App-specific implementations of :class:`django.forms.Form` and related stuff like fields and widgets.
 
 Warnings
 --------
