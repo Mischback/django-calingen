@@ -69,7 +69,7 @@ class CalendarEntry:
 
     Warnings
     --------
-    The instances' ``source`` attribute is not included in checks for
+    The instance's ``source`` attribute is not included in checks for
     equality (``__eq__()``) or during hash-processing (``__hash__()``)!
 
     This means, that if an event is specified by an external provider and
