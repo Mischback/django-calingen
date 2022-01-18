@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""App-specific widgets."""
+"""App-specific implementations of :class:`django.forms.widgets.Widget`."""
 
 # Django imports
 from django.forms.fields import CallableChoiceIterator
