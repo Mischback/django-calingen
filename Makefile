@@ -9,7 +9,7 @@ TOX_WORK_DIR := .tox
 TOX_DJANGO_ENV := $(TOX_WORK_DIR)/django
 TOX_SPHINX_ENV := $(TOX_WORK_DIR)/sphinx
 TOX_UTIL_ENV := $(TOX_WORK_DIR)/util
-TOX_TEST_DIR := $(TOX_WORK_DIR)/testing
+TOX_TEST_ENV := $(TOX_WORK_DIR)/testing
 
 DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/coverage.txt requirements/development.txt
 DOCUMENTATION_REQUIREMENTS := requirements/common.txt requirements/documentation.txt
@@ -56,7 +56,7 @@ dev/coverage : clean dev/test $(TOX_UTIL_ENV)
 .PHONY : dev/coverage
 
 test_command ?= ""
-dev/test : $(TOX_TEST_DIR)
+dev/test : $(TOX_TEST_ENV)
 	tox -q -e testing -- $(test_command)
 .PHONY : dev/test
 
@@ -166,7 +166,7 @@ util/flit/publish :
 	$(MAKE) util/flit flit_argument="publish"
 .PHONY : util/flit/publish
 
-util/tox : $(TOX_DJANGO_ENV) $(TOX_SPHINX_ENV) $(TOX_TEST_DIR) $(TOX_UTIL_ENV)
+util/tox : $(TOX_DJANGO_ENV) $(TOX_SPHINX_ENV) $(TOX_TEST_ENV) $(TOX_UTIL_ENV)
 .PHONY : util/tox
 
 
@@ -188,7 +188,7 @@ $(TOX_DJANGO_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
 $(TOX_SPHINX_ENV) : $(DOCUMENTATION_REQUIREMENTS) pyproject.toml
 	tox --recreate -e sphinx
 
-$(TOX_TEST_DIR) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
+$(TOX_TEST_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
 	tox --recreate -e testing
 
 $(TOX_UTIL_ENV) : $(UTIL_REQUIREMENTS) pyproject.toml .pre-commit-config.yaml
