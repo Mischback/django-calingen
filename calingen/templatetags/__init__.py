@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: MIT
 
-"""Provides app-specific templatetags."""
+"""App-specific templatetag implementations."""
