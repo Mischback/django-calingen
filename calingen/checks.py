@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide app-specific contributions to Django's check framework.
+"""App-specific contributions to Django's check framework.
 
 These checks validate the values of app-specific settings and may also perform
 logical checks in combination with other project settings.
@@ -14,6 +14,8 @@ from django.utils.module_loading import import_string
 
 def check_config_value_event_provider_notification(*args, **kwargs):
     """Verify that :attr:`~calingen.settings.CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION` provides accepted value.
+
+    - **Check ID**: ``calingen.e001``
 
     Returns
     -------
@@ -42,6 +44,8 @@ def check_config_value_event_provider_notification(*args, **kwargs):
 def check_session_enabled(*args, **kwargs):
     """Verify that :setting:`MIDDLEWARE` contains ``"django.contrib.sessions.middleware.SessionMiddleware"``.
 
+    - **Check ID**: ``calingen.e002``
+
     Returns
     -------
     list
@@ -52,9 +56,9 @@ def check_session_enabled(*args, **kwargs):
     The calingen app relies on the availability of
     :djangodoc:`Sessions <topics/http/sessions/>` while processing layouts.
 
-    This check does only verify, that Django's default Session middleware is
+    This check does only verify that Django's default Session middleware is
     active for the project. If a project substituted that middleware by a custom
-    implementation, this check will fail and may be deactivated
+    implementation, this check will fail and may be deactivated.
     """
     errors = []
     if (
@@ -79,6 +83,9 @@ def check_session_enabled(*args, **kwargs):
 
 def check_config_value_compiler(*args, **kwargs):
     """Validate :attr:`~calingen.settings.CALINGEN_COMPILER` setting.
+
+    - **Check ID**: ``calingen.e003`` - default compiler missing
+    - **Check ID**: ``calingen.e004`` - default compiler not importable
 
     Returns
     -------
