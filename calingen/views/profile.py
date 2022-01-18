@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provides views for the :class:`calingen.models.profile.Profile` model."""
+"""Views related to the :class:`calingen.models.profile.Profile` model."""
 
 # Django imports
 from django.conf import settings
@@ -54,7 +54,7 @@ class ProfileDetailView(
 
 
 class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
-    """Provide the generic class-based view implementation to add `Profile` objects.
+    """Generic class-based view implementation to add :class:`calingen.models.profile.Profile` objects.
 
     Notes
     -----
@@ -112,7 +112,7 @@ class ProfileDeleteView(
     ProfileIDMixin,
     generic.DeleteView,
 ):
-    """Provide the generic class-based view implementation to delete `Profile` objects.
+    """Generic class-based view implementation to delete :class:`calingen.models.profile.Profile` objects.
 
     Notes
     -----
@@ -150,7 +150,7 @@ class ProfileUpdateView(
     ProfileIDMixin,
     generic.UpdateView,
 ):
-    """Provide the generic class-based view implementation to add `Profile` objects.
+    """Generic class-based view implementation to add :class:`calingen.models.profile.Profile` objects.
 
     Notes
     -----

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provides basic views that are logically not connected to other components."""
+"""Basic views that are logically not connected to other components."""
 
 # Django imports
 from django.contrib.auth.decorators import login_required
@@ -14,8 +14,6 @@ from calingen.models.profile import Profile
 def homepage(request):
     """Provide the splash view for the app.
 
-    Notes
-    -----
     This is the app's main entry point, redirecting the requesting user to his
     :class:`~calingen.models.profile.Profile` (provided by
     :class:`~calingen.views.profile.ProfileUpdateView`) or to the

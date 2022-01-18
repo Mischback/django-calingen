@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provides app-specific mixins to be used with class-based views."""
+"""App-specific mixins to be used with class-based views."""
 
 # Django imports
 from django.core.exceptions import ImproperlyConfigured

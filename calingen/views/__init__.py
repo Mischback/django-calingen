@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: MIT
 
-"""Provides the views of the application."""
+"""Views of the application."""

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provides views for the :class:`calingen.models.event.Event` model."""
+"""Views related to the :class:`calingen.models.event.Event` model."""
 
 # Django imports
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,7 +14,7 @@ from calingen.views.mixins import ProfileIDMixin, RestrictToUserMixin
 
 
 class EventCreateView(LoginRequiredMixin, ProfileIDMixin, generic.CreateView):
-    """Provide the generic class-based view implementation to add `Event` objects.
+    """Generic class-based view implementation to add :class:`calingen.models.event.Event` objects.
 
     Notes
     -----
@@ -63,7 +63,7 @@ class EventDeleteView(
     ProfileIDMixin,
     generic.DeleteView,
 ):
-    """Provide the generic class-based view implementation to delete `Event` objects.
+    """Generic class-based view implementation to delete :class:`calingen.models.event.Event` objects.
 
     Notes
     -----
@@ -143,7 +143,7 @@ class EventUpdateView(
     ProfileIDMixin,
     generic.UpdateView,
 ):
-    """Provide the generic class-based view implementation to update `Event` objects.
+    """Generic class-based view implementation to update :class:`calingen.models.event.Event` objects.
 
     Notes
     -----

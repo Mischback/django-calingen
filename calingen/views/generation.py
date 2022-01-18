@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide views in the context of layout rendering and compilation."""
+"""Views in the context of rendering and compilation of layouts."""
 
 # Python imports
 from datetime import date
@@ -118,7 +118,7 @@ class CompilerView(
 
 
 class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
-    """Show configuration form for the selected layout.
+    """Show the (optional) configuration form for the selected layout.
 
     Warnings
     --------
@@ -184,7 +184,7 @@ class LayoutConfigurationView(LoginRequiredMixin, RequestEnabledFormView):
             return redirect("calingen:layout-selection")
 
     def get_form_class(self):
-        """Provide the layout's configuration form.
+        """Retrieve the layout's configuration form.
 
         Notes
         -----
