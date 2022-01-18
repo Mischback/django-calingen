@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide Form implementations in the context of rendering and compilation."""
+"""Implementations of :class:`django.forms.Form` in the context of rendering and compilation."""
 
 # Python imports
 from datetime import date
@@ -21,6 +21,16 @@ class LayoutConfigurationForm(RequestEnabledForm):
     Implementations of :class:`calingen.interfaces.plugin_api.LayoutProvider`
     may provide a subclass of this form to fetch layout-specific configuration
     values during the rendering process of a layout.
+
+    Warnings
+    --------
+    To make this work, the Django project must provide support for
+    :djangodoc:`Django's Sessions <topics/http/sessions/>`. This is in fact
+    verified by :func:`calingen.checks.check_session_enabled`.
+
+    Notes
+    -----
+    For an example usage, see :class:`calingen.contrib.layouts.lineatur.lineatur.LineaturForm`.
     """
 
     def save_configuration(self):
@@ -31,7 +41,18 @@ class LayoutConfigurationForm(RequestEnabledForm):
 
 
 class LayoutSelectionForm(RequestEnabledForm):
-    """Select one of the available :class:`~calingen.interfaces.plugin_api.LayoutProvider` instances."""
+    """Select one of the available :class:`~calingen.interfaces.plugin_api.LayoutProvider` instances.
+
+    Warnings
+    --------
+    To make this work, the Django project must provide support for
+    :djangodoc:`Django's Sessions <topics/http/sessions/>`. This is in fact
+    verified by :func:`calingen.checks.check_session_enabled`.
+
+    Notes
+    -----
+    As all layouts require a ``target_year``, this is included here aswell.
+    """
 
     target_year = IntegerField(
         label=_("Year"),
