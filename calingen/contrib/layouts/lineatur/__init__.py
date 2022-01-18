@@ -4,6 +4,10 @@
 
 This layout is HTML-based and intended to be used to generate single pages with
 a given grid (*"Lineatur"*).
+
+Warnings
+--------
+This layout does not include events!
 """
 
 # local imports
