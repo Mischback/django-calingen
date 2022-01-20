@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""App-specific contributions to Django's check framework.
+"""App-specific contributions to :djangodoc:`Django's System check framework <topics/checks/>`.
 
 These checks validate the values of app-specific settings and may also perform
 logical checks in combination with other project settings.
