@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide the application configuration for Django."""
+"""Application configuration as required by Django."""
 
 # Python imports
 import importlib
@@ -18,9 +18,9 @@ logger = logging.getLogger(__name__)
 class CalingenConfig(AppConfig):
     """Application-specific configuration class, as required by Django.
 
-    This sub-class of Django's `AppConfig` provides application-specific
+    This sub-class of Django's ``AppConfig`` provides application-specific
     information to be used in Django's application registry (see
-    :djangoapi:`applications/#configuring-applications`).
+    :djangoapi:`Configuring Applications <applications/#configuring-applications>`).
     """
 
     name = "calingen"
@@ -32,6 +32,21 @@ class CalingenConfig(AppConfig):
         Notes
         -----
         This method is executed when the application is (completely) loaded.
+
+        It performs the following actions:
+
+        - register the app's contributions to Django's
+          :djangodoc:`System check framework <topics/checks/>` (see
+          :mod:`calingen.checks` for implementation details);
+        - inject app-specific settings into the project's ``settings`` module,
+          if they are not already specified (see
+          :mod:`calingen.settings` for details);
+        - import implementations of
+          :class:`calingen.interfaces.plugin_api.EventProvider` to make them
+          available (as specified by
+          :attr:`calingen.settings.CALINGEN_EXTERNAL_EVENT_PROVIDER`)
+
+          **THIS MAY BE SUBJECT TO CHANGE!** See :issue:`49`!
         """
         # delay app imports until now, to make sure everything else is ready
         # app imports
