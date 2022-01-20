@@ -1,11 +1,31 @@
 # SPDX-License-Identifier: MIT
 
-"""Provides defaults for the app-specific settings.
+"""App-specific settings with their default values.
 
-This module contains the app-specific settings with their respective default
-values.
+Notes
+-----
+These *(app-specific)* settings are *injected* into the project's ``settings``
+module during startup, see this StackOverflow answer [1]_ for the general idea
+and :meth:`calingen.apps.CalingenConfig.ready` for implementation details.
 
-The settings may be provided in the project's settings module.
+The actual settings are defined here with their respective default value. This
+module serves as the single source of truth about app-specific settings, meaning
+it defines the settings' names, as they will be used in other components of the
+app.
+
+During runtime, all settings are **read** from ``django.conf.settings`` - which
+is effectively the project's ``settings`` module.
+
+:meth:`calingen.apps.CalingenConfig.ready` checks the presence of all
+app-specific settings in the project's ``settings`` module and will inject the
+default values as defined in this module, if the setting is missing.
+
+If the setting is already present in the project's ``settings`` module, it will
+not be modified.
+
+References
+----------
+.. [1] https://stackoverflow.com/a/47154840
 """
 
 CALINGEN_COMPILER = {
@@ -16,7 +36,7 @@ CALINGEN_COMPILER = {
 This setting determines the mapping of available instances of
 :class:`~calingen.interfaces.plugin_api.CompilerProvider` and their association
 with source files, as determined by ``layout_type`` provided by implementations
-of :class:`~calingen.interfaces.plugin_api.LayoutProvider`.
+of :class:`calingen.interfaces.plugin_api.LayoutProvider`.
 
 **Default value:** ``{ "default": "calingen.contrib.compilers.copy_paste.compiler.CopyPasteCompiler" }``
 
@@ -27,7 +47,7 @@ module.
 
 The accepted *keys* are of type :py:obj:`str` and should match whatever the
 project's layouts (that is: implementations of
-:class:`calingen.interfaces.plugin_api.LayoutProvider`) provide with their
+:class:`~calingen.interfaces.plugin_api.LayoutProvider`) provide with their
 respective ``layout_type`` attributes. If a given ``layout_type`` is not found
 in this setting, the ``default`` compiler is used.
 
@@ -36,6 +56,10 @@ Python path to an implementation of
 :class:`calingen.interfaces.plugin_api.CompilerProvider`.
 
 This setting is evaluated in :class:`calingen.views.generation.CompilerView`.
+
+:func:`calingen.checks.check_config_value_compiler` verifies the presence of a
+``"default"`` compiler **and** that the specified *default compiler* is
+importable.
 """
 
 CALINGEN_EXTERNAL_EVENT_PROVIDER = []
@@ -78,5 +102,5 @@ See :meth:`calingen.views.profile.ProfileUpdateView.get_context_data` for
 implementation details.
 
 See :func:`calingen.checks.check_config_value_event_provider_notification` for
-the corresponding contributions to Django's check framework.
+the corresponding contribution to Django's check framework.
 """
