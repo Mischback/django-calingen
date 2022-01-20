@@ -16,7 +16,7 @@ def homepage(request):
 
     This is the app's main entry point, redirecting the requesting user to his
     :class:`~calingen.models.profile.Profile` (provided by
-    :class:`~calingen.views.profile.ProfileUpdateView`) or to the
+    :class:`~calingen.views.profile.ProfileDetailView`) or to the
     :class:`~calingen.views.profile.ProfileCreateView` to create one.
     """
     # Every user has exactly one (calingen) Profile (One to One relation)
