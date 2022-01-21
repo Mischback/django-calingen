@@ -145,6 +145,9 @@ Tools in Use
 
   ``flit`` is run from a *GitHub Action*, see
   :ref:`calingen-dev-doc-setup-desc-gh-actions-label` for details.
+- **Sphinx** (`Sphinx@GitHub <https://github.com/sphinx-doc/sphinx>`_): The
+  documentation is intended to be published on RtD, which uses ``Sphinx``.
+  Configuration is provided in ``docs/source/conf.py``.
 
 
 .. _calingen-dev-doc-setup-desc-tox-env-label:
@@ -152,6 +155,116 @@ Tools in Use
 ``tox`` Environments
 ====================
 
+``tox``'s configuration is included in ``pyproject.toml``.
+
+Besides running the test suite, ``tox`` is used for every given (local)
+development task, including running the app in a (minimal) Django project.
+
+During *Continuous Integration* (see
+:ref:`calingen-dev-doc-setup-desc-gh-actions-label` for details), ``tox`` is
+used aswell.
+
+
+``testenv``
+-----------
+
+The actual (default) testing environment. Intended to be run by Continuous
+Integration (and is in fact used in
+:ref:`the app's CI workflows <calingen-dev-doc-setup-desc-gh-actions-label>`).
+
+Runs the test suite (under ``coverage.py``).
+
+
+``testenv:django``
+------------------
+
+Provides a minimal Django project, setup for development of the app itsself.
+This allows to run any ``django-admin`` command against the actual source code
+of the repository.
+
+The required ``settings`` module and *url configuration* are located in
+``tests/util/settings_dev.py`` and ``tests/util/urls_dev.py``.
+
+To make Django's authentication work, the required login template is provided
+in ``tests/util/templates/registration/login.html``.
+
+Most *common* development-related ``django-admin`` commands are included in the
+project's ``Makefile`` and will use this environment internally, e.g.
+``make django/runserver`` will run Django's internal development server on
+``0:8000`` (see :ref:`calingen-dev-doc-setup-desc-makefile-label`).
+
+Packages are installed from ``requirements/development.txt``.
+
+
+``testenv:djangosuperuser``
+---------------------------
+
+Just an extension to ``testenv:django`` to create a superuser in the Django
+project.
+
+``username`` and ``password`` are hardcoded in ``tox``'s configuration, as they
+are strictly for development purposes anyway.
+
+- username: ``admin``
+- password: ``foobar``
+
+
+``testenv:installation``
+------------------------
+
+During Continuous Integration it is verified, that the package is actually
+installable.
+
+This is handled by this environment. It will use ``pip`` to install the app's
+package from a local directory (where a previous step in the workflow placed
+the built package).
+
+
+``testenv:util``
+----------------
+
+This environment runs all utility software during development and CI.
+
+``pre-commit`` (including its *hooks*) and ``flit`` are run from this
+environment, aswell as ``coverage.py``'s commands that are not directly related
+to collecting coverage information (those are run from the test environments).
+
+Packages are installed from ``requirements/util.txt``.
+
+
+``testenv:sphinx``
+------------------
+
+Locally build and view the app's documentation using ``sphinx``.
+
+Packages are installed from ``requirements/documentation.txt``.
+
+
+``testenv:sphinx-serve``
+------------------------
+
+Just an extension of ``testenv:sphinx`` that launches Python's built-in
+``http.server`` in the output directory.
+
+*Has to be provided as its own environment, because it should change into the
+build directory. Internally, ``testenv:sphinx`` is reused completely.*
+
+
+``testenv:testing``
+-------------------
+
+Runs the test suite for development purposes.
+
+While running ``tox`` will actually run the test suite against multiple
+versions of Python (if available) and Django, this environment only runs on the
+hosts main Python version and the highest Django version (as specified in
+``requirements/common.txt``).
+
+
+.. _calingen-dev-doc-setup-desc-makefile-label:
+
+Makefile
+========
 
 .. _calingen-dev-doc-setup-desc-gh-actions-label:
 
