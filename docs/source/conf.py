@@ -41,7 +41,7 @@ extensions = [
     # configuration is provided in the HTML Output section
     "sphinx_rtd_theme",
     # automatically insert labels for section titles
-    "sphinx.ext.autosectionlabel",
+    # "sphinx.ext.autosectionlabel",  # deactivated, as labels are already provided explicitly
     # automatic API documentation using the docstrings
     "autoapi.extension",
     # "sphinx.ext.autodoc",  # may be required for autoapi directives
