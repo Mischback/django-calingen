@@ -266,6 +266,22 @@ hosts main Python version and the highest Django version (as specified in
 Makefile
 ========
 
+The ``Makefile`` is set up to be self-documenting. Just run::
+
+  $ make help
+
+or even::
+
+  $ make
+
+to display (most of) the targets.
+
+While ``make`` is primarily used as a task runner, ``make``'s capabilities for
+building software are actually used to ensure, that the
+:ref:`tox environments <calingen-dev-doc-setup-desc-tox-env-label>`, which are
+used to run most of the commands, are actually synchronized with their
+respective requirements and related configuration files.
+
 
 .. _calingen-dev-doc-setup-desc-gh-actions-label:
 
