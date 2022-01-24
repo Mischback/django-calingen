@@ -12,7 +12,7 @@ TOX_UTIL_ENV := $(TOX_WORK_DIR)/util
 TOX_TEST_ENV := $(TOX_WORK_DIR)/testing
 
 DEVELOPMENT_REQUIREMENTS := requirements/common.txt requirements/coverage.txt requirements/development.txt
-DOCUMENTATION_REQUIREMENTS := requirements/common.txt requirements/documentation.txt
+DOCUMENTATION_REQUIREMENTS := requirements/common.txt requirements/documentation.txt docs/source/conf.py
 UTIL_REQUIREMENTS := requirements/coverage.txt requirements/util.txt
 
 
