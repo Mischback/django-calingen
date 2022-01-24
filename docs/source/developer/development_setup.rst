@@ -266,9 +266,60 @@ hosts main Python version and the highest Django version (as specified in
 Makefile
 ========
 
+
 .. _calingen-dev-doc-setup-desc-gh-actions-label:
 
 GitHub Actions (Continuous Integration)
 =======================================
+
+GitHub Actions are used as Continuous Integration platform.
+
+As of now, two workflows are provided:
+
+CI Default Branch
+-----------------
+
+``.github/workflows/ci-default.yml``
+
+This is the actual integration workflow.
+
+It is run on the *default branch*, which is ``development`` and on any pull
+request against this branch.
+
+The workflow will run code quality tools (``black``, ``flake8``, ``bandit``),
+build a PyPI-compatible package (using ``flit``), run the test suite in a
+matrix of different operating systems, Python and ``Django`` versions,
+collecting covearge information (by ``coverage.py``), try to  install the
+package on each operating system and Python version and finally report all
+collected coverage information to *Coveralls*.
+
+As of now, the following test matrix is used:
+
+- **operating systems** (defined in *workflow file*): ``windows-latest``,
+  ``ubuntu-latest`` (for Linux)
+- **Python versions** (defined in *workflow file*): ``3.7``, ``3.8``, ``3.9``,
+  ``3.10``
+- **Django verions** (defined in *tox configuration*): ``3.1``, ``3.2``,
+  ``4.0``
+
+.. include:: ../includes/ci-matrix.rst.txt
+
+The workflow actually relies heavily on the project's
+:ref:`tox environments <calingen-dev-doc-setup-desc-tox-env-label>` internally.
+
+
+CI Release
+----------
+
+``.github/workflows/ci-release.yml``
+
+This workflow will release the packaged app to PyPI.
+
+Internally, it uses ``flit`` from inside a
+:ref:`tox environment <calingen-dev-doc-setup-desc-tox-env-label>`.
+
+.. warning::
+  To authenticate with https://pypi.org, a token is used. This has to be
+  provided using a repository secret named ``PYPI_REPO_TOKEN``.
 
 .. |calingen| replace:: **django-calingen**
