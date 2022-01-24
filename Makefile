@@ -3,6 +3,15 @@
 # This Makefile is not really a build tool. It provides shortcuts to run certain
 # tasks while developing the application and serves as a convenient way to
 # launch different tools with sane default settings.
+#
+# Actually, some of "make"'s capabilities is used to make sure that the
+# tox environments, which are used to run most of the commands, are rebuild, if
+# environment specifc configuration or requirements have changed.
+#
+# The Makefile is self-documenting, using code from here:
+# https://gist.github.com/klmr/575726c7e05d8780505a#gistcomment-3586983
+# The actual implementation is right at the bottom of this file and should be
+# left untouched.
 
 # ### INTERNAL SETTINGS / CONSTANTS
 TOX_WORK_DIR := .tox
