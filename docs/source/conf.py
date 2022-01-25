@@ -41,7 +41,7 @@ extensions = [
     # configuration is provided in the HTML Output section
     "sphinx_rtd_theme",
     # automatically insert labels for section titles
-    # "sphinx.ext.autosectionlabel",  # deactivated, as labels are already provided explicitly
+    "sphinx.ext.autosectionlabel",
     # automatic API documentation using the docstrings
     "autoapi.extension",
     # "sphinx.ext.autodoc",  # may be required for autoapi directives
@@ -141,7 +141,7 @@ extlinks = {
     "issue": ("https://github.com/mischback/django-calingen/issues/%s", "issue "),
     # A file or directory. GitHub redirects from blob to tree if needed.
     # will show file/path relative to root-directory of the repository
-    "source": ("https://github.com/mischback/django-calingen/blob/master/%s", ""),
+    "source": ("https://github.com/mischback/django-calingen/blob/development/%s", ""),
     # also available by intersphinx :django:doc:
     "djangodoc": ("https://docs.djangoproject.com/en/{}/%s".format(django_version), ""),
     # also available by intersphinx (most likely as simple as specifying the full Python path)

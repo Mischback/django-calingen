@@ -28,12 +28,144 @@ Python Source Code
 .. _black: https://github.com/psf/black
 .. _flake8: https://github.com/PyCQA/flake8
 
+
+*************
+Documentation
+*************
+
+Documentation is generated using `Sphinx`_ and meant to be published on
+`Read the Docs`_ (`django-calingen@RtD`_).
+
+The configuration for ``Sphinx`` is provided in ``docs/source/conf.py``.
+
+.. _Sphinx: https://github.com/sphinx-doc/sphinx
+.. _Read the Docs: https://readthedocs.org/
+.. _django-calingen@RtD: https://django-calingen.readthedocs.io/en/latest/
+
+
 Python Docstrings
 =================
 
-************************
-Additional Documentation
-************************
+The app's source code is documented with Python ``docstrings`` in
+`Numpy Style`_.
+
+.. note::
+  The source code documentation may appear extensive. The actual idea is to
+  have documentation available, that enables new contributors to quickly
+  understand the purpose of classes and functions, so that they can build
+  upon the existing code base.
+
+  The actual benchmark for documentation is:
+
+    | Do I understand the purpose of that item after several weeks without
+    | working with the repository?
+
+``Sphinx`` does pick up the docstrings to automatically generate an
+:ref:`api/index:API Reference`. That reference is intended to be used by
+developers and is referenced from this text documentation, if applicable.
+
+Internally, ``Sphinx`` uses the plugin `sphinx-autoapi`_ in combination with
+`napoleon`_ to generate the API reference.
+
+.. _Numpy Style: https://developer.lsst.io/python/numpydoc.html
+.. _sphinx-autoapi: https://github.com/readthedocs/sphinx-autoapi
+.. _napoleon: https://github.com/sphinx-contrib/napoleon
+
+
+Additionnal Available ``Sphinx`` Roles
+--------------------------------------
+
+Besides ``Sphinx``'s `pre-defined roles of the Python domain`_, the following
+additional ``roles`` are provided through ``docs/source/conf.py``:
+
+.. note::
+  ``roles`` that resolve to Django's documentation are internally provided
+  using ``intersphinx``. Beside the listed *additional roles* this works for
+  ``Sphinx``'s pre-defined roles (i.e. ``:class:``) aswell.
+
+  The referenced *version* of Django is automatically determined. Internally
+  ``django`` is installed into
+  :ref:`tox's sphinx environment <calingen-dev-doc-setup-desc-tox-env-label>`,
+  with the version specified in :source:`requirements/common.txt`. The
+  installed Django version will determine the version of the cross-referenced
+  documentation.
+
+  Details may be found in ``docs/source/conf.py``.
+
+``:djangodoc:`` / ``:djangoapi:``
+  Reference an object in :djangodoc:`Django's documentation </>`. The
+  difference between these roles may be described as follows:
+
+  Parts of :djangoapi:`Django's API </>` should be referenced by
+  ``:djangoapi:``, while additional documents (i.e.
+  :djangodoc:`like the tutorial <intro/tutorial01>`) should use
+  ``:djangodoc:``.
+
+``:setting:``
+  Directly reference a :djangoapi:`Django setting <settings>`, e.g.::
+
+    :setting:`INSTALLED_APPS`
+
+  will generate a hyperlink like this: :setting:`INSTALLED_APPS`.
+
+``:ttag:``
+  Directly reference
+  :djangoapi:`one of Django's included Template Tags <templates/builtins>`,
+  e.g.::
+
+    :ttag:`autoescape`
+
+  will generate a hyperlink like this: :ttag:`autoescape`.
+
+``:tfilter:``
+  Directly reference
+  :djangoapi:`one of Django's included Template Filters <templates/builtins>`,
+  e.g.::
+
+    :tfilter:`add`
+
+  will generate a hyperlink like this: :tfilter:`add`.
+
+``:commit:``
+  Reference a commit of the
+  `project's repo <https://github.com/Mischback/django-calingen>`_, e.g.::
+
+    :commit:`fd5f533964e6b3555c559b9baae9f03314e98533`
+
+  will generate a hyperlink like this
+  :commit:`fd5f533964e6b3555c559b9baae9f03314e98533`.
+
+  It is recommended to manually shorten the created link like this::
+
+    :commit:`fd5f533 <fd5f533964e6b3555c559b9baae9f03314e98533>`
+
+  resulting in :commit:`fd5f533 <fd5f533964e6b3555c559b9baae9f03314e98533>`.
+
+``:issue:``
+  Reference an issue in the
+  `project's repo <https://github.com/Mischback/django-calingen>`_ by number,
+  e.g.::
+
+    :issue:`26`
+
+  will generate a hyperlink like this: :issue:`26`.
+
+``:source:``
+  Reference a file or directory in the
+  `project's repo <https://github.com/Mischback/django-calingen>`_, e.g.::
+
+    :source:`docs/source/conf.py`
+
+  will generate a hyperlink like this: :source:`docs/source/conf.py`.
+
+  .. note::
+    The file will be looked up in the repository's *default branch*, which is
+    ``development``.
+
+    Linking to directories works aswell, e.g. :source:`docs/source`.
+
+.. _pre-defined roles of the Python domain: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#python-roles
+
 
 *******************
 Git Commit Messages
@@ -52,7 +184,7 @@ Git Commit Messages
 
 - As a general guideline: the commit subject line should finish this sentence:
 
-  | *If applied, this commmit will* **your subject line here**
+  | *If applied, this commmit will* **[your subject line here]**
 
 .. _How to write a Git Commit Message: https://chris.beams.io/posts/git-commit/
 
