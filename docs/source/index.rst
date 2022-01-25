@@ -9,6 +9,7 @@ Welcome to django-calingen's documentation!
     user-doc
     developer/index
     api/index
+    cookbook/index
 
 
 Indices and tables
