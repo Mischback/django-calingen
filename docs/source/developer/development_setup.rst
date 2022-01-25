@@ -16,7 +16,7 @@ The `repository at GitHub`_ provides a stand-alone development environment
 for |calingen|, depending on only two external tools: `Git`_ and `tox`_.
 
 Additionally it is highly recommended to have ``make`` available on your
-development system, as |calingen| provides a ``Makefile`` acting as
+development system, as |calingen| provides a :source:`Makefile` acting as
 user-interface for the ``tox`` environments.
 
 An actual installation of `Django`_ is **not required**, |calingen| provides
@@ -100,7 +100,10 @@ Tools in Use
 - **tox** (`tox@GitHub <https://github.com/tox-dev/tox>`_): Actually all tools are run
   from within ``tox``, see :ref:`calingen-dev-doc-setup-desc-tox-env-label` for
   a detailled description of the provided environments and how they relate to
-  given development tasks.
+  given development tasks. Configuration is included in
+  :source:`pyproject.toml` (as of now, ``tox`` does not fully support the
+  ``pyproject.toml`` format and read its configuration from a string that
+  in fact is in ``ini`` style).
 - **pre-commit** (`pre-commit@GitHub <https://github.com/pre-commit/pre-commit>`_):
   Several code quality tools are run by ``pre-commit``. If activated as
   described in :ref:`calingen-dev-doc-setup-getting-started-label`, these tools
@@ -110,10 +113,11 @@ Tools in Use
     formatter. No configuration is provided, meaning the code formatting is
     handed over fully to ``black``.
   - **isort** (`isort@GitHub <https://github.com/PyCQA/isort>`_): Sort imports
-    in Python source code. Configuration is included in ``pyproject.toml``.
+    in Python source code. Configuration is included in
+    :source:`pyproject.toml`.
   - **flake8** (`flake8@GitHub <https://github.com/PyCQA/flake8>`_): Python
-    linter. Configuration is provided by ``.flake8``. The following plugins are
-    run:
+    linter. Configuration is provided by :source:`.flake8`. The following
+    plugins are run:
 
       - flake8-bugbear (`flake8-bugbear@GitHub <https://github.com/PyCQA/flake8-bugbear>`_)
       - flake8-docstrings (`flake8-docstrings@GitHub <https://github.com/PyCQA/flake8-docstrings>`_)
@@ -124,12 +128,12 @@ Tools in Use
     security linter. No configuration is provided.
   - **djlint** (`djlint@GitHub <https://github.com/Riverside-Healthcare/djLint>`_):
     Linting for Django's HTML templates. Configuration is included in
-    ``pyproject.toml``.
+    :source:`pyproject.toml`.
   - **doc8** (`doc8@GitHub <https://github.com/PyCQA/doc8>`_): Style checker for rST
     source files. No configuration is provided.
 
   The whole ``pre-commit`` configuration can be found in
-  ``.pre-commit-config.yaml``. It includes some more *hooks* that are not
+  :source:`.pre-commit-config.yaml`. It includes some more *hooks* that are not
   Python-specific.
 
   ``pre-commit`` is run as part of the project's *CI configuration* aswell, see
@@ -137,17 +141,20 @@ Tools in Use
 - **coverage.py** (`coverage.py@GitHub <https://github.com/nedbat/coveragepy>`_):
   Measuring code coverage of the test suite.
 
-  Configuration is provided in ``pyproject.toml``. This is also run in *CI* and
-  reported to
+  Configuration is provided in :source:`pyproject.toml`. This is also run in
+  *CI* and reported to
   `Coveralls <https://coveralls.io/github/Mischback/django-calingen>`_
 - **flit** (`flit@GitHub <https://github.com/pypa/flit>`_): Building and
   publishing Python packages to PyPI.
 
   ``flit`` is run from a *GitHub Action*, see
   :ref:`calingen-dev-doc-setup-desc-gh-actions-label` for details.
+
+  Configuration is provided in :source:`pyproject.toml`.
 - **Sphinx** (`Sphinx@GitHub <https://github.com/sphinx-doc/sphinx>`_): The
-  documentation is intended to be published on RtD, which uses ``Sphinx``.
-  Configuration is provided in ``docs/source/conf.py``.
+  documentation is intended to be published on
+  `Read the Docs <https://readthedocs.org/>`, which uses ``Sphinx``.
+  Configuration is provided in :source:`docs/source/conf.py`.
 
 
 .. _calingen-dev-doc-setup-desc-tox-env-label:
@@ -155,7 +162,7 @@ Tools in Use
 ``tox`` Environments
 ====================
 
-``tox``'s configuration is included in ``pyproject.toml``.
+``tox``'s configuration is included in :source:`pyproject.toml`.
 
 Besides running the test suite, ``tox`` is used for every given (local)
 development task, including running the app in a (minimal) Django project.
@@ -183,17 +190,17 @@ This allows to run any ``django-admin`` command against the actual source code
 of the repository.
 
 The required ``settings`` module and *url configuration* are located in
-``tests/util/settings_dev.py`` and ``tests/util/urls_dev.py``.
+:source:`tests/util/settings_dev.py` and :source:`tests/util/urls_dev.py`.
 
 To make Django's authentication work, the required login template is provided
 in ``tests/util/templates/registration/login.html``.
 
 Most *common* development-related ``django-admin`` commands are included in the
-project's ``Makefile`` and will use this environment internally, e.g.
+project's :source:`Makefile` and will use this environment internally, e.g.
 ``make django/runserver`` will run Django's internal development server on
 ``0:8000`` (see :ref:`calingen-dev-doc-setup-desc-makefile-label`).
 
-Packages are installed from ``requirements/development.txt``.
+Packages are installed from :source:`requirements/development.txt`.
 
 
 ``testenv:djangosuperuser``
@@ -229,7 +236,7 @@ This environment runs all utility software during development and CI.
 environment, aswell as ``coverage.py``'s commands that are not directly related
 to collecting coverage information (those are run from the test environments).
 
-Packages are installed from ``requirements/util.txt``.
+Packages are installed from :source:`requirements/util.txt`.
 
 
 ``testenv:sphinx``
@@ -237,7 +244,7 @@ Packages are installed from ``requirements/util.txt``.
 
 Locally build and view the app's documentation using ``sphinx``.
 
-Packages are installed from ``requirements/documentation.txt``.
+Packages are installed from :source:`requirements/documentation.txt`.
 
 
 ``testenv:sphinx-serve``
@@ -258,7 +265,7 @@ Runs the test suite for development purposes.
 While running ``tox`` will actually run the test suite against multiple
 versions of Python (if available) and Django, this environment only runs on the
 hosts main Python version and the highest Django version (as specified in
-``requirements/common.txt``).
+:source:`requirements/common.txt`).
 
 
 .. _calingen-dev-doc-setup-desc-makefile-label:
@@ -266,7 +273,7 @@ hosts main Python version and the highest Django version (as specified in
 Makefile
 ========
 
-The ``Makefile`` is set up to be self-documenting. Just run::
+The :source:`Makefile` is set up to be self-documenting. Just run::
 
   $ make help
 
@@ -295,7 +302,7 @@ As of now, two workflows are provided:
 CI Default Branch
 -----------------
 
-``.github/workflows/ci-default.yml``
+:source:`.github/workflows/ci-default.yml`
 
 This is the actual integration workflow.
 
@@ -327,7 +334,7 @@ The workflow actually relies heavily on the project's
 CI Release
 ----------
 
-``.github/workflows/ci-release.yml``
+:source:`.github/workflows/ci-release.yml`
 
 This workflow will release the packaged app to PyPI.
 

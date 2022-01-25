@@ -36,7 +36,7 @@ Documentation
 Documentation is generated using `Sphinx`_ and meant to be published on
 `Read the Docs`_ (`django-calingen@RtD`_).
 
-The configuration for ``Sphinx`` is provided in ``docs/source/conf.py``.
+The configuration for ``Sphinx`` is provided in :source:`docs/source/conf.py`.
 
 .. _Sphinx: https://github.com/sphinx-doc/sphinx
 .. _Read the Docs: https://readthedocs.org/
@@ -76,7 +76,7 @@ Additionnal Available ``Sphinx`` Roles
 --------------------------------------
 
 Besides ``Sphinx``'s `pre-defined roles of the Python domain`_, the following
-additional ``roles`` are provided through ``docs/source/conf.py``:
+additional ``roles`` are provided through :source:`docs/source/conf.py`:
 
 .. note::
   ``roles`` that resolve to Django's documentation are internally provided
@@ -165,6 +165,35 @@ additional ``roles`` are provided through ``docs/source/conf.py``:
     Linking to directories works aswell, e.g. :source:`docs/source`.
 
 .. _pre-defined roles of the Python domain: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#python-roles
+
+
+Additional text-based Documentation
+===================================
+
+The additional text-based documentation is provided as *reStructuredText* files
+in :source:`docs/source`.
+
+Three audiences should be considered when writing documentation:
+
+- **Users** - Describe features and how they are meant to be used. Assume
+  non-tech readers, so keep technical details out of this documents.
+
+  See :ref:`calingen-user-doc-label`.
+- **Administrators** - Describe features and how they are configured while
+  deploying a Django project. Include technical details but don't dive into
+  implementation details. While this audience can be assumed to have at least
+  Python knowledge, they might not care for all the details.
+
+  See :ref:`calingen-admin-doc-label`.
+- **Developers** - Don't hide anything. This is the most thourough description
+  of the app, including even small implementation details.
+
+  Most likely these persons will rely on the :ref:`api/index:API Reference`
+  generated from ``docstrings`` aswell as actually reading the source code with
+  its *inline comments*. The *text-based documentation* might be used for
+  providing additional context and generalized descriptions.
+
+  This is, what you're reading just now.
 
 
 *******************
