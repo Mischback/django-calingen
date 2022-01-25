@@ -55,6 +55,8 @@ I highly recommend to have a look into the ``Makefile``, which serves as the
 central command line interface during development. In example: several Django
 commands are provided there.
 
+See [Development Setup @Read the Docs](https://django-calingen.readthedocs.io/en/latest/developer/development_setup.html)
+
 
 ### Code Style
 
@@ -74,6 +76,7 @@ commands are provided there.
   in ``docs/source/conf.py``.
 - The provided configuration expects its docstrings in _numpy style_ (see its
   documentation [here](https://developer.lsst.io/python/numpydoc.html)).
+- See [the documentation styleguide @Read the Docs](https://django-calingen.readthedocs.io/en/latest/developer/coding_style.html#documentation)
 
 
 ### Git Commit Message Styleguide
