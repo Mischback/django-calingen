@@ -43,6 +43,25 @@ accessed by any other user of the Django project.
 Profile
 =======
 
+The class :class:`~calingen.models.profile.Profile` and its model-related
+supporting classes are provided in :mod:`calingen.models.profile`.
+
+Instances of :class:`~calingen.models.profile.Profile` has an attribute
+:attr:`~calingen.models.profile.Profile.calingen_manager`, which provides an
+app-specific implementation of :class:`django.db.models.Manager`
+(:class:`~calingen.models.profile.ProfileManager`), which in turn uses a
+custom :class:`django.db.models.QuerySet` implementation
+(:class:`~calingen.models.profile.ProfileQuerySet`).
+
+These are used - beside the use case of an app-specific
+:ref:`permission system <calingen-dev-doc-permission-system-label>` - to
+provide some default queries.
+
+
+``Profile`` and external Event Providers
+----------------------------------------
+
+
 Event
 =====
 
