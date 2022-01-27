@@ -39,31 +39,48 @@ accessed by any other user of the Django project.
   of the Django project, have a look at
   :ref:`calingen-cookbook-sharing-events-label`.
 
+Both models are accessible with basic *CRUD* operations (*create*, *retrieve*,
+*update*, *delete*). Implementationwise these operations are based on Django's
+generic Class Based Views (CBV), with app-specific extensions to support
+:ref:`calingen-dev-doc-permission-system-label`,
 
-Profile
-=======
+The following image visualizes the involved elements using the example of
+:class:`~calingen.models.event.Event` and the corresponding view to update
+those objects, :class:`~calingen.views.event.EventUpdateView`. The principles
+are applicable to other ``Event``-related views and
+:class:`~calingen.models.profile.Profile` and its views.
 
-The class :class:`~calingen.models.profile.Profile` and its model-related
-supporting classes are provided in :mod:`calingen.models.profile`.
+.. graphviz:: /includes/event_crud.dot
 
-Instances of :class:`~calingen.models.profile.Profile` has an attribute
-:attr:`~calingen.models.profile.Profile.calingen_manager`, which provides an
-app-specific implementation of :class:`django.db.models.Manager`
-(:class:`~calingen.models.profile.ProfileManager`), which in turn uses a
-custom :class:`django.db.models.QuerySet` implementation
-(:class:`~calingen.models.profile.ProfileQuerySet`).
+:class:`~calingen.views.event.EventUpdateView` inherit its basic functionality
+from :class:`django.views.generic.edit.UpdateView`. Additionally, in order to
+enable :ref:`calingen-dev-doc-permission-system-label`,
+:class:`~calingen.views.mixins.RestrictToUserMixin` ensures, that the
+app-specific :attr:`~calingen.models.event.Event.calingen_manager` is used to
+retrieve :class:`~calingen.models.event.Event` instances (using
+:class:`~calingen.models.event.EventManager`).
 
-These are used - beside the use case of an app-specific
-:ref:`permission system <calingen-dev-doc-permission-system-label>` - to
-provide some default queries.
+:class:`~calingen.views.event.EventUpdateView` also ensures, that the
+model-specific :class:`~calingen.models.event.EventForm` is used to update the
+instance.
 
+This concept is applied - with slight variations - to all *CRUD-related views*:
 
-``Profile`` and external Event Providers
-----------------------------------------
+- :class:`~calingen.views.event.EventCreateView`: Does not use
+  the :class:`~calingen.views.mixins.RestrictToUserMixin`, as it handles a
+  *not yet existing* instance.
+- :class:`~calingen.views.event.EventDetailView` and
+  :class:`~calingen.views.event.EventListView` do not use
+  :class:`~calingen.models.event.EventForm`, as these views do simply not work
+  with any form.
+- :class:`~calingen.views.event.EvendDeleteView` does use a ``Form``
+  internally, but not corresponding to
+  :class:`~calingen.models.event.EventForm` (actually this is left to Django).
 
-
-Event
-=====
+The implementation for :class:`~calingen.models.profile.Profile` is pretty
+much identical, with the exception that there is no ``ProfileListView``,
+because every user only have exactly one associated
+:class:`~calingen.models.profile.Profile`.
 
 
 .. _calingen-dev-doc-permission-system-label:

@@ -1,0 +1,62 @@
+  digraph event_crud {
+    node [
+      shape="rect",
+    ]
+
+    "calingen.models.event.Event" [
+      label="Event",
+    ];
+    "calingen.models.event.EventForm" [
+      label="EventForm",
+    ];
+    "calingen.models.event.EventManager" [
+      label="EventManager",
+    ]
+
+    "calingen.views.event.EventUpdateView" [
+      label="EventUpdateView",
+    ];
+
+    "calingen.views.mixins.RestrictToUserMixin" [
+      label="RestrictToUserMixin",
+    ];
+
+    "django.views.generic.UpdateView";
+
+    node[shape=none, width=0, height=0, label=""];
+    hierarchy_1 -> hierarchy_2 -> hierarchy_3 [style="invis"];
+
+    {
+      rank="same";
+      hierarchy_1;
+      "calingen.views.event.EventUpdateView";
+      "django.views.generic.UpdateView";
+    }
+    {
+      rank="same";
+      hierarchy_2;
+
+    }
+    {
+      rank="same";
+      hierarchy_3;
+      "calingen.models.event.EventForm" -> "calingen.models.event.Event" -> "calingen.models.event.EventManager" [arrowhead="none"]
+    }
+
+    edge [
+      arrowhead="none",
+      weight=0,
+    ]
+    // "calingen.models.event.EventForm" -> "calingen.models.event.Event";
+    "calingen.views.event.EventUpdateView" -> "calingen.models.event.Event";
+    "calingen.views.event.EventUpdateView" -> "calingen.models.event.EventForm";
+    "calingen.views.mixins.RestrictToUserMixin" -> "calingen.models.event.EventManager";
+
+    edge [
+      arrowhead="empty",
+      weight=1,
+    ]
+    "calingen.views.event.EventUpdateView" -> "calingen.views.mixins.RestrictToUserMixin";
+    "calingen.views.event.EventUpdateView" -> "django.views.generic.UpdateView";
+
+  }
