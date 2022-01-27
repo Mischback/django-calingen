@@ -41,7 +41,9 @@ accessed by any other user of the Django project.
 
 Both models are accessible with basic *CRUD* operations (*create*, *retrieve*,
 *update*, *delete*). Implementationwise these operations are based on Django's
-generic Class Based Views (CBV), with app-specific extensions to support
+generic
+:djangodoc:`Class Based Views <topics/class-based-views/generic-editing/>`
+(CBV), with app-specific extensions to support
 :ref:`calingen-dev-doc-permission-system-label`,
 
 The following image visualizes the involved elements using the example of
@@ -51,6 +53,8 @@ are applicable to other ``Event``-related views and
 :class:`~calingen.models.profile.Profile` and its views.
 
 .. graphviz:: /includes/event_crud.dot
+  :alt: Example of CRUD-operations for Event with EventUpdateView
+  :caption: Visualization of EventUpdateView
 
 :class:`~calingen.views.event.EventUpdateView` inherit its basic functionality
 from :class:`django.views.generic.edit.UpdateView`. Additionally, in order to
@@ -77,9 +81,9 @@ This concept is applied - with slight variations - to all *CRUD-related views*:
   internally, but not corresponding to
   :class:`~calingen.models.event.EventForm` (actually this is left to Django).
 
-The implementation for :class:`~calingen.models.profile.Profile` is pretty
-much identical, with the exception that there is no ``ProfileListView``,
-because every user only have exactly one associated
+The implementation for the :class:`~calingen.models.profile.Profile` model is
+pretty much identical, with the exception that there is no ``ProfileListView``,
+because every user only have exactly one associated instance of
 :class:`~calingen.models.profile.Profile`.
 
 

@@ -21,7 +21,7 @@
       label="RestrictToUserMixin",
     ];
 
-    "django.views.generic.UpdateView";
+    "django.views.generic.edit.UpdateView";
 
     node[shape=none, width=0, height=0, label=""];
     hierarchy_1 -> hierarchy_2 -> hierarchy_3 [style="invis"];
@@ -30,7 +30,7 @@
       rank="same";
       hierarchy_1;
       "calingen.views.event.EventUpdateView";
-      "django.views.generic.UpdateView";
+      "django.views.generic.edit.UpdateView";
     }
     {
       rank="same";
@@ -57,6 +57,6 @@
       weight=1,
     ]
     "calingen.views.event.EventUpdateView" -> "calingen.views.mixins.RestrictToUserMixin";
-    "calingen.views.event.EventUpdateView" -> "django.views.generic.UpdateView";
+    "calingen.views.event.EventUpdateView" -> "django.views.generic.edit.UpdateView";
 
   }
