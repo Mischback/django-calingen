@@ -105,12 +105,60 @@ the ones of other users.
 
 Obviously, that is not the desired behaviour.
 
-.. important::
-  **TODO**: And now describe how this is solved using custom model managers
-  and view mixins
+Instead, the app's views ensure that a user can only access *objects owned by
+himself*, meaning:
 
+- He may only access the instance of :class:`~calingen.models.profile.Profile`
+  that is associated with his account within the project (by default this is an
+  instance of :class:`django.contrib.auth.models.User` but internally
+  :attr:`Profile.owner <calingen.models.profile.Profile.owner>` is referencing
+  :setting:`AUTH_USER_MODEL`; this makes the app pluggable, even if a project
+  uses a custom user model, see |Referencing the User Model|).
+- He may only access instances of :class:`~calingen.models.event.Event` that
+  are tied to his :class:`~calingen.models.profile.Profile` (as provided by
+  :attr:`Event.profile <calingen.models.event.Event.profile>`).
+
+The following image visualizes this mechanism:
+
+.. graphviz:: /includes/permission_system.dot
+  :alt: Displays which classes are involved in the implementation
+  :caption: Visualization of the Permission implementation
+
+:class:`~calingen.views.event.EventUpdateView` is used in the visualization,
+but the concept is applicable to all views inheriting from one of Django's
+built-in Class-Based Views (CBV),
+|that are intended to work with models / objects|.
+
+Internally, all of them use a method ``get_queryset()`` to determine the
+instance of :class:`django.db.models.query.QuerySet` to use in order to
+retrieve objects from the database (see
+:meth:`django.views.generic.list.MultipleObjectMixin.get_queryset` and
+:meth:`django.views.generic.detail.SingleObjectMixin.get_queryset` for the
+actual implementation details).
+
+However, with the app-specific
+:class:`~calingen.views.mixins.RestrictToUserMixin` that method is overwritten
+to use the (app-specific) implementation of
+:class:`django.db.models.manager.Manager`, which is accessible as a
+:djangodoc:`custom model manager <topics/db/managers/#custom-managers>`
+provided with the ``calingen_manager`` attribute (see
+:attr:`calingen.models.event.Event.calingen_manager` for implementation
+details).
+
+The app- and model-specific ``Manager`` implementation uses a model-specific
+implementation of  :class:`django.db.models.query.QuerySet`, which provides a
+:meth:`~calingen.models.event.EventQuerySet.filter_by_user` method. This method
+is used to provide a filtered sub set of the original ``QuerySet`` to
+:class:`django.views.generic.list.MultipleObjectMixin` and
+:class:`django.views.generic.detail.SingleObjectMixin`, effectively achieving
+the desired result: **A user can only retrieve, update and delete objects
+that are associated with his account**.
+
+.. important::
   Include a warning, that these permissions have **no effect** in Django's
   admin interface, so the project's administrator can see everything!
 
 
 .. |calingen| replace:: **django-calingen**
+.. |Referencing the User Model| replace:: :djangodoc:`Referencing the User Model <topics/auth/customizing/#referencing-the-user-model>`
+.. |that are intended to work with models / objects| replace:: :djangodoc:`that are intended to work with models / objects <topics/class-based-views/generic-display/#generic-views-of-objects>`

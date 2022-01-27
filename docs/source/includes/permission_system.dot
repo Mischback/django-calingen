@@ -1,0 +1,75 @@
+  digraph event_crud {
+    node [
+      shape="rect",
+    ]
+
+    "calingen.models.event.Event" [
+      label="Event",
+    ];
+    "calingen.models.event.EventManager" [
+      label="EventManager",
+    ];
+    "calingen.models.event.EventQuerySet" [
+      label="EventQuerySet",
+    ];
+
+    "calingen.views.event.EventUpdateView" [
+      label="EventUpdateView",
+    ];
+
+    "calingen.views.mixins.RestrictToUserMixin" [
+      label="RestrictToUserMixin",
+    ];
+
+
+    "django.db.models.manager.Manager";
+    "django.db.models.query.QuerySet";
+    "django.db.models.base.Model";
+    "django.views.generic.edit.UpdateView";
+    "django.views.generic.edit.BaseUpdateView";
+    "django.views.generic.edit.ModelFormMixin";
+    "django.views.generic.detail.SingleObjectMixin";
+
+    node[shape=none, width=0, height=0, label=""];
+    hierarchy_1 -> hierarchy_2 -> hierarchy_3 [style="invis"];
+
+    {
+      rank="same";
+      "django.db.models.manager.Manager";
+      "django.db.models.query.QuerySet";
+      "django.db.models.base.Model";
+      "django.views.generic.edit.UpdateView";
+    }
+
+    {
+      rank="same";
+      "calingen.models.event.Event";
+      "calingen.models.event.EventManager";
+      "calingen.models.event.EventQuerySet";
+    }
+
+    edge [
+      arrowhead="none",
+      weight=0,
+    ]
+    "calingen.models.event.Event" -> "calingen.models.event.EventManager" [weight=100];
+    "calingen.models.event.Event" -> "django.db.models.manager.Manager" [weight=100];
+    "calingen.models.event.EventManager" -> "calingen.models.event.EventQuerySet" [weight=100];
+    "django.db.models.base.Model" -> "django.db.models.manager.Manager" [weight=100];
+    "django.db.models.manager.Manager" -> "django.db.models.query.QuerySet" [weight=100];
+    "calingen.views.event.EventUpdateView" -> "calingen.models.event.Event" [weight=100];
+    "calingen.views.mixins.RestrictToUserMixin" -> "calingen.models.event.EventManager";
+    "django.views.generic.detail.SingleObjectMixin" -> "django.db.models.manager.Manager";
+
+    edge [
+      arrowhead="empty",
+      weight=1,
+    ]
+    "calingen.models.event.Event" -> "django.db.models.base.Model";
+    "calingen.models.event.EventManager" -> "django.db.models.manager.Manager";
+    "calingen.models.event.EventQuerySet" -> "django.db.models.query.QuerySet";
+    "calingen.views.event.EventUpdateView" -> "calingen.views.mixins.RestrictToUserMixin";
+    "calingen.views.event.EventUpdateView" -> "django.views.generic.edit.UpdateView";
+    "django.views.generic.edit.UpdateView" -> "django.views.generic.edit.BaseUpdateView" -> "django.views.generic.edit.ModelFormMixin" -> "django.views.generic.detail.SingleObjectMixin";
+
+  }
