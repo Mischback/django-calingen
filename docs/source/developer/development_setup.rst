@@ -153,8 +153,16 @@ Tools in Use
   Configuration is provided in :source:`pyproject.toml`.
 - **Sphinx** (`Sphinx@GitHub <https://github.com/sphinx-doc/sphinx>`_): The
   documentation is intended to be published on
-  `Read the Docs <https://readthedocs.org/>`, which uses ``Sphinx``.
+  `Read the Docs <https://readthedocs.org/>`_, which uses ``Sphinx``.
   Configuration is provided in :source:`docs/source/conf.py`.
+
+  .. warning::
+    The documentation uses `Graphviz <https://graphviz.org/>`_ to provide
+    visualizations. ``Sphinx`` runs the corresponding plugin, but it requires
+    an installation of ``graphviz`` on the system.
+
+    If you want to build the documentation locally, you will have to install
+    the respective ``graphviz`` package.
 
 
 .. _calingen-dev-doc-setup-desc-tox-env-label:
