@@ -187,7 +187,25 @@ that are associated with his account**.
   access to *all objects of every user*.
 
 
+.. |Permission System| replace:: :djangodoc:`Permission System <topics/auth/default/#permissions-and-authorization>`
 .. |Referencing the User Model| replace:: :djangodoc:`Referencing the User Model <topics/auth/customizing/#referencing-the-user-model>`
 .. |that are intended to work with models / objects| replace:: :djangodoc:`that are intended to work with models / objects <topics/class-based-views/generic-display/#generic-views-of-objects>`
-.. |Permission System| replace:: :djangodoc:`Permission System <topics/auth/default/#permissions-and-authorization>`
+
+
+.. _calingen-dev-doc-layout-rendering-compilation-label:
+
+********************************
+Layout Rendering and Compilation
+********************************
+
+This is the core functionality of the app.
+
+The following image visualizes the process on an abstract level, before diving
+deeper into the implementation details.
+
+.. graphviz:: /includes/layout_process.dot
+  :alt: The layout rendering and compilation process
+  :caption: Visualization of the Process
+
+
 .. |calingen| replace:: **django-calingen**
