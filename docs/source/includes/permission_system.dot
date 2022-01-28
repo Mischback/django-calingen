@@ -27,7 +27,11 @@
       label="AllCalendarEntriesMixin",
     ];
 
-
+    node [
+      fontcolor="#FFFFFF",
+      fillcolor="#0C4B33",
+      style="filled",
+    ];
     "django.db.models.manager.Manager";
     "django.db.models.query.QuerySet";
     "django.db.models.base.Model";
