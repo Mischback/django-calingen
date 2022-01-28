@@ -2,6 +2,8 @@
 App's Internals
 ###############
 
+.. _calingen-dev-doc-crud-views-label:
+
 *********************************************
 Django ``models`` and their related ``views``
 *********************************************
@@ -93,11 +95,9 @@ because every user only have exactly one associated instance of
 ``django-calingen``'s Permission System
 ***************************************
 
-Django's built-in
-:djangodoc:`Permissions<topics/auth/default/#permissions-and-authorization>`
-are working on *model level*, meaning that if a project's user is permitted to
-view, create, update or delete a given *model*, he may tinker with all
-instances of that model.
+Django's built-in |Permission System| is working on *model level*, meaning that
+if a project's user is permitted to view, create, update or delete a given
+*model*, he may tinker with all instances of that model.
 
 For |calingen|, that would mean, that any user of the Django project may view,
 update or delete any instance of :class:`~calingen.models.event.Event`, even
@@ -118,12 +118,22 @@ himself*, meaning:
   are tied to his :class:`~calingen.models.profile.Profile` (as provided by
   :attr:`Event.profile <calingen.models.event.Event.profile>`).
 
-The following image visualizes this mechanism:
+.. note::
+  Actually this is not really a *permission system*, but rather a *restriction
+  system*, limiting what a user can access.
+
+  It is not possible to *share* objects between users of the project. Please
+  refer to :ref:`calingen-cookbook-sharing-events-label` for further details.
+
+The following image visualizes the mechanism:
 
 .. graphviz:: /includes/permission_system.dot
   :alt: Displays which classes are involved in the implementation
   :caption: Visualization of the Permission implementation
 
+For model-specific **CRUD views** (see
+:ref:`calingen-dev-doc-crud-views-label`), the row-level permissions are
+enforced by :class:`~calingen.views.mixins.RestrictToUserMixin`.
 :class:`~calingen.views.event.EventUpdateView` is used in the visualization,
 but the concept is applicable to all views inheriting from one of Django's
 built-in Class-Based Views (CBV),
@@ -145,20 +155,39 @@ provided with the ``calingen_manager`` attribute (see
 :attr:`calingen.models.event.Event.calingen_manager` for implementation
 details).
 
-The app- and model-specific ``Manager`` implementation uses a model-specific
+The ``calingen_manager`` (e.g.
+:attr:`calingen.models.event.Event.calingen_manager`) is also used by other
+views of the app, that access the app's models. The visualization includes
+:class:`~calingen.views.web.CalendarEntryListView` as an example. It inherits
+its ``get_context_data()`` method from
+:class:`~calingen.views.mixins.AllCalendarEntriesMixin`, which internally uses
+the (app-specific) implementations of :class:`django.db.models.manager.Manager`
+provided with the ``calingen_manager`` attribute.
+
+This app- and model-specific ``Manager`` implementation uses a model-specific
 implementation of  :class:`django.db.models.query.QuerySet`, which provides a
 :meth:`~calingen.models.event.EventQuerySet.filter_by_user` method. This method
 is used to provide a filtered sub set of the original ``QuerySet`` to
-:class:`django.views.generic.list.MultipleObjectMixin` and
-:class:`django.views.generic.detail.SingleObjectMixin`, effectively achieving
-the desired result: **A user can only retrieve, update and delete objects
+:class:`django.views.generic.detail.SingleObjectMixin`,
+:class:`django.views.generic.list.MultipleObjectMixin` and other app-specific
+views, effectively achieving the desired result:
+
+**A user can only retrieve, update and delete objects
 that are associated with his account**.
 
-.. important::
-  Include a warning, that these permissions have **no effect** in Django's
-  admin interface, so the project's administrator can see everything!
+.. warning::
+  Please be aware, that the app-specific permission system is implemented by
+  providing an **additional** :class:`~django.db.models.manager.Manager` to
+  the models.
+
+  In Django's administration backend the app's models are accessed using the
+  **default manager**, which is Django's default implementation of
+  :class:`~django.db.models.manager.Manager` and
+  :class:`~django.db.models.query.QuerySet`, thus, administrators will have
+  access to *all objects of every user*.
 
 
-.. |calingen| replace:: **django-calingen**
 .. |Referencing the User Model| replace:: :djangodoc:`Referencing the User Model <topics/auth/customizing/#referencing-the-user-model>`
 .. |that are intended to work with models / objects| replace:: :djangodoc:`that are intended to work with models / objects <topics/class-based-views/generic-display/#generic-views-of-objects>`
+.. |Permission System| replace:: :djangodoc:`Permission System <topics/auth/default/#permissions-and-authorization>`
+.. |calingen| replace:: **django-calingen**

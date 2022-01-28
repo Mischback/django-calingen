@@ -16,9 +16,15 @@
     "calingen.views.event.EventUpdateView" [
       label="EventUpdateView",
     ];
+    "calingen.views.web.CalendarEntryListView" [
+      label="CalendarEntryListView",
+    ];
 
     "calingen.views.mixins.RestrictToUserMixin" [
       label="RestrictToUserMixin",
+    ];
+    "calingen.views.mixins.AllCalendarEntriesMixin" [
+      label="AllCalendarEntriesMixin",
     ];
 
 
@@ -33,6 +39,11 @@
     node[shape=none, width=0, height=0, label=""];
     hierarchy_1 -> hierarchy_2 -> hierarchy_3 [style="invis"];
 
+    {
+      rank="same";
+      "calingen.views.mixins.RestrictToUserMixin";
+      "calingen.views.mixins.AllCalendarEntriesMixin";
+    }
     {
       rank="same";
       "django.db.models.manager.Manager";
@@ -59,6 +70,7 @@
     "django.db.models.manager.Manager" -> "django.db.models.query.QuerySet" [weight=100];
     "calingen.views.event.EventUpdateView" -> "calingen.models.event.Event" [weight=100];
     "calingen.views.mixins.RestrictToUserMixin" -> "calingen.models.event.EventManager";
+    "calingen.views.mixins.AllCalendarEntriesMixin" -> "calingen.models.event.EventManager";
     "django.views.generic.detail.SingleObjectMixin" -> "django.db.models.manager.Manager";
 
     edge [
@@ -71,5 +83,5 @@
     "calingen.views.event.EventUpdateView" -> "calingen.views.mixins.RestrictToUserMixin";
     "calingen.views.event.EventUpdateView" -> "django.views.generic.edit.UpdateView";
     "django.views.generic.edit.UpdateView" -> "django.views.generic.edit.BaseUpdateView" -> "django.views.generic.edit.ModelFormMixin" -> "django.views.generic.detail.SingleObjectMixin";
-
+    "calingen.views.web.CalendarEntryListView" -> "calingen.views.mixins.AllCalendarEntriesMixin";
   }
