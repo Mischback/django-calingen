@@ -1,4 +1,4 @@
-  digraph event_crud {
+  digraph permission_system {
     node [
       shape="rect",
     ]
