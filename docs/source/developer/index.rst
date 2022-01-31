@@ -11,4 +11,5 @@ Developer Documentation
     development_setup
     app_internals
     coding_style
+    git_branching_model
     plugin_api
