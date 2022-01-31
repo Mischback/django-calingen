@@ -207,5 +207,42 @@ deeper into the implementation details.
   :alt: The layout rendering and compilation process
   :caption: Visualization of the Process
 
+The rendering and compilation process starts by selecting a layout.
 
+The layout selection is implemented by
+:class:`~calingen.views.generation.LayoutSelectionView`, which is a fairly
+standard wrapper to display
+:class:`~calingen.forms.generation.LayoutSelectionForm`. The list of available
+layouts is automatically determined by accessing
+|LayoutProvider.list_available_plugins()|.
+
+Submitting the form will store the selected layout in the user's session and
+proceed to the layout configuration.
+
+*This step is optional!* Layouts - or more specifically: implementations of
+:class:`~calingen.interfaces.plugin_api.LayoutProvider` - may choose to provide
+a layout-specific configuration form (an implementation of
+:class:`~calingen.forms.generation.LayoutConfigurationForm`; see
+:ref:`calingen-dev-doc-plugins-layoutprovider-label` for details).
+
+If such a form is provided, it will be displayed in this step and when
+submitted, its data will be included in the user's session.
+
+During the final stage, the actual rendering and compilation is performed. In
+this case **rendering** refers to processing the layout's templates using the
+layout's
+:meth:`render() <calingen.interfaces.plugin_api.LayoutProvider.render>` method
+(in its default implementation, this will use Django's
+:func:`~django.template.loader.render_to_string`), while **compilation**
+refers to running the *rendering result* through a fitting compiler.
+
+Implementations of :class:`~calingen.interfaces.plugin_api.CompilerProvider`
+are required to return a valid
+:djangoapi:`Django Response object <request-response/#httpresponse-objects>`.
+What actually is returned is dependent on the compiler (see
+:ref:`calingen-dev-doc-plugins-compilerprovider-label` for details).
+
+
+
+.. |LayoutProvider.list_available_plugins()| replace:: :meth:`LayoutProvider.list_available_plugins() <calingen.interfaces.plugin_api.LayoutProvider.list_available_plugins>`
 .. |calingen| replace:: **django-calingen**
