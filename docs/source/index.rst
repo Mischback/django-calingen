@@ -7,6 +7,7 @@ Welcome to django-calingen's documentation!
     :caption: Contents:
 
     user-doc
+    admin-doc
     developer/index
     api/index
     cookbook/index
