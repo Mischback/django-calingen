@@ -34,7 +34,8 @@ version **3.1**.
   This is not relevant if you're using another DB (Postgre, MariaDB).
 
   See `the Django wiki <https://code.djangoproject.com/wiki/JSON1Extension>`_
-  for a detailled walkthrough.
+  for a detailled walkthrough on how to activate the required extension to
+  SQLite on Python 3.7 / 3.8 for Windows hosts.
 
   |calingen| is assumed to run on Python 3.7 / 3.8 on Windows hosts.
 
