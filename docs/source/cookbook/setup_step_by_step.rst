@@ -14,14 +14,10 @@ may provide reference on how to integrate |calingen| with an existing Django
 project or provide the starting point to an actual *production-ready* Django
 project.
 
-
-************
-Installation
-************
-
-This recipe describes the installation on a Linux host. Commands on Windows
-or MacOS hosts may vary, but there is little to none interaction with the
-actual operating system, so this guide should be applicable to all hosts.
+.. note::
+  This recipe describes the installation on a Linux host. Commands on Windows
+  or MacOS hosts may vary, but there is little to none interaction with the
+  actual operating system, so this guide should be applicable to all hosts.
 
 .. warning::
   Though not explicitly mentioned in the following step-by-step guide, it is
@@ -37,6 +33,11 @@ To verify that the hosts provides at least Python 3.7, just run: ::
 
   ~ $ python --version
   Python 3.9.2
+
+
+********************
+Django Project Setup
+********************
 
 
 Django Installation
@@ -129,12 +130,152 @@ that the installation was successful by visiting ``http://127.0.0.1:8000`` with
 your browser and then terminate the server again by pressing ``CONTROL-c``.
 
 
+Create a Superuser
+==================
+
+To make your Django project administrable from the web interface, a superuser
+account is required: ::
+
+  ~/cookbook $ ./manage.py createsuperuser
+
+This will prompt for username, email and password. Fill and proceed.
+
+
+Enable Authentication
+=====================
+
+Out of the box, Django already provides the required views to authenticate
+users. However, these are not activated by default (see
+|Authentication Views in Django's documentation| for details).
+
+First of all, include the required urls in the project's *url configuration*
+by editing ``~/cookbook/cookbook/urls.py``: ::
+
+  from django.contrib import admin
+  from django.urls import include, path  # <- make sure to import "include"
+
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('accounts/', include('django.contrib.auth.urls')),  # <- added!
+  ]
+
+To make these views work, they require corresponding templates. The project
+configuration must be updated by adjusting the :setting:`TEMPLATES` in
+``~/cookbook/cookbook/settings.py``: ::
+
+  TEMPLATES = [
+      {
+          'BACKEND': 'django.template.backends.django.DjangoTemplates',
+          'DIRS': [
+              BASE_DIR / 'templates',  # <- add a project-specific directory
+          ],
+          'APP_DIRS': True,
+          'OPTIONS': {
+              'context_processors': [
+                  'django.template.context_processors.debug',
+                  'django.template.context_processors.request',
+                  'django.contrib.auth.context_processors.auth',
+                  'django.contrib.messages.context_processors.messages',
+              ],
+          },
+      },
+  ]
+
+The setting must be transfered to an actual directory on the filesystem: ::
+
+  ~/cookbook $ mkdir templates
+
+To make the *login* work, at least the template for the ``LoginView`` has to be
+provided. |Django's documentation has a list of the assumed template names|,
+which is ``"registration/login.html"`` for the ``LoginView``.
+
+Create a file ``~/cookbook/templates/registration/login.html`` with the
+following content: ::
+
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Login</title>
+    </head>
+    <body>
+      <h1>Login</h1>
+      <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Login</button>
+      </form>
+    </body>
+  </html>
+
+.. note::
+  The HTML snippet is just a minimal login template. It can be refined by the
+  specific needs of the project. It is intended as a *starting point*.
+
+  If you're integrating |calingen| into an existing Django project, most likely
+  you will already have a working login/logout solution.
+
+
+
+**************
+Calingen Setup
+**************
+
 App Installation
 ================
 
+|calingen| is installable from `PyPI <https://pypi.org>`_: ::
+
+  ~/cookbook $ pip install django-calingen
+  Successfully installed django-calingen-0.0.2 python-dateutil-2.8.2 six-1.10.0
+
+Ok, the required packages should have been installed by now. Let's move to the
+configuration.
 
 
+Integration into the Project
+============================
+
+Open the project's ``settings`` module (``~/cookbook/cookbook/settings.py``)
+and modify the :setting:`INSTALLED_APPS` like this: ::
+
+  INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'calingen',  # <- added!
+  ]
+
+Now apply the app-specific database migrations by running ::
+
+  ~/cookbook $ ./manage.py migrate
+
+Include the app-specific urls in the project's *url configuration* (
+``~/cookbook/cookbook/urls.py``): ::
+
+  from django.contrib import admin
+  from django.urls import include, path
+
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('accounts/', include('django.contrib.auth.urls')),
+      path('calingen/', include('calingen.urls')),  # <- added!
+  ]
+
+
+App-specific Settings
+=====================
+
+|calingen| has some app-specific settings that may be adjusted using the
+project's ``settings`` module. A thorough description of these settings can be
+found in :mod:`calingen.settings`' documentation.
 
 
 .. |here is a relevant section from the Django documentation| replace:: :djangoapi:`here is a relevant section from the Django documentation <applications/#projects-and-applications>`
+.. |Authentication Views in Django's documentation| replace:: :djangodoc:`Authentication Views in Django's documentation <topics/auth/default/#module-django.contrib.auth.views>`
+.. |Django's documentation has a list of the assumed template names| replace:: :djangodoc:`Django's documentation has a list of the assumed template names <topics/auth/default/#all-authentication-views>`
 .. |calingen| replace:: **django-calingen**
