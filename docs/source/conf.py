@@ -64,7 +64,7 @@ templates_path = ["_templates"]
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-source_suffix
 source_suffix = {
     ".rst": "restructuredtext",
-    ".txt": "restructuredtext",
+    # ".txt": "restructuredtext",
 }
 
 # ### Extension Configuration
