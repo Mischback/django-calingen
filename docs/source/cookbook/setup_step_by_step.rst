@@ -266,6 +266,31 @@ Include the app-specific urls in the project's *url configuration* (
       path('calingen/', include('calingen.urls')),  # <- added!
   ]
 
+External Events, Layouts and Compilers
+======================================
+
+Besides the actual app |calingen|, it is required to set up
+:ref:`compilers <calingen-cookbook-ingredients-compilers-label>`,
+:ref:`layouts <calingen-cookbook-ingredients-layouts-label>` and -
+*optionally* -
+:ref:`external events <calingen-cookbook-ingredients-eventprovider-label>`.
+
+.. warning::
+  TODO: create a dedicated document that describes the role of layouts,
+  compilers and event providers and how these three components interact.
+
+  This is not identical to
+  :ref:`calingen-dev-doc-layout-rendering-compilation-label`
+
+.. warning::
+  TODO: When :issue:`49` is closed, provide an example listing of the recipe's
+  ``INSTALLED_APPS`` with one layout and one event provider included.
+
+.. note::
+  How :ref:`compilers <calingen-cookbook-ingredients-compilers-label>` can be
+  integrated in the project is described in the following section
+  :ref:`calingen-cookbook-setup-step-by-step-compiler-mapping-label`.
+
 
 App-specific Settings
 =====================
@@ -273,6 +298,47 @@ App-specific Settings
 |calingen| has some app-specific settings that may be adjusted using the
 project's ``settings`` module. A thorough description of these settings can be
 found in :mod:`calingen.settings`' documentation.
+
+.. warning::
+  :attr:`calingen.settings.CALINGEN_EXTERNAL_EVENT_PROVIDER` is not described
+  here, because this setting will be removed; see :issue:`49`.
+
+
+.. _calingen-cookbook-setup-step-by-step-compiler-mapping-label:
+
+Map Layouts to Compilers
+------------------------
+
+Depending on the layouts that should be provided, the
+:attr:`~calingen.settings.CALINGEN_COMPILER` setting needs adjustment. Simply
+include the setting in the project's ``settings`` module (
+``~/cookbook/cookbook/settings.py``).
+
+As described :ref:`here <calingen-cookbook-ingredients-compilers-label>`,
+|calingen| ships with three compilers ready to be used. For demonstration
+purposes, a corresponding example configuration is provided: ::
+
+  CALINGEN_COMPILER = {
+    'default': 'calingen.contrib.compilers.html_or_download.compiler.HtmlOrDownloadCompiler',
+    'tex':'calingen.contrib.compilers.copy_paste.compiler.CopyPasteCompiler',
+  }
+
+This will establish the ``HtmlOrDownloadCompiler`` as the *default one*, but
+use ``CopyPasteCompiler`` for layouts that render to TeX sources.
+
+This will make using ``SimpleEventList`` result in the TeX sources be provided
+in an HTML output, ready to be copy and pasted, while the results of using
+``Lineatur`` are directly displayed in the browser window.
+
+.. important::
+  It is highly recommended to provide a *compiler* implementation as
+  ``"default"`` in :attr:`~calingen.settings.CALINGEN_COMPILER` that is capable
+  of dealing with any type of layout.
+
+  This means, that compiler will most likely not perform
+  ``layout_type``-specific actions (e.g. launching a TeX compiler like
+  ``pdflatex``), but process the provided rendering result in some other way to
+  create a valid HTTP response.
 
 
 .. |here is a relevant section from the Django documentation| replace:: :djangoapi:`here is a relevant section from the Django documentation <applications/#projects-and-applications>`

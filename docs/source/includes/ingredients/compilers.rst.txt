@@ -54,8 +54,8 @@ CopyPaste Compiler
 
   This compiler can handle any type of
   :ref:`layout <calingen-cookbook-ingredients-layouts-label>` and may be used
-  as the project's default compiler (see
-  :ref:`must-be-moved-somewhere-compiler-default-setting`).
+  as the project's default compiler (see the *important box* here:
+  :ref:`calingen-cookbook-setup-step-by-step-compiler-mapping-label`).
 
 Download Compiler
   This compiler *does not actually compile* the rendered source.
@@ -65,8 +65,8 @@ Download Compiler
 
   This compiler can handle any type of
   :ref:`layout <calingen-cookbook-ingredients-layouts-label>` and may be used
-  as the project's default compiler (see
-  :ref:`must-be-moved-somewhere-compiler-default-setting`).
+  as the project's default compiler (see the *important box* here:
+  :ref:`calingen-cookbook-setup-step-by-step-compiler-mapping-label`).
 
 HtmlOrDownload Compiler
   This compiler *does not actually compile* the rendered source.
@@ -78,8 +78,8 @@ HtmlOrDownload Compiler
 
   This compiler can handle any type of
   :ref:`layout <calingen-cookbook-ingredients-layouts-label>` and may be used
-  as the project's default compiler (see
-  :ref:`must-be-moved-somewhere-compiler-default-setting`).
+  as the project's default compiler (see the *important box* here:
+  :ref:`calingen-cookbook-setup-step-by-step-compiler-mapping-label`).
 
 
 Integration of Compilers into the Project
