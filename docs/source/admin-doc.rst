@@ -4,6 +4,11 @@
 Administrator Documentation
 ###########################
 
+.. note::
+  This document is the short reference on how to make |calingen| work in a
+  Django project. For a more detailled guide, see
+  :ref:`calingen-cookbook-setup-step-by-step-label`.
+
 **********************
 Installation and Setup
 **********************
@@ -49,6 +54,10 @@ Besides Django, there is - as of now - only one additional dependency, namely
 
 Installation
 ============
+|calingen| is installable from `PyPI <https://pypi.org>`_. ::
+
+  pip install django-calingen
+
 
 Configuration
 =============
@@ -56,62 +65,61 @@ Configuration
 Project's ``settings`` Module
 -----------------------------
 
+Include ``'calingen'`` into :setting:`INSTALLED_APPS`: ::
+
+  INSTALLED_APPS = [
+    '...
+    'calingen',  # <- added!
+  ]
+
+.. note::
+  While the Python package of the app is named ``django-calingen``, the actual
+  app is just named ``calingen``.
+
+  This is common for pluggable Django applications
+
+Please note that :ref:`calingen-cookbook-ingredients-layouts-label` and
+:ref:`calingen-cookbook-ingredients-eventprovider-label` are provided as
+standalone apps and **must** be included in :setting:`INSTALLED_APPS` aswell.
+See the respective installation instructions.
+
+It is assumed that the project is set up to look in *applications directories*
+for templates, as this is the default setting. Please refer to
+:setting:`TEMPLATES`.
+
+
 Project's ``urls`` Configuration
 --------------------------------
+
+Include the app's *urls* into the project's *url configuration*: ::
+
+  from django.urls import include, path
+
+  urlpatterns = [
+      ...
+      path('calingen/', include('calingen.urls')),  # <- added!
+  ]
+
+
+App-specific Configuration Options
+----------------------------------
+
+There are :mod:`some configuration options <calingen.settings>`, which can be
+set using the project's ``settings`` module.
+
+All of them are providing sane default values.
+
+:ref:`calingen-cookbook-setup-step-by-step-settings` has some more details on
+that topic.
 
 
 Checks
 ======
 
-
-*************************
-Providing External Events
-*************************
-
-
-.. _calingen-admin-doc-layouts-label:
-
-*****************
-Providing Layouts
-*****************
-
-
-.. _calingen-admin-doc-compilers-label:
-
-*******************
-Providing Compilers
-*******************
-
-DUMMY
-=====
-
-Configuration
--------------
-
-The app-specific setting :attr:`~calingen.settings.CALINGEN_COMPILER` is used
-to determine, which layout will be processed by a given compiler.
-
-Please refer to :attr:`~calingen.settings.CALINGEN_COMPILER` for details on
-this setting and accepted values.
-
-
-
-Included Compilers
-==================
-
-|calingen| provides some compilers out of the box. They are included in
-``calingen.contrib.compilers``.
-
-TODO: List the available compilers here, with a short description of their
-      features (rST glossary?)
-
-The included compilers are all ready to be used as ``"default"`` compiler,
-they are capable of handling any type of layout.
-
-.. note::
-  If :attr:`~calingen.settings.CALINGEN_COMPILER` is not explicitly included
-  in the project's settings module, the ``CopyPasteCompiler`` is used as the
-  app's ``"default"`` compiler.
+|calingen| does provide some contributions to
+:djangodoc:`Django's System check framework <topics/checks/>`, basically to
+check app-specific configuration values. See :mod:`calingen.checks` for
+details.
 
 
 ***************************
@@ -125,32 +133,8 @@ development.
 To actually deploy the app within a Django project, you will want to replace
 the app's templates by overriding them.
 
-
-App Templates vs. Project Templates
-===================================
-
-Most likely your project will be setup to include app directories while
-looking for templates (by specifying ``"APP_DIRS": True`` within
-:setting:`TEMPLATES`).
-
-This will let |calingen| work *out of the box* but enables your project to
-easily modify the templates.
-
-Just create a ``calingen`` folder within your project's ``templates``
-directory (as specified by ``"DIRS"`` within :setting:`TEMPLATES`) and you're
-good to go.
-
-.. note::
-  See :ref:`calingen-admin-doc-views-urls-templates-label` for a table that
-  provides the matching between urls, the corresponding views and their
-  templates.
-
-
-.. _calingen-admin-doc-views-urls-templates-label:
-
-Views, URLs and Templates
-=========================
-
+:ref:`calingen-cookbook-modify-templates-label` provides additional information
+that should suffice as a starting point.
 
 
 .. |calingen| replace:: **django-calingen**

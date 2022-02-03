@@ -23,7 +23,7 @@ the project's settings module in :setting:`INSTALLED_APPS`.
 *Layouts* are **rendered** to their respective result. This means, that the
 project's template engine is used to **render** a layout's templates to a
 :py:obj:`string <str>` which can be processed further by a compiler (see
-:ref:`calingen-admin-doc-compilers-label` and :setting:`TEMPLATES`).
+:ref:`calingen-cookbook-ingredients-compilers-label` and :setting:`TEMPLATES`).
 
 
 Included Layouts

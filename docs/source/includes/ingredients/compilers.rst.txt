@@ -14,8 +14,8 @@ a layout into something usable (or - most likely - printable).
 
   However, during development, the focus on TeX was dropped in favour of a
   more generic approach, allowing
-  :ref:`layouts <calingen-admin-doc-layouts-label>` to return any text-based
-  result.
+  :ref:`layouts <calingen-cookbook-ingredients-layouts-label>` to return any
+  text-based result.
 
 Technically, *compilers* are implementations of the app's
 :class:`~calingen.interfaces.plugin_api.CompilerProvider` interface. They are

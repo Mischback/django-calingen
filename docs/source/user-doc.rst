@@ -167,9 +167,8 @@ layouts. Pick one and proceed.
 
 .. note::
   If you're hosting |calingen| yourself, you may find additional information
-  regarding installation and setup of layouts in the
-  :ref:`corresponding part <calingen-admin-doc-layouts-label>` of the admin
-  documentation.
+  regarding installation and setup of layouts in this document:
+  :ref:`calingen-cookbook-ingredients-layouts-label`.
 
 [Optional] Layout-specific Configuration
 ----------------------------------------

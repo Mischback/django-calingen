@@ -292,6 +292,8 @@ Besides the actual app |calingen|, it is required to set up
   :ref:`calingen-cookbook-setup-step-by-step-compiler-mapping-label`.
 
 
+.. _calingen-cookbook-setup-step-by-step-settings:
+
 App-specific Settings
 =====================
 
