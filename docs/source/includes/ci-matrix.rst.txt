@@ -20,8 +20,8 @@
 |         | 3.10 | supported                  | supported                  | supported                           |
 +---------+------+----------------------------+----------------------------+-------------------------------------+
 
-.. [#incompatible] This combination of ``Django`` and ``Python`` are not
-   compatible.
+.. [#incompatible] This version of ``Python`` is not supported by this version
+   of ``Django``.
 .. [#jsonmissing] This combination is not tested during CI, because the Python
    version does not ship with the required extension of SQLite to support JSON
    fields. However, *installing* the package is tested and working.
