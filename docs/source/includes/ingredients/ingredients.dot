@@ -1,0 +1,12 @@
+graph ingredients {
+
+  Compilers;
+  Events;
+  EventProviders [label="Event Providers"];
+  Layouts;
+
+  Events -- EventProviders;
+  Events -- Layouts;
+  Compilers -- Layouts;
+
+}
