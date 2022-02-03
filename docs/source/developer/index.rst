@@ -18,3 +18,4 @@ rather administrative things, like the coding style.
     coding_style
     git_branching_model
     plugin_api
+    release_checklist
