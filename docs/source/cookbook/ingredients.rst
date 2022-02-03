@@ -16,6 +16,7 @@ logical parts/components of |calingen|) and their logical relations.
 .. include:: ../includes/ingredients/events.rst.txt
 .. include:: ../includes/ingredients/eventprovider.rst.txt
 .. include:: ../includes/ingredients/layouts.rst.txt
+.. include:: ../includes/ingredients/plugin_api.rst.txt
 
 
 .. |calingen| replace:: **django-calingen**
