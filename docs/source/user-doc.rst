@@ -4,16 +4,17 @@
 User Documentation
 ##################
 
-|calingen| is a pluggable `Django`_  application intended to generate
-paper-based calendar pages to be used with analogous calendars. It provides
-the means to manage and include (user-provided) events into the generated
-calendar pages. Additionally it provides a plugin API with the ability to
-provide events, layouts and compilers as external plugins.
+|calingen| is a pluggable `Django <https://djangoproject.com>`_  application
+intended to generate paper-based calendar pages to be used with analogous
+calendars. It provides the means to manage and include (user-provided) events
+into the generated calendar pages. Additionally it provides a plugin API with
+the ability to provide events, layouts and compilers as external plugins.
 
 .. note::
-  Because |calingen| is just a `Django application`_, the actual offered set
-  of features is limited by what the project's host choose to offer - or
-  specifically: How the project is configured.
+  Because |calingen| is just a
+  `Django application <https://stackoverflow.com/a/19351042>`_, the actual
+  offered set of features is limited by what the project's host choose to
+  offer - or specifically: How the project is configured.
 
 .. warning::
   This user documentation refer to certain parts of the app under their default
@@ -27,8 +28,10 @@ provide events, layouts and compilers as external plugins.
 If you're hosting |calingen| yourself, you may want to visit the
 :ref:`administrator documentation <calingen-admin-doc-label>`. And if you feel
 like something important is missing: |calingen| is open source software and
-uses `GitHub`_ to host the source code and project management tools, including
-the `issue tracker`_. If you want to get your own hands dirty, there is
+uses `GitHub <https://github.com/mischback/django-calingen>`_ to host the
+source code and project management tools, including the
+`issue tracker <https://github.com/mischback/django-calingen/issues>`_. If you
+want to get your own hands dirty, there is
 :ref:`developer documentation <calingen-dev-doc-label>` included aswell.
 
 
@@ -198,10 +201,4 @@ Congratulations, you have completed the whole process of generating calendar
 inlays with |calingen|.
 
 
-
-
 .. |calingen| replace:: **django-calingen**
-.. _Django: https://djangoproject.com
-.. _Django application: https://stackoverflow.com/a/19351042
-.. _GitHub: https://github.com/mischback/django-calingen
-.. _issue tracker: https://github.com/mischback/django-calingen/issues

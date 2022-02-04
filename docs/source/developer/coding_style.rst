@@ -17,37 +17,34 @@ should be good to go!
 Python Source Code
 ******************
 
-- The Python source code is formatted using `black`_; this basically means:
-  You should not need to care about code formatting.
+- The Python source code is formatted using
+  `black <https://github.com/psf/black>`_; this basically means: You should not
+  need to care about code formatting.
 - As a guideline: aim to reuse as much of the Django framework as possible
   (that's the idea of using a framework, isn't it?).
 - Testing is important! Cover your code with unit tests.
-- Provide documentation for your code. `flake8`_ is configured to highlight
+- Provide documentation for your code.
+  `flake8 <https://github.com/PyCQA/flake8>`_ is configured to highlight
   missing documentation.
-
-.. _black: https://github.com/psf/black
-.. _flake8: https://github.com/PyCQA/flake8
 
 
 *************
 Documentation
 *************
 
-Documentation is generated using `Sphinx`_ and meant to be published on
-`Read the Docs`_ (`django-calingen@RtD`_).
+Documentation is generated using
+`Sphinx <https://github.com/sphinx-doc/sphinx>`_ and meant to be published on
+`Read the Docs <https://readthedocs.org/>`_
+(`django-calingen@RtD <https://django-calingen.readthedocs.io/en/latest/>`_).
 
 The configuration for ``Sphinx`` is provided in :source:`docs/source/conf.py`.
-
-.. _Sphinx: https://github.com/sphinx-doc/sphinx
-.. _Read the Docs: https://readthedocs.org/
-.. _django-calingen@RtD: https://django-calingen.readthedocs.io/en/latest/
 
 
 Python Docstrings
 =================
 
 The app's source code is documented with Python ``docstrings`` in
-`Numpy Style`_.
+`Numpy Style <https://developer.lsst.io/python/numpydoc.html>`_.
 
 .. note::
   The source code documentation may appear extensive. The actual idea is to
@@ -64,19 +61,20 @@ The app's source code is documented with Python ``docstrings`` in
 :ref:`api/index:API Reference`. That reference is intended to be used by
 developers and is referenced from this text documentation, if applicable.
 
-Internally, ``Sphinx`` uses the plugin `sphinx-autoapi`_ in combination with
-`napoleon`_ to generate the API reference.
-
-.. _Numpy Style: https://developer.lsst.io/python/numpydoc.html
-.. _sphinx-autoapi: https://github.com/readthedocs/sphinx-autoapi
-.. _napoleon: https://github.com/sphinx-contrib/napoleon
+Internally, ``Sphinx`` uses the plugin
+`sphinx-autoapi <https://github.com/readthedocs/sphinx-autoapi>`_ in
+combination with
+`napoleon <https://github.com/sphinx-contrib/napoleon>`_ to generate the API
+reference.
 
 
 Additionnal Available ``Sphinx`` Roles
 --------------------------------------
 
-Besides ``Sphinx``'s `pre-defined roles of the Python domain`_, the following
-additional ``roles`` are provided through :source:`docs/source/conf.py`:
+Besides ``Sphinx``'s
+`pre-defined roles of the Python domain <https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#python-roles>`_,
+the following additional ``roles`` are provided through
+:source:`docs/source/conf.py`:
 
 .. note::
   ``roles`` that resolve to Django's documentation are internally provided
@@ -164,8 +162,6 @@ additional ``roles`` are provided through :source:`docs/source/conf.py`:
 
     Linking to directories works aswell, e.g. :source:`docs/source`.
 
-.. _pre-defined roles of the Python domain: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#python-roles
-
 
 Additional text-based Documentation
 ===================================
@@ -200,7 +196,8 @@ Three audiences should be considered when writing documentation:
 Git Commit Messages
 *******************
 
-- highly recommended article: `How to write a Git Commit Message`_
+- highly recommended article:
+  `How to write a Git Commit Message <https://cbea.ms/git-commit/>`_
 - **tl;dr**:
 
   - Separate subject from body with one blank line
@@ -214,7 +211,5 @@ Git Commit Messages
 - As a general guideline: the commit subject line should finish this sentence:
 
   | *If applied, this commmit will* **[your subject line here]**
-
-.. _How to write a Git Commit Message: https://cbea.ms/git-commit/
 
 .. |calingen| replace:: **django-calingen**

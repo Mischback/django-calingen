@@ -138,4 +138,3 @@ that should suffice as a starting point.
 
 
 .. |calingen| replace:: **django-calingen**
-.. _PyPI: https://pypi.org

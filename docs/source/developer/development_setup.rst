@@ -12,21 +12,19 @@ should be possible aswell.
 Abstract
 ********
 
-The `repository at GitHub`_ provides a stand-alone development environment
-for |calingen|, depending on only two external tools: `Git`_ and `tox`_.
+The `repository at GitHub <https://github.com/Mischback/django-calingen/>`_
+provides a stand-alone development environment for |calingen|, depending on
+only two external tools: `Git <https://git-scm.com/>`_ and
+`tox <https://github.com/tox-dev/tox>`_.
 
 Additionally it is highly recommended to have ``make`` available on your
 development system, as |calingen| provides a :source:`Makefile` acting as
 user-interface for the ``tox`` environments.
 
-An actual installation of `Django`_ is **not required**, |calingen| provides
-a ``tox`` environment to run the development source code of the application
-in the context of a minimal Django project.
-
-.. _repository at GitHub: https://github.com/Mischback/django-calingen/
-.. _Git: https://git-scm.com/
-.. _tox: https://github.com/tox-dev/tox
-.. _Django: https://www.djangoproject.com/
+An actual installation of `Django <https://www.djangoproject.com/>`_ is
+**not required**, |calingen| provides a ``tox`` environment to run the
+development source code of the application in the context of a minimal Django
+project.
 
 
 .. _calingen-dev-doc-setup-getting-started-label:
@@ -318,11 +316,12 @@ It is run on the *default branch*, which is ``development`` and on any pull
 request against this branch.
 
 The workflow will run code quality tools (``black``, ``flake8``, ``bandit``),
-build a PyPI-compatible package (using ``flit``), run the test suite in a
-matrix of different operating systems, Python and ``Django`` versions,
-collecting covearge information (by ``coverage.py``), try to  install the
-package on each operating system and Python version and finally report all
-collected coverage information to *Coveralls*.
+build a PyPI-compatible package (using ``flit``), build and check this
+documentataion, run the test suite in a matrix of different operating systems,
+Python and ``Django`` versions, collecting covearge information (by
+``coverage.py``), try to  install the package on each operating system and
+Python version and finally report all collected coverage information to
+*Coveralls*.
 
 As of now, the following test matrix is used:
 
