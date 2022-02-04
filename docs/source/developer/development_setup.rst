@@ -26,7 +26,7 @@ in the context of a minimal Django project.
 .. _repository at GitHub: https://github.com/Mischback/django-calingen/
 .. _Git: https://git-scm.com/
 .. _tox: https://github.com/tox-dev/tox
-.. _Django: https://djangoproject.com
+.. _Django: https://www.djangoproject.com/
 
 
 .. _calingen-dev-doc-setup-getting-started-label:

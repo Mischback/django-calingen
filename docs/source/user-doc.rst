@@ -204,4 +204,4 @@ inlays with |calingen|.
 .. _Django: https://djangoproject.com
 .. _Django application: https://stackoverflow.com/a/19351042
 .. _GitHub: https://github.com/mischback/django-calingen
-.. _issue tracker: https://github.com/mischback/django-calingen/issue
+.. _issue tracker: https://github.com/mischback/django-calingen/issues

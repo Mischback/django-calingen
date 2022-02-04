@@ -215,6 +215,6 @@ Git Commit Messages
 
   | *If applied, this commmit will* **[your subject line here]**
 
-.. _How to write a Git Commit Message: https://chris.beams.io/posts/git-commit/
+.. _How to write a Git Commit Message: https://cbea.ms/git-commit/
 
 .. |calingen| replace:: **django-calingen**
