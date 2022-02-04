@@ -276,13 +276,6 @@ Besides the actual app |calingen|, it is required to set up
 :ref:`external events <calingen-cookbook-ingredients-eventprovider-label>`.
 
 .. warning::
-  TODO: create a dedicated document that describes the role of layouts,
-  compilers and event providers and how these three components interact.
-
-  This is not identical to
-  :ref:`calingen-dev-doc-layout-rendering-compilation-label`
-
-.. warning::
   TODO: When :issue:`49` is closed, provide an example listing of the recipe's
   ``INSTALLED_APPS`` with one layout and one event provider included.
 

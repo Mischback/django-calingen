@@ -4,6 +4,9 @@
 Cookbook
 ########
 
+This section of the documentation provides *recipes* to deal with common
+problems / tasks.
+
 
 .. toctree::
     :hidden:

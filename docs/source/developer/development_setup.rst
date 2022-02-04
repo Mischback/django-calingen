@@ -324,7 +324,7 @@ this documentation, run the test suite in a matrix of different operating
 systems, Python and ``Django`` versions, collecting covearge information (by
 ``coverage.py``), try to  install the package on each operating system and
 Python version and finally report all collected coverage information to
-*Coveralls*.
+`Coveralls <https://coveralls.io/github/Mischback/django-calingen>`.
 
 As of now, the following test matrix is used:
 
@@ -346,13 +346,13 @@ CI Release
 
 :source:`.github/workflows/ci-release.yml`
 
-This workflow will release the packaged app to PyPI.
+This workflow will release the packaged app to `PyPI <https://pypi.org>`.
 
 Internally, it uses ``flit`` from inside a
 :ref:`tox environment <calingen-dev-doc-setup-desc-tox-env-label>`.
 
 .. warning::
-  To authenticate with https://pypi.org, a token is used. This has to be
+  To authenticate with ``https://pypi.org``, a token is used. This has to be
   provided using a repository secret named ``PYPI_REPO_TOKEN``.
 
 .. |calingen| replace:: **django-calingen**
