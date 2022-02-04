@@ -92,6 +92,13 @@ dev/test/tag :
 	$(MAKE) dev/test test_command="-t $(test_tag)"
 .PHONY : dev/test/tag
 
+## List broken links of Sphinx documentation
+## "make sphinx/linkcheck" has to be run manually before!
+## @category Development
+dev/doc/links :
+	cat docs/build/linkcheck/output.json | grep -v "\"info\": \"\"" | sed -E 's/.*"filename": "?([^"]*)"?.*"lineno": ?([0-9]+)?.*"status": "?([^"]*)"?.*"uri": "?([^"]*)"?.*/\[\3\] \1:\2 - \4/'
+.PHONY : dev/doc/links
+
 
 # ### Django management commands
 
@@ -253,6 +260,12 @@ sphinx/build/html : $(TOX_SPHINX_ENV)
 sphinx/serve/html : sphinx/build/html
 	tox -q -e sphinx-serve
 .PHONY : sphinx/serve/html
+
+## Check documentation's external links
+## @category Development
+sphinx/linkcheck : $(TOX_SPHINX_ENV)
+	tox -q -e sphinx -- make linkcheck
+.PHONY : sphinx/linkcheck
 
 
 # ### INTERNAL RECIPES
