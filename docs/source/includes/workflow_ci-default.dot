@@ -1,0 +1,40 @@
+digraph workflow_ci_default {
+  compound=true;
+
+  subgraph cluster1 {
+    black -> flake8 -> bandit -> doc8;
+    flit;
+  };
+
+  subgraph cluster2 {
+    "Windows" -> "Python 3.7";
+    "Windows" -> "Python 3.8";
+    "Windows" -> "Python 3.9";
+    "Windows" -> "Python 3.10";
+    "Linux" -> "Python 3.7";
+    "Linux" -> "Python 3.8";
+    "Linux" -> "Python 3.9";
+    "Linux" -> "Python 3.10";
+
+    "Python 3.7" -> "Django 3.1";
+    "Python 3.7" -> "Django 3.2";
+    "Python 3.8" -> "Django 3.1";
+    "Python 3.8" -> "Django 3.2";
+    "Python 3.8" -> "Django 4.0";
+    "Python 3.9" -> "Django 3.1";
+    "Python 3.9" -> "Django 3.2";
+    "Python 3.9" -> "Django 4.0";
+    "Python 3.10" -> "Django 3.1";
+    "Python 3.10" -> "Django 3.2";
+    "Python 3.10" -> "Django 4.0";
+  };
+
+  subgraph cluster3 {
+    "sphinx linkcheck" -> "sphinx build html";
+  };
+
+  doc8 -> "Linux" [ltail=cluster1,lhead=cluster2];
+  doc8 -> "sphinx linkcheck" [ltail=cluster1,lhead=cluster3];
+  "Django 3.1" -> "Coveralls" [ltail=cluster2];
+
+}

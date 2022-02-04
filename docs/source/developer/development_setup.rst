@@ -315,10 +315,13 @@ This is the actual integration workflow.
 It is run on the *default branch*, which is ``development`` and on any pull
 request against this branch.
 
-The workflow will run code quality tools (``black``, ``flake8``, ``bandit``),
-build a PyPI-compatible package (using ``flit``), build and check this
-documentataion, run the test suite in a matrix of different operating systems,
-Python and ``Django`` versions, collecting covearge information (by
+.. graphviz:: /includes/workflow_ci-default.dot
+  :alt: The Continuous Integration workflow
+
+The workflow will run code quality tools (``black``, ``flake8``, ``bandit``,
+``doc8``), build a PyPI-compatible package (using ``flit``), build and check
+this documentation, run the test suite in a matrix of different operating
+systems, Python and ``Django`` versions, collecting covearge information (by
 ``coverage.py``), try to  install the package on each operating system and
 Python version and finally report all collected coverage information to
 *Coveralls*.
