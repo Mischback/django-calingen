@@ -31,6 +31,8 @@ jobs:
         run: make util/flake8
       - name: Run bandit
         run: make util/bandit
+      - name: Run doc8
+        run: make util/doc8
       - name: Build Python Package
         run: make util/flit/build
       - name: Upload *.whl
