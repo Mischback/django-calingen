@@ -1,0 +1,46 @@
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| URL                                    | URL Name                       | View                                                        | Template                                                            |
++========================================+================================+=============================================================+=====================================================================+
+| ``/``                                  | ``"homepage"``                 | :func:`~calingen.views.base.homepage`                       | no template [#no_template]_                                         |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``event/``                             | ``"event-list"``               | :class:`~calingen.views.event.EventListView`                | :source:`calingen/templates/calingen/event_list.html`               |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``event/<event_id>/``                  | ``"event-detail"``             | :class:`~calingen.views.event.EventDetailView`              | :source:`calingen/templates/calingen/event_detail.html`             |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``event/<event_id>/update/``           | ``"event-update"``             | :class:`~calingen.views.event.EventUpdateView`              | :source:`calingen/templates/calingen/event_update.html`             |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``event/<event_id>/delete/``           | ``"event-delete"``             | :class:`~calingen.views.event.EventDeleteView`              | :source:`calingen/templates/calingen/event_confirm_delete.html`     |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``event/add/``                         | ``"event-add"``                | :class:`~calingen.views.event.EventCreateView`              | :source:`calingen/templates/calingen/event_create.html`             |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``<profile_id>/``                      | ``"profile"``                  | :class:`~calingen.views.profile.ProfileDetailView`          | :source:`calingen/templates/calingen/profile_detail.html`           |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``profile/add/``                       | ``"profile-add"``              | :class:`~calingen.views.profile.ProfileCreateView`          | :source:`calingen/templates/calingen/profile_create.html`           |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``<profile_id>/delete/``               | ``"profile-delete"``           | :class:`~calingen.views.profile.ProfileDeleteView`          | :source:`calingen/templates/calingen/profile_confirm_delete.html`   |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``<profile_id>/update/``               | ``"profile-update"``           | :class:`~calingen.views.profile.ProfileUpdateView`          | :source:`calingen/templates/calingen/profile_update.html`           |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``<profile_id>/events/``               | ``"calendar-entry-list-year"`` | :class:`~calingen.views.web.CalendarEntryListView`          | :source:`calingen/templates/calingen/calendar_entry_list_year.html` |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``<profile_id>/events/<target_year>/`` | ``"calendar-entry-list-year"`` | :class:`~calingen.views.web.CalendarEntryListView`          | :source:`calingen/templates/calingen/calendar_entry_list_year.html` |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``generate/select-layout/``            | ``"layout-selection"``         | :class:`~calingen.views.generation.LayoutSelectionView`     | :source:`calingen/templates/calingen/layout_selection.html`         |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``generate/configure-layout/``         | ``"layout-configuration"``     | :class:`~calingen.views.generation.LayoutConfigurationView` | :source:`calingen/templates/calingen/layout_configuration.html`     |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+| ``generate/compilation/``              | ``"compilation"``              | :class:`~calingen.views.generation.CompilerView`            | no template [#compiler_view]_                                       |
++----------------------------------------+--------------------------------+-------------------------------------------------------------+---------------------------------------------------------------------+
+
+.. [#no_template] This view only redirects to other views, either
+   :class:`~calingen.views.profile.ProfileDetailView`, if the user already has
+   an app-specifc profile or
+   :class:`~calingen.views.profile.ProfileCreateView`.
+.. [#compiler_view] This view just wraps around the compiler's
+   :meth:`~calingen.interfaces.plugin_api.CompilerProvider.get_response`. The
+   actual implementation of
+   :class:`~calingen.interfaces.plugin_api.CompilerProvider` *may* use a
+   template (i.e.
+   :class:`~calingen.contrib.compilers.copy_paste.compiler.CopyPasteCompiler`
+   uses :source:`calingen/templates/calingen/contrib/compiler_copypaste.html`),
+   refer to the actual compiler for details.
