@@ -62,16 +62,6 @@ This setting is evaluated in :class:`calingen.views.generation.CompilerView`.
 importable.
 """
 
-CALINGEN_EXTERNAL_EVENT_PROVIDER = []
-"""Determines the available event providers.
-
-**Default value:** ``[]``
-
-Notes
------
-Include dotted Python paths to event provider implementations as :py:obj`str`.
-"""
-
 CALINGEN_MISSING_EVENT_PROVIDER_NOTIFICATION = None
 """Determines, if the user should be notified about missing event providers.
 

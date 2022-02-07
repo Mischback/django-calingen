@@ -275,9 +275,15 @@ Besides the actual app |calingen|, it is required to set up
 *optionally* -
 :ref:`external events <calingen-cookbook-ingredients-eventprovider-label>`.
 
-.. warning::
-  TODO: When :issue:`49` is closed, provide an example listing of the recipe's
-  ``INSTALLED_APPS`` with one layout and one event provider included.
+The following listing shows an example of :setting:`INSTALLED_APPS` that does
+incorporate a *layout* aswell as an external *event provider*: ::
+
+  INSTALLED_APPS = [
+      ...
+      'calingen.contrib.layouts.simple_event_list',  # <- added!
+      'calingen.contrib.providers.german_holidays',  # <- added!
+  ]
+
 
 .. note::
   How :ref:`compilers <calingen-cookbook-ingredients-compilers-label>` can be
@@ -293,10 +299,6 @@ App-specific Settings
 |calingen| has some app-specific settings that may be adjusted using the
 project's ``settings`` module. A thorough description of these settings can be
 found in :mod:`calingen.settings`' documentation.
-
-.. warning::
-  :attr:`calingen.settings.CALINGEN_EXTERNAL_EVENT_PROVIDER` is not described
-  here, because this setting will be removed; see :issue:`49`.
 
 
 .. _calingen-cookbook-setup-step-by-step-compiler-mapping-label:

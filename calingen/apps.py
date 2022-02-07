@@ -3,7 +3,6 @@
 """Application configuration as required by Django."""
 
 # Python imports
-import importlib
 import logging
 
 # Django imports
@@ -41,12 +40,6 @@ class CalingenConfig(AppConfig):
         - inject app-specific settings into the project's ``settings`` module,
           if they are not already specified (see
           :mod:`calingen.settings` for details);
-        - import implementations of
-          :class:`calingen.interfaces.plugin_api.EventProvider` to make them
-          available (as specified by
-          :attr:`calingen.settings.CALINGEN_EXTERNAL_EVENT_PROVIDER`)
-
-          **THIS MAY BE SUBJECT TO CHANGE!** See :issue:`49`!
         """
         # delay app imports until now, to make sure everything else is ready
         # app imports
@@ -69,7 +62,3 @@ class CalingenConfig(AppConfig):
         register_check(check_config_value_compiler)
         register_check(check_config_value_event_provider_notification)
         register_check(check_session_enabled)
-
-        # load the external event providers
-        for provider in settings.CALINGEN_EXTERNAL_EVENT_PROVIDER:  # pragma: nocover
-            importlib.import_module(provider)  # pragma: nocover
