@@ -10,6 +10,7 @@ INSTALLED_APPS += [
     "calingen.contrib.layouts.simple_event_list",
     "calingen.contrib.layouts.year_by_week",
     "calingen.contrib.layouts.lineatur",
+    "calingen.contrib.providers.german_holidays",
     "debug_toolbar",
 ]
 
