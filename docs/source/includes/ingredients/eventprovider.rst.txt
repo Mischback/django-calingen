@@ -4,6 +4,38 @@
 Event Provider
 **************
 
+|calingen| provides a *plugin interface* for the provision of events by
+plugins.
+
+Technically, *event providers* are provided as standalone Django applications
+that register themselves with |calingen| and are integrated into the general
+workflow of the app (see :ref:`calingen-user-doc-generate-inlays-label`),
+therefore they may be installed like any other application into the Django
+project: just add them to the project's settings module in
+:setting:`INSTALLED_APPS`.
+
+.. note::
+  Even more technically: Event providers are implementations of the app's
+  plugin mount point :class:`~calingen.interfaces.plugin_api.EventProvider`.
+  See :ref:`calingen-dev-doc-plugins-eventprovider-label` for details.
+
+*Event providers* are selectable by the user in his profile settings.
+
+
+Included Event Providers
+========================
+
+|calingen| ships with one *event provider* out of the box. It is included in
+:mod:`calingen.contrib.providers`.
+
 .. warning::
-  This is subject to change, see :issue:`49`. Documentation has to be updated
-  when :issue:`49` is closed.
+  While this provider is *available* when |calingen| is installed, it must be
+  *activated* manually by including it in :setting:`INSTALLED_APPS`.
+
+German Holidays
+  Provides the holidays of the Federal Republic of Germany, split by its
+  federal states.
+
+  .. note::
+    All federal states are included and will be selectable in the user's
+    profile.
