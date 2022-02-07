@@ -4,11 +4,6 @@
 
 In fact, it is not only *one* implementation of
 :class:`~calingen.interfaces.plugin_api.EventProvider`, but 17.
-
-Notes
------
-The app-specific setting ``CALINGEN_PROVIDER_GERMAN_HOLIDAYS`` can be used to
-filter the actually provided event providers.
 """
 
 
