@@ -77,7 +77,7 @@
   "fields": {
     "_event_provider": {
       "active": [
-        "calingen.contrib.holidays.germany.provider.GermanyFederal"
+        "calingen.contrib.providers.german_holidays.provider.GermanyFederal"
       ],
       "unavailable": []
     },

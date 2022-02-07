@@ -86,10 +86,22 @@ class PluginMount(type):
 class EventProvider(metaclass=PluginMount):
     """Mount point for plugins that provide events.
 
-    Plugins implementing this reference must provide the following attributes
-    and methods:
+    Plugins implementing this reference **must** provide the following attribute:
 
-    - **title** : The title of the provider, provided as :py:obj:`str`.
+    - **title** (:py:obj:`str`): The title of the provider, provided as a class
+      attribute.
+
+    Plugins implementing this reference **can** provide the following attributes
+    and/or methods:
+
+    - **entries** (:py:obj:`list`): A list of
+      :class:`calingen.interfaces.data_exchange.CalendarEntry` instances.
+
+      The default implementation of
+      :meth:`~calingen.interfaces.plugin_api.EventProvider.resolve` will work
+      on this :py:obj:`list`. Alternatively
+      :meth:`~calingen.interfaces.plugin_api.EventProvider.resolve` may be
+      re-implemented (see below).
     - **resolve(year)** : A classmethod that accepts a **year** (:py:obj:`int`)
       as parameter and returns an instance of
       :class:`calingen.interfaces.data_exchange.CalendarEntryList` containing
@@ -106,7 +118,7 @@ class EventProvider(metaclass=PluginMount):
         -------
         set
             The resulting :py:obj:`set` contains a 2-tuple for every plugin,
-            including its `qualified classname` and its **title** attribute.
+            including its `qualified classname` and its ``title`` attribute.
             The `qualified classname` is determined by
             :func:`~calingen.interfaces.plugin_api.fully_qualified_classname`.
 
@@ -115,7 +127,7 @@ class EventProvider(metaclass=PluginMount):
         Primary use case for this method is the usage in a Django view,
         specifically :class:`~calingen.models.profile.ProfileForm` uses this
         method to provide the choices of its field. That ``Form`` is then used
-        in the app's views, e.g. :class:`~calingen.views.profile.ProfileUpdateView`.
+        in the app's views, e.g. :class:`calingen.views.profile.ProfileUpdateView`.
         """
         result = set()
         for plugin in cls.plugins:
@@ -332,10 +344,10 @@ class LayoutProvider(metaclass=PluginMount):
 class CompilerProvider(metaclass=PluginMount):
     """Mount point for plugins that provide means to compile layouts to documents.
 
-    Plugins implementing this reference must provide the following attributes
+    Plugins implementing this reference **must** provide the following attributes
     and methods:
 
-    - **title** : The title of the provider, provided as :py:obj:`str`.
+    - **title** (:py:obj:`str`): The title of the provider.
     - **get_response()** : A classmethod that accepts a :py:obj:`str`, which
       will be the rendered layout source as provided by
       :meth:`LayoutProvider.render() <calingen.interfaces.plugin_api.LayoutProvider.render>`.

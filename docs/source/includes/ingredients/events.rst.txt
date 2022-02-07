@@ -1,0 +1,52 @@
+.. _calingen-cookbook-ingredients-events-label:
+
+******
+Events
+******
+
+The actual key feature of |calingen| is the generation of calendar inlays.
+During that generation process, *calendar entries*, like birthdays, holidays
+and appointments are automatically included in the output.
+
+*Events* are a more abstract representation of the *calendar entries*, e.g.:
+
+.. hint::
+  Your dog's birthday is February, 3rd 2022.
+
+  But obviously you want to include
+  its birthday in every generated calendar, for all years to come (2023, ...).
+
+  The *event* is ``2022-02-03, Dog's Birthday``, but the calendar entries will
+  be ``2022-02-03, Dog's Birthday``, ``2023-02-03, Dog's Birthday``, ...
+
+
+Event Sources
+=============
+
+*Events* can originate from two different sources:
+
+Internal Events
+  These *events* are created with |calingen|, using the app's
+  :class:`~calingen.models.event.Event` model.
+
+External Events
+  These *events* are provided by plugins, implementing the app's
+  :class:`~calingen.interfaces.plugin_api.EventProvider` interface. See
+  :ref:`calingen-cookbook-ingredients-eventprovider-label` for details.
+
+
+Event Categories
+================
+
+|calingen| defines different categories of *events* in
+:class:`calingen.constants.EventCategory`, namely
+
+- Annual Anniversaries
+- Holidays
+
+.. note::
+  This list might be extended, see :issue:`16`.
+
+*Internal events*, as described above, are required to include one of these
+pre-defined categories. For *external events* this is recommended but not
+enforced.

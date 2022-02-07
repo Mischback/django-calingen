@@ -1,0 +1,9 @@
+.. _calingen-cookbook-ingredients-eventprovider-label:
+
+**************
+Event Provider
+**************
+
+.. warning::
+  This is subject to change, see :issue:`49`. Documentation has to be updated
+  when :issue:`49` is closed.

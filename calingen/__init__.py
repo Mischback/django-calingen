@@ -3,13 +3,10 @@
 """A pluggable Django application to generate analogous, legacy, paper-based calendar inlays."""
 
 __author__ = "Mischback"
-"""The project owner or rather the original creator."""
+"""The current project owner"""
 
 __app_name__ = "django-calingen"
-"""The name of the applications.
-
-This should be determined dynamically...
-"""
+"""The name of the applications."""
 
 __version__ = "0.0.1"
 """The current version."""

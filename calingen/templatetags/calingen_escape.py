@@ -1,12 +1,20 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide TeX-specific templatetags.
+"""App-specific templatetags for escaping strings in templates.
+
+Calingen is intended to support various types of layouts, meaning the app is
+able to support several *target languages* of templates (e.g. TeX, HTML, ...).
+
+Different *target languages* require different strings to be escaped. All of
+these are provided with this module.
 
 Notes
 -----
-The required regular expressions to escape strings for TeX are compiled at
-module level and may be re-used. This should boost performance during template
-processing.
+The required regular expressions to escape strings are compiled at module level
+and may be re-used. This should boost performance during template processing.
+
+An actual ``filter`` for HTML is not provided, this should already be covered
+by Django's codebase.
 """
 
 # Python imports
@@ -19,11 +27,19 @@ from django.template.defaultfilters import stringfilter
 register = template.Library()
 
 RE_BACKSLASH = re.compile(r"\\")
+"""RegEx to *find* backslashes (``\``)."""  # noqa: W605
+
 RE_EXP = re.compile(r"\^")
+"""RegEx to *find* carets (``^``)."""
+
 RE_TILDE = re.compile(r"~")
+"""RegEx to *find* tildes (``~``)."""
 
 RE_TEX_CHARS = re.compile(r"([$#&%_{}])")
+"""RegEx to *find* a bunch of TeX special characters (``$#&%_{}``)."""
+
 RE_TEX_BACKSLASH_FIX = re.compile(r"(\\backslash)")
+"""This RegEx is used to **fix** *backslash* escaping in TeX templates."""
 
 
 @register.filter

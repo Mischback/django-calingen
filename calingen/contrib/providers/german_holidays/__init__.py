@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""German Holidays, splitted by federate states."""
+"""Implementation of :class:`~calingen.interfaces.plugin_api.EventProvider` that provide German holidays, splitted by federate states."""
 
 # local imports
 from .provider import (  # noqa: F401

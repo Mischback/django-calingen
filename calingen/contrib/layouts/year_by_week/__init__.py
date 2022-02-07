@@ -1,6 +1,13 @@
 # SPDX-License-Identifier: MIT
 
-"""A simple list of all events."""
+"""Implementation of :class:`~calingen.interfaces.plugin_api.LayoutProvider` that provides TeX-sources for a full year's calendar, presented by calendar weeks.
+
+Warnings
+--------
+This layout does only include events of the types
+:attr:`~calingen.constants.EventCategory.ANNUAL_ANNIVERSARY` and
+:attr:`~calingen.constants.EventCategory.HOLIDAY`.
+"""
 
 # local imports
 from .year_by_week import YearByWeek  # noqa: F401

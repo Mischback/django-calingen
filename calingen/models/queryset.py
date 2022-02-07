@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide base classes for ``Manager`` and ``QuerySet`` implementations."""
+"""App-specific implementation of :class:`django.db.models.QuerySet`."""
 
 
 # Django imports
@@ -8,7 +8,7 @@ from django.db.models import QuerySet
 
 
 class CalingenQuerySet(QuerySet):
-    """App-specific implementation of :class:`django.db.models.QuerySet`.
+    """Base class for all app-specific ``QuerySet`` implementations.
 
     Notes
     -----

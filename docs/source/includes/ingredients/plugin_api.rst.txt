@@ -1,0 +1,15 @@
+.. _calingen-cookbook-ingredients-plugin_api-label:
+
+**********
+Plugin API
+**********
+
+|calingen| does provide in fact three *endpoints* for plugins to attach to,
+namely
+
+- :class:`calingen.interfaces.plugin_api.CompilerProvider` -
+  :ref:`abstract description <calingen-cookbook-ingredients-compilers-label>`
+- :class:`calingen.interfaces.plugin_api.EventProvider` -
+  :ref:`abstract description <calingen-cookbook-ingredients-eventprovider-label>`
+- :class:`calingen.interfaces.plugin_api.LayoutProvider` -
+  :ref:`abstract description <calingen-cookbook-ingredients-layouts-label>`

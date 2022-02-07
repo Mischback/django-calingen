@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""The actual module with the plugin's payload."""
+"""The actual implementation of the compiler."""
 
 
 # Django imports
@@ -16,6 +16,13 @@ SOURCE_TYPE_LOOKUP = {
     "rst": ("rst", "text/x-rst"),
     "tex": ("tex", "application/x-tex"),
 }
+"""A :py:obj:`dict` that provides meta information for file downloads.
+
+The :meth:`~calingen.contrib.compilers.download.compiler.DownloadCompiler.get_response`
+uses this :py:obj:`dict` to determine the file extension and MIME type for the
+download, based on the layout's ``layout_type`` attribute (see
+:class:`calingen.interfaces.plugin_api.LayoutProvider`).
+"""
 
 
 class DownloadCompiler(CompilerProvider):
@@ -25,14 +32,14 @@ class DownloadCompiler(CompilerProvider):
 
     @classmethod
     def get_response(cls, source, layout_type=None):  # noqa: D102
-        if layout_type is not None:
+        if layout_type is not None:  # pragma: nocover
             try:
                 file_extension = SOURCE_TYPE_LOOKUP[layout_type][0]
                 content_type = SOURCE_TYPE_LOOKUP[layout_type][1]
             except KeyError:
                 file_extension = SOURCE_TYPE_LOOKUP["plain"][0]
                 content_type = SOURCE_TYPE_LOOKUP["plain"][1]
-        else:
+        else:  # pragma: nocover
             file_extension = SOURCE_TYPE_LOOKUP["plain"][0]
             content_type = SOURCE_TYPE_LOOKUP["plain"][1]
 

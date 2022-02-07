@@ -1,0 +1,16 @@
+graph ingredients {
+
+  Compilers;
+  Events;
+  EventProviders [label="Event Providers"];
+  Layouts;
+  PluginAPI [label="Plugin API"];
+
+  PluginAPI -- EventProviders;
+  PluginAPI -- Compilers;
+  PluginAPI -- Layouts;
+  Events -- EventProviders;
+  Events -- Layouts;
+  Compilers -- Layouts;
+
+}

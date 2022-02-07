@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide View implementations with generic functionality."""
+"""View implementations with generic functionality."""
 
 
 # Django imports

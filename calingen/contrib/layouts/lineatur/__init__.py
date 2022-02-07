@@ -1,6 +1,14 @@
 # SPDX-License-Identifier: MIT
 
-"""Different kinds of ruled paper."""
+"""Implementation of :class:`~calingen.interfaces.plugin_api.LayoutProvider` that provides different kinds of ruled paper.
+
+This layout is HTML-based and intended to be used to generate single pages with
+a given grid (*"Lineatur"*).
+
+Warnings
+--------
+This layout does not include events!
+"""
 
 # local imports
 from .lineatur import Lineatur  # noqa: F401

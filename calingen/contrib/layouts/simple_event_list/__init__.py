@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-"""A simple list of all events."""
+"""Implementation of :class:`~calingen.interfaces.plugin_api.LayoutProvider` that provides TeX-sources for a simple list of events."""
 
 # local imports
 from .simple_event_list import SimpleEventList  # noqa: F401

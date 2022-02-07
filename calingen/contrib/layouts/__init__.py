@@ -1,3 +1,3 @@
 # SPDX-License-Identifier: MIT
 
-"""LayoutProvider implementations."""
+"""Implementations of :class:`calingen.interfaces.plugin_api.LayoutProvider`."""

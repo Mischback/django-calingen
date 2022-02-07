@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: MIT
 
-"""Provide the app's user profile."""
+"""App-specific user profile.
+
+Beside the actual :class:`calingen.models.profile.Profile` model, this module
+contains the related implementations of :class:`django.db.models.QuerySet`,
+:class:`django.db.models.Manager` and :class:`django.forms.ModelForm`.
+"""
 
 # Python imports
 import datetime
@@ -117,7 +122,7 @@ class ProfileManager(models.Manager):
     Notes
     -----
     This :class:`~django.db.models.Manager` implementation is used as an
-    additional manager of :class:`~calingen.models.profile.Profile`
+    **additional** manager of :class:`~calingen.models.profile.Profile`
     (see :attr:`calingen.models.profile.Profile.calingen_manager`).
 
     This implementation inherits its functionality from

@@ -35,20 +35,22 @@ exclude_patterns = []  # type: ignore[var-annotated]
 
 # activate extensions
 extensions = [
+    # automatically insert labels for section titles
+    "sphinx.ext.autosectionlabel",
+    # make links to other, often referenced, sites easier
+    "sphinx.ext.extlinks",
+    # make graphviz available (needs system installation of graphviz)
+    "sphinx.ext.graphviz",
+    # provide links to other, sphinx-generated, documentation
+    "sphinx.ext.intersphinx",
     # allow docstrings to be written in NumPy or Google style
     "sphinx.ext.napoleon",
+    # automatic API documentation using the docstrings
+    # HINT: Can be (temporarily) disabled to speed up build time!
+    "autoapi.extension",
     # use the RTD theme
     # configuration is provided in the HTML Output section
     "sphinx_rtd_theme",
-    # automatically insert labels for section titles
-    "sphinx.ext.autosectionlabel",
-    # automatic API documentation using the docstrings
-    "autoapi.extension",
-    # "sphinx.ext.autodoc",  # may be required for autoapi directives
-    # provide links to other, sphinx-generated, documentation
-    "sphinx.ext.intersphinx",
-    # make links to other, often referenced, sites easier
-    "sphinx.ext.extlinks",
 ]
 
 # "index" is already the default (since Sphinx 2.0), but better be explicit.
@@ -62,7 +64,7 @@ templates_path = ["_templates"]
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-source_suffix
 source_suffix = {
     ".rst": "restructuredtext",
-    ".txt": "restructuredtext",
+    # ".txt": "restructuredtext",
 }
 
 # ### Extension Configuration
@@ -85,6 +87,9 @@ autoapi_generate_api_docs = True
 autoapi_root = "api"
 
 autoapi_member_order = "groupwise"
+
+# set the output format to "svg" to allow scaling; "png" is the alternative and default
+graphviz_output_format = "svg"
 
 # ##### intersphinx
 
@@ -141,7 +146,7 @@ extlinks = {
     "issue": ("https://github.com/mischback/django-calingen/issues/%s", "issue "),
     # A file or directory. GitHub redirects from blob to tree if needed.
     # will show file/path relative to root-directory of the repository
-    "source": ("https://github.com/mischback/django-calingen/blob/master/%s", ""),
+    "source": ("https://github.com/mischback/django-calingen/blob/development/%s", ""),
     # also available by intersphinx :django:doc:
     "djangodoc": ("https://docs.djangoproject.com/en/{}/%s".format(django_version), ""),
     # also available by intersphinx (most likely as simple as specifying the full Python path)

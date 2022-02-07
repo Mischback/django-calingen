@@ -1,0 +1,124 @@
+digraph layout_process {
+  graph [
+    // label = "Layout Rendering and Compilation Process";
+    rankdir = LR;
+    compound = true;
+    splines = ortho;
+  ];
+
+  // Start, End
+  node [
+    shape ="box",
+    style ="filled, rounded",
+    fillcolor="#ffff00",
+  ];
+  start [
+    label="Start",
+  ]
+  end [
+    label="End",
+  ]
+
+  // Task
+  node [
+    shape="box",
+    style="filled",
+    fillcolor="#ccdfff",
+  ];
+  store_layout_selection [
+    label="Store selection in the user's Session",
+  ];
+  show_layout_configuration_form [
+    label="Show the ConfigurationForm",
+  ];
+  store_layout_configuration [
+    label="Store configuration in the user's Session",
+  ];
+  get_context_data [
+    label="Build the required context,\nincluding a list of calendar entries",
+  ];
+  render_layout [
+    label="Render the layout with the context",
+  ];
+  determine_compiler [
+    label="Determine the compiler,\ndepending on the selected layout",
+  ];
+  compilation [
+    label="Compile the rendered layout",
+  ];
+  compiler_response [
+    label="Provide compilation result",
+  ];
+
+  // Data Input/Output
+  node [
+    shape="parallelogram",
+    style="filled",
+    fillcolor="#ccff99",
+  ];
+  profile [
+    label= "Profile",
+  ];
+  select_layout [
+    label="select a Layout",
+  ];
+  configure_layout [
+    label="provide configuration",
+  ];
+  compiler_result [
+    label="Compilation result",
+  ];
+
+  // Condition
+  node [
+    shape="diamond",
+    style="filled",
+    fillcolor="#dddddd",
+  ];
+  layout_configuration_form [
+    label="Does the layout\nrequire configuration?",
+  ];
+
+  {
+    rank="same";
+    start;
+    profile;
+    select_layout;
+    store_layout_selection;
+  }
+  {
+    rank="same";
+    layout_configuration_form;
+    show_layout_configuration_form;
+    configure_layout;
+    store_layout_configuration;
+  }
+  {
+    rank="same";
+    get_context_data;
+    render_layout;
+    determine_compiler;
+    compilation;
+    compiler_response;
+    compiler_result;
+    end;
+  }
+
+
+
+  start -> profile;
+  profile -> select_layout;
+  select_layout -> store_layout_selection;
+  store_layout_selection -> layout_configuration_form;
+  layout_configuration_form -> show_layout_configuration_form [taillabel="yes"];
+  layout_configuration_form -> get_context_data [taillabel="no"];
+  show_layout_configuration_form -> configure_layout;
+  configure_layout -> store_layout_configuration;
+  store_layout_configuration -> get_context_data;
+  get_context_data -> render_layout;
+  render_layout -> determine_compiler;
+  determine_compiler -> compilation;
+  compilation -> compiler_response;
+  compiler_response -> compiler_result;
+  compiler_result -> end;
+}

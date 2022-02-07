@@ -20,6 +20,15 @@ ignore =
     E501,
 
 per-file-ignores =
+    calingen/contrib/compilers/copy_paste/__init__.py:W505
+    calingen/contrib/compilers/download/__init__.py:W505
+    calingen/contrib/compilers/html_or_download/__init__.py:W505
+    calingen/contrib/layouts/lineatur/__init__.py:W505
+    calingen/contrib/layouts/lineatur/lineatur.py:W505
+    calingen/contrib/layouts/simple_event_list/__init__.py:W505
+    calingen/contrib/layouts/simple_event_list/__init__.py:W505
+    calingen/contrib/layouts/year_by_week/__init__.py:W505
+    calingen/contrib/providers/german_holidays/__init__.py:W505
     calingen/forms/generation.py:W505
     calingen/models/profile.py:W505
     calingen/views/generic.py:W505

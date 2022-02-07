@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-name: CI default branch
+name: CI Default Branch
 
 on:
   push:
@@ -31,6 +31,8 @@ jobs:
         run: make util/flake8
       - name: Run bandit
         run: make util/bandit
+      - name: Run doc8
+        run: make util/doc8
       - name: Build Python Package
         run: make util/flit/build
       - name: Upload *.whl
@@ -42,7 +44,7 @@ jobs:
           retention-days: 1
 
   testing:
-    name: Run tests on ${{ matrix.os }} for ${{ matrix.python-version }}
+    name: Tests (${{ matrix.os }}, ${{ matrix.python-version }})
     needs: linting-building
     strategy:
       matrix:
@@ -122,6 +124,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_FLAG_NAME: layout-compilation
           COVERALLS_PARALLEL: true
+
+  documentation:
+    name: Documentation
+    needs: linting-building
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          sudo apt-get install graphviz
+          python -m pip install --upgrade pip
+          pip install tox
+      - name: Run Sphinx's linkcheck
+        run: make sphinx/linkcheck
+      - name: Build HTML Documentation
+        run: make sphinx/build/html
 
   finish:
     name: Indicate completion to Coveralls.io

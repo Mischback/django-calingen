@@ -44,12 +44,12 @@ MIDDLEWARE = [
 ]
 
 CALINGEN_EXTERNAL_EVENT_PROVIDER = [
-    "calingen.contrib.holidays.germany",
+    "calingen.contrib.providers.german_holidays",
 ]
 
 CALINGEN_COMPILER = {
-    "default": "calingen.contrib.compiler.copy_paste.compiler.CopyPasteCompiler",
-    "html": "calingen.contrib.compiler.html_or_download.compiler.HtmlOrDownloadCompiler",
+    "default": "calingen.contrib.compilers.copy_paste.compiler.CopyPasteCompiler",
+    "html": "calingen.contrib.compilers.html_or_download.compiler.HtmlOrDownloadCompiler",
 }
 
 LOGGING = {

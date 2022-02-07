@@ -78,6 +78,11 @@ fail_under = 95
 ignore = "T028,H030,H031"
 
 
+# ### DOC8 ###
+[tool.doc8]
+# Just use doc8's default configuration
+
+
 # ### ISORT ###
 [tool.isort]
 profile = "black"
