@@ -3,12 +3,12 @@
 """A pluggable Django application to generate analogous, legacy, paper-based calendar inlays."""
 
 __author__ = "Mischback"
-"""The current project owner"""
+"""The current project owner."""
 
 __app_name__ = "django-calingen"
-"""The name of the applications."""
+"""The name of the application."""
 
-__version__ = "0.0.1"
+__version__ = "1.0.0"
 """The current version."""
 
 default_app_config = "calingen.apps.CalingenConfig"
