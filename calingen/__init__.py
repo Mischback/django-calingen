@@ -8,7 +8,7 @@ __author__ = "Mischback"
 __app_name__ = "django-calingen"
 """The name of the application."""
 
-__version__ = "1.0.0"
+__version__ = "1.0rc1"
 """The current version."""
 
 default_app_config = "calingen.apps.CalingenConfig"
