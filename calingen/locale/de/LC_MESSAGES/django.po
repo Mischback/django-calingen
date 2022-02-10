@@ -1,0 +1,533 @@
+# SPDX-License-Identifier: MIT
+#
+# Translators:
+# Mischback, 2021
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-07 01:56-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: calingen/constants.py:25
+msgid "Annual Anniversary"
+msgstr "Jahrestag"
+
+#: calingen/constants.py:26
+msgid "Holiday"
+msgstr "Feiertag"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:29
+msgid "A0 (841mm x 1189mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:30
+msgid "A1 (594mm x 841mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:31
+msgid "A2 (420mm x 594mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:32
+msgid "A3 (297mm x 420mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:33
+msgid "A4 (210mm x 297mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:34
+msgid "A5 (148mm x 210mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:35
+msgid "A6 (105mm x 148mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:36
+msgid "A7 (74mm x 105mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:37
+msgid "B0 (1000mm x 1414mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:38
+msgid "B1 (707mm x 1000mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:39
+msgid "B2 (500mm x 707mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:40
+msgid "B3 (353mm x 500mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:41
+msgid "B4 (250mm x 353mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:42
+msgid "B5 (176mm x 250mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:43
+msgid "B6 (125mm x 176mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:44
+msgid "B7 (88mm x 125mm)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:45
+msgid "Letter (8.5in x 11.0in)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:46
+msgid "Government Letter (8.0in x 10.5in)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:47
+msgid "Government Legal (8.5in x 14.0in)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:48
+msgid "Ledger (17.0in x 11.0in)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:49
+msgid "Tabloid (11.0in x 17.0in)"
+msgstr ""
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:59
+msgid "Centimeters"
+msgstr "Zentimeter"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:60
+msgid "Millimeters"
+msgstr "Millimeter"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:61
+msgid "Inches"
+msgstr "Inches"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:62
+msgid "Points (1/72th of 1in)"
+msgstr "Punkt (1/72 eines Inches)"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:63
+msgid "Pixels (1/96th of 1in)"
+msgstr "Pixel (1/96 eines Inches)"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:69
+msgid "blank"
+msgstr "leer"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:70
+msgid "dotted"
+msgstr "punktiert"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:71
+msgid "lined"
+msgstr "liniert"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:72
+msgid "squared"
+msgstr "kariert"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:78
+msgid "left"
+msgstr "links"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:79
+msgid "center"
+msgstr "zentriert"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:80
+msgid "right"
+msgstr "rechts"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:86
+msgid "black"
+msgstr "schwarz"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:87
+msgid "dark grey"
+msgstr "dunkelgrau"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:88
+msgid "light grey"
+msgstr "hellgrau"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:89
+msgid "red"
+msgstr "rot"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:90
+msgid "green"
+msgstr "grün"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:91
+msgid "blue"
+msgstr "blau"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:106
+msgid "Caption"
+msgstr "Überschrift"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:107
+msgid "An optional caption, placed in the specified position"
+msgstr "Eine optionale Überschrift in der spezifizierten Position"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:114
+msgid "Position of the Caption"
+msgstr "Position der Überschrift"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:115
+msgid "Where to put the caption"
+msgstr "Wo soll die Überschrift platziert werden"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:122
+msgid "Size of the Caption"
+msgstr "Schriftgröße der Überschrift"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:123
+msgid "Size in pt of the caption"
+msgstr "Schriftgröße der Überschrift (in Punkt)"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:130
+msgid "Font Family of the Caption"
+msgstr "Schriftart der Überschrift"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:132
+msgid ""
+"Specify the font to use; will be passed to a CSS font-family attribute; You "
+"may specify system fonts; default: sans-serif."
+msgstr ""
+"Geben Sie die Schriftart an; wird als CSS font-family attribute angewendet; "
+"System-Schriftarten werden unterstützt; Standard-Wert: sans-serif"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:140
+msgid "Caption Text Color"
+msgstr "Schriftfarbe der Überschrift"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:141
+msgid "The color to be used for the caption."
+msgstr "Die Farbe der Überschrift"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:148
+msgid "Paper Size"
+msgstr "Größe des Papiers"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:149
+msgid "The paper size to be used"
+msgstr "Größe des Papiers"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:156
+msgid "Type of Grid to generate"
+msgstr "Typ der Lineatur"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:157
+msgid "Determine which grid is generated"
+msgstr "Welche Lineatur soll angewendet werden"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:164
+msgid "Unit of lengths"
+msgstr "Längeneinheit"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:165
+msgid "Determine the unit for specified lengths"
+msgstr "Legen Sie die Einheit für sämtliche Längen fest"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:172
+msgid "Grid horizontal spacing"
+msgstr "Horizontaler Abstand der Lineatur"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:173
+msgid "The horizontal spacing of the grid. See Unit of lengths."
+msgstr "Horizontaler Abstand der Lineatur, siehe auch Längeneinheit"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:179
+msgid "Grid vertical spacing"
+msgstr "Vertikaler Abstand der Lineatur"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:180
+msgid "The vertical spacing of the grid. See Unit of lengths."
+msgstr "Vertikaler Abstand der Lineatur, siehe auch Längeneinheit"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:186
+msgid "Grid Color"
+msgstr "Farbe der Lineatur"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:187
+msgid "The color to render the selected grid"
+msgstr "Farbe der Lineatur"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:194
+msgid "Width of the grid strokes"
+msgstr "Stärke der Lineatur"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:195
+msgid "The width of the grid strokes specified in pixels"
+msgstr "Definiert die breite der Striche der Lineatur (in Pixeln)"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:202
+msgid "Margin (top)"
+msgstr "Oberer Seitenrand"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:204
+msgid ""
+"Space between the page's and the content's top edges. See Unit of lengths."
+msgstr ""
+"Abstand zwischen oberer Kante des Blattes und dem zu bedruckenden Bereich"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:212
+msgid "Margin (right)"
+msgstr "Rechter Seitenrand"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:214
+msgid ""
+"Space between the page's and the content's right edges. See Unit of lengths."
+msgstr ""
+"Abstand zwischen rechter Kante des Blattes und dem zu bedruckenden Bereich"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:222
+msgid "Margin (bottom)"
+msgstr "Unterer Seitenrand"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:224
+msgid ""
+"Space between the page's and the content's bottom edges. See Unit of lengths."
+msgstr ""
+"Abstand zwischen unterer Kante des Blattes und dem zu bedruckenden Bereich"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:232
+msgid "Margin (left)"
+msgstr "Linker Seitenrand"
+
+#: calingen/contrib/layouts/lineatur/lineatur.py:234
+msgid ""
+"Space between the page's and the content's left edges. See Unit of lengths."
+msgstr ""
+"Abstand zwischen linker Kante des Blattes und dem zu bedruckenden Bereich"
+
+#: calingen/contrib/providers/german_holidays/provider.py:30
+msgid "New Year"
+msgstr "Neujahr"
+
+#: calingen/contrib/providers/german_holidays/provider.py:37
+msgid "Epiphany"
+msgstr "Heilige Drei Könige"
+
+#: calingen/contrib/providers/german_holidays/provider.py:44
+msgid "Women's Day"
+msgstr "Frauentag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:51
+msgid "Good Friday"
+msgstr "Karfreitag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:63
+msgid "Easter Sunday"
+msgstr "Ostersonntag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:75
+msgid "Easter Monday"
+msgstr "Ostermontag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:87
+msgid "Worker's Day"
+msgstr "Tag der Arbeit"
+
+#: calingen/contrib/providers/german_holidays/provider.py:94
+msgid "Ascension"
+msgstr "Christi Himmelfahrt"
+
+#: calingen/contrib/providers/german_holidays/provider.py:106
+#, fuzzy
+#| msgid "Penecost Sunday"
+msgid "Pentecost Sunday"
+msgstr "Pfingstsonntag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:118
+msgid "Pentecost Monday"
+msgstr "Pfingstmontag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:130
+msgid "Corpus Christi"
+msgstr "Fronleichnam"
+
+#: calingen/contrib/providers/german_holidays/provider.py:142
+msgid "Assumption of Mary"
+msgstr "Maria Himmelfahrt"
+
+#: calingen/contrib/providers/german_holidays/provider.py:149
+msgid "Children's Day"
+msgstr "Kindertag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:156
+msgid "Day of German Unity"
+msgstr "Tag der Deutschen Einheit"
+
+#: calingen/contrib/providers/german_holidays/provider.py:163
+msgid "Reformation Day"
+msgstr "Reformationstag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:170
+msgid "All Hallows"
+msgstr "Allerheiligen"
+
+#: calingen/contrib/providers/german_holidays/provider.py:177
+msgid "Day of Repetance"
+msgstr "Buß- und Bettag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:190
+msgid "Christmas Day"
+msgstr "1. Weihnachtstag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:197
+msgid "Boxing Day"
+msgstr "2. Weihnachtstag"
+
+#: calingen/contrib/providers/german_holidays/provider.py:226
+msgid "German Federal Holidays"
+msgstr "Feiertage (bundesweit)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:234
+msgid "Holidays of Baden-Württemberg"
+msgstr "Feiertage (Baden-Württemberg)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:242
+msgid "Holidays of Bayern"
+msgstr "Feiertage (Bayern)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:255
+msgid "Holidays of Berlin"
+msgstr "Feiertage (Berlin)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:263
+msgid "Holidays of Brandenburg"
+msgstr "Feiertage (Brandenburg)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:271
+msgid "Holidays of Bremen"
+msgstr "Feiertage (Bremen)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:277
+msgid "Holidays of Hamburg"
+msgstr "Feiertage (Hamburg)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:283
+msgid "Holidays of Mecklenburg-Vorpommern"
+msgstr "Feiertage (Mecklenburg-Vorpommern)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:289
+msgid "Holidays of Niedersachsen"
+msgstr "Feiertage (Niedersachsen)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:295
+msgid "Holidays of Schleswig-Holstein"
+msgstr "Feiertage (Schleswig-Holstein)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:301
+msgid "Holidays of Hessen"
+msgstr "Feiertage (Hessen)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:309
+msgid "Holidays of Nordrhein-Westphalen"
+msgstr "Feiertage (Nordrhein-Westphalen)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:317
+msgid "Holidays of Rheinland-Pfalz"
+msgstr "Feiertage (Rheinland-Pfalz)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:323
+msgid "Holidays of Saarland"
+msgstr "Feiertage (Saarland)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:331
+msgid "Holidays of Sachsen"
+msgstr "Feiertage (Sachsen)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:339
+msgid "Holidays of Sachsen-Anhalt"
+msgstr "Feiertage (Sachsen-Anhalt)"
+
+#: calingen/contrib/providers/german_holidays/provider.py:347
+msgid "Holidays of Thüringen"
+msgstr "Feiertage (Thüringen)"
+
+#: calingen/forms/generation.py:58
+msgid "Year"
+msgstr "Jahr"
+
+#: calingen/forms/generation.py:59
+msgid "The year to generate the layout for"
+msgstr "Das Jahr, für welches das Layout generiert werden soll"
+
+#: calingen/forms/generation.py:67
+msgid "Layout"
+msgstr "Layout"
+
+#: calingen/forms/generation.py:68
+msgid "Select the layout to be used"
+msgstr "Wählen Sie das zu nutzende Layout aus"
+
+#: calingen/models/event.py:230
+msgid "The start date and time for this recurring event."
+msgstr "Das Startdatum und -zeit für diesen wiederkehrenden Eintrag"
+
+#: calingen/models/event.py:231
+msgid "Start Date"
+msgstr "Startdatum"
+
+#: calingen/models/event.py:253
+msgid ""
+"This will be included in the generated output and is capped at 50 characters."
+msgstr "Wird im generierten Dokument angezeigt (max. 50 Zeichen)."
+
+#: calingen/models/event.py:255
+msgid "Event Title"
+msgstr "Titel des Eintrages"
+
+#: calingen/models/event.py:268
+msgid "The category of this event."
+msgstr "Kategorie des Eintrages"
+
+#: calingen/models/event.py:269
+msgid "Event Category"
+msgstr "Kategorie"
+
+#: calingen/models/event.py:285
+msgid "Event"
+msgstr "Eintrag"
+
+#: calingen/models/event.py:286
+msgid "Events"
+msgstr "Einträge"
+
+#: calingen/models/profile.py:201
+msgid "Event Provider"
+msgstr "Ereignis Provider (Plugin)"
+
+#: calingen/models/profile.py:214
+msgid "Owner"
+msgstr "Besitzer"
+
+#: calingen/models/profile.py:233
+msgid "Profile"
+msgstr "Profil"
+
+#: calingen/models/profile.py:234
+msgid "Profiles"
+msgstr "Profile"

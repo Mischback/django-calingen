@@ -1,0 +1,12 @@
+{
+  "files.watcherExclude": {
+    "**/.env/**": true,
+    "**/.git/**": true,
+    "**/.tox/**": true,
+    "**/.mypy_cache/**": true,
+    "**/docs/build/**": true
+  },
+  "python.analysis.extraPaths": [
+    ".tox/django/lib/python3.9/site-packages"
+  ]
+}

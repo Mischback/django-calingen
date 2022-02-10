@@ -1,0 +1,21 @@
+{% extends "calingen/app_base.html" %}
+
+{% block page_title %}Profile: ProfileUpdateView{% endblock page_title %}
+
+{% block main %}
+<h2>CalInGen Profile of {{ profile.owner }}</h2>
+
+<strong>{{ profile.event_count }}</strong> user-provided Events,
+<strong>{{ provider_events_count }}</strong> Events provided by plugins.
+
+<h3>Available Actions:</h3>
+<ul>
+  <li>see all Calendar Entries as a list: <a href="{% url "calingen:calendar-entry-list-year" profile_id %}">this year</a></li>
+  <li><a href="{% url "calingen:event-add" %}">add Events</a> to your profile</li>
+  <li><a href="{% url "calingen:layout-selection" %}">render a Layout</a></li>
+  <li>see <a href="{% url "calingen:event-list" %}">all Events</a></li>
+  <li>update your <a href="{% url "calingen:profile-update" profile_id %}">Profile Settings</a></li>
+  <li><a href="{% url "calingen:profile-delete" profile_id %}">delete</a> your Profile</li>
+</ul>
+
+{% endblock main %}

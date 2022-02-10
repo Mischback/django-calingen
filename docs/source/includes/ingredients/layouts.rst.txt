@@ -1,0 +1,65 @@
+.. _calingen-cookbook-ingredients-layouts-label:
+
+*******
+Layouts
+*******
+
+|calingen| uses *layouts* to format the actual calendar inlays.
+Basically they are sets of templates used to present the app's data (which is a
+list of events for a given user).
+
+Technically, *layouts* are provided as standalone Django applications that
+register themselves with |calingen| and are integrated into the
+general workflow of the app (see
+:ref:`calingen-user-doc-generate-inlays-label`), therefore they may be
+installed like any other application into the Django project: just add them to
+the project's settings module in :setting:`INSTALLED_APPS`.
+
+.. note::
+  Even more technically: Layouts are implementations of the app's plugin mount
+  point :class:`~calingen.interfaces.plugin_api.LayoutProvider`. See
+  :ref:`calingen-dev-doc-plugins-layoutprovider-label` for details.
+
+*Layouts* are **rendered** to their respective result. This means, that the
+project's template engine is used to **render** a layout's templates to a
+:py:obj:`string <str>` which can be processed further by a compiler (see
+:ref:`calingen-cookbook-ingredients-compilers-label` and :setting:`TEMPLATES`).
+
+
+Included Layouts
+================
+
+|calingen| provides three example layouts out of the box. They are
+included in :mod:`calingen.contrib.layouts`.
+
+.. warning::
+  While these layouts are *available* when |calingen| is installed,
+  they must be *activated* manually by including them in
+  :setting:`INSTALLED_APPS`.
+
+Simple Event List
+  This is just an easy example of a layout, that processes the given list of
+  Event instances (both, user-provided and externally provided) and creates
+  TeX sources for compilation with a TeX compiler (like ``pdflatex``).
+
+  The layout does not provide a configuration form, as it does not have any
+  options.
+
+  During processing, the Event instances are grouped by their month.
+
+Year By Week
+  This slightly more complex example actually creates a list of all days of
+  the year, include Event instances and then creates TeX sources.
+
+  There is no configuration form.
+
+  It visualizes, how a complete calendar can be generated.
+
+Lineatur
+  This layout may be used to generate ruled paper sheets to augment a
+  calendar.
+
+  It will generate HTML sources (and might even provide a valid HTTP response
+  in combination with an appropriate compiler).
+
+  This layout provides a configuration form.

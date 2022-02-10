@@ -1,0 +1,16 @@
+{% extends "calingen/app_base.html" %}
+
+{% block page_title %}Profile: ProfileCreateView{% endblock page_title %}
+
+{% block main %}
+<h2>Add Profile</h2>
+
+<form method="post" novalidate class="calingen-form">
+  {% csrf_token %}
+
+  {% include "calingen/includes/form.html" with form=form %}
+
+  <button type="submit" class="submit">Add Profile</button>
+  <button type="reset" class="cancel">Cancel</button>
+</form>
+{% endblock main %}

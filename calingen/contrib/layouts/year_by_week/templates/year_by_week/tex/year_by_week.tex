@@ -1,0 +1,191 @@
+{% extends 'year_by_week/tex/base.tex' %}
+{% load calingen_escape %}
+{% block tex-documentclass %}
+\documentclass[a5paper, 10pt]{article}
+{% endblock %}
+
+{% block tex-definitions %}
+%%%%% SETTINGS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% paragraph indentation
+\setlength{\parindent}{0mm}
+
+% Removes leading and trailing whitespaces around an argument
+\def\trim#1{\ignorespaces#1\unskip}
+
+% Use this to determine the height of an actual day of the calendar.
+% This is used for every day, even Saturdays and Sundays.
+\newlength{\WeekOnDoublePageDayHeight}
+\setlength{\WeekOnDoublePageDayHeight}{5.25cm}
+
+% Use this to determine the spacing between to days on one calendar page.
+% Determines the vertical space between a days bottom line and the beginning
+%   of the next day.
+\newlength{\WeekOnDoublePageDaySpacing}
+\setlength{\WeekOnDoublePageDaySpacing}{0.5em}
+
+% The thickness of the seperator line between headline and the first day of
+%   the page.
+\newlength{\WeekOnDoublePageHeadlineSeperatorThickness}
+\setlength{\WeekOnDoublePageHeadlineSeperatorThickness}{0.1em}
+
+% The thickness of the seperator line between two days.
+\newlength{\WeekOnDoublePageDaySeperatorThickness}
+\setlength{\WeekOnDoublePageDaySeperatorThickness}{0.05em}
+
+
+%%%%% OWN LAYOUT MACROS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% WEEK ON DOUBLE PAGE %%%%%
+
+% Used to set the headline on the left page of the weekly double page
+\newcommand{\WeekOnDoublePageHeadlineLeft}[1]{%
+    \Large\textbf{\trim{#1}} \footnotesize KW%
+}%
+
+% Used to set the headline on the right page of the weekly double page
+\newcommand{\WeekOnDoublePageHeadlineRight}[1]{%
+    \begin{flushright}%
+        \Large\textbf{\trim{#1}}%
+    \end{flushright}%
+}%
+
+% Formatting of the day's date (number)
+\newcommand{\WeekOnDoublePageDateNumber}[1]{%
+    \Huge\trim{#1}%
+}%
+
+% Formatting of the day's name and holiday's name
+\newcommand{\WeekOnDoublePageDateName}[2]{%
+    \small\trim{#1} \\ \footnotesize \trim{#2} \ %
+}%
+
+% Used to set the day's meta data on left page of the weekly double page
+%   #1: the actual date of the day
+%   #2: the name of the day
+%   #3: the name of the holiday (leave blank)
+\newcommand{\WeekOnDoublePageDayMetaLeft}[3]{%
+    \begin{minipage}[b]{4em}%
+        \WeekOnDoublePageDateNumber{#1}
+    \end{minipage}%
+    \begin{minipage}[b]{17em}%
+        \WeekOnDoublePageDateName{#2}{#3}%
+    \end{minipage}\newline%
+}%
+
+% Used to set the day's meta data on right page of the weekly double page
+%   #1: the actual date of the day
+%   #2: the name of the day
+%   #3: the name of the holiday (leave blank)
+\newcommand{\WeekOnDoublePageDayMetaRight}[3]{%
+    \hfill \begin{minipage}[c]{12.5em}%
+        \begin{flushright}%
+            \WeekOnDoublePageDateName{#2}{#3}%
+        \end{flushright}%
+    \end{minipage}%
+    \begin{minipage}[c]{4em}%
+        \begin{flushright}%
+            \WeekOnDoublePageDateNumber{#1}
+        \end{flushright}%
+    \end{minipage}\newline%
+}%
+
+% Used to include the day's main space, which may be used to show birthdays
+%   #1: the list of names (seperated by '\\')
+\newcommand{\WeekOnDoublePageMainSpace}[1]{%
+    \begin{minipage}[b][\WeekOnDoublePageDayHeight][b]{\textwidth}%
+        \begin{flushright}%
+            \footnotesize \trim{#1} %
+        \end{flushright}%
+    \end{minipage}%
+}%
+{% endblock tex-definitions %}
+
+{% block tex-documentbody %}
+    \pagestyle{empty}   % generally removes page numbers
+    \newpage \null%     % let the calendar start on a 'left page'
+    \color{defaultcalendarfontcolor}
+    {% for week in weeklist %}{% with w=week %}
+    \newpage%
+    \begin{minipage}[t][\textheight]{\textwidth}%                               --> BEGIN OF LEFT PAGE
+    % BEGIN HEADLINE
+        \begin{minipage}[c]{\textwidth}%
+            \WeekOnDoublePageHeadlineLeft{ {{ w.calendarweek|stringformat:'02d' }} }
+        \end{minipage}%
+        \newline%
+        \rule{\textwidth}{\WeekOnDoublePageHeadlineSeperatorThickness}%
+    % END HEADLINE
+        \vspace{\WeekOnDoublePageDaySpacing}%
+        \newline%
+    % BEGIN MONDAY
+        \begin{minipage}[c]{\textwidth}%
+            \WeekOnDoublePageDayMetaLeft{ {{ w.days.0.date.day|stringformat:'02d' }} }{ {{ w.days.0.date|date:"l" }} }{ {% for h in w.days.0.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.0.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
+        \end{minipage}%
+        \newline%
+        \rule{\textwidth}{\WeekOnDoublePageDaySeperatorThickness}%
+    % END MONDAY
+        \vspace{\WeekOnDoublePageDaySpacing}%
+        \newline%
+    % BEGIN TUESDAY
+        \begin{minipage}[c]{\textwidth}%
+            \WeekOnDoublePageDayMetaLeft{ {{ w.days.1.date.day|stringformat:'02d' }} }{ {{ w.days.1.date|date:"l" }} }{ {% for h in w.days.1.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.1.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
+        \end{minipage}%
+        \newline%
+        \rule{\textwidth}{\WeekOnDoublePageDaySeperatorThickness}%
+    % END TUESDAY
+        \vspace{\WeekOnDoublePageDaySpacing}%
+        \newline%
+    % BEGIN WEDNESDAY
+        \begin{minipage}[c]{\textwidth}%
+            \WeekOnDoublePageDayMetaLeft{ {{ w.days.2.date.day|stringformat:'02d' }} }{ {{ w.days.2.date|date:"l" }} }{ {% for h in w.days.2.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.2.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
+        \end{minipage}%
+    % END WEDNESDAY
+    \end{minipage}%                                                             -> END OF LEFT PAGE
+    \newpage%
+    \begin{minipage}[t][\textheight]{\textwidth}%                               -> BEGIN OF RIGHT PAGE
+    % BEGIN HEADLINE
+        \begin{minipage}[c]{\textwidth}%
+            \WeekOnDoublePageHeadlineRight{ {{ w.month_string }}  }
+        \end{minipage}%
+        \newline%
+        \rule{\textwidth}{\WeekOnDoublePageHeadlineSeperatorThickness}%
+    % END HEADLINE
+        \vspace{\WeekOnDoublePageDaySpacing}%
+        \newline%
+    % BEGIN THURSDAY
+        \begin{minipage}[c]{\textwidth}%
+            \WeekOnDoublePageDayMetaRight{ {{ w.days.3.date.day|stringformat:'02d' }} }{ {{ w.days.3.date|date:"l" }} }{ {% for h in w.days.3.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.3.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
+        \end{minipage}%
+        \newline%
+        \rule{\textwidth}{\WeekOnDoublePageDaySeperatorThickness}%
+    % END THURSDAY
+        \vspace{\WeekOnDoublePageDaySpacing}%
+        \newline%
+    % BEGIN FRIDAY
+        \begin{minipage}[c]{\textwidth}%
+            \WeekOnDoublePageDayMetaRight{ {{ w.days.4.date.day|stringformat:'02d' }} }{ {{ w.days.4.date|date:"l" }} }{ {% for h in w.days.4.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.4.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
+        \end{minipage}%
+        \newline%
+        \rule{\textwidth}{\WeekOnDoublePageDaySeperatorThickness}%
+    % END FRIDAY
+        \vspace{\WeekOnDoublePageDaySpacing}%
+        \newline%
+    % BEGIN WEEKEND - SATURDAY
+        \begin{minipage}[c]{0.5\textwidth}%
+            \WeekOnDoublePageDayMetaRight{ {{ w.days.5.date.day|stringformat:'02d' }} }{ {{ w.days.5.date|date:"l" }} }{ {% for h in w.days.5.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.5.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
+        \end{minipage}%
+    % END SATURDAY - BEGIN SUNDAY
+        \begin{minipage}[c]{0.5\textwidth}%
+            \WeekOnDoublePageDayMetaRight{ {{ w.days.6.date.day|stringformat:'02d' }} }{ {{ w.days.6.date|date:"l" }} }{ {% for h in w.days.6.holidays %}{{ h|escape_tex }}{% if forloop.last %} {% else %} - {% endif %}{% endfor %} }
+            \WeekOnDoublePageMainSpace{ {% for b in w.days.6.annuals %}{{ b|escape_tex }} \\ {% endfor %} }
+        \end{minipage}%
+    % END SUNDAY - END WEEKEND
+    \end{minipage}%
+    {% endwith %}{% endfor %}
+{% endblock %}

@@ -1,0 +1,59 @@
+[flake8]
+# Activate rules by plugins
+extend-select =
+    # flake8-assertive
+    A,
+    # flake8-bugbear
+    B, B902, B903,
+    # pydocstyle (by flake8-docstrings)
+    D,
+    # flake8-django
+    DJ, DJ10, DJ11,
+
+# just don't use these...
+ignore =
+    # as per Django's Coding Style
+    W601,
+    # line break before binary operator
+    W503,
+    # line length (of code) is handled by black
+    E501,
+
+per-file-ignores =
+    calingen/contrib/compilers/copy_paste/__init__.py:W505
+    calingen/contrib/compilers/download/__init__.py:W505
+    calingen/contrib/compilers/html_or_download/__init__.py:W505
+    calingen/contrib/layouts/lineatur/__init__.py:W505
+    calingen/contrib/layouts/lineatur/lineatur.py:W505
+    calingen/contrib/layouts/simple_event_list/__init__.py:W505
+    calingen/contrib/layouts/simple_event_list/__init__.py:W505
+    calingen/contrib/layouts/year_by_week/__init__.py:W505
+    calingen/contrib/providers/german_holidays/__init__.py:W505
+    calingen/forms/generation.py:W505
+    calingen/models/profile.py:W505
+    calingen/views/generic.py:W505
+    tests/forms/*.py:D
+    tests/interfaces/*.py:D
+    tests/models/*.py:D
+    tests/templatetags/*.py:D
+    tests/views/*.py:D
+    tests/test_checks.py:D
+    tests/test_layout_compilation.py:D
+
+# ...and limit flake8 to the project's very own source code
+exclude =
+    .git,
+    .tox,
+    docs/source/conf.py,
+    migrations,
+    settings_dev.py,
+    settings_test.py,
+
+# Actually, try to stay below 80 characters for docstrings.
+# But enforcing this does not work, when linking to other classes / attributes
+# in the first line of the docstring.
+# So, let's rely on convention instead.
+max-doc-length = 119
+
+# set the used convention for pydocstyle
+docstring-convention = numpy

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    {% spaceless %}
+    <title>
+      {% block page_title %}calingen development template{% endblock page_title %}
+    </title>
+    {% endspaceless %}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      html {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 16px;
+      }
+      body {
+        background: #333;
+      }
+      #calingen_nav {
+        background-color: #ccc;
+      }
+      #calingen_nav div {
+        float: left;
+      }
+      #calingen_nav br {
+        clear: both;
+      }
+      #calingen_main {
+        background: #eee;
+        padding: 1em;
+      }
+      #calingen_footer {
+        background: #ccc;
+        text-align: right;
+      }
+      a, a:link, a:visited {
+        color: #33c;
+      }
+      a:hover, a:active {
+        color: #c00;
+      }
+      table.list_view {
+        border-collapse: collapse;
+      }
+      table.list_view td, table.list_view th {
+        border: 1px solid #333;
+        padding: 0.25em 0.5em;
+      }
+      form.calingen-form div.field-group {
+        margin: 0.5em 0 2em;
+      }
+      form.calingen-form div.non-field-errors,
+      form.calingen-form div.field-errors {
+        background: #f99;
+        padding: 0.25em 0.5em;
+        margin-top: 0.5em;
+        color: 000;
+        border: 1px solid #333;
+      }
+      form.calingen-form div.field-group label,
+      form.calingen-form div.field-group small,
+      form.calingen-form div.field-group div.field-errors {
+        display: block;
+        margin-left: 0.25rem;
+      }
+      form.calingen-form div.field-group input,
+      form.calingen-form div.field-group select {
+        font-size: 1.5em;
+        border: 1px solid #333;
+        margin: 0.25em 0.25rem;
+        padding: 0.25em 0.5em;
+      }
+      form.calingen-form button,
+      button.calingen-action {
+        font-size: 1.25em;
+        font-weight: bold;
+        border: 1px solid #000;
+        padding: 0.25em 1em;
+        margin: 0.25em 0.25rem;
+      }
+      form.calingen-form button.submit,
+      button.calingen-action {
+        background-color: #060;
+        color: #eee;
+      }
+      form.calingen-form button.cancel,
+      form.calingen-form button.danger {
+        background-color: #900;
+        color: #eee;
+      }
+      form.calingen-form details {
+        margin-bottom: 2em;
+        /* border-bottom: 1px solid #999; */
+        box-shadow: 1px 1px 2px #999;
+      }
+      form.calingen-form details summary {
+        font-size: 1.25em;
+        background-color: #ccc;
+        border-bottom: 1px solid #999;
+        padding: 0.25em 0.5em;
+        font-weight: bold;
+      }
+      pre {
+        margin: 1em 2em;
+        padding: 1em;
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+{% block html-body %}
+    <div id="calingen_nav">
+      <div>
+        <ul>
+          <li><a href="{% url "calingen:homepage" %}">App Homepage</a></li>
+          {% if profile_id %}
+          <li><a href="{% url "calingen:profile" profile_id %}">Profile</a></li>
+          <li><a href="{% url "calingen:profile-update" profile_id %}">Update Profile</a></li>
+          <li><a href="{% url "calingen:profile-delete" profile_id %}">Delete Profile</a></li>
+          {% else %}
+          <li><a href="{% url "calingen:profile-add" %}">Add Profile</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><a href="{% url "calingen:event-list" %}">Event List</a></li>
+          <li><a href="{% url "calingen:event-add" %}">Add Event</a></li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><a href="{% url "calingen:layout-selection" %}">Render Layout</a></li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><a href="{% url "admin:index" %}">Admin</a></li>
+          <li><a href="{% url "admin:app_list" "calingen" %}">Admin (CalInGen)</a></li>
+          <li><a href="{% url "admin:app_list" "auth" %}">Admin (Auth)</a></li>
+        </ul>
+      </div>
+      <br />
+    </div>
+    <div id="calingen_main">
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+{% block main %}
+foobar
+{% endblock main %}
+    </div>
+    <div id="calingen_footer">
+      2021 by <a href="https://github.com/Mischback/django-calingen">Mischback</a>
+    </div>
+{% endblock html-body %}
+  </body>
+</html>

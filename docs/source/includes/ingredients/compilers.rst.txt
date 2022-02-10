@@ -1,0 +1,104 @@
+.. _calingen-cookbook-ingredients-compilers-label:
+
+*********
+Compilers
+*********
+
+|calingen| uses *compilers* to convert the result of the rendering process of
+a layout into something usable (or - most likely - printable).
+
+.. note::
+  The original development idea of |calingen| was to generate TeX-documents of
+  the calendar inlays and then use a TeX compiler (e.g. ``pdflatex``) to turn
+  them into PDFs, ready for printing.
+
+  However, during development, the focus on TeX was dropped in favour of a
+  more generic approach, allowing
+  :ref:`layouts <calingen-cookbook-ingredients-layouts-label>` to return any
+  text-based result.
+
+Technically, *compilers* are implementations of the app's
+:class:`~calingen.interfaces.plugin_api.CompilerProvider` interface. They are
+resposible for providing a valid HTTP response during the generation process
+(see :ref:`calingen-dev-doc-layout-rendering-compilation-label` and
+:ref:`calingen-dev-doc-plugins-compilerprovider-label` for details).
+
+**How** this response is determined and **what** the actual response is, is up
+to the respective compiler implementations, i.e. a compiler could accept a
+TeX-based layout's output and run it through an actual TeX compiler, providing
+the compilation result as an HTTP file download.
+
+.. note::
+  Obviously, there is a close connection between layouts and compilers. All
+  layouts indicate the type of their *rendered output* with their
+  ``layout_type`` attribute (refer to
+  :class:`~calingen.interfaces.plugin_api.LayoutProvider`). See
+  :attr:`~calingen.settings.CALINGEN_COMPILER` for the
+  corresponding app-specific configuration option and
+  :ref:`calingen-cookbook-setup-step-by-step-compiler-mapping-label` for
+  guidance on how to use this setting.
+
+
+Included Compilers
+==================
+
+|calingen| provides three example compilers out of the box. They are included
+in :mod:`calingen.contrib.compilers`.
+
+CopyPaste Compiler
+  This compiler *does not actually compile* the rendered source.
+
+  It will present the rendering result using a given template
+  (``calingen/contrib/compiler_copypaste.html``), ready to copy the source,
+  paste it into another piece of software for further processing.
+
+  This compiler can handle any type of
+  :ref:`layout <calingen-cookbook-ingredients-layouts-label>` and may be used
+  as the project's default compiler (see the *important box* here:
+  :ref:`calingen-cookbook-setup-step-by-step-compiler-mapping-label`).
+
+Download Compiler
+  This compiler *does not actually compile* the rendered source.
+
+  It will provide the rendering result as a file download. It will try to guess
+  the correct file extension by evaluating the layout's type.
+
+  This compiler can handle any type of
+  :ref:`layout <calingen-cookbook-ingredients-layouts-label>` and may be used
+  as the project's default compiler (see the *important box* here:
+  :ref:`calingen-cookbook-setup-step-by-step-compiler-mapping-label`).
+
+HtmlOrDownload Compiler
+  This compiler *does not actually compile* the rendered source.
+
+  It is an extension to the **Download Compiler** that directly serves the
+  results of the rendering process of layout's with type ``"html"`` and
+  provides all other rendering results as file downloads, just like the
+  **Download Compiler**.
+
+  This compiler can handle any type of
+  :ref:`layout <calingen-cookbook-ingredients-layouts-label>` and may be used
+  as the project's default compiler (see the *important box* here:
+  :ref:`calingen-cookbook-setup-step-by-step-compiler-mapping-label`).
+
+
+Integration of Compilers into the Project
+=========================================
+
+*Compilers* are **not required** to be Django applications. They are
+dynamically imported while running the generation process of |calingen|, as
+described :ref:`here <calingen-dev-doc-layout-rendering-compilation-label>`.
+
+This means they **must be importable**. This is the only requirement regarding
+compilers.
+
+.. note::
+  *Compilers* will be imported by their full dotted Python path using Django's
+  :func:`import_string function <django.utils.module_loading.import_string>`
+  (see :class:`~calingen.views.generation.CompilerView` for implementation
+  details).
+
+Compilers may be provided as source code (i.e. by a GitHub repository) or as an
+actual installable Python package (i.e. provided using
+`PyPI <https://pypi.org>`_). If you want to include third party compilers, make
+sure to follow their specific installation instructions.

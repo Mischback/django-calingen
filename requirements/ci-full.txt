@@ -1,0 +1,4 @@
+-r tox.txt
+tox-gh-actions>=2.9,<3.0
+-r coverage.txt
+coveralls>=3.3,<3.4

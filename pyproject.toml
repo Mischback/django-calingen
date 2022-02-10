@@ -1,0 +1,244 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "django-calingen"
+authors = [{name = "Mischback"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Django :: 3.1",
+  "Framework :: Django :: 3.2",
+  "Framework :: Django :: 4.0",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Office/Business :: Scheduling",
+  "Topic :: Printing",
+  "Topic :: Text Processing :: Markup :: HTML",
+  "Topic :: Text Processing :: Markup :: LaTeX"
+]
+requires-python = ">=3.7"
+dependencies = [
+  "Django >=3.1",
+  "python-dateutil >=2.8"
+]
+dynamic = ["version", "description"]
+
+[project.urls]
+Source = "https://github.com/Mischback/django-calingen"
+
+[tool.flit.module]
+name = "calingen"
+
+[tool.flit.sdist]
+exclude = [
+  ".github/",
+  ".vscode/",
+  "docs/",
+  "requirements/",
+  "tests/",
+  ".editorconfig",
+  ".flake8",
+  ".gitignore",
+  ".pre-commit-config.yaml",
+  "Makefile"
+]
+
+
+# ### COVERAGE ###
+[tool.coverage.run]
+branch = true
+source = [
+  "calingen",
+  "tests"
+]
+omit = [
+  "*/__init__.py",
+  "*/contrib/layouts/simple_event_list/apps.py",
+  "*/migrations/*",
+  "*/tests/util/*",
+  "*/tests/runtests.py"
+]
+
+[tool.coverage.report]
+precision = 1
+show_missing = true
+fail_under = 95
+
+
+# ### DJLINT ###
+[tool.djlint]
+ignore = "T028,H030,H031"
+
+
+# ### DOC8 ###
+[tool.doc8]
+# Just use doc8's default configuration
+
+
+# ### ISORT ###
+[tool.isort]
+profile = "black"
+# include_trailing_comma = true # included in profile "black" & "django"
+# force_grid_wrap = true # included in profile "black"
+# multi_line_output = 3 # included in profile "black"; 5 in "django"
+# use_parantheses = true # included in profile "black"
+# ensure_newline_before_comments = true # included in profile "black"
+# line_length = 88 # included in profile "black", 79 in "django"
+combine_as_imports = true # included in profile "django"
+default_section = "THIRDPARTY"
+
+known_first_party = "calingen"
+known_django = "django"
+sections = [
+  "FUTURE",
+  "STDLIB",
+  "DJANGO",
+  "THIRDPARTY",
+  "FIRSTPARTY",
+  "LOCALFOLDER"
+]
+import_heading_stdlib = "Python imports"
+import_heading_django = "Django imports"
+import_heading_firstparty = "app imports"
+import_heading_localfolder = "local imports"
+import_heading_thirdparty = "external imports"
+skip_glob = [
+  ".env",
+  ".tox",
+  "*/migrations/*",
+  "settings_dev.py"
+]
+
+
+# ### TOX ###
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist =
+  # Python 3.7 is not supported by Django >= 4.0
+  # Python 3.7 on Windows does not provide the required SQLite extension by default
+  py37-django{31,32}-{linux,macos}
+  # Python 3.8 on Windows does not provide the required SQLite extension by default
+  py38-django{31,32,40}-{linux,macos}
+  py{39,310}-django{31,32,40}-{linux,macos,windows}
+
+skipsdist = true
+skip_missing_interpreters = true
+minversion = 3.24.0
+
+[testenv]
+platform =
+  linux: linux
+  macos: darwin
+  windows: win32
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+deps:
+  -r {toxinidir}/requirements/coverage.txt
+  -r {toxinidir}/requirements/common.txt
+  django31: Django>=3.1, <3.2
+  django32: Django>=3.2, <4.0
+  django40: Django>=4.0, <4.1
+commands =
+  coverage run --parallel tests/runtests.py -v 0
+
+[gh-actions]
+python =
+  3.7: py37
+  3.8: py38
+  3.9: py39
+  3.10: py310
+
+[gh-actions:env]
+PLATFORM =
+  ubuntu-latest: linux
+  macos-latest: macos
+  windows-latest: windows
+
+[testenv:django]
+basepython = python3
+deps =
+  -r {toxinidir}/requirements/development.txt
+envdir = {toxworkdir}/django
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+skip_install = true
+commands =
+  django-admin {posargs:version} --settings=tests.util.settings_dev --pythonpath=./
+
+[testenv:djangosuperuser]
+basepython = {[testenv:django]basepython}
+deps = {[testenv:django]deps}
+envdir = {[testenv:django]envdir}
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+  DJANGO_SUPERUSER_USERNAME=admin
+  DJANGO_SUPERUSER_EMAIL=admin@root.local
+  DJANGO_SUPERUSER_PASSWORD=foobar
+skip_install = {[testenv:django]skip_install}
+commands =
+  django-admin createsuperuser --noinput --settings=tests.util.settings_dev --pythonpath=./
+
+[testenv:installation]
+basepython = {[testenv:util]basepython}
+skip_install = true
+commands =
+  pip install --no-index --find-links={toxinidir}/dist django-calingen
+
+[testenv:util]
+basepython = python3
+deps =
+  -r {toxinidir}/requirements/util.txt
+envdir = {toxworkdir}/util
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+  FLIT_USERNAME=__token__
+  # FLIT_INDEX_URL=https://test.pypi.org/legacy/
+passenv =
+  FLIT_PASSWORD
+skip_install = true
+commands =
+  {posargs:pre-commit run}
+
+[testenv:sphinx]
+basepython = {[testenv:util]basepython}
+changedir = {toxinidir}/docs
+deps =
+  -r {toxinidir}/requirements/documentation.txt
+envdir = {toxworkdir}/sphinx
+setenv =
+  PYTHONDONTWRITEBYTECODE=1
+skip_install = true
+whitelist_externals =
+  make
+commands =
+  {posargs:make html}
+
+[testenv:sphinx-serve]
+basepython = {[testenv:sphinx]basepython}
+changedir = {toxinidir}/docs/build/html
+deps = {[testenv:sphinx]deps}
+envdir = {[testenv:sphinx]envdir}
+setenv = {[testenv:sphinx]setenv}
+skip_install = {[testenv:sphinx]skip_install}
+commands =
+  python -m http.server {posargs:8082}
+
+[testenv:testing]
+basepython = {[testenv:django]basepython}
+deps =
+  {[testenv:django]deps}
+  -r {toxinidir}/requirements/coverage.txt
+envdir = {toxworkdir}/testing
+setenv = {[testenv:django]setenv}
+skip_install = {[testenv:django]skip_install}
+commands = coverage run --parallel tests/runtests.py {posargs}
+"""

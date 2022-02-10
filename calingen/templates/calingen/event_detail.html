@@ -1,0 +1,34 @@
+{% extends "calingen/app_base.html" %}
+
+{% block page_title %}Event EventDetailView{% endblock page_title %}
+
+{% block main %}
+<h2>Event Detail</h2>
+
+<section>
+  <h3>{{ event_item.title }}</h3>
+
+  <table>
+    <tr>
+      <td>Title:</td>
+      <td>{{ event_item.title }}</td>
+    </tr>
+    <tr>
+      <td>Start Date & Time:</td>
+      <td>{{ event_item.start|date:"c" }}</td>
+    </tr>
+    <tr>
+      <td>Category:</td>
+      <td>{{ event_item.get_category_display }} [{{ event_item.category }}]</td>
+    </tr>
+
+    <tr>
+      <td>Actions:</td>
+      <td>
+        <a href="{% url "calingen:event-update" event_item.id %}">update</a>
+        <a href="{% url "calingen:event-delete" event_item.id %}">delete</a>
+      </td>
+    </tr>
+  </table>
+</section>
+{% endblock main %}
