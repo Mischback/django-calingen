@@ -3,6 +3,10 @@ Release Checklist
 #################
 
 #. Is CI completing successfully?
+#. If changes to the app's models were performed: ::
+
+    $ make django django_command="squashmigrations calingen [from] [to]"
+
 #. Are localizations up-to-date? ::
 
     $ make django/makemessages
