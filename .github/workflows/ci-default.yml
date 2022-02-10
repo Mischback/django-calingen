@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox
+          pip install -r requirements/tox.txt
       - name: Run black
         run: make util/black
       # - name: Run mypy
@@ -140,7 +140,7 @@ jobs:
         run: |
           sudo apt-get install graphviz
           python -m pip install --upgrade pip
-          pip install tox
+          pip install -r requirements/tox.txt
       - name: Run Sphinx's linkcheck
         run: make sphinx/linkcheck
       - name: Build HTML Documentation

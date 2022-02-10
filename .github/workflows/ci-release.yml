@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox tox-gh-actions
+          pip install -r requirements/tox.txt
       - name: Perform the release
         run: make util/flit/publish
         env:
