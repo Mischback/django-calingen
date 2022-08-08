@@ -23,18 +23,22 @@ class EventQuerySetTest(CalingenORMTestCase):
         # Arrange (set up test environment)
         alice = User.objects.get(pk=2)  # Alice!
         alice_events = Event.objects.filter(profile__owner=alice).all()
-        bob = User.objects.get(pk=2)  # Alice!
+        bob = User.objects.get(pk=3)  # Bob!
         bob_events = Event.objects.filter(profile__owner=bob).all()
 
         # Act (actually perform what has to be done)
         test_alice_events = EventQuerySet(Event).filter_by_user(alice)
         test_bob_events = EventQuerySet(Event).filter_by_user(bob)
 
+        self.maxDiff = None
+
         # Assert (verify the results)
         self.assertQuerysetEqual(
-            alice_events, map(repr, test_alice_events), ordered=False
+            alice_events, map(repr, test_alice_events), ordered=False, transform=repr
         )
-        self.assertQuerysetEqual(bob_events, map(repr, test_bob_events), ordered=False)
+        self.assertQuerysetEqual(
+            bob_events, map(repr, test_bob_events), ordered=False, transform=repr
+        )
 
 
 @tag("models", "event", "EventManager")
@@ -43,7 +47,7 @@ class EventManagerTest(CalingenORMTestCase):
         # Arrange (set up test environment)
         alice = User.objects.get(pk=2)  # Alice!
         alice_events = Event.objects.filter(profile__owner=alice).all()
-        bob = User.objects.get(pk=2)  # Alice!
+        bob = User.objects.get(pk=3)  # Bob!
         bob_events = Event.objects.filter(profile__owner=bob).all()
 
         # Act (actually perform what has to be done)
@@ -52,9 +56,11 @@ class EventManagerTest(CalingenORMTestCase):
 
         # Assert (verify the results)
         self.assertQuerysetEqual(
-            alice_events, map(repr, test_alice_events), ordered=False
+            alice_events, map(repr, test_alice_events), ordered=False, transform=repr
         )
-        self.assertQuerysetEqual(bob_events, map(repr, test_bob_events), ordered=False)
+        self.assertQuerysetEqual(
+            bob_events, map(repr, test_bob_events), ordered=False, transform=repr
+        )
 
     def test_get_user_events_qs_exception(self):
         # Arrange (set up test environment)
