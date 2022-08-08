@@ -251,7 +251,7 @@ class LayoutProvider(metaclass=PluginMount):
     """
 
     @classproperty
-    def title(cls):
+    def title(cls):  # noqa: B902
         """Return the plugin's human-readable title.
 
         Returns
@@ -268,6 +268,9 @@ class LayoutProvider(metaclass=PluginMount):
         different way, it may provide a specific implementation of this method
         or provide a plain ``title`` class attribute, resolving to a
         :py:obj:`str` (TODO: NEEDS VERIFICATION!).
+
+        The ``classproperty`` decorator is provided by Django, so B902 is
+        disabled on this.
         """
         return "{} ({}, {})".format(cls.name, cls.paper_size, cls.orientation)
 
