@@ -23,7 +23,7 @@ class EventQuerySetTest(CalingenORMTestCase):
         # Arrange (set up test environment)
         alice = User.objects.get(pk=2)  # Alice!
         alice_events = Event.objects.filter(profile__owner=alice).all()
-        bob = User.objects.get(pk=2)  # Alice!
+        bob = User.objects.get(pk=3)  # Bob!
         bob_events = Event.objects.filter(profile__owner=bob).all()
 
         # Act (actually perform what has to be done)
@@ -47,7 +47,7 @@ class EventManagerTest(CalingenORMTestCase):
         # Arrange (set up test environment)
         alice = User.objects.get(pk=2)  # Alice!
         alice_events = Event.objects.filter(profile__owner=alice).all()
-        bob = User.objects.get(pk=2)  # Alice!
+        bob = User.objects.get(pk=3)  # Bob!
         bob_events = Event.objects.filter(profile__owner=bob).all()
 
         # Act (actually perform what has to be done)
