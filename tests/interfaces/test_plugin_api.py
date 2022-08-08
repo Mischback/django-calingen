@@ -96,7 +96,9 @@ class LayoutProviderTest(CalingenTestCase):
 
         class LayoutProviderTestImplementation_list_plugins_test(LayoutProvider):
             @classproperty
-            def title(cls):
+            def title(cls):  # noqa: B902
+                # The ``classproperty`` decorator is provided by Django, so
+                # B902 is disabled here.
                 return test_implementation_title
 
         # Act (actually perform what has to be done)
