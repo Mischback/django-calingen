@@ -146,6 +146,14 @@ jobs:
       - name: Build HTML Documentation
         run: make sphinx/build/html
 
+  dependabot:
+    needs: [testing, layout-compilation, documentation]
+    uses: mischback/development-meta/.github/workflows/dependabot-auto-approve.yml@development
+    with:
+      pr_url: ${{ github.event.pull_request.html_url }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+
   finish:
     name: Indicate completion to Coveralls.io
     needs: [testing, layout-compilation]
