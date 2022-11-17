@@ -77,7 +77,7 @@ jobs:
           COVERALLS_FLAG_NAME: OS_${{ matrix.os }}-Python_${{ matrix.python-version }}
           COVERALLS_PARALLEL: true
       - name: Download *.whl
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: temporary_package
           path: dist/
