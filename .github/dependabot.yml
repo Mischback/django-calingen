@@ -1,15 +1,25 @@
 version: 2
 updates:
-  # Maintain dependencies for GitHub Actions
+  # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "[GH Actions]"
+    labels:
+      - "area/dependencies"
+      - "lang/github-actions"
 
-  # Maintain dependencies for Python
+  # Python
   - package-ecosystem: "pip"
     directory: "/requirements"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     open-pull-requests-limit: 10
+    commit-message:
+      prefix: "[Python]"
+    labels:
+      - "area/dependencies"
+      - "lang/python"
