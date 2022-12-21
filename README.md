@@ -1,6 +1,6 @@
 # django-calingen
 
-[![GitHub branch checks state](https://img.shields.io/github/workflow/status/mischback/django-calingen/CI%20default%20branch?style=flat&logo=github)](https://github.com/Mischback/django-calingen/actions/workflows/ci-default.yml?query=branch%3Adevelopment)
+[![GitHub branch checks state](https://img.shields.io/github/actions/workflow/status/mischback/django-calingen/ci-default.yml?branch=development&style=flat&logo=github)](https://github.com/Mischback/django-calingen/actions/workflows/ci-default.yml?query=branch%3Adevelopment)
 [![Read the Docs (version)](https://img.shields.io/readthedocs/django-calingen/latest)](https://django-calingen.readthedocs.io/en/latest/?badge=latest)
 [![Coverage Status](https://img.shields.io/coveralls/github/Mischback/django-calingen)](https://coveralls.io/github/Mischback/django-calingen)
 [![GitHub License](https://img.shields.io/github/license/mischback/imp?style=flat)](https://github.com/Mischback/django-calingen/blob/development/LICENSE)
