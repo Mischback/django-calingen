@@ -2,6 +2,7 @@
 .env
 
 # tox's virtual environments
+.tox-venv
 .tox
 
 # while runnning the app from the tox environment, data is stored in a sqlite
