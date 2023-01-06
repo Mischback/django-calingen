@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
       - name: Install dependencies
@@ -36,7 +36,7 @@ jobs:
       - name: Build Python Package
         run: make util/flit/build
       - name: Upload *.whl
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: temporary_package
           path: dist/*.whl
@@ -55,9 +55,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup OS ${{ matrix.os }} - Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -77,7 +77,7 @@ jobs:
           COVERALLS_FLAG_NAME: OS_${{ matrix.os }}-Python_${{ matrix.python-version }}
           COVERALLS_PARALLEL: true
       - name: Download *.whl
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: temporary_package
           path: dist/
@@ -90,9 +90,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
       - name: Install dependencies
@@ -110,7 +110,7 @@ jobs:
           root_file: "*.tex"
           glob_root_file: true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: compiled_layouts
           path: tmp_compilation/
@@ -131,9 +131,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
       - name: Install dependencies
@@ -145,6 +145,14 @@ jobs:
         run: make sphinx/linkcheck
       - name: Build HTML Documentation
         run: make sphinx/build/html
+
+  dependabot:
+    needs: [testing, layout-compilation, documentation]
+    uses: mischback/development-meta/.github/workflows/dependabot-auto-approve.yml@development
+    with:
+      pr_url: ${{ github.event.pull_request.html_url }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
 
   finish:
     name: Indicate completion to Coveralls.io
