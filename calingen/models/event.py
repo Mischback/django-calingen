@@ -281,7 +281,7 @@ class Event(models.Model):
 
     class Meta:  # noqa: D106
         app_label = "calingen"
-        unique_together = ["title", "start"]
+        unique_together = ["profile", "title", "start"]
         verbose_name = _("Event")
         verbose_name_plural = _("Events")
 
