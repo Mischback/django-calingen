@@ -14,6 +14,10 @@
 # left untouched.
 
 # ### INTERNAL SETTINGS / CONSTANTS
+TOX_VENV_DIR := .tox-venv
+TOX_VENV_CREATED := $(TOX_VENV_DIR)/pyvenv.cfg
+TOX_VENV_INSTALLED := $(TOX_VENV_DIR)/packages.txt
+TOX_CMD := $(TOX_VENV_DIR)/bin/tox
 TOX_WORK_DIR := .tox
 TOX_DJANGO_ENV := $(TOX_WORK_DIR)/django
 TOX_SPHINX_ENV := $(TOX_WORK_DIR)/sphinx
@@ -47,8 +51,8 @@ doc: sphinx/serve/html
 
 ## Verify that the packaged app can be installed; used during CI only
 ## @category CI
-ci/test/installation :
-	tox -q -e installation
+ci/test/installation : $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e installation
 .PHONY : ci/test/installation
 
 ## Run a special test command on CI that tests the TeX-based layouts; used
@@ -61,8 +65,8 @@ ci/test/texlayoutcompilation :
 
 ## Remove temporary files
 ## @category Utility
-clean : $(TOX_UTIL_ENV)
-	- tox -q -e util -- coverage erase
+clean : $(TOX_UTIL_ENV) $(TOX_VENV_INSTALLED)
+	- $(TOX_CMD) -q -e util -- coverage erase
 	rm -rf docs/build/*
 	rm -rf tmp_compilation
 	rm -rf dist
@@ -73,16 +77,16 @@ clean : $(TOX_UTIL_ENV)
 
 ## Run tests to collect and show coverage information
 ## @category Development
-dev/coverage : clean dev/test $(TOX_UTIL_ENV)
-	- tox -q -e util -- coverage combine
-	tox -q -e util -- coverage report
+dev/coverage : clean dev/test $(TOX_UTIL_ENV) $(TOX_VENV_INSTALLED)
+	- $(TOX_CMD) -q -e util -- coverage combine
+	$(TOX_CMD) -q -e util -- coverage report
 .PHONY : dev/coverage
 
 test_command ?= ""
 ## Run the test suite
 ## @category Development
-dev/test : $(TOX_TEST_ENV)
-	tox -q -e testing -- $(test_command)
+dev/test : $(TOX_TEST_ENV) $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e testing -- $(test_command)
 .PHONY : dev/test
 
 test_tag ?= "current"
@@ -103,8 +107,8 @@ dev/doc/links :
 # ### Django management commands
 
 django_command ?= "version"
-django : $(TOX_DJANGO_ENV)
-	tox -q -e django -- $(django_command)
+django : $(TOX_DJANGO_ENV) $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e django -- $(django_command)
 .PHONY : django
 
 ## "$ django-admin check"; runs the project's checks
@@ -127,8 +131,8 @@ django/compilemessages :
 
 ## create a superuser account with username: "admin" and password: "foobar"
 ## @category Django
-django/createsuperuser :
-	tox -q -e djangosuperuser
+django/createsuperuser : $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e djangosuperuser
 .PHONY : django/createsuperuser
 
 ## "$ django-admin makemessages"; collect the app's localizable strings into *.po
@@ -210,25 +214,25 @@ pre-commit_id ?= ""
 pre-commit_files ?= ""
 ## Run all code quality tools as defined in .pre-commit-config.yaml
 ## @category Code Quality
-util/pre-commit : $(TOX_UTIL_ENV)
-	tox -q -e util -- pre-commit run $(pre-commit_files) $(pre-commit_id)
+util/pre-commit : $(TOX_UTIL_ENV) $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e util -- pre-commit run $(pre-commit_files) $(pre-commit_id)
 .PHONY : util/pre-commit
 
 ## Install pre-commit hooks to be executed automatically
 ## @category Code Quality
-util/pre-commit/install : $(TOX_UTIL_ENV)
-	tox -q -e util -- pre-commit install
+util/pre-commit/install : $(TOX_UTIL_ENV) $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e util -- pre-commit install
 .PHONY : util/pre-commit/install
 
 ## Update pre-commit hooks
 ## @category Code Quality
-util/pre-commit/update : $(TOX_UTIL_ENV)
-	tox -q -e util -- pre-commit autoupdate
+util/pre-commit/update : $(TOX_UTIL_ENV) $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e util -- pre-commit autoupdate
 .PHONY : util/pre-commit/update
 
 flit_argument ?= "--version"
-util/flit : $(TOX_UTIL_ENV)
-	tox -q -e util -- flit $(flit_argument)
+util/flit : $(TOX_UTIL_ENV) $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e util -- flit $(flit_argument)
 .PHONY : util/flit
 
 ## Use "flit" to build a PyPI-compatible package
@@ -251,35 +255,42 @@ util/tox : $(TOX_DJANGO_ENV) $(TOX_SPHINX_ENV) $(TOX_TEST_ENV) $(TOX_UTIL_ENV)
 
 ## Build the documentation using "Sphinx"
 ## @category Development
-sphinx/build/html : $(TOX_SPHINX_ENV)
-	tox -q -e sphinx
+sphinx/build/html : $(TOX_SPHINX_ENV) $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e sphinx
 .PHONY : sphinx/build/html
 
 ## Serve the documentation locally on port 8082
 ## @category Development
-sphinx/serve/html : sphinx/build/html
-	tox -q -e sphinx-serve
+sphinx/serve/html : sphinx/build/html $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e sphinx-serve
 .PHONY : sphinx/serve/html
 
 ## Check documentation's external links
 ## @category Development
-sphinx/linkcheck : $(TOX_SPHINX_ENV)
-	tox -q -e sphinx -- make linkcheck
+sphinx/linkcheck : $(TOX_SPHINX_ENV) $(TOX_VENV_INSTALLED)
+	$(TOX_CMD) -q -e sphinx -- make linkcheck
 .PHONY : sphinx/linkcheck
 
 
 # ### INTERNAL RECIPES
-$(TOX_DJANGO_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
-	tox --recreate -e django
+$(TOX_DJANGO_ENV) : $(DEVELOPMENT_REQUIREMENTS) $(TOX_VENV_INSTALLED) pyproject.toml
+	$(TOX_CMD) --recreate -e django
 
-$(TOX_SPHINX_ENV) : $(DOCUMENTATION_REQUIREMENTS) pyproject.toml
-	tox --recreate -e sphinx
+$(TOX_SPHINX_ENV) : $(DOCUMENTATION_REQUIREMENTS) $(TOX_VENV_INSTALLED) pyproject.toml
+	$(TOX_CMD) --recreate -e sphinx
 
-$(TOX_TEST_ENV) : $(DEVELOPMENT_REQUIREMENTS) pyproject.toml
-	tox --recreate -e testing
+$(TOX_TEST_ENV) : $(DEVELOPMENT_REQUIREMENTS) $(TOX_VENV_INSTALLED) pyproject.toml
+	$(TOX_CMD) --recreate -e testing
 
-$(TOX_UTIL_ENV) : $(UTIL_REQUIREMENTS) pyproject.toml .pre-commit-config.yaml
-	tox --recreate -e util
+$(TOX_UTIL_ENV) : $(UTIL_REQUIREMENTS) $(TOX_VENV_INSTALLED) pyproject.toml .pre-commit-config.yaml
+	$(TOX_CMD) --recreate -e util
+
+$(TOX_VENV_CREATED) :
+	/usr/bin/env python3 -m venv $(TOX_VENV_DIR)
+
+$(TOX_VENV_INSTALLED): $(TOX_VENV_CREATED)
+	$(TOX_VENV_DIR)/bin/pip install -r requirements/tox.txt
+	$(TOX_VENV_DIR)/bin/pip freeze > $@
 
 
 # fancy colors
