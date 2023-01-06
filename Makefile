@@ -51,8 +51,8 @@ doc: sphinx/serve/html
 
 ## Verify that the packaged app can be installed; used during CI only
 ## @category CI
-ci/test/installation : $(TOX_VENV_INSTALLED)
-	$(TOX_CMD) -q -e installation
+ci/test/installation :
+	tox -q -e installation
 .PHONY : ci/test/installation
 
 ## Run a special test command on CI that tests the TeX-based layouts; used
