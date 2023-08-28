@@ -104,7 +104,7 @@ jobs:
       - name: Create TeX Files
         run: make ci/test/texlayoutcompilation
       - name: Compile TeX Files
-        uses: xu-cheng/latex-action@v2
+        uses: xu-cheng/latex-action@v3
         with:
           working_directory: tmp_compilation
           root_file: "*.tex"
