@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -55,7 +55,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup OS ${{ matrix.os }} - Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -131,7 +131,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
